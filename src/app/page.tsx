@@ -1,65 +1,85 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useRouter } from 'next/navigation';
+import AuthForm from "../components/AuthForm";
+
+export default function LoginPage() {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/home');
+  };
+
+  const scrollToLogin = () => {
+    document.getElementById('login-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+
+      <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
+
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        </div>
+
+        <div className="text-center z-10 max-w-4xl px-6">
+          <h1 className="text-6xl md:text-8xl font-extrabold tracking-in-expand mb-6 bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent pb-2">
+            ATtune
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-2xl md:text-3xl font-medium text-zinc-800 dark:text-zinc-100 mb-6">
+            Decentralised Music. Real Connections.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10">
+            Join the revolution of music discovery. Rate, review, and discuss your favourite tracks through the use of the AT Protocol. Own your data, find your rhythm.
+          </p>
+
+          <button
+            onClick={scrollToLogin}
+            className="px-8 py-3 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:opacity-90 transition-opacity cursor-pointer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Get Started
+          </button>
         </div>
-      </main>
+
+        <div className="absolute bottom-10 animate-bounce cursor-pointer" onClick={scrollToLogin}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-zinc-400">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </div>
+      </section>
+
+      <section id="login-section" className="min-h-screen w-full flex flex-col items-center justify-center py-20 px-6 bg-zinc-50 dark:bg-black">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">Welcome to the Community</h2>
+            <p className="text-zinc-500 dark:text-zinc-400">Sign in with your Bluesky account to continue.</p>
+          </div>
+
+          <AuthForm onLogin={handleLogin} />
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div className="p-4">
+              <div className="font-bold text-lg mb-1 dark:text-white">Rate</div>
+              <p className="text-sm text-zinc-500">Share your opinion on albums and tracks.</p>
+            </div>
+            <div className="p-4">
+              <div className="font-bold text-lg mb-1 dark:text-white">Review</div>
+              <p className="text-sm text-zinc-500">Write in-depth reviews and gain a following.</p>
+            </div>
+            <div className="p-4">
+              <div className="font-bold text-lg mb-1 dark:text-white">Connect</div>
+              <p className="text-sm text-zinc-500">Find users with similar taste in music.</p>
+            </div>
+          </div>
+
+          <footer className="mt-20 text-center text-zinc-400 text-sm">
+            <p>&copy; {new Date().getFullYear()} ATtune. Built with AT Protocol.</p>
+          </footer>
+        </div>
+      </section>
+
     </div>
   );
 }
