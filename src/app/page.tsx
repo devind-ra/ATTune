@@ -1,10 +1,19 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import AuthForm from "../components/AuthForm";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { session, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && session) {
+      router.push('/home');
+    }
+  }, [session, isLoading, router]);
 
   const handleLogin = () => {
     router.push('/home');
@@ -13,6 +22,14 @@ export default function LoginPage() {
   const scrollToLogin = () => {
     document.getElementById('login-section')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  if (isLoading || session) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">

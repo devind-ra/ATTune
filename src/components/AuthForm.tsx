@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { atApiService } from '../lib/atproto';
+import { useAuth } from '../contexts/AuthContext';
 import Link from 'next/link';
 
 interface AuthFormProps {
@@ -15,6 +16,7 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { login } = useAuth();
     const [activeModal, setActiveModal] = useState<ModalType>(null);
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -23,7 +25,8 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
         setError('');
 
         try {
-            await atApiService.login(identifier, password);
+            const sessionData = await atApiService.login(identifier, password);
+            login(sessionData);
             onLogin();
         } catch (err: unknown) {
             console.error('Login failed', err);
@@ -98,6 +101,7 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
 
                     <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 mt-4">
                         Don&apos;t have an account?
+                        <br></br>
                         <button
                             type="button"
                             onClick={() => setActiveModal('signup')}
