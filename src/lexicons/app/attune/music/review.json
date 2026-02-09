@@ -1,0 +1,73 @@
+{
+    "lexicon": 1,
+    "id": "app.attune.music.review",
+    "defs": {
+        "main": {
+            "type": "record",
+            "description": "A review of a music album or song",
+            "key": "tid",
+            "record": {
+                "type": "object",
+                "required": [
+                    "subjectTitle",
+                    "subjectArtist",
+                    "rating",
+                    "createdAt"
+                ],
+                "properties": {
+                    "subjectTitle": {
+                        "type": "string",
+                        "description": "Subject title of the album or song being reviewed",
+                        "maxLength": 500,
+                        "maxGraphemes": 500
+                    },
+                    "subjectArtist": {
+                        "type": "string",
+                        "description": "Subject artist or band name",
+                        "maxLength": 500,
+                        "maxGraphemes": 500
+                    },
+                    "subjectUri": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Optional URL to the music (e.g., Spotify, Apple Music link)"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "description": "Review score (1-10)",
+                        "minimum": 1,
+                        "maximum": 10
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "Review text",
+                        "maxLength": 10000,
+                        "maxGraphemes": 10000
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Review timestamp"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "description": "Optional genre or category tags",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 50
+                        },
+                        "maxLength": 10
+                    },
+                    "facets": {
+                        "type": "array",
+                        "description": "Rich text facets for mentions, links, etc.",
+                        "items": {
+                            "type": "ref",
+                            "ref": "app.bsky.richtext.facet"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
