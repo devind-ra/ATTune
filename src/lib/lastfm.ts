@@ -1,8 +1,40 @@
 "use server";
-// src/lib/lastfm.ts
 
 const API_KEY = process.env.LASTFM_API_KEY;
 const BASE_URL = 'http://ws.audioscrobbler.com/2.0/';
+
+export interface LastFMImage {
+    '#text': string;
+    size: 'small' | 'medium' | 'large' | 'extralarge' | '';
+}
+
+export interface LastFMArtist {
+    name: string;
+    listeners?: string;
+    mbid?: string;
+    url?: string;
+    streamable?: string;
+    image?: LastFMImage[];
+    playcount?: string;
+}
+
+export interface LastFMAlbum {
+    name: string;
+    artist: string;
+    url?: string;
+    image?: LastFMImage[];
+    streamable?: string;
+    mbid?: string;
+}
+
+export interface LastFMTrack {
+    name: string;
+    artist: string;
+    url?: string;
+    image?: LastFMImage[];
+    streamable?: string;
+    mbid?: string;
+}
 
 async function fetchLastFM(method: string, params: Record<string, string> = {}) {
     if (!API_KEY) {
@@ -16,7 +48,6 @@ async function fetchLastFM(method: string, params: Record<string, string> = {}) 
         ...params,
     });
     const url = `${BASE_URL}?${queryParams.toString()}`;
-    console.log(url);
 
     try {
         const response = await fetch(url);
@@ -43,7 +74,7 @@ export async function searchArtist(artistName: string) {
     const data = await fetchLastFM('artist.search', { artist: artistName });
     const allArtists = data?.results?.artistmatches?.artist || [];
 
-    const filteredArtists = allArtists.filter((artist: any) => {
+    const filteredArtists = allArtists.filter((artist: LastFMArtist) => {
         const name = artist.name.toLowerCase();
 
         if (name.includes('&') || name.includes(' feat') || name.includes(' ft') || name.includes(',')) {

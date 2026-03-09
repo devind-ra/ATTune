@@ -2,24 +2,25 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuth } from "../../contexts/AuthContext";
-import { searchArtist, searchAlbum } from '../../lib/lastfm';
+import { searchArtist, searchAlbum, LastFMArtist, LastFMAlbum, LastFMImage } from '../../lib/lastfm';
 
 function SearchResults() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { session, logout, isLoading: authLoading } = useAuth();
 
-    const getImageUrl = (imageArray: any[], preferredSize: string = 'medium') => {
-        if (!Array.isArray(imageArray)) return '';
-        const img = imageArray.find(i => i.size === preferredSize) || imageArray[0];
-        return img ? img['#text'] : '';
+    const getImageUrl = (imageArray: LastFMImage[] | undefined, preferredSize: string = 'medium'): string => {
+        if (!imageArray || !Array.isArray(imageArray)) return '';
+        const img = imageArray.find(i => i.size === preferredSize) ?? imageArray[0];
+        return img?.['#text'] ?? '';
     };
 
     const query = searchParams.get('q');
 
-    const [artists, setArtists] = useState<any[]>([]);
-    const [albums, setAlbums] = useState<any[]>([]);
+    const [artists, setArtists] = useState<LastFMArtist[]>([]);
+    const [albums, setAlbums] = useState<LastFMAlbum[]>([]);
     const [primaryResultType, setPrimaryResultType] = useState<'artist' | 'album'>('artist');
     const [isSearching, setIsSearching] = useState(false);
     const [searchInput, setSearchInput] = useState(query || '');
@@ -48,7 +49,6 @@ function SearchResults() {
                 setAlbums(parsedAlbums);
 
                 let artistPopularity = 0;
-                let albumPopularity = 0;
 
                 if (parsedArtists.length > 0 && parsedArtists[0].listeners) {
                     artistPopularity = parseInt(parsedArtists[0].listeners, 10);
@@ -175,7 +175,7 @@ function SearchResults() {
                                                     <li key={idx} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full">
                                                         <div className="shrink-0">
                                                             {imgUrl ? (
-                                                                <img src={imgUrl} alt={album.name} className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300" />
+                                                                <Image src={imgUrl} alt={album.name} width={80} height={80} className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300" unoptimized />
                                                             ) : (
                                                                 <div className="w-20 h-20 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-sm">
                                                                     <svg className="w-8 h-8 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7.5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
@@ -213,7 +213,7 @@ function SearchResults() {
                                                     <li key={idx} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full">
                                                         <div className="shrink-0">
                                                             {imgUrl ? (
-                                                                <img src={imgUrl} alt={album.name} className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300" />
+                                                                <Image src={imgUrl} alt={album.name} width={80} height={80} className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300" unoptimized />
                                                             ) : (
                                                                 <div className="w-20 h-20 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-sm">
                                                                     <svg className="w-8 h-8 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7.5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>

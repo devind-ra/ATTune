@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../../contexts/AuthContext";
-import { getTopArtists, getTopTracks } from "../../lib/lastfm";
+import { getTopArtists, getTopTracks, LastFMArtist, LastFMTrack } from "../../lib/lastfm";
 
 export default function HomePage() {
     const router = useRouter();
     const { session, logout, isLoading } = useAuth();
-    const [topArtists, setTopArtists] = useState<any[]>([]);
-    const [topTracks, setTopTracks] = useState<any[]>([]);
+    const [topArtists, setTopArtists] = useState<LastFMArtist[]>([]);
+    const [topTracks, setTopTracks] = useState<LastFMTrack[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
