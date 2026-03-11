@@ -8,12 +8,7 @@
       "key": "tid",
       "record": {
         "type": "object",
-        "required": [
-          "subjectTitle",
-          "subjectArtist",
-          "rating",
-          "createdAt"
-        ],
+        "required": ["subjectTitle", "subjectArtist", "rating", "createdAt"],
         "properties": {
           "subjectTitle": {
             "type": "string",

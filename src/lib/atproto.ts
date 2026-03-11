@@ -51,7 +51,11 @@ export class AtProtoService {
     });
   }
 
-  async updateReview(uri: string, review: Omit<MusicReview, "createdAt" | "updatedAt">, createdAt: string) {
+  async updateReview(
+    uri: string,
+    review: Omit<MusicReview, "createdAt" | "updatedAt">,
+    createdAt: string,
+  ) {
     if (!this.agent.session) {
       throw new Error("Not logged in");
     }
