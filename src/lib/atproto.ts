@@ -1,4 +1,4 @@
-import { BskyAgent, AtpSessionData, AppBskyRichtextFacet } from "@atproto/api";
+import { BskyAgent, AtpSessionData } from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 
@@ -7,12 +7,10 @@ export type AuthSession = AtpSessionData;
 export interface MusicReview {
   subjectTitle: string;
   subjectArtist: string;
-  subjectUri?: string;
   rating: number;
   text?: string;
-  tags?: string[];
-  facets?: AppBskyRichtextFacet.Main[];
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface ReviewRecord {
@@ -53,21 +51,25 @@ export class AtProtoService {
     });
   }
 
-  async updateReview(uri: string, review: Omit<MusicReview, "createdAt">) {
+  async updateReview(uri: string, review: Omit<MusicReview, "createdAt" | "updatedAt">, createdAt: string) {
     if (!this.agent.session) {
       throw new Error("Not logged in");
     }
 
+    // Extract rkey from AT URI (at://did/collection/rkey)
+    const rkey = uri.split("/").pop() || uri;
+
     const record = {
       $type: REVIEW_COLLECTION,
-      createdAt: new Date().toISOString(),
+      createdAt: createdAt,
+      updatedAt: new Date().toISOString(),
       ...review,
     };
 
     return await this.agent.com.atproto.repo.putRecord({
       repo: this.agent.session.did,
       collection: REVIEW_COLLECTION,
-      rkey: uri,
+      rkey: rkey,
       record: record,
     });
   }
@@ -77,10 +79,13 @@ export class AtProtoService {
       throw new Error("Not logged in");
     }
 
+    // Extract rkey from AT URI (at://did/collection/rkey)
+    const rkey = uri.split("/").pop() || uri;
+
     return await this.agent.com.atproto.repo.deleteRecord({
       repo: this.agent.session.did,
       collection: REVIEW_COLLECTION,
-      rkey: uri,
+      rkey: rkey,
     });
   }
 

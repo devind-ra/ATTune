@@ -8,7 +8,12 @@
       "key": "tid",
       "record": {
         "type": "object",
-        "required": ["subjectTitle", "subjectArtist", "rating", "createdAt"],
+        "required": [
+          "subjectTitle",
+          "subjectArtist",
+          "rating",
+          "createdAt"
+        ],
         "properties": {
           "subjectTitle": {
             "type": "string",
@@ -21,11 +26,6 @@
             "description": "Subject artist or band name",
             "maxLength": 500,
             "maxGraphemes": 500
-          },
-          "subjectUri": {
-            "type": "string",
-            "format": "uri",
-            "description": "Optional URL to the music (e.g., Spotify, Apple Music link)"
           },
           "rating": {
             "type": "integer",
@@ -60,6 +60,11 @@
               "type": "ref",
               "ref": "app.bsky.richtext.facet"
             }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the review was last updated"
           }
         }
       }
