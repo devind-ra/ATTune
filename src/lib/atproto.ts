@@ -25,7 +25,18 @@ export class AtProtoService {
   public agent: BskyAgent;
 
   constructor() {
-    this.agent = new BskyAgent({ service: "https://bsky.social" });
+    this.agent = new BskyAgent({
+      service: "https://bsky.social",
+      persistSession: (evt, sess) => {
+        if (typeof window !== "undefined") {
+          if (sess) {
+            localStorage.setItem("atp_session", JSON.stringify(sess));
+          } else if (evt === "expired" || evt === "create-failed") {
+            localStorage.removeItem("atp_session");
+          }
+        }
+      },
+    });
   }
 
   async login(identifier: string, password: string) {

@@ -31,7 +31,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (storedSessionStr) {
           const storedSession: AuthSession = JSON.parse(storedSessionStr);
           await atApiService.resumeSession(storedSession);
-          setSession(storedSession);
+          if (atApiService.agent.session) {
+            setSession(atApiService.agent.session);
+          } else {
+            setSession(storedSession);
+          }
         } else {
           router.push("/");
         }
