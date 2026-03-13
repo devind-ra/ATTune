@@ -30,19 +30,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const storedSessionStr = localStorage.getItem("atp_session");
         if (storedSessionStr) {
           const storedSession: AuthSession = JSON.parse(storedSessionStr);
-          atApiService.resumeSession(storedSession);
+          await atApiService.resumeSession(storedSession);
           setSession(storedSession);
+        } else {
+          router.push("/");
         }
       } catch (error) {
         console.error("Failed to resume session:", error);
         localStorage.removeItem("atp_session");
+        router.push("/");
       } finally {
         setIsLoading(false);
       }
     };
 
     initSession();
-  }, []);
+  }, [router]);
 
   const login = (newSession: AuthSession) => {
     setSession(newSession);

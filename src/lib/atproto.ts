@@ -11,6 +11,7 @@ export interface MusicReview {
   text?: string;
   createdAt: string;
   updatedAt?: string;
+  listenedAt: string;
 }
 
 export interface ReviewRecord {
@@ -60,7 +61,6 @@ export class AtProtoService {
       throw new Error("Not logged in");
     }
 
-    // Extract rkey from AT URI (at://did/collection/rkey)
     const rkey = uri.split("/").pop() || uri;
 
     const record = {
@@ -83,7 +83,6 @@ export class AtProtoService {
       throw new Error("Not logged in");
     }
 
-    // Extract rkey from AT URI (at://did/collection/rkey)
     const rkey = uri.split("/").pop() || uri;
 
     return await this.agent.com.atproto.repo.deleteRecord({
@@ -123,8 +122,12 @@ export class AtProtoService {
     }));
   }
 
-  resumeSession(session: AuthSession) {
-    this.agent.resumeSession(session);
+  async resumeSession(session: AuthSession) {
+    await this.agent.resumeSession(session);
+    const { data } = await this.agent.com.atproto.server.getSession();
+    if (data.did !== session.did) {
+      throw new Error("Session verification failed");
+    }
   }
 }
 
