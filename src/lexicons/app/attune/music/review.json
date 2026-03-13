@@ -60,6 +60,11 @@
             "type": "string",
             "format": "datetime",
             "description": "When the review was last updated"
+          },
+          "listenedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the album was listened to"
           }
         }
       }

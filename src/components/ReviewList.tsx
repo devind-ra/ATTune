@@ -21,8 +21,8 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
       const data = await atApiService.getReviews(did);
       const sorted = data.sort(
         (a, b) =>
-          new Date(b.value.createdAt).getTime() -
-          new Date(a.value.createdAt).getTime(),
+          new Date(b.value.listenedAt).getTime() -
+          new Date(a.value.listenedAt).getTime(),
       );
       setReviews(sorted);
     } catch (err) {
@@ -55,20 +55,24 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
       subjectArtist: item.value.subjectArtist,
       rating: item.value.rating,
       text: item.value.text || "",
+      listenedAt: item.value.listenedAt,
     });
   };
 
   const submitEdit = async (item: { uri: string; value: MusicReview }) => {
-    if (!editForm.subjectTitle || !editForm.subjectArtist || !editForm.rating)
-      return;
+    const { subjectTitle, subjectArtist, rating, text, listenedAt } = editForm;
+
+    if (!subjectTitle || !subjectArtist || !rating || !listenedAt) return;
+
     try {
       await atApiService.updateReview(
         item.uri,
         {
-          subjectTitle: editForm.subjectTitle,
-          subjectArtist: editForm.subjectArtist,
-          rating: Number(editForm.rating),
-          text: editForm.text,
+          subjectTitle,
+          subjectArtist,
+          rating: Number(rating),
+          text,
+          listenedAt,
         },
         item.value.createdAt,
       );
@@ -148,6 +152,30 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+                  Date Listened
+                </label>
+                <input
+                  type="date"
+                  value={
+                    editForm.listenedAt
+                      ? new Date(editForm.listenedAt)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                  onChange={(e) =>
+                    setEditForm({
+                      ...editForm,
+                      listenedAt: e.target.value
+                        ? new Date(e.target.value).toISOString()
+                        : undefined,
+                    })
+                  }
+                  className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
                   Review
                 </label>
                 <textarea
@@ -215,7 +243,10 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
               )}
 
               <div className="mt-4 text-xs text-zinc-400">
-                {new Date(item.value.createdAt).toLocaleDateString()}
+                Listened on{" "}
+                {new Date(
+                  item.value.listenedAt || item.value.createdAt,
+                ).toLocaleDateString()}
               </div>
             </>
           )}
