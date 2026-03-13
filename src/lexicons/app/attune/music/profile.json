@@ -1,0 +1,42 @@
+{
+  "lexicon": 1,
+  "id": "app.attune.music.profile",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "User profile tastes and preferences for Attune",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["updatedAt"],
+        "properties": {
+          "topArtists": {
+            "type": "array",
+            "description": "Top 5 favorite artists",
+            "items": {
+              "type": "string",
+              "maxLength": 500,
+              "maxGraphemes": 500
+            },
+            "maxLength": 5
+          },
+          "topGenres": {
+            "type": "array",
+            "description": "Top 3 favorite genres",
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "maxGraphemes": 100
+            },
+            "maxLength": 3
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the user tastes were last updated"
+          }
+        }
+      }
+    }
+  }
+}
