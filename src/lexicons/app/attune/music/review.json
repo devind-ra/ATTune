@@ -22,11 +22,6 @@
             "maxLength": 500,
             "maxGraphemes": 500
           },
-          "subjectUri": {
-            "type": "string",
-            "format": "uri",
-            "description": "Optional URL to the music (e.g., Spotify, Apple Music link)"
-          },
           "rating": {
             "type": "integer",
             "description": "Review score (1-10)",
@@ -60,6 +55,16 @@
               "type": "ref",
               "ref": "app.bsky.richtext.facet"
             }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the review was last updated"
+          },
+          "listenedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the album was listened to"
           }
         }
       }

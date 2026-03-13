@@ -15,6 +15,9 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
   const [albumImage, setAlbumImage] = useState("");
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
+  const [listenedAt, setListenedAt] = useState(
+    () => new Date().toISOString().split("T")[0],
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -72,6 +75,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     setAlbumImage("");
     setRating(5);
     setText("");
+    setListenedAt(new Date().toISOString().split("T")[0]);
     setError("");
   };
 
@@ -86,6 +90,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
         subjectArtist: artist,
         rating: Number(rating),
         text: text,
+        listenedAt: new Date(listenedAt).toISOString(),
       });
 
       handleBackToSearch();
@@ -244,7 +249,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
               <button
                 type="button"
                 onClick={handleBackToSearch}
-                className="text-xs font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 w-fit"
+                className="text-xs font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 w-fit cursor-pointer"
               >
                 Change Album
               </button>
@@ -282,18 +287,30 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+              Date Listened
+            </label>
+            <input
+              type="date"
+              value={listenedAt}
+              onChange={(e) => setListenedAt(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all cursor-pointer"
+            />
+          </div>
+
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={handleBackToSearch}
-              className="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium transition-colors"
+              className="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
             >
               {loading && (
                 <svg

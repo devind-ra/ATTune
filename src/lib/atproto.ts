@@ -1,4 +1,4 @@
-import { BskyAgent, AtpSessionData, AppBskyRichtextFacet } from "@atproto/api";
+import { BskyAgent, AtpSessionData } from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 
@@ -7,12 +7,11 @@ export type AuthSession = AtpSessionData;
 export interface MusicReview {
   subjectTitle: string;
   subjectArtist: string;
-  subjectUri?: string;
   rating: number;
   text?: string;
-  tags?: string[];
-  facets?: AppBskyRichtextFacet.Main[];
   createdAt: string;
+  updatedAt?: string;
+  listenedAt: string;
 }
 
 export interface ReviewRecord {
@@ -26,7 +25,18 @@ export class AtProtoService {
   public agent: BskyAgent;
 
   constructor() {
-    this.agent = new BskyAgent({ service: "https://bsky.social" });
+    this.agent = new BskyAgent({
+      service: "https://bsky.social",
+      persistSession: (evt, sess) => {
+        if (typeof window !== "undefined") {
+          if (sess) {
+            localStorage.setItem("atp_session", JSON.stringify(sess));
+          } else if (evt === "expired" || evt === "create-failed") {
+            localStorage.removeItem("atp_session");
+          }
+        }
+      },
+    });
   }
 
   async login(identifier: string, password: string) {
@@ -53,21 +63,28 @@ export class AtProtoService {
     });
   }
 
-  async updateReview(uri: string, review: Omit<MusicReview, "createdAt">) {
+  async updateReview(
+    uri: string,
+    review: Omit<MusicReview, "createdAt" | "updatedAt">,
+    createdAt: string,
+  ) {
     if (!this.agent.session) {
       throw new Error("Not logged in");
     }
 
+    const rkey = uri.split("/").pop() || uri;
+
     const record = {
       $type: REVIEW_COLLECTION,
-      createdAt: new Date().toISOString(),
+      createdAt: createdAt,
+      updatedAt: new Date().toISOString(),
       ...review,
     };
 
     return await this.agent.com.atproto.repo.putRecord({
       repo: this.agent.session.did,
       collection: REVIEW_COLLECTION,
-      rkey: uri,
+      rkey: rkey,
       record: record,
     });
   }
@@ -77,10 +94,12 @@ export class AtProtoService {
       throw new Error("Not logged in");
     }
 
+    const rkey = uri.split("/").pop() || uri;
+
     return await this.agent.com.atproto.repo.deleteRecord({
       repo: this.agent.session.did,
       collection: REVIEW_COLLECTION,
-      rkey: uri,
+      rkey: rkey,
     });
   }
 
@@ -114,8 +133,12 @@ export class AtProtoService {
     }));
   }
 
-  resumeSession(session: AuthSession) {
-    this.agent.resumeSession(session);
+  async resumeSession(session: AuthSession) {
+    await this.agent.resumeSession(session);
+    const { data } = await this.agent.com.atproto.server.getSession();
+    if (data.did !== session.did) {
+      throw new Error("Session verification failed");
+    }
   }
 }
 
