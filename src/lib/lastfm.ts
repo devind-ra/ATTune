@@ -18,6 +18,12 @@ export interface LastFMArtist {
   playcount?: string;
 }
 
+export interface LastFMTag {
+  name: string;
+  count?: number;
+  url?: string;
+}
+
 export interface LastFMAlbum {
   name: string;
   artist: string;
@@ -111,4 +117,14 @@ export async function getTopTracks(limit: string = "10") {
 export async function getTopArtists(limit: string = "5") {
   const data = await fetchLastFM("chart.gettopartists", { limit });
   return data?.artists?.artist || [];
+}
+
+export async function searchTag(tagName: string) {
+  const data = await fetchLastFM("tag.search", { tag: tagName });
+  return data?.results?.tagmatches?.tag || [];
+}
+
+export async function getTopTags(limit: string = "50") {
+  const data = await fetchLastFM("chart.gettoptags", { limit });
+  return data?.tags?.tag || [];
 }
