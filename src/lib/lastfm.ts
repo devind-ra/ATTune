@@ -8,6 +8,22 @@ export interface LastFMImage {
   size: "small" | "medium" | "large" | "extralarge" | "";
 }
 
+export interface LastFMArtistInfo {
+  name: string,
+  url: string,
+  stats: {
+    listeners: string,
+    playcount: string,
+  },
+  tags: {
+    tag: LastFMTag[]
+  }
+  bio: {
+    summary: string,
+    content: string,
+  }
+}
+
 export interface LastFMArtist {
   name: string;
   listeners?: string;
@@ -153,4 +169,30 @@ export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
     limit,
   });
   return data?.albums?.album || [];
+}
+
+export async function getArtistInfo(artistName: string) {
+  const data = await fetchLastFM("artist.getinfo", {
+    artist: artistName,
+    autocorrect: "1",
+  });
+  return data?.artist || null;
+}
+
+export async function getArtistTopTracks(artistName: string, limit: string = "5") {
+  const data = await fetchLastFM("artist.gettoptracks", {
+    artist: artistName,
+    autocorrect: "1",
+    limit,
+  });
+  return data?.toptracks?.track || [];
+}
+
+export async function getArtistTopAlbums(artistName: string, limit: string = "10") {
+  const data = await fetchLastFM("artist.gettopalbums", {
+    artist: artistName,
+    autocorrect: "1",
+    limit,
+  });
+  return data?.topalbums?.album || [];
 }
