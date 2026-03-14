@@ -12,6 +12,7 @@ import {
   LastFMAlbum,
   getSimilarArtists,
   getTopAlbumsByTag,
+  getArtistName
 } from "../../lib/lastfm";
 
 function shuffle<T>(arr: T[]): T[] {
@@ -55,9 +56,6 @@ const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
   ) : (
     <Skeleton />
   );
-
-const getArtistName = (artist: string | { name: string }) =>
-  typeof artist === "string" ? artist : artist.name;
 
 const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
   items.length > 0 ? (

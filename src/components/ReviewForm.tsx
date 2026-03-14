@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { atApiService } from "../lib/atproto";
-import { searchAlbum, LastFMAlbum, LastFMImage } from "../lib/lastfm";
+import { searchAlbum, LastFMAlbum, LastFMImage, getArtistName } from "../lib/lastfm";
 
 interface ReviewFormProps {
   onReviewCreated: () => void;
@@ -58,10 +58,10 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
 
   const handleSelectAlbum = (album: LastFMAlbum) => {
     setTitle(album.name);
-    setArtist(album.artist);
+    setArtist(getArtistName(album.artist));
     setAlbumImage(
       getImageUrl(album.image, "extralarge") ||
-        getImageUrl(album.image, "large"),
+      getImageUrl(album.image, "large"),
     );
     setIsSearchStep(false);
     setSearchQuery("");
@@ -196,7 +196,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
                           {album.name}
                         </span>
                         <span className="text-xs text-zinc-500 truncate">
-                          {album.artist}
+                          {getArtistName(album.artist)}
                         </span>
                       </div>
                     </li>
