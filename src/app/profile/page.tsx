@@ -45,9 +45,10 @@ function AutocompleteInput({
         try {
           const results = await fetchSuggestions(searchQuery);
           const filtered = (Array.isArray(results) ? results : []).filter(
-            (r) => !excludeValues.some(
-              (ex) => ex.trim().toLowerCase() === r.trim().toLowerCase()
-            )
+            (r) =>
+              !excludeValues.some(
+                (ex) => ex.trim().toLowerCase() === r.trim().toLowerCase(),
+              ),
           );
           setSearchResults(filtered);
         } catch (err) {
@@ -135,12 +136,12 @@ export default function ProfilePage() {
 
   const artistExcludeValues = useMemo(
     () => editArtists.map((_, i) => editArtists.filter((__, j) => j !== i)),
-    [editArtists]
+    [editArtists],
   );
 
   const genreExcludeValues = useMemo(
     () => editGenres.map((_, i) => editGenres.filter((__, j) => j !== i)),
-    [editGenres]
+    [editGenres],
   );
 
   useEffect(() => {
@@ -201,8 +202,12 @@ export default function ProfilePage() {
 
     setIsSavingTastes(true);
     try {
-      const cleanArtists = editArtists.map(a => a.trim().toLowerCase()).filter(Boolean);
-      const cleanGenres = editGenres.map(g => g.trim().toLowerCase()).filter(Boolean);
+      const cleanArtists = editArtists
+        .map((a) => a.trim().toLowerCase())
+        .filter(Boolean);
+      const cleanGenres = editGenres
+        .map((g) => g.trim().toLowerCase())
+        .filter(Boolean);
 
       if (new Set(cleanArtists).size !== cleanArtists.length) {
         alert("You can't enter the same artist more than once");
@@ -214,8 +219,8 @@ export default function ProfilePage() {
         return;
       }
 
-      const finalArtists = editArtists.map(a => a.trim()).filter(Boolean);
-      const finalGenres = editGenres.map(g => g.trim()).filter(Boolean);
+      const finalArtists = editArtists.map((a) => a.trim()).filter(Boolean);
+      const finalGenres = editGenres.map((g) => g.trim()).filter(Boolean);
 
       await atApiService.updateTastes({
         topArtists: finalArtists,
