@@ -429,7 +429,7 @@ export default function ProfilePage() {
                         </span>
                         <Link
                           href={`/artist/${encodeURIComponent(artist)}`}
-                          className="font-medium hover:text-sky-600 dark:hover:text-sky-400 hover:underline"
+                          className="font-medium hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-2 py-1 -mx-2 rounded transition-colors"
                         >
                           {artist}
                         </Link>
@@ -485,7 +485,7 @@ export default function ProfilePage() {
                         by{" "}
                         <Link
                           href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
-                          className="hover:text-sky-600 dark:hover:text-sky-400 hover:underline"
+                          className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
                         >
                           {item.value.subjectArtist}
                         </Link>

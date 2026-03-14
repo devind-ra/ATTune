@@ -50,9 +50,9 @@ const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
         >
           <Link
             href={`/artist/${encodeURIComponent(item.name)}`}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
-            <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400 hover:underline">
+            <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400">
               {item.name}
             </span>
           </Link>
@@ -94,7 +94,7 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
               <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">
                 <Link
                   href={`/artist/${encodeURIComponent(getArtistName(item.artist))}`}
-                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:underline"
+                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
                 >
                   {getArtistName(item.artist)}
                 </Link>
