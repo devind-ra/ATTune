@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import Navbar from "../../components/Navbar";
@@ -20,11 +20,13 @@ function AutocompleteInput({
   onChange,
   placeholder,
   fetchSuggestions,
+  excludeValues = [],
 }: {
   value: string;
   onChange: (val: string) => void;
   placeholder: string;
   fetchSuggestions: (q: string) => Promise<string[]>;
+  excludeValues?: string[];
 }) {
   const [searchQuery, setSearchQuery] = useState(value);
   const [searchResults, setSearchResults] = useState<string[]>([]);
@@ -42,7 +44,12 @@ function AutocompleteInput({
         setShowSuggestions(true);
         try {
           const results = await fetchSuggestions(searchQuery);
-          setSearchResults(Array.isArray(results) ? results : []);
+          const filtered = (Array.isArray(results) ? results : []).filter(
+            (r) => !excludeValues.some(
+              (ex) => ex.trim().toLowerCase() === r.trim().toLowerCase()
+            )
+          );
+          setSearchResults(filtered);
         } catch (err) {
           console.error("Search failed:", err);
         } finally {
@@ -55,7 +62,7 @@ function AutocompleteInput({
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, fetchSuggestions, value]);
+  }, [searchQuery, fetchSuggestions, value, excludeValues]);
 
   const handleSelect = (s: string) => {
     setSearchQuery(s);
@@ -126,6 +133,16 @@ export default function ProfilePage() {
   const [editGenres, setEditGenres] = useState<string[]>(["", "", ""]);
   const [isSavingTastes, setIsSavingTastes] = useState(false);
 
+  const artistExcludeValues = useMemo(
+    () => editArtists.map((_, i) => editArtists.filter((__, j) => j !== i)),
+    [editArtists]
+  );
+
+  const genreExcludeValues = useMemo(
+    () => editGenres.map((_, i) => editGenres.filter((__, j) => j !== i)),
+    [editGenres]
+  );
+
   useEffect(() => {
     if (!isLoading && !session) {
       router.push("/");
@@ -161,7 +178,6 @@ export default function ProfilePage() {
           if (userTastes) {
             setTastes(userTastes);
 
-            // Pad arrays to match input fields
             const paddedArtists = [...userTastes.topArtists];
             while (paddedArtists.length < 5) paddedArtists.push("");
             setEditArtists(paddedArtists);
@@ -182,14 +198,28 @@ export default function ProfilePage() {
 
   const handleSaveTastes = async () => {
     if (!session) return;
+
     setIsSavingTastes(true);
     try {
-      const cleanArtists = editArtists.filter((a) => a.trim() !== "");
-      const cleanGenres = editGenres.filter((g) => g.trim() !== "");
+      const cleanArtists = editArtists.map(a => a.trim().toLowerCase()).filter(Boolean);
+      const cleanGenres = editGenres.map(g => g.trim().toLowerCase()).filter(Boolean);
+
+      if (new Set(cleanArtists).size !== cleanArtists.length) {
+        alert("You can't enter the same artist more than once");
+        return;
+      }
+
+      if (new Set(cleanGenres).size !== cleanGenres.length) {
+        alert("You can't enter the same genre more than once");
+        return;
+      }
+
+      const finalArtists = editArtists.map(a => a.trim()).filter(Boolean);
+      const finalGenres = editGenres.map(g => g.trim()).filter(Boolean);
 
       await atApiService.updateTastes({
-        topArtists: cleanArtists,
-        topGenres: cleanGenres,
+        topArtists: finalArtists,
+        topGenres: finalGenres,
       });
 
       const updated = await atApiService.getTastes(session.did);
@@ -300,6 +330,7 @@ export default function ProfilePage() {
                           setEditArtists(newArr);
                         }}
                         placeholder="Artist Name"
+                        excludeValues={artistExcludeValues[idx]}
                         fetchSuggestions={async (q) => {
                           const res = await searchArtist(q);
                           return res
@@ -333,6 +364,7 @@ export default function ProfilePage() {
                           setEditGenres(newArr);
                         }}
                         placeholder="Genre Name"
+                        excludeValues={genreExcludeValues[idx]}
                         fetchSuggestions={async (q) => {
                           const res = await getTopTags("200");
                           return res

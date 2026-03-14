@@ -78,7 +78,7 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
               />
             ) : (
               <div className="w-full aspect-square bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs">
-                No art
+                N/A
               </div>
             )}
             <div className="p-3 flex flex-col gap-1">
