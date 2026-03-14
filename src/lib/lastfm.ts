@@ -9,19 +9,19 @@ export interface LastFMImage {
 }
 
 export interface LastFMArtistInfo {
-  name: string,
-  url: string,
+  name: string;
+  url: string;
   stats: {
-    listeners: string,
-    playcount: string,
-  },
+    listeners: string;
+    playcount: string;
+  };
   tags: {
-    tag: LastFMTag[]
-  }
+    tag: LastFMTag[];
+  };
   bio: {
-    summary: string,
-    content: string,
-  }
+    summary: string;
+    content: string;
+  };
 }
 
 export interface LastFMArtist {
@@ -179,7 +179,10 @@ export async function getArtistInfo(artistName: string) {
   return data?.artist || null;
 }
 
-export async function getArtistTopTracks(artistName: string, limit: string = "5") {
+export async function getArtistTopTracks(
+  artistName: string,
+  limit: string = "5",
+) {
   const data = await fetchLastFM("artist.gettoptracks", {
     artist: artistName,
     autocorrect: "1",
@@ -188,7 +191,10 @@ export async function getArtistTopTracks(artistName: string, limit: string = "5"
   return data?.toptracks?.track || [];
 }
 
-export async function getArtistTopAlbums(artistName: string, limit: string = "10") {
+export async function getArtistTopAlbums(
+  artistName: string,
+  limit: string = "10",
+) {
   const data = await fetchLastFM("artist.gettopalbums", {
     artist: artistName,
     autocorrect: "1",
