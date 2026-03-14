@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import { atApiService } from "~/lib/atproto";
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import {
   getTopArtists,
@@ -45,11 +46,13 @@ const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
       {items.map((item, idx) => (
         <li
           key={idx}
-          className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow"
+          className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow relative"
         >
-          <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm">
-            {item.name}
-          </span>
+          <Link href={`/artist/${encodeURIComponent(item.name)}`} className="absolute inset-0 flex items-center justify-center">
+            <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400 hover:underline">
+              {item.name}
+            </span>
+          </Link>
         </li>
       ))}
     </ul>
@@ -86,7 +89,9 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
                 {item.name}
               </span>
               <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">
-                {getArtistName(item.artist)}
+                <Link href={`/artist/${encodeURIComponent(getArtistName(item.artist))}`} className="hover:text-sky-600 dark:hover:text-sky-400 hover:underline">
+                  {getArtistName(item.artist)}
+                </Link>
               </span>
             </div>
           </li>
