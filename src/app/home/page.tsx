@@ -4,16 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import { atApiService } from "~/lib/atproto";
+import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import {
   getTopArtists,
-  getTopTracks,
   LastFMArtist,
-  LastFMTrack,
   LastFMAlbum,
   getSimilarArtists,
   getTopAlbumsByTag,
-  getTopArtistsByTag
 } from "../../lib/lastfm";
 
 function shuffle<T>(arr: T[]): T[] {
@@ -32,7 +30,10 @@ type SectionId = (typeof ALL_SECTIONS)[number]["id"];
 const Skeleton = () => (
   <div className="animate-pulse flex space-x-4">
     {[...Array(5)].map((_, i) => (
-      <div key={i} className="h-24 w-full bg-zinc-200 dark:bg-zinc-800 rounded-xl" />
+      <div
+        key={i}
+        className="h-24 w-full bg-zinc-200 dark:bg-zinc-800 rounded-xl"
+      />
     ))}
   </div>
 );
@@ -51,7 +52,9 @@ const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
         </li>
       ))}
     </ul>
-  ) : <Skeleton />;
+  ) : (
+    <Skeleton />
+  );
 
 const getArtistName = (artist: string | { name: string }) =>
   typeof artist === "string" ? artist : artist.name;
@@ -60,16 +63,19 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
   items.length > 0 ? (
     <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
       {items.map((item, idx) => {
-        const image = item.image?.find(img => img.size === "large") ?? item.image?.[0];
+        const image =
+          item.image?.find((img) => img.size === "large") ?? item.image?.[0];
         return (
           <li
             key={idx}
             className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
           >
             {image?.["#text"] ? (
-              <img
+              <Image
                 src={image["#text"]}
                 alt={`${item.name} cover`}
+                width={300}
+                height={300}
                 className="w-full aspect-square object-cover"
               />
             ) : (
@@ -89,27 +95,35 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
         );
       })}
     </ul>
-  ) : <Skeleton />;
+  ) : (
+    <Skeleton />
+  );
 
 export default function HomePage() {
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
   const [topArtists, setTopArtists] = useState<LastFMArtist[]>([]);
-  const [recommendedArtists, setRecommendedArtists] = useState<LastFMArtist[]>([]);
+  const [recommendedArtists, setRecommendedArtists] = useState<LastFMArtist[]>(
+    [],
+  );
   const [recommendedAlbums, setRecommendedAlbums] = useState<LastFMAlbum[]>([]);
 
   const [visibleSections, setVisibleSections] = useState<Set<SectionId>>(
-    () => new Set(ALL_SECTIONS.map(s => s.id))
+    () => new Set(ALL_SECTIONS.map((s) => s.id)),
   );
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
   const toggleSection = (id: SectionId) => {
-    setVisibleSections(prev => {
+    setVisibleSections((prev) => {
       if (prev.has(id) && prev.size === 1) return prev;
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };
@@ -148,17 +162,24 @@ export default function HomePage() {
           }
 
           setRecommendedArtists(
-            shuffle(Array.from(new Map(artistResults.map(a => [a.name, a])).values())).slice(0, 5)
+            shuffle(
+              Array.from(
+                new Map(artistResults.map((a) => [a.name, a])).values(),
+              ),
+            ).slice(0, 5),
           );
           setRecommendedAlbums(
-            shuffle(Array.from(new Map(albumResults.map(a => [a.name + a.artist, a])).values())).slice(0, 5)
+            shuffle(
+              Array.from(
+                new Map(
+                  albumResults.map((a) => [a.name + a.artist, a]),
+                ).values(),
+              ),
+            ).slice(0, 5),
           );
         }
-        const [artists] = await Promise.all([
-          getTopArtists(),
-        ]);
+        const [artists] = await Promise.all([getTopArtists()]);
         setTopArtists(artists);
-
       } catch (err) {
         console.error(err);
       }
@@ -188,7 +209,7 @@ export default function HomePage() {
 
         <div className="mt-8 relative" ref={filterRef}>
           <button
-            onClick={() => setFilterOpen(prev => !prev)}
+            onClick={() => setFilterOpen((prev) => !prev)}
             className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-600 transition-colors cursor-pointer shadow-sm"
           >
             <span>Filter Sections</span>
@@ -197,9 +218,16 @@ export default function HomePage() {
             </span>
             <svg
               className={`w-4 h-4 text-zinc-400 transition-transform ${filterOpen ? "rotate-180" : ""}`}
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
 
@@ -219,12 +247,16 @@ export default function HomePage() {
                     `}
                   >
                     <span className="font-medium">{label}</span>
-                    <span className={`relative inline-flex h-5 w-9 flex-shrink-0 rounded-full transition-colors duration-200
+                    <span
+                      className={`relative inline-flex h-5 w-9 flex-shrink-0 rounded-full transition-colors duration-200
                       ${active ? "bg-sky-600" : "bg-zinc-300 dark:bg-zinc-600"}
-                    `}>
-                      <span className={`inline-block h-4 w-4 mt-0.5 rounded-full bg-white shadow transform transition-transform duration-200
+                    `}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 mt-0.5 rounded-full bg-white shadow transform transition-transform duration-200
                         ${active ? "translate-x-4" : "translate-x-0.5"}
-                      `} />
+                      `}
+                      />
                     </span>
                   </button>
                 );
@@ -233,14 +265,16 @@ export default function HomePage() {
           )}
         </div>
 
-        {ALL_SECTIONS.filter(s => visibleSections.has(s.id)).map(({ id, label }) => (
-          <section key={id} className="mt-8">
-            <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
-              {label}
-            </h2>
-            {sectionContent[id]}
-          </section>
-        ))}
+        {ALL_SECTIONS.filter((s) => visibleSections.has(s.id)).map(
+          ({ id, label }) => (
+            <section key={id} className="mt-8">
+              <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
+                {label}
+              </h2>
+              {sectionContent[id]}
+            </section>
+          ),
+        )}
       </main>
     </div>
   );

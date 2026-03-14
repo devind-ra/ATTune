@@ -150,7 +150,7 @@ export async function getTopArtistsByTag(tag: string, limit: string = "5") {
 export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   const data = await fetchLastFM("tag.gettopalbums", {
     tag,
-    limit
+    limit,
   });
   return data?.albums?.album || [];
 }
