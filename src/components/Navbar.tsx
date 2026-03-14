@@ -106,9 +106,8 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
       </div>
 
       <div
-        className={`${
-          isMobileMenuOpen ? "flex" : "hidden"
-        } md:flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end transition-all`}
+        className={`${isMobileMenuOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end transition-all`}
       >
         <form
           onSubmit={handleSearch}
@@ -151,12 +150,6 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
             className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
           >
             Explore
-          </a>
-          <a
-            href="/releases"
-            className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
-          >
-            Releases
           </a>
         </nav>
 

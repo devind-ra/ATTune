@@ -26,7 +26,7 @@ export interface LastFMTag {
 
 export interface LastFMAlbum {
   name: string;
-  artist: string;
+  artist: string | { name: string; mbid?: string; url?: string };
   url?: string;
   image?: LastFMImage[];
   streamable?: string;
@@ -59,7 +59,9 @@ async function fetchLastFM(
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 60 * 60 },
+    });
     if (!response.ok) throw new Error(`Last.fm API error: ${response.status}`);
 
     return await response.json();
@@ -109,7 +111,7 @@ export async function searchArtist(artistName: string) {
   return filteredArtists;
 }
 
-export async function getTopTracks(limit: string = "10") {
+export async function getTopTracks(limit: string = "5") {
   const data = await fetchLastFM("chart.gettoptracks", { limit });
   return data?.tracks?.track || [];
 }
@@ -127,4 +129,28 @@ export async function searchTag(tagName: string) {
 export async function getTopTags(limit: string = "50") {
   const data = await fetchLastFM("chart.gettoptags", { limit });
   return data?.tags?.tag || [];
+}
+
+export async function getSimilarArtists(artist: string, limit: string = "10") {
+  const data = await fetchLastFM("artist.getsimilar", {
+    artist,
+    limit,
+  });
+  return data?.similarartists?.artist || [];
+}
+
+export async function getTopArtistsByTag(tag: string, limit: string = "5") {
+  const data = await fetchLastFM("tag.gettopartists", {
+    tag,
+    limit,
+  });
+  return data?.topartists?.artist || [];
+}
+
+export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
+  const data = await fetchLastFM("tag.gettopalbums", {
+    tag,
+    limit
+  });
+  return data?.albums?.album || [];
 }
