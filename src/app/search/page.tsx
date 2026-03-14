@@ -12,6 +12,7 @@ import {
   LastFMAlbum,
   LastFMImage,
 } from "../../lib/lastfm";
+import { getArtistName } from "../../lib/utils";
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -184,7 +185,7 @@ function SearchResults() {
                                   {album.name}
                                 </span>
                                 <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1">
-                                  {album.artist}
+                                  {getArtistName(album.artist)}
                                 </span>
                               </div>
                             </li>
@@ -238,7 +239,7 @@ function SearchResults() {
                                   {album.name}
                                 </span>
                                 <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1">
-                                  {album.artist}
+                                  {getArtistName(album.artist)}
                                 </span>
                               </div>
                             </li>

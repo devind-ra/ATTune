@@ -152,12 +152,6 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
           >
             Explore
           </a>
-          <a
-            href="/releases"
-            className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
-          >
-            Releases
-          </a>
         </nav>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto pt-4 md:pt-0 border-t md:border-0 border-zinc-200 dark:border-zinc-800">

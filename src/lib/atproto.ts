@@ -1,6 +1,7 @@
 import { BskyAgent, AtpSessionData } from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
+export const PROFILE_COLLECTION = "app.attune.music.profile";
 
 export type AuthSession = AtpSessionData;
 
@@ -12,6 +13,12 @@ export interface MusicReview {
   createdAt: string;
   updatedAt?: string;
   listenedAt: string;
+}
+
+export interface UserTastes {
+  topArtists: string[];
+  topGenres: string[];
+  updatedAt: string;
 }
 
 export interface ReviewRecord {
@@ -139,6 +146,38 @@ export class AtProtoService {
     if (data.did !== session.did) {
       throw new Error("Session verification failed");
     }
+  }
+
+  async getTastes(did: string) {
+    try {
+      const response = await this.agent.com.atproto.repo.getRecord({
+        repo: did,
+        collection: PROFILE_COLLECTION,
+        rkey: "self",
+      });
+      return response.data.value as unknown as UserTastes;
+    } catch {
+      return null;
+    }
+  }
+
+  async updateTastes(tastes: Omit<UserTastes, "updatedAt">) {
+    if (!this.agent.session) {
+      throw new Error("Not logged in");
+    }
+
+    const record = {
+      $type: PROFILE_COLLECTION,
+      updatedAt: new Date().toISOString(),
+      ...tastes,
+    };
+
+    return await this.agent.com.atproto.repo.putRecord({
+      repo: this.agent.session.did,
+      collection: PROFILE_COLLECTION,
+      rkey: "self",
+      record: record,
+    });
   }
 }
 
