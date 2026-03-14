@@ -154,6 +154,3 @@ export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   });
   return data?.albums?.album || [];
 }
-
-export const getArtistName = (artist: string | { name: string }) =>
-  typeof artist === "string" ? artist : artist.name;

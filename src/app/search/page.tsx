@@ -10,9 +10,9 @@ import {
   searchAlbum,
   LastFMArtist,
   LastFMAlbum,
-  LastFMImage,
-  getArtistName
+  LastFMImage
 } from "../../lib/lastfm";
+import { getArtistName } from "../../lib/utils";
 
 function SearchResults() {
   const searchParams = useSearchParams();

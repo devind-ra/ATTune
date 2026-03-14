@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { atApiService } from "../lib/atproto";
-import { searchAlbum, LastFMAlbum, LastFMImage, getArtistName } from "../lib/lastfm";
+import { searchAlbum, LastFMAlbum, LastFMImage } from "../lib/lastfm";
+import { getArtistName } from "~/lib/utils";
 
 interface ReviewFormProps {
   onReviewCreated: () => void;

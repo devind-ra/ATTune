@@ -11,9 +11,9 @@ import {
   LastFMArtist,
   LastFMAlbum,
   getSimilarArtists,
-  getTopAlbumsByTag,
-  getArtistName
+  getTopAlbumsByTag
 } from "../../lib/lastfm";
+import { getArtistName } from "../../lib/utils";
 
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
