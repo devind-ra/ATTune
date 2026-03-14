@@ -11,7 +11,7 @@ import {
   LastFMArtist,
   LastFMAlbum,
   getSimilarArtists,
-  getTopAlbumsByTag
+  getTopAlbumsByTag,
 } from "../../lib/lastfm";
 import { getArtistName } from "../../lib/utils";
 

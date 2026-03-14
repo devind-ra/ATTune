@@ -10,7 +10,7 @@ import {
   searchAlbum,
   LastFMArtist,
   LastFMAlbum,
-  LastFMImage
+  LastFMImage,
 } from "../../lib/lastfm";
 import { getArtistName } from "../../lib/utils";
 
