@@ -427,7 +427,12 @@ export default function ProfilePage() {
                         <span className="w-6 text-center font-medium text-sky-500">
                           {idx + 1}.
                         </span>
-                        <span className="font-medium">{artist}</span>
+                        <Link
+                          href={`/artist/${encodeURIComponent(artist)}`}
+                          className="font-medium hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-2 py-1 -mx-2 rounded transition-colors"
+                        >
+                          {artist}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -477,7 +482,13 @@ export default function ProfilePage() {
                         {item.value.subjectTitle}
                       </h4>
                       <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                        by {item.value.subjectArtist}
+                        by{" "}
+                        <Link
+                          href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
+                          className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                        >
+                          {item.value.subjectArtist}
+                        </Link>
                       </p>
                     </div>
                     <div className="flex items-center space-x-1">

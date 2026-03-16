@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "../../contexts/AuthContext";
 import Navbar from "../../components/Navbar";
+import Link from "next/link";
 import {
   searchArtist,
   searchAlbum,
@@ -131,11 +132,16 @@ function SearchResults() {
                           return (
                             <li
                               key={idx}
-                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer group h-full justify-center"
+                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow relative"
                             >
-                              <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center line-clamp-2 w-full">
-                                {artist.name}
-                              </span>
+                              <Link
+                                href={`/artist/${encodeURIComponent(artist.name)}`}
+                                className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                              >
+                                <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400">
+                                  {artist.name}
+                                </span>
+                              </Link>
                             </li>
                           );
                         })}
@@ -184,8 +190,13 @@ function SearchResults() {
                                 <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
                                   {album.name}
                                 </span>
-                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1">
-                                  {getArtistName(album.artist)}
+                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
+                                  <Link
+                                    href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
+                                    className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
+                                  >
+                                    {getArtistName(album.artist)}
+                                  </Link>
                                 </span>
                               </div>
                             </li>
@@ -238,8 +249,13 @@ function SearchResults() {
                                 <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
                                   {album.name}
                                 </span>
-                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1">
-                                  {getArtistName(album.artist)}
+                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
+                                  <Link
+                                    href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
+                                    className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
+                                  >
+                                    {getArtistName(album.artist)}
+                                  </Link>
                                 </span>
                               </div>
                             </li>
@@ -260,11 +276,16 @@ function SearchResults() {
                         {artists.map((artist, idx) => (
                           <li
                             key={idx}
-                            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer group h-full justify-center"
+                            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow relative"
                           >
-                            <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center line-clamp-2 w-full">
-                              {artist.name}
-                            </span>
+                            <Link
+                              href={`/artist/${encodeURIComponent(artist.name)}`}
+                              className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                            >
+                              <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400">
+                                {artist.name}
+                              </span>
+                            </Link>
                           </li>
                         ))}
                       </ul>
