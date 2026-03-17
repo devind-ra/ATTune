@@ -1,5 +1,7 @@
 "use client";
 
+// Search page content and functions
+
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -15,11 +17,13 @@ import {
 } from "../../lib/lastfm";
 import { getArtistName } from "../../lib/utils";
 
+// Search results function
 function SearchResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
 
+  // Get image URL from LastFM API
   const getImageUrl = (
     imageArray: LastFMImage[] | undefined,
     preferredSize: string = "medium",
@@ -45,6 +49,7 @@ function SearchResults() {
     }
   }, [session, authLoading, router]);
 
+  // Search functionality for search page
   useEffect(() => {
     if (!query) return;
 
@@ -100,8 +105,10 @@ function SearchResults() {
     fetchResults();
   }, [query]);
 
+  // Loading state
   if (authLoading || !session) return null;
 
+  // Content for search page
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
@@ -303,6 +310,7 @@ function SearchResults() {
   );
 }
 
+// Search page function
 export default function SearchPage() {
   return (
     <Suspense

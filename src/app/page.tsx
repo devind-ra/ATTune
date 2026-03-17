@@ -1,14 +1,18 @@
 "use client";
 
+// Landing page with auth form and content
+
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import AuthForm from "../components/AuthForm";
 import { useAuth } from "../contexts/AuthContext";
 
+// Login page component function
 export default function LoginPage() {
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
+  // Handle login effect
   useEffect(() => {
     if (!isLoading && session) {
       router.push("/home");
@@ -25,6 +29,7 @@ export default function LoginPage() {
       ?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Loading state
   if (isLoading || session) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
@@ -33,6 +38,7 @@ export default function LoginPage() {
     );
   }
 
+  // Content for login page component
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">

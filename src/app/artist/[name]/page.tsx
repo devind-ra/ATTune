@@ -1,5 +1,7 @@
 "use client";
 
+// Artist page content and functions
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -15,6 +17,7 @@ import {
 } from "../../../lib/lastfm";
 import { getArtistName } from "../../../lib/utils";
 
+// Artist page function
 export default function ArtistPage() {
   const params = useParams();
   const artistName = params.name
@@ -26,6 +29,7 @@ export default function ArtistPage() {
   const [topAlbums, setTopAlbums] = useState<LastFMAlbum[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load artist data effect
   useEffect(() => {
     if (!artistName) return;
 
@@ -49,6 +53,7 @@ export default function ArtistPage() {
     loadData();
   }, [artistName]);
 
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
@@ -57,6 +62,7 @@ export default function ArtistPage() {
     );
   }
 
+  // Artist not found state
   if (!artistInfo) {
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans">
@@ -73,13 +79,14 @@ export default function ArtistPage() {
   const stats = artistInfo.stats || {};
   const tags = artistInfo.tags?.tag || [];
 
-  // Clean up bio text to remove the "Read more on Last.fm" link
+  // Clean up artist bio content
   const bioContent =
     artistInfo.bio?.summary?.replace(
       /<a href="https:\/\/www\.last\.fm[^>]+>Read more on Last\.fm<\/a>/g,
       "",
     ) || "No biography available.";
 
+  // Content for template artist page
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
