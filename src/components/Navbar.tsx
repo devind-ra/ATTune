@@ -1,23 +1,29 @@
 "use client";
 
+// Navigation bar component
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 
+// Navigation bar component props
 interface NavbarProps {
   initialSearchQuery?: string;
 }
 
+// Navigation bar component function
 export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
   const router = useRouter();
   const { logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Update search query when initial search query changes
   useEffect(() => {
     setSearchQuery(initialSearchQuery);
   }, [initialSearchQuery]);
 
+  // Search handling function
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -25,10 +31,12 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
     }
   };
 
+  // Logout handling function
   const handleLogout = async () => {
     await logout();
   };
 
+  // Content for navigation bar component
   return (
     <header className="flex flex-col md:flex-row md:items-center gap-4 mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-6 relative">
       <div className="flex items-center justify-between w-full md:w-auto flex-1 gap-6">

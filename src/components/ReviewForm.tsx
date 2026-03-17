@@ -1,15 +1,19 @@
 "use client";
 
+// Review form component
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { atApiService } from "../lib/atproto";
 import { searchAlbum, LastFMAlbum, LastFMImage } from "../lib/lastfm";
 import { getArtistName } from "~/lib/utils";
 
+// Review form component props
 interface ReviewFormProps {
   onReviewCreated: () => void;
 }
 
+// Review form component function
 export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
@@ -27,6 +31,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
   const [searchResults, setSearchResults] = useState<LastFMAlbum[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  // Search handling function
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (searchQuery.trim().length > 2) {
@@ -47,6 +52,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  // Get image URL function
   const getImageUrl = (
     imageArray: LastFMImage[] | undefined,
     preferredSize: string = "medium",
@@ -57,6 +63,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     return img?.["#text"] ?? "";
   };
 
+  // Select album handling function
   const handleSelectAlbum = (album: LastFMAlbum) => {
     setTitle(album.name);
     setArtist(getArtistName(album.artist));
@@ -69,6 +76,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     setSearchResults([]);
   };
 
+  // Back to search handling function
   const handleBackToSearch = () => {
     setIsSearchStep(true);
     setTitle("");
@@ -80,6 +88,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     setError("");
   };
 
+  // Handling submit review function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -109,6 +118,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     }
   };
 
+  // Content for review form component
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 p-6 mb-8">
       <h3 className="text-xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">

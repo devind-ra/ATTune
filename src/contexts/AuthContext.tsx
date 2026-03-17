@@ -1,5 +1,7 @@
 "use client";
 
+// Authentication context for application
+
 import {
   createContext,
   useContext,
@@ -10,6 +12,7 @@ import {
 import { atApiService, AuthSession } from "../lib/atproto";
 import { useRouter } from "next/navigation";
 
+// Authentication context interface
 interface AuthContextType {
   session: AuthSession | null;
   isLoading: boolean;
@@ -17,13 +20,16 @@ interface AuthContextType {
   logout: () => void;
 }
 
+// Authentication context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Authentication provider
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  // Initialise session
   useEffect(() => {
     const initSession = async () => {
       try {
@@ -51,11 +57,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initSession();
   }, [router]);
 
+  // Login function
   const login = (newSession: AuthSession) => {
     setSession(newSession);
     localStorage.setItem("atp_session", JSON.stringify(newSession));
   };
 
+  // Logout function
   const logout = async () => {
     try {
       await atApiService.agent.logout();
@@ -74,6 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Use authentication context
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

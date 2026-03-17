@@ -1,16 +1,21 @@
 "use client";
 
+// Authentication form component
+
 import { useState } from "react";
 import { atApiService } from "../lib/atproto";
 import { useAuth } from "../contexts/AuthContext";
 import Link from "next/link";
 
+// Authentication form component props
 interface AuthFormProps {
   onLogin: () => void;
 }
 
+// Authentication form component modal type
 type ModalType = "help" | "signup" | null;
 
+// Function for authentication component
 export default function AuthForm({ onLogin }: AuthFormProps) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +24,7 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
   const { login } = useAuth();
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
+  // Login handling function
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -40,8 +46,10 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
     }
   };
 
+  // Close modal function
   const closeModal = () => setActiveModal(null);
 
+  // Content for authentication form component
   return (
     <>
       <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800">
