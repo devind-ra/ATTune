@@ -165,8 +165,8 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                        .toISOString()
-                        .split("T")[0]
+                          .toISOString()
+                          .split("T")[0]
                       : ""
                   }
                   onChange={(e) =>
