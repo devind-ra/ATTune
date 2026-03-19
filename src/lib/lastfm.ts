@@ -1,4 +1,4 @@
-// Last.fm API integration functions
+// Last.fm API Service
 // Contains the following:
 // - Interfaces for storing data retrieved from Last.fm
 // - Functions for searching and retrieving data from Last.fm

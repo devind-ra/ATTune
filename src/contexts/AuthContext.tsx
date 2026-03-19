@@ -1,3 +1,8 @@
+// AuthContext
+// Contains the following:
+// - Contains the AuthProvider component which provides the auth context to the application
+// - Contains the useAuth hook to be used alongside AuthProvider
+
 "use client";
 
 import {

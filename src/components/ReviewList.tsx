@@ -1,3 +1,9 @@
+// ReviewList Component
+// Contains the following:
+// - Review list function to display reviews
+// - Utilises AT Protocol to retrieve reviews
+// - Handles CRUD actions for reviews
+
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
@@ -159,8 +165,8 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                          .toISOString()
-                          .split("T")[0]
+                        .toISOString()
+                        .split("T")[0]
                       : ""
                   }
                   onChange={(e) =>

@@ -1,3 +1,9 @@
+// Navbar component
+// Contains the following:
+// - Navigation bar for the application
+// - Contains search bar for searching artists, albums, and songs
+// - Contains Profile, Explore, Record and Sign Out buttons
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -106,9 +112,8 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
       </div>
 
       <div
-        className={`${
-          isMobileMenuOpen ? "flex" : "hidden"
-        } md:flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end transition-all`}
+        className={`${isMobileMenuOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end transition-all`}
       >
         <form
           onSubmit={handleSearch}

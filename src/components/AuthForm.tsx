@@ -1,3 +1,8 @@
+// AuthForm Component
+// Contains the following:
+// - Auth form function to handle authentication
+// - Modals for help and signup
+
 "use client";
 
 import { useState } from "react";

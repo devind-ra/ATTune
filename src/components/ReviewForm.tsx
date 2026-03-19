@@ -1,3 +1,9 @@
+// ReviewForm Component
+// Contains the following:
+// - Review form function to handle review creation
+// - Utilises Last.fm API to search for albums
+// - Utilises AT Protocol to create reviews
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -62,7 +68,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
     setArtist(getArtistName(album.artist));
     setAlbumImage(
       getImageUrl(album.image, "extralarge") ||
-        getImageUrl(album.image, "large"),
+      getImageUrl(album.image, "large"),
     );
     setIsSearchStep(false);
     setSearchQuery("");

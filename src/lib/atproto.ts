@@ -1,4 +1,4 @@
-// AT Protocol integration functions
+// AT Protocol Service
 // Contains the following:
 // - Interfaces for storing user data on AT Protocol
 // - Functions for logging in, creating, updating, and deleting reviews
