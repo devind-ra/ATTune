@@ -1,17 +1,13 @@
 "use client";
 
-// Review list component
-
 import { useEffect, useState, useCallback } from "react";
 import { atApiService, MusicReview } from "../lib/atproto";
 
-// Review list component props
 interface ReviewListProps {
   did: string;
   refreshTrigger: number;
 }
 
-// Review list component function
 export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
   const [reviews, setReviews] = useState<{ uri: string; value: MusicReview }[]>(
     [],
@@ -20,7 +16,6 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
   const [editingUri, setEditingUri] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
 
-  // Fetch reviews handling function
   const fetchReviews = useCallback(async () => {
     try {
       const data = await atApiService.getReviews(did);
@@ -41,7 +36,6 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
     fetchReviews();
   }, [fetchReviews, refreshTrigger]);
 
-  // Handle deletion of review function
   const handleDelete = async (uri: string) => {
     if (window.confirm("Are you sure you want to delete this review?")) {
       try {
@@ -54,7 +48,6 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
     }
   };
 
-  // Handle edit click function
   const handleEditClick = (item: { uri: string; value: MusicReview }) => {
     setEditingUri(item.uri);
     setEditForm({
@@ -66,7 +59,6 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
     });
   };
 
-  // Handle edit function
   const submitEdit = async (item: { uri: string; value: MusicReview }) => {
     const { subjectTitle, subjectArtist, rating, text, listenedAt } = editForm;
 
@@ -106,7 +98,6 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
     );
   }
 
-  // Content for review list component
   return (
     <div className="space-y-4">
       {reviews.map((item) => (
