@@ -1,3 +1,9 @@
+// Home Page
+// Contains the following:
+// - Home page displays recommended artists and albums based on user's tastes
+// - Customisable feed with filters (Scalable for future additions to feed)
+// - Utilises Last.fm API to retrieve data
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";

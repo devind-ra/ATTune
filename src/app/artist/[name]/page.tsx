@@ -1,3 +1,8 @@
+// Artist Page
+// Contains the following:
+// - Retrieves data from Last.fm API for a specific artist
+// - Displays artist information, top tracks, and top albums
+
 "use client";
 
 import { useEffect, useState } from "react";

@@ -1,3 +1,9 @@
+// Search Page
+// Contains the following:
+// - Page for displaying search results from Last.fm API data
+// - Prioritises either Album or Artist based on relevance of search
+// - Allows user to select artist or album to review
+
 "use client";
 
 import { useEffect, useState, Suspense } from "react";

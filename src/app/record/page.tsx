@@ -1,3 +1,7 @@
+// Record Page
+// Contains the following:
+// - Integrates ReviewForm and ReviewList components
+
 "use client";
 
 import { useEffect, useState } from "react";

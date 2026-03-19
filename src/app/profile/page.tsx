@@ -1,3 +1,11 @@
+// Profile Page
+// Contains the following:
+// - Profile page displays user profile information linked to Bluesky
+// - Displays user's music tastes and recent reviews
+// - Allows users to edit their music tastes (favourite artists and tags)
+// - Utilises AT Protocol to retrieve and display data
+// - Utilises Last.fm API to retrieve data
+
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
