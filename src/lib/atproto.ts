@@ -1,3 +1,9 @@
+// AT Protocol integration functions
+// Contains the following:
+// - Interfaces for storing user data on AT Protocol
+// - Functions for logging in, creating, updating, and deleting reviews
+// - Functions for getting user data from AT Protocol
+
 import { BskyAgent, AtpSessionData } from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";

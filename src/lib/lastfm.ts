@@ -1,3 +1,8 @@
+// Last.fm API integration functions
+// Contains the following:
+// - Interfaces for storing data retrieved from Last.fm
+// - Functions for searching and retrieving data from Last.fm
+
 "use server";
 
 const API_KEY = process.env.LASTFM_API_KEY;
