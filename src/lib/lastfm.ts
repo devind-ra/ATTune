@@ -1,21 +1,13 @@
 "use server";
 
-// Last.fm API Integration functions
-
-// Importing API key from environment variables
 const API_KEY = process.env.LASTFM_API_KEY;
-// Base URL for Last.fm API
 const BASE_URL = "http://ws.audioscrobbler.com/2.0/";
 
-// Last.fm API Interfaces
-
-// Last.fm Image Interface
 export interface LastFMImage {
   "#text": string;
   size: "small" | "medium" | "large" | "extralarge" | "";
 }
 
-// Last.fm Artist Info Interface
 export interface LastFMArtistInfo {
   name: string;
   url: string;
@@ -32,7 +24,6 @@ export interface LastFMArtistInfo {
   };
 }
 
-// Last.fm Artist Interface
 export interface LastFMArtist {
   name: string;
   listeners?: string;
@@ -43,14 +34,12 @@ export interface LastFMArtist {
   playcount?: string;
 }
 
-// Last.fm Tag Interface
 export interface LastFMTag {
   name: string;
   count?: number;
   url?: string;
 }
 
-// Last.fm Album Interface
 export interface LastFMAlbum {
   name: string;
   artist: string | { name: string; mbid?: string; url?: string };
@@ -60,7 +49,6 @@ export interface LastFMAlbum {
   mbid?: string;
 }
 
-// Last.fm Track Interface
 export interface LastFMTrack {
   name: string;
   artist: string;
@@ -70,7 +58,6 @@ export interface LastFMTrack {
   mbid?: string;
 }
 
-// Last.fm API fetch function
 async function fetchLastFM(
   method: string,
   params: Record<string, string> = {},
@@ -79,7 +66,6 @@ async function fetchLastFM(
     throw new Error("Missing LASTFM_API_KEY in environment variables");
   }
 
-  // Query parameters for Last.fm API
   const queryParams = new URLSearchParams({
     method,
     api_key: API_KEY,
@@ -88,7 +74,6 @@ async function fetchLastFM(
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
-  // Fetching data every hour from Last.fm API
   try {
     const response = await fetch(url, {
       next: { revalidate: 60 * 60 },
@@ -102,15 +87,11 @@ async function fetchLastFM(
   }
 }
 
-// Last.fm API functions
-
-// Search album function
 export async function searchAlbum(albumName: string) {
   const data = await fetchLastFM("album.search", { album: albumName });
   return data?.results?.albummatches?.album || [];
 }
 
-// Retrieve album info function
 export async function getAlbumInfo(artistName: string, albumName: string) {
   const data = await fetchLastFM("album.getInfo", {
     artist: artistName,
@@ -119,12 +100,10 @@ export async function getAlbumInfo(artistName: string, albumName: string) {
   return data?.album || null;
 }
 
-// Search artist function
 export async function searchArtist(artistName: string) {
   const data = await fetchLastFM("artist.search", { artist: artistName });
   const allArtists = data?.results?.artistmatches?.artist || [];
 
-  // Filtering for artists with '&', 'feat', 'ft', or ',' in their name
   const filteredArtists = allArtists.filter((artist: LastFMArtist) => {
     const name = artist.name.toLowerCase();
 
@@ -148,25 +127,21 @@ export async function searchArtist(artistName: string) {
   return filteredArtists;
 }
 
-// Retrieve top tracks function
 export async function getTopTracks(limit: string = "5") {
   const data = await fetchLastFM("chart.gettoptracks", { limit });
   return data?.tracks?.track || [];
 }
 
-// Retrieve top artists function
 export async function getTopArtists(limit: string = "5") {
   const data = await fetchLastFM("chart.gettopartists", { limit });
   return data?.artists?.artist || [];
 }
 
-// Search tag function
 export async function searchTag(tagName: string) {
   const data = await fetchLastFM("tag.search", { tag: tagName });
   return data?.results?.tagmatches?.tag || [];
 }
 
-// Retrieve top tags function
 export async function getTopTags(limit: string = "50") {
   const data = await fetchLastFM("chart.gettoptags", { limit });
   return data?.tags?.tag || [];
@@ -180,7 +155,6 @@ export async function getSimilarArtists(artist: string, limit: string = "10") {
   return data?.similarartists?.artist || [];
 }
 
-// Retrieve top artists by tag function
 export async function getTopArtistsByTag(tag: string, limit: string = "5") {
   const data = await fetchLastFM("tag.gettopartists", {
     tag,
@@ -189,7 +163,6 @@ export async function getTopArtistsByTag(tag: string, limit: string = "5") {
   return data?.topartists?.artist || [];
 }
 
-// Retrieve top albums by tag function
 export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   const data = await fetchLastFM("tag.gettopalbums", {
     tag,
@@ -198,7 +171,6 @@ export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   return data?.albums?.album || [];
 }
 
-// Retrieve artist info function
 export async function getArtistInfo(artistName: string) {
   const data = await fetchLastFM("artist.getinfo", {
     artist: artistName,
@@ -207,7 +179,6 @@ export async function getArtistInfo(artistName: string) {
   return data?.artist || null;
 }
 
-// Retrieve artist top tracks function
 export async function getArtistTopTracks(
   artistName: string,
   limit: string = "5",
@@ -220,7 +191,6 @@ export async function getArtistTopTracks(
   return data?.toptracks?.track || [];
 }
 
-// Retrieve artist top albums function
 export async function getArtistTopAlbums(
   artistName: string,
   limit: string = "10",
