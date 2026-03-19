@@ -1,7 +1,5 @@
 "use client";
 
-// User review page content and functions
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
@@ -9,7 +7,6 @@ import ReviewList from "../../components/ReviewList";
 import ReviewForm from "../../components/ReviewForm";
 import Navbar from "../../components/Navbar";
 
-// User review page function
 export default function RecordPage() {
   const { session, isLoading } = useAuth();
   const router = useRouter();
@@ -25,7 +22,6 @@ export default function RecordPage() {
     setRefreshTrigger((prev) => prev + 1);
   };
 
-  // Loading state
   if (isLoading || !session) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
@@ -34,7 +30,6 @@ export default function RecordPage() {
     );
   }
 
-  // Content for user review page
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

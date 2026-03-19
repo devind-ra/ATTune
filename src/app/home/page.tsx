@@ -1,7 +1,5 @@
 "use client";
 
-// User home page content and functions
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,13 +16,11 @@ import {
 } from "../../lib/lastfm";
 import { getArtistName } from "../../lib/utils";
 
-// Shuffle function
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
 // Add to this when adding a new entry
-// Sections for content placed on home page
 const ALL_SECTIONS = [
   { id: "recommendedAlbums", label: "Recommended Albums" },
   { id: "recommendedArtists", label: "Recommended Artists" },
@@ -33,7 +29,6 @@ const ALL_SECTIONS = [
 
 type SectionId = (typeof ALL_SECTIONS)[number]["id"];
 
-// Skeleton component for loading state
 const Skeleton = () => (
   <div className="animate-pulse flex space-x-4">
     {[...Array(5)].map((_, i) => (
@@ -45,7 +40,6 @@ const Skeleton = () => (
   </div>
 );
 
-// Artist grid component
 const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
   items.length > 0 ? (
     <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -69,7 +63,6 @@ const ArtistGrid = ({ items }: { items: LastFMArtist[] }) =>
     <Skeleton />
   );
 
-// Album grid component
 const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
   items.length > 0 ? (
     <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -115,7 +108,6 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
     <Skeleton />
   );
 
-// Home page function
 export default function HomePage() {
   const router = useRouter();
   const { session, isLoading } = useAuth();
@@ -132,7 +124,6 @@ export default function HomePage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // Toggle section visibility function
   const toggleSection = (id: SectionId) => {
     setVisibleSections((prev) => {
       if (prev.has(id) && prev.size === 1) return prev;
@@ -146,7 +137,6 @@ export default function HomePage() {
     });
   };
 
-  // Handle click outside filter function
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
@@ -163,7 +153,6 @@ export default function HomePage() {
     }
     if (!session) return;
 
-    // Load data from LastFM API
     async function loadData() {
       try {
         const tastes = await atApiService.getTastes(session!.did);
@@ -207,7 +196,6 @@ export default function HomePage() {
     loadData();
   }, [session, isLoading, router]);
 
-  // Loading state
   if (isLoading || !session) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
@@ -217,14 +205,12 @@ export default function HomePage() {
   }
 
   // Add to this when adding new entry
-  // Specified content for each section
   const sectionContent: Record<SectionId, React.ReactNode> = {
     recommendedAlbums: <AlbumGrid items={recommendedAlbums} />,
     recommendedArtists: <ArtistGrid items={recommendedArtists} />,
     topArtists: <ArtistGrid items={topArtists} />,
   };
 
-  // Content for user home page
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

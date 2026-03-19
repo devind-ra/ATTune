@@ -1,7 +1,5 @@
 "use client";
 
-// User profile page content and functions
-
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
@@ -17,7 +15,6 @@ import {
   LastFMArtist,
 } from "../../lib/lastfm";
 
-// Autocomplete input component for profile page
 function AutocompleteInput({
   value,
   onChange,
@@ -40,7 +37,6 @@ function AutocompleteInput({
     setSearchQuery(value);
   }, [value]);
 
-  // Search functionality for autocomplete input
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (searchQuery.trim().length > 2 && searchQuery !== value) {
@@ -76,7 +72,6 @@ function AutocompleteInput({
     setShowSuggestions(false);
   };
 
-  // Content for autocomplete input
   return (
     <div className="relative flex-1">
       <input
@@ -117,8 +112,6 @@ function AutocompleteInput({
     </div>
   );
 }
-
-// User profile page function
 export default function ProfilePage() {
   const { session, isLoading } = useAuth();
   const router = useRouter();
@@ -157,7 +150,6 @@ export default function ProfilePage() {
     }
   }, [session, isLoading, router]);
 
-  // Load user profile data from LastFM API
   useEffect(() => {
     async function fetchProfileData() {
       if (session) {
@@ -205,7 +197,6 @@ export default function ProfilePage() {
     }
   }, [session]);
 
-  // Save user profile data from Last.fm API
   const handleSaveTastes = async () => {
     if (!session) return;
 
@@ -247,7 +238,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Loading state
   if (isLoading || !session) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
@@ -256,7 +246,6 @@ export default function ProfilePage() {
     );
   }
 
-  // Content for user profile page
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
