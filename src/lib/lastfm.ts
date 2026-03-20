@@ -223,10 +223,7 @@ export async function getArtistTopAlbums(
   return data?.topalbums?.album || [];
 }
 
-export async function getAlbumTopTags(
-  artistName: string,
-  albumName: string,
-) {
+export async function getAlbumTopTags(artistName: string, albumName: string) {
   const data = await fetchLastFM("album.gettoptags", {
     artist: artistName,
     album: albumName,

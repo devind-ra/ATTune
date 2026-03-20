@@ -20,7 +20,13 @@ interface ReviewFormProps {
   initialImage?: string;
 }
 
-export default function ReviewForm({ onReviewCreated, onCancel, initialTitle, initialArtist, initialImage }: ReviewFormProps) {
+export default function ReviewForm({
+  onReviewCreated,
+  onCancel,
+  initialTitle,
+  initialArtist,
+  initialImage,
+}: ReviewFormProps) {
   const [title, setTitle] = useState(initialTitle || "");
   const [artist, setArtist] = useState(initialArtist || "");
   const [albumImage, setAlbumImage] = useState(initialImage || "");

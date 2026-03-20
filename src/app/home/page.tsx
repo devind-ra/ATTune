@@ -192,7 +192,10 @@ export default function HomePage() {
             shuffle(
               Array.from(
                 new Map(
-                  albumResults.map((a) => [a.name + getArtistName(a.artist), a]),
+                  albumResults.map((a) => [
+                    a.name + getArtistName(a.artist),
+                    a,
+                  ]),
                 ).values(),
               ),
             ).slice(0, 5),

@@ -7,13 +7,23 @@ import Navbar from "../../../../components/Navbar";
 import Link from "next/link";
 import ReviewList from "../../../../components/ReviewList";
 import ReviewForm from "../../../../components/ReviewForm";
-import { getAlbumInfo, getAlbumTopTags, LastFMAlbumInfo, LastFMImage, LastFMTag } from "../../../../lib/lastfm";
+import {
+  getAlbumInfo,
+  getAlbumTopTags,
+  LastFMAlbumInfo,
+  LastFMImage,
+  LastFMTag,
+} from "../../../../lib/lastfm";
 import { useAuth } from "../../../../contexts/AuthContext";
 
 export default function AlbumPage() {
   const params = useParams();
-  const artistName = params.artist ? decodeURIComponent(params.artist as string) : "";
-  const albumName = params.album ? decodeURIComponent(params.album as string) : "";
+  const artistName = params.artist
+    ? decodeURIComponent(params.artist as string)
+    : "";
+  const albumName = params.album
+    ? decodeURIComponent(params.album as string)
+    : "";
 
   const { session } = useAuth();
   const [albumInfo, setAlbumInfo] = useState<LastFMAlbumInfo>();
@@ -61,9 +71,7 @@ export default function AlbumPage() {
       <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Navbar />
-          <div className="mt-8 text-center text-zinc-500">
-            Album not found.
-          </div>
+          <div className="mt-8 text-center text-zinc-500">Album not found.</div>
         </main>
       </div>
     );
@@ -80,7 +88,7 @@ export default function AlbumPage() {
   const wikiContent =
     albumInfo.wiki?.summary?.replace(
       /<a href="https:\/\/www\.last\.fm[^>]+>Read more on Last\.fm<\/a>/g,
-      ""
+      "",
     ) || "";
 
   return (
@@ -109,7 +117,8 @@ export default function AlbumPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
               {albumInfo.name}
             </h1>
-            <Link href={`/artist/${encodeURIComponent(albumInfo.artist)}`}
+            <Link
+              href={`/artist/${encodeURIComponent(albumInfo.artist)}`}
               className="hover:text-sky-600 dark:hover:text-sky-400"
             >
               <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-4 font-medium">
@@ -118,7 +127,10 @@ export default function AlbumPage() {
             </Link>
 
             <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
-              Released: {releaseDate.includes(",") ? releaseDate.split(",")[0] : releaseDate}
+              Released:{" "}
+              {releaseDate.includes(",")
+                ? releaseDate.split(",")[0]
+                : releaseDate}
             </div>
 
             {tags.length > 0 && (
@@ -160,8 +172,18 @@ export default function AlbumPage() {
                 onClick={() => setIsReviewFormOpen(true)}
                 className="w-full py-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm text-zinc-900 dark:text-zinc-100 font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
                 </svg>
                 Add a Review
               </button>

@@ -17,7 +17,12 @@ interface ReviewListProps {
   filterArtist?: string;
 }
 
-export default function ReviewList({ did, refreshTrigger, filterTitle, filterArtist }: ReviewListProps) {
+export default function ReviewList({
+  did,
+  refreshTrigger,
+  filterTitle,
+  filterArtist,
+}: ReviewListProps) {
   const [reviews, setReviews] = useState<{ uri: string; value: MusicReview }[]>(
     [],
   );
@@ -32,18 +37,27 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
       let filteredData = data;
       if (filterTitle) {
         filteredData = filteredData.filter(
-          (item) => item.value.subjectTitle && item.value.subjectTitle.toLowerCase() === filterTitle.toLowerCase()
+          (item) =>
+            item.value.subjectTitle &&
+            item.value.subjectTitle.toLowerCase() === filterTitle.toLowerCase(),
         );
       }
       if (filterArtist) {
         filteredData = filteredData.filter(
-          (item) => item.value.subjectArtist && item.value.subjectArtist.toLowerCase() === filterArtist.toLowerCase()
+          (item) =>
+            item.value.subjectArtist &&
+            item.value.subjectArtist.toLowerCase() ===
+              filterArtist.toLowerCase(),
         );
       }
 
       const sorted = filteredData.sort((a, b) => {
-        const timeA = new Date(a.value.listenedAt || a.value.createdAt).getTime();
-        const timeB = new Date(b.value.listenedAt || b.value.createdAt).getTime();
+        const timeA = new Date(
+          a.value.listenedAt || a.value.createdAt,
+        ).getTime();
+        const timeB = new Date(
+          b.value.listenedAt || b.value.createdAt,
+        ).getTime();
         return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
       });
       setReviews(sorted);
@@ -181,8 +195,8 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                        .toISOString()
-                        .split("T")[0]
+                          .toISOString()
+                          .split("T")[0]
                       : ""
                   }
                   onChange={(e) =>
