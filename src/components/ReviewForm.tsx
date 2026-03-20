@@ -14,12 +14,16 @@ import { getArtistName } from "~/lib/utils";
 
 interface ReviewFormProps {
   onReviewCreated: () => void;
+  onCancel?: () => void;
+  initialTitle?: string;
+  initialArtist?: string;
+  initialImage?: string;
 }
 
-export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
-  const [title, setTitle] = useState("");
-  const [artist, setArtist] = useState("");
-  const [albumImage, setAlbumImage] = useState("");
+export default function ReviewForm({ onReviewCreated, onCancel, initialTitle, initialArtist, initialImage }: ReviewFormProps) {
+  const [title, setTitle] = useState(initialTitle || "");
+  const [artist, setArtist] = useState(initialArtist || "");
+  const [albumImage, setAlbumImage] = useState(initialImage || "");
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
   const [listenedAt, setListenedAt] = useState(
@@ -28,7 +32,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [isSearchStep, setIsSearchStep] = useState(true);
+  const [isSearchStep, setIsSearchStep] = useState(!initialTitle);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<LastFMAlbum[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -76,6 +80,7 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
   };
 
   const handleBackToSearch = () => {
+    if (initialTitle) return;
     setIsSearchStep(true);
     setTitle("");
     setArtist("");
@@ -100,7 +105,13 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
         listenedAt: new Date(listenedAt).toISOString(),
       });
 
-      handleBackToSearch();
+      if (!initialTitle) {
+        handleBackToSearch();
+      } else {
+        setRating(5);
+        setText("");
+        setListenedAt(new Date().toISOString().split("T")[0]);
+      }
 
       onReviewCreated();
     } catch (err: unknown) {
@@ -253,13 +264,15 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
                 {title}
               </h4>
               <p className="text-zinc-500 text-sm truncate mb-2">{artist}</p>
-              <button
-                type="button"
-                onClick={handleBackToSearch}
-                className="text-xs font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 w-fit cursor-pointer"
-              >
-                Change Album
-              </button>
+              {!initialTitle && (
+                <button
+                  type="button"
+                  onClick={handleBackToSearch}
+                  className="text-xs font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 w-fit cursor-pointer"
+                >
+                  Change Album
+                </button>
+              )}
             </div>
           </div>
 
@@ -307,13 +320,15 @@ export default function ReviewForm({ onReviewCreated }: ReviewFormProps) {
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={handleBackToSearch}
-              className="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
+            {(!initialTitle || onCancel) && (
+              <button
+                type="button"
+                onClick={onCancel || handleBackToSearch}
+                className="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+            )}
             <button
               type="submit"
               disabled={loading}
