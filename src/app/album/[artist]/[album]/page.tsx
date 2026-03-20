@@ -119,9 +119,9 @@ export default function AlbumPage() {
             </h1>
             <Link
               href={`/artist/${encodeURIComponent(albumInfo.artist)}`}
-              className="hover:text-sky-600 dark:hover:text-sky-400"
+              className="group"
             >
-              <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-4 font-medium">
+              <p className="text-xl text-zinc-600 dark:text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 mb-4 font-medium transition-colors">
                 {albumInfo.artist}
               </p>
             </Link>
