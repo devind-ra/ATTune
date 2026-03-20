@@ -28,7 +28,7 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
   const fetchReviews = useCallback(async () => {
     try {
       const data = await atApiService.getReviews(did);
-      
+
       let filteredData = data;
       if (filterTitle) {
         filteredData = filteredData.filter(
@@ -181,8 +181,8 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                          .toISOString()
-                          .split("T")[0]
+                        .toISOString()
+                        .split("T")[0]
                       : ""
                   }
                   onChange={(e) =>
@@ -227,7 +227,7 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
             <>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <Link 
+                  <Link
                     href={`/album/${encodeURIComponent(item.value.subjectArtist)}/${encodeURIComponent(item.value.subjectTitle)}`}
                     className="hover:underline decoration-zinc-400 dark:decoration-zinc-500"
                   >
@@ -235,9 +235,14 @@ export default function ReviewList({ did, refreshTrigger, filterTitle, filterArt
                       {item.value.subjectTitle}
                     </h4>
                   </Link>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    by {item.value.subjectArtist}
-                  </p>
+                  <Link
+                    href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
+                    className="hover:underline decoration-zinc-400 dark:decoration-zinc-500 inline-block mt-0.5"
+                  >
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                      by {item.value.subjectArtist}
+                    </p>
+                  </Link>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center space-x-1">

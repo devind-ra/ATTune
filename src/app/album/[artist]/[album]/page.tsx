@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
+import Link from "next/link";
 import ReviewList from "../../../../components/ReviewList";
 import ReviewForm from "../../../../components/ReviewForm";
 import { getAlbumInfo, getAlbumTopTags, LastFMAlbumInfo, LastFMImage, LastFMTag } from "../../../../lib/lastfm";
@@ -108,9 +109,13 @@ export default function AlbumPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
               {albumInfo.name}
             </h1>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-4 font-medium">
-              {albumInfo.artist}
-            </p>
+            <Link href={`/artist/${encodeURIComponent(albumInfo.artist)}`}
+              className="hover:text-sky-600 dark:hover:text-sky-400"
+            >
+              <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-4 font-medium">
+                {albumInfo.artist}
+              </p>
+            </Link>
 
             <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
               Released: {releaseDate.includes(",") ? releaseDate.split(",")[0] : releaseDate}
