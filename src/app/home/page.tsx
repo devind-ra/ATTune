@@ -78,34 +78,39 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
         return (
           <li
             key={idx}
-            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group"
           >
-            {image?.["#text"] ? (
-              <Image
-                src={image["#text"]}
-                alt={`${item.name} cover`}
-                width={300}
-                height={300}
-                className="w-full aspect-square object-cover"
-              />
-            ) : (
-              <div className="w-full aspect-square bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs">
-                N/A
-              </div>
-            )}
+            <Link
+              href={`/album/${encodeURIComponent(getArtistName(item.artist))}/${encodeURIComponent(item.name)}`}
+              className="shrink-0 overflow-hidden relative block"
+            >
+              {image?.["#text"] ? (
+                <Image
+                  src={image["#text"]}
+                  alt={`${item.name} cover`}
+                  width={300}
+                  height={300}
+                  className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-full aspect-square bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs transition-transform duration-300 group-hover:scale-105">
+                  N/A
+                </div>
+              )}
+            </Link>
             <div className="p-3 flex flex-col gap-1">
               <span className="font-medium text-zinc-900 dark:text-zinc-100 text-sm leading-tight line-clamp-2">
                 <Link
                   href={`/album/${encodeURIComponent(getArtistName(item.artist))}/${encodeURIComponent(item.name)}`}
-                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                  className="group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
                 >
                   {item.name}
                 </Link>
               </span>
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">
+              <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
                 <Link
                   href={`/artist/${encodeURIComponent(getArtistName(item.artist))}`}
-                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
                 >
                   {getArtistName(item.artist)}
                 </Link>
