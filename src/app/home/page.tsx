@@ -95,7 +95,12 @@ const AlbumGrid = ({ items }: { items: LastFMAlbum[] }) =>
             )}
             <div className="p-3 flex flex-col gap-1">
               <span className="font-medium text-zinc-900 dark:text-zinc-100 text-sm leading-tight line-clamp-2">
-                {item.name}
+                <Link
+                  href={`/album/${encodeURIComponent(getArtistName(item.artist))}/${encodeURIComponent(item.name)}`}
+                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                >
+                  {item.name}
+                </Link>
               </span>
               <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">
                 <Link
@@ -187,7 +192,7 @@ export default function HomePage() {
             shuffle(
               Array.from(
                 new Map(
-                  albumResults.map((a) => [a.name + a.artist, a]),
+                  albumResults.map((a) => [a.name + getArtistName(a.artist), a]),
                 ).values(),
               ),
             ).slice(0, 5),

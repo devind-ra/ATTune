@@ -168,7 +168,7 @@ function SearchResults() {
                           return (
                             <li
                               key={idx}
-                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full"
+                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full relative"
                             >
                               <div className="shrink-0">
                                 {imgUrl ? (
@@ -194,7 +194,14 @@ function SearchResults() {
                               </div>
                               <div className="flex flex-col items-center justify-start flex-1 w-full">
                                 <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
-                                  {album.name}
+                                  <Link
+                                    href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                    className="hover:underline decoration-zinc-400 dark:decoration-zinc-500 after:absolute after:inset-0"
+                                  >
+                                    <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                      {album.name}
+                                    </h4>
+                                  </Link>
                                 </span>
                                 <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
                                   <Link
@@ -253,7 +260,14 @@ function SearchResults() {
                               </div>
                               <div className="flex flex-col items-center justify-start flex-1 w-full">
                                 <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
-                                  {album.name}
+                                  <Link
+                                    href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                    className="hover:underline decoration-zinc-400 dark:decoration-zinc-500 after:absolute after:inset-0"
+                                  >
+                                    <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                      {album.name}
+                                    </h4>
+                                  </Link>
                                 </span>
                                 <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
                                   <Link
