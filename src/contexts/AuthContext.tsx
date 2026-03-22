@@ -11,9 +11,25 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
 import { atApiService, AuthSession } from "../lib/atproto";
 import { useRouter } from "next/navigation";
+
+const SESSION_KEY = "atp_session";
+
+const storage = {
+  get: (): AuthSession | null => {
+    const data = localStorage.getItem(SESSION_KEY);
+    return data ? JSON.parse(data) : null;
+  },
+  set: (session: AuthSession) => {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  },
+  clear: () => {
+    localStorage.removeItem(SESSION_KEY);
+  },
+};
 
 interface AuthContextType {
   session: AuthSession | null;
@@ -29,36 +45,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const initSession = async () => {
-      try {
-        const storedSessionStr = localStorage.getItem("atp_session");
-        if (storedSessionStr) {
-          const storedSession: AuthSession = JSON.parse(storedSessionStr);
-          await atApiService.resumeSession(storedSession);
-          if (atApiService.agent.session) {
-            setSession(atApiService.agent.session);
-          } else {
-            setSession(storedSession);
-          }
-        } else {
-          router.push("/");
-        }
-      } catch (error) {
-        console.error("Failed to resume session:", error);
-        localStorage.removeItem("atp_session");
-        router.push("/");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const restoreSession = useCallback(async () => {
+    try {
+      const stored = storage.get();
+      if (!stored) return router.push("/");
 
-    initSession();
+      await atApiService.resumeSession(stored);
+      if (atApiService.agent.session) {
+        setSession(atApiService.agent.session);
+      } else {
+        setSession(stored);
+      }
+    } catch (error) {
+      console.error("Failed to restore session:", error);
+      storage.clear();
+      router.push("/");
+    } finally {
+      setIsLoading(false);
+    }
   }, [router]);
 
+  useEffect(() => {
+    restoreSession();
+  }, [restoreSession]);
+
   const login = (newSession: AuthSession) => {
+    storage.set(newSession);
     setSession(newSession);
-    localStorage.setItem("atp_session", JSON.stringify(newSession));
   };
 
   const logout = async () => {
