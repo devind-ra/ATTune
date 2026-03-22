@@ -1,5 +1,5 @@
 // AutocompleteInput Component
-// Contains the following: 
+// Contains the following:
 // - Deals with suggestions for albums and artists
 // - Calls to useAutocomplete hook for logic
 // - Calls to SuggestionList for displaying suggestions
