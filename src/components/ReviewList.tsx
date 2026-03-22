@@ -48,7 +48,7 @@ export default function ReviewList({
           (item) =>
             item.value.subjectArtist &&
             item.value.subjectArtist.toLowerCase() ===
-            filterArtist.toLowerCase(),
+              filterArtist.toLowerCase(),
         );
       }
 
@@ -176,17 +176,21 @@ export default function ReviewList({
                 <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
                   Rating ({editForm.rating || 1}/5)
                 </label>
-                <div className="flex gap-1" onMouseLeave={() => setHoveredRating(0)}>
+                <div
+                  className="flex gap-1"
+                  onMouseLeave={() => setHoveredRating(0)}
+                >
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setEditForm({ ...editForm, rating: star })}
                       onMouseEnter={() => setHoveredRating(star)}
-                      className={`p-1 transition-transform hover:scale-110 focus:outline-none focus:scale-110 ${star <= (hoveredRating || editForm.rating || 1)
-                        ? "text-yellow-400 dark:text-yellow-500"
-                        : "text-zinc-300 dark:text-zinc-600"
-                        }`}
+                      className={`p-1 transition-transform hover:scale-110 focus:outline-none focus:scale-110 ${
+                        star <= (hoveredRating || editForm.rating || 1)
+                          ? "text-yellow-400 dark:text-yellow-500"
+                          : "text-zinc-300 dark:text-zinc-600"
+                      }`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -213,8 +217,8 @@ export default function ReviewList({
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                        .toISOString()
-                        .split("T")[0]
+                          .toISOString()
+                          .split("T")[0]
                       : ""
                   }
                   max={new Date().toISOString().split("T")[0]}

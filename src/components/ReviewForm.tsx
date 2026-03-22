@@ -287,7 +287,10 @@ export default function ReviewForm({
             <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
               Rating ({rating}/5)
             </label>
-            <div className="flex gap-1" onMouseLeave={() => setHoveredRating(0)}>
+            <div
+              className="flex gap-1"
+              onMouseLeave={() => setHoveredRating(0)}
+            >
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
