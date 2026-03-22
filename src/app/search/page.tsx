@@ -17,7 +17,6 @@ import {
   searchAlbum,
   LastFMArtist,
   LastFMAlbum,
-  LastFMImage,
 } from "../../lib/lastfm";
 import { getArtistName } from "../../lib/utils";
 
@@ -25,16 +24,6 @@ function SearchResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
-
-  const getImageUrl = (
-    imageArray: LastFMImage[] | undefined,
-    preferredSize: string = "medium",
-  ): string => {
-    if (!imageArray || !Array.isArray(imageArray)) return "";
-    const img =
-      imageArray.find((i) => i.size === preferredSize) ?? imageArray[0];
-    return img?.["#text"] ?? "";
-  };
 
   const query = searchParams.get("q");
 
@@ -164,39 +153,43 @@ function SearchResults() {
                     {albums.length > 0 ? (
                       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
                         {albums.map((album, idx) => {
-                          const imgUrl = getImageUrl(album.image, "large");
+                          const image =
+                            album.image?.find((img) => img.size === "large") ??
+                            album.image?.[0];
                           return (
                             <li
                               key={idx}
-                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full"
+                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group"
                             >
-                              <div className="shrink-0">
-                                {imgUrl ? (
+                              <Link
+                                href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                className="shrink-0 overflow-hidden relative block"
+                              >
+                                {image?.["#text"] ? (
                                   <Image
-                                    src={imgUrl}
-                                    alt={album.name}
-                                    width={80}
-                                    height={80}
-                                    className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300"
+                                    src={image["#text"]}
+                                    alt={`${album.name} cover`}
+                                    width={300}
+                                    height={300}
+                                    className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
                                     unoptimized
                                   />
                                 ) : (
-                                  <div className="w-20 h-20 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-sm">
-                                    <svg
-                                      className="w-8 h-8 text-zinc-400"
-                                      fill="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7.5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                                    </svg>
+                                  <div className="w-full aspect-square bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs transition-transform duration-300 group-hover:scale-105">
+                                    N/A
                                   </div>
                                 )}
-                              </div>
-                              <div className="flex flex-col items-center justify-start flex-1 w-full">
-                                <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
-                                  {album.name}
+                              </Link>
+                              <div className="p-3 flex flex-col gap-1">
+                                <span className="font-medium text-zinc-900 dark:text-zinc-100 text-sm leading-tight line-clamp-2">
+                                  <Link
+                                    href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                    className="group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+                                  >
+                                    {album.name}
+                                  </Link>
                                 </span>
-                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
+                                <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
                                   <Link
                                     href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
                                     className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
@@ -223,39 +216,43 @@ function SearchResults() {
                     {albums.length > 0 ? (
                       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
                         {albums.map((album, idx) => {
-                          const imgUrl = getImageUrl(album.image, "large");
+                          const image =
+                            album.image?.find((img) => img.size === "large") ??
+                            album.image?.[0];
                           return (
                             <li
                               key={idx}
-                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center group h-full"
+                              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group"
                             >
-                              <div className="shrink-0">
-                                {imgUrl ? (
+                              <Link
+                                href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                className="shrink-0 overflow-hidden relative block"
+                              >
+                                {image?.["#text"] ? (
                                   <Image
-                                    src={imgUrl}
-                                    alt={album.name}
-                                    width={80}
-                                    height={80}
-                                    className="w-20 h-20 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform duration-300"
+                                    src={image["#text"]}
+                                    alt={`${album.name} cover`}
+                                    width={300}
+                                    height={300}
+                                    className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
                                     unoptimized
                                   />
                                 ) : (
-                                  <div className="w-20 h-20 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-sm">
-                                    <svg
-                                      className="w-8 h-8 text-zinc-400"
-                                      fill="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7.5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                                    </svg>
+                                  <div className="w-full aspect-square bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs transition-transform duration-300 group-hover:scale-105">
+                                    N/A
                                   </div>
                                 )}
-                              </div>
-                              <div className="flex flex-col items-center justify-start flex-1 w-full">
-                                <span className="font-medium text-zinc-900 dark:text-zinc-100 line-clamp-2 w-full">
-                                  {album.name}
+                              </Link>
+                              <div className="p-3 flex flex-col gap-1">
+                                <span className="font-medium text-zinc-900 dark:text-zinc-100 text-sm leading-tight line-clamp-2">
+                                  <Link
+                                    href={`/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`}
+                                    className="group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+                                  >
+                                    {album.name}
+                                  </Link>
                                 </span>
-                                <span className="text-xs text-zinc-500 line-clamp-1 w-full mt-1 relative z-10">
+                                <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
                                   <Link
                                     href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
                                     className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"

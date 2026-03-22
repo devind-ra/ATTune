@@ -7,14 +7,22 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { atApiService, MusicReview } from "../lib/atproto";
 
 interface ReviewListProps {
   did: string;
   refreshTrigger: number;
+  filterTitle?: string;
+  filterArtist?: string;
 }
 
-export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
+export default function ReviewList({
+  did,
+  refreshTrigger,
+  filterTitle,
+  filterArtist,
+}: ReviewListProps) {
   const [reviews, setReviews] = useState<{ uri: string; value: MusicReview }[]>(
     [],
   );
@@ -25,18 +33,40 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
   const fetchReviews = useCallback(async () => {
     try {
       const data = await atApiService.getReviews(did);
-      const sorted = data.sort(
-        (a, b) =>
-          new Date(b.value.listenedAt).getTime() -
-          new Date(a.value.listenedAt).getTime(),
-      );
+
+      let filteredData = data;
+      if (filterTitle) {
+        filteredData = filteredData.filter(
+          (item) =>
+            item.value.subjectTitle &&
+            item.value.subjectTitle.toLowerCase() === filterTitle.toLowerCase(),
+        );
+      }
+      if (filterArtist) {
+        filteredData = filteredData.filter(
+          (item) =>
+            item.value.subjectArtist &&
+            item.value.subjectArtist.toLowerCase() ===
+              filterArtist.toLowerCase(),
+        );
+      }
+
+      const sorted = filteredData.sort((a, b) => {
+        const timeA = new Date(
+          a.value.listenedAt || a.value.createdAt,
+        ).getTime();
+        const timeB = new Date(
+          b.value.listenedAt || b.value.createdAt,
+        ).getTime();
+        return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
+      });
       setReviews(sorted);
     } catch (err) {
-      console.error("Failed to fetch reviews", err);
+      console.log("Failed to fetch reviews", err);
     } finally {
       setLoading(false);
     }
-  }, [did]);
+  }, [did, filterTitle, filterArtist]);
 
   useEffect(() => {
     fetchReviews();
@@ -48,7 +78,7 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
         await atApiService.deleteReview(uri);
         fetchReviews();
       } catch (err) {
-        console.error("Failed to delete review", err);
+        console.log("Failed to delete review", err);
         alert("Failed to delete review. Make sure you are logged in.");
       }
     }
@@ -85,7 +115,7 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
       setEditingUri(null);
       fetchReviews();
     } catch (err) {
-      console.error("Failed to update review", err);
+      console.log("Failed to update review", err);
       alert("Failed to update review. Make sure you are logged in.");
     }
   };
@@ -211,12 +241,22 @@ export default function ReviewList({ did, refreshTrigger }: ReviewListProps) {
             <>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
-                    {item.value.subjectTitle}
-                  </h4>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    by {item.value.subjectArtist}
-                  </p>
+                  <Link
+                    href={`/album/${encodeURIComponent(item.value.subjectArtist)}/${encodeURIComponent(item.value.subjectTitle)}`}
+                    className="hover:underline decoration-zinc-400 dark:decoration-zinc-500"
+                  >
+                    <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                      {item.value.subjectTitle}
+                    </h4>
+                  </Link>
+                  <Link
+                    href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
+                    className="hover:underline decoration-zinc-400 dark:decoration-zinc-500 inline-block mt-0.5"
+                  >
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                      by {item.value.subjectArtist}
+                    </p>
+                  </Link>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center space-x-1">

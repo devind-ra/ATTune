@@ -29,6 +29,21 @@ export interface LastFMArtistInfo {
   };
 }
 
+export interface LastFMAlbumInfo {
+  name: string;
+  artist: string;
+  url: string;
+  image: LastFMImage[];
+  tracks: {
+    track: LastFMTrack[];
+  };
+  wiki: {
+    summary: string;
+    content: string;
+    published: string;
+  };
+}
+
 export interface LastFMArtist {
   name: string;
   listeners?: string;
@@ -206,4 +221,13 @@ export async function getArtistTopAlbums(
     limit,
   });
   return data?.topalbums?.album || [];
+}
+
+export async function getAlbumTopTags(artistName: string, albumName: string) {
+  const data = await fetchLastFM("album.gettoptags", {
+    artist: artistName,
+    album: albumName,
+    autocorrect: "1",
+  });
+  return data?.toptags?.tag || [];
 }
