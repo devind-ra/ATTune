@@ -48,7 +48,7 @@ export default function ReviewList({
           (item) =>
             item.value.subjectArtist &&
             item.value.subjectArtist.toLowerCase() ===
-            filterArtist.toLowerCase(),
+              filterArtist.toLowerCase(),
         );
       }
 
@@ -182,12 +182,16 @@ export default function ReviewList({
                 >
                   {[1, 2, 3, 4, 5].map((star) => {
                     const currentRating = editForm.rating || 10;
-                    const isTarget = hoveredRating > 0 ? (hoveredRating / 2) : (currentRating / 2);
+                    const isTarget =
+                      hoveredRating > 0 ? hoveredRating / 2 : currentRating / 2;
                     const isFull = star <= isTarget;
                     const isHalf = star - 0.5 === isTarget;
 
                     return (
-                      <div key={star} className="relative w-8 h-8 cursor-pointer group">
+                      <div
+                        key={star}
+                        className="relative w-8 h-8 cursor-pointer group"
+                      >
                         {/* Background (empty) star */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +208,9 @@ export default function ReviewList({
 
                         {/* Foreground (filled) star - full or half */}
                         {(isFull || isHalf) && (
-                          <div className={`absolute top-0 left-0 h-full overflow-hidden transition-transform group-hover:scale-110 pointer-events-none ${isHalf ? 'w-1/2' : 'w-full'}`}>
+                          <div
+                            className={`absolute top-0 left-0 h-full overflow-hidden transition-transform group-hover:scale-110 pointer-events-none ${isHalf ? "w-1/2" : "w-full"}`}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -224,13 +230,22 @@ export default function ReviewList({
                         <div className="absolute inset-0 flex">
                           <div
                             className="w-1/2 h-full z-10"
-                            onMouseEnter={() => setHoveredRating((star - 0.5) * 2)}
-                            onClick={() => setEditForm({ ...editForm, rating: (star - 0.5) * 2 })}
+                            onMouseEnter={() =>
+                              setHoveredRating((star - 0.5) * 2)
+                            }
+                            onClick={() =>
+                              setEditForm({
+                                ...editForm,
+                                rating: (star - 0.5) * 2,
+                              })
+                            }
                           />
                           <div
                             className="w-1/2 h-full z-10"
                             onMouseEnter={() => setHoveredRating(star * 2)}
-                            onClick={() => setEditForm({ ...editForm, rating: star * 2 })}
+                            onClick={() =>
+                              setEditForm({ ...editForm, rating: star * 2 })
+                            }
                           />
                         </div>
                       </div>
@@ -247,8 +262,8 @@ export default function ReviewList({
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                        .toISOString()
-                        .split("T")[0]
+                          .toISOString()
+                          .split("T")[0]
                       : ""
                   }
                   max={new Date().toISOString().split("T")[0]}

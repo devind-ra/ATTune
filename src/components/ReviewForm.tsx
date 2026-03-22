@@ -292,12 +292,16 @@ export default function ReviewForm({
               onMouseLeave={() => setHoveredRating(0)}
             >
               {[1, 2, 3, 4, 5].map((star) => {
-                const isTarget = hoveredRating > 0 ? (hoveredRating / 2) : (rating / 2);
+                const isTarget =
+                  hoveredRating > 0 ? hoveredRating / 2 : rating / 2;
                 const isFull = star <= isTarget;
                 const isHalf = star - 0.5 === isTarget;
 
                 return (
-                  <div key={star} className="relative w-8 h-8 cursor-pointer group">
+                  <div
+                    key={star}
+                    className="relative w-8 h-8 cursor-pointer group"
+                  >
                     {/* Background (empty) star */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -311,10 +315,12 @@ export default function ReviewForm({
                         clipRule="evenodd"
                       />
                     </svg>
-                    
+
                     {/* Foreground (filled) star - full or half */}
                     {(isFull || isHalf) && (
-                      <div className={`absolute top-0 left-0 h-full overflow-hidden transition-transform group-hover:scale-110 pointer-events-none ${isHalf ? 'w-1/2' : 'w-full'}`}>
+                      <div
+                        className={`absolute top-0 left-0 h-full overflow-hidden transition-transform group-hover:scale-110 pointer-events-none ${isHalf ? "w-1/2" : "w-full"}`}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -332,13 +338,13 @@ export default function ReviewForm({
 
                     {/* Invisible clickable halves */}
                     <div className="absolute inset-0 flex">
-                      <div 
-                        className="w-1/2 h-full z-10" 
+                      <div
+                        className="w-1/2 h-full z-10"
                         onMouseEnter={() => setHoveredRating((star - 0.5) * 2)}
                         onClick={() => setRating((star - 0.5) * 2)}
                       />
-                      <div 
-                        className="w-1/2 h-full z-10" 
+                      <div
+                        className="w-1/2 h-full z-10"
                         onMouseEnter={() => setHoveredRating(star * 2)}
                         onClick={() => setRating(star * 2)}
                       />
