@@ -24,9 +24,9 @@
           },
           "rating": {
             "type": "integer",
-            "description": "Review score (1-10)",
+            "description": "Review score (1-5)",
             "minimum": 1,
-            "maximum": 10
+            "maximum": 5
           },
           "text": {
             "type": "string",
