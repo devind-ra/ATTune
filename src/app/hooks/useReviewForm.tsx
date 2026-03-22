@@ -68,7 +68,7 @@ export function useReviewForm({
     setArtist(getArtistName(album.artist));
     setAlbumImage(
       getImageUrl(album.image, "extralarge") ||
-      getImageUrl(album.image, "large"),
+        getImageUrl(album.image, "large"),
     );
     setIsSearchStep(false);
     setSearchQuery("");

@@ -11,7 +11,6 @@ export const getImageUrl = (
   preferredSize = "medium",
 ): string => {
   if (!imageArray || !Array.isArray(imageArray)) return "";
-  const img =
-    imageArray.find((i) => i.size === preferredSize) ?? imageArray[0];
+  const img = imageArray.find((i) => i.size === preferredSize) ?? imageArray[0];
   return img?.["#text"] ?? "";
 };
