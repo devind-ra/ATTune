@@ -24,7 +24,7 @@
           },
           "rating": {
             "type": "integer",
-            "description": "Review score (1-10)",
+            "description": "Review score mapping to 0.5 - 5.0 stars (1-10)",
             "minimum": 1,
             "maximum": 10
           },
