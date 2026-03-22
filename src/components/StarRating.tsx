@@ -1,3 +1,8 @@
+// StarRating component
+// Contains the following:
+// - Displays a star rating
+// - Allows user to rate an album using points from 0.5 to 5 stars
+
 "use client";
 
 import { useState } from "react";
@@ -35,9 +40,8 @@ export default function StarRating({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className={`w-8 h-8 text-zinc-300 dark:text-zinc-600 ${
-                interactive ? "transition-transform group-hover:scale-110" : ""
-              }`}
+              className={`w-8 h-8 text-zinc-300 dark:text-zinc-600 ${interactive ? "transition-transform group-hover:scale-110" : ""
+                }`}
             >
               <path
                 fillRule="evenodd"
@@ -48,11 +52,10 @@ export default function StarRating({
 
             {(isFull || isHalf) && (
               <div
-                className={`absolute top-0 left-0 h-full overflow-hidden pointer-events-none ${
-                  interactive
+                className={`absolute top-0 left-0 h-full overflow-hidden pointer-events-none ${interactive
                     ? "transition-transform group-hover:scale-110"
                     : ""
-                } ${isHalf ? "w-1/2" : "w-full"}`}
+                  } ${isHalf ? "w-1/2" : "w-full"}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

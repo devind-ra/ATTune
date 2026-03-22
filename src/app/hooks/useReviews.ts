@@ -1,3 +1,8 @@
+// useReviews Hooks
+// Contains the following:
+// - Hook to fetch reviews for a user
+// - Returns reviews sorted by date
+
 import { useState, useCallback, useEffect } from "react";
 import { atApiService, MusicReview } from "../../lib/atproto";
 
@@ -31,7 +36,7 @@ export function useReviews({
         const artistMatch =
           !filterArtist ||
           item.value.subjectArtist?.toLowerCase() ===
-            filterArtist.toLowerCase();
+          filterArtist.toLowerCase();
         return titleMatch && artistMatch;
       });
 

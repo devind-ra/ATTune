@@ -1,3 +1,8 @@
+// ReviewItem Component
+// Contains the following:
+// - Displays a single review
+// - Allows user to edit or delete a review
+
 "use client";
 
 import { useState } from "react";

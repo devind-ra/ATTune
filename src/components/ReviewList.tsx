@@ -2,7 +2,7 @@
 // Contains the following:
 // - Review list function to display reviews
 // - Utilises AT Protocol to retrieve reviews
-// - Handles CRUD actions for reviews
+// - Calls ReviewItem and StarRating components
 
 "use client";
 
