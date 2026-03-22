@@ -29,6 +29,7 @@ export default function ReviewList({
   const [loading, setLoading] = useState(true);
   const [editingUri, setEditingUri] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -47,7 +48,7 @@ export default function ReviewList({
           (item) =>
             item.value.subjectArtist &&
             item.value.subjectArtist.toLowerCase() ===
-              filterArtist.toLowerCase(),
+            filterArtist.toLowerCase(),
         );
       }
 
@@ -172,19 +173,36 @@ export default function ReviewList({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-                  Rating (1-10)
+                <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
+                  Rating ({editForm.rating || 1}/5)
                 </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  value={editForm.rating || 1}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, rating: Number(e.target.value) })
-                  }
-                  className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
-                />
+                <div className="flex gap-1" onMouseLeave={() => setHoveredRating(0)}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditForm({ ...editForm, rating: star })}
+                      onMouseEnter={() => setHoveredRating(star)}
+                      className={`p-1 transition-transform hover:scale-110 focus:outline-none focus:scale-110 ${star <= (hoveredRating || editForm.rating || 1)
+                        ? "text-yellow-400 dark:text-yellow-500"
+                        : "text-zinc-300 dark:text-zinc-600"
+                        }`}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-8 h-8"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
@@ -195,10 +213,11 @@ export default function ReviewList({
                   value={
                     editForm.listenedAt
                       ? new Date(editForm.listenedAt)
-                          .toISOString()
-                          .split("T")[0]
+                        .toISOString()
+                        .split("T")[0]
                       : ""
                   }
+                  max={new Date().toISOString().split("T")[0]}
                   onChange={(e) =>
                     setEditForm({
                       ...editForm,

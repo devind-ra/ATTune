@@ -31,6 +31,7 @@ export default function ReviewForm({
   const [artist, setArtist] = useState(initialArtist || "");
   const [albumImage, setAlbumImage] = useState(initialImage || "");
   const [rating, setRating] = useState(5);
+  const [hoveredRating, setHoveredRating] = useState(0);
   const [text, setText] = useState("");
   const [listenedAt, setListenedAt] = useState(
     () => new Date().toISOString().split("T")[0],
@@ -283,20 +284,36 @@ export default function ReviewForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-              Rating ({rating}/10)
+            <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
+              Rating ({rating}/5)
             </label>
-            <input
-              type="range"
-              min="1"
-              max="10"
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-              className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-sky-500"
-            />
-            <div className="flex justify-between text-xs text-zinc-500 mt-1">
-              <span>1</span>
-              <span>10</span>
+            <div className="flex gap-1" onMouseLeave={() => setHoveredRating(0)}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoveredRating(star)}
+                  className={`p-1 transition-transform hover:scale-110 focus:outline-none focus:scale-110 ${
+                    star <= (hoveredRating || rating)
+                      ? "text-yellow-400 dark:text-yellow-500"
+                      : "text-zinc-300 dark:text-zinc-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -320,6 +337,7 @@ export default function ReviewForm({
             <input
               type="date"
               value={listenedAt}
+              max={new Date().toISOString().split("T")[0]}
               onChange={(e) => setListenedAt(e.target.value)}
               className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all cursor-pointer"
             />
