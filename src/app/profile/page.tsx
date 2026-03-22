@@ -502,7 +502,7 @@ export default function ProfilePage() {
                     <div className="flex items-center space-x-1">
                       <span className="text-yellow-500">★</span>
                       <span className="font-bold text-zinc-900 dark:text-zinc-100">
-                        {item.value.rating}
+                        {item.value.rating / 2}
                       </span>
                     </div>
                   </div>
