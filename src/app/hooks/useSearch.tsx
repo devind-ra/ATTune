@@ -8,6 +8,8 @@ import {
   LastFMAlbum,
 } from "../../lib/lastfm";
 
+const MAX_RESULTS = 10;
+
 function parsePrimaryType(
   parsedArtists: LastFMArtist[],
   parsedAlbums: LastFMAlbum[],
@@ -33,7 +35,7 @@ function parsePrimaryType(
 
 function toArray<T>(result: T | T[] | null | undefined): T[] {
   if (!result) return [];
-  return Array.isArray(result) ? result.slice(0, 10) : [result];
+  return Array.isArray(result) ? result.slice(0, MAX_RESULTS) : [result];
 }
 
 export function useSearch(query: string | null) {
