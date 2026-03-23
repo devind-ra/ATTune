@@ -16,6 +16,7 @@ interface NavbarProps {
   initialSearchQuery?: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
   const router = useRouter();
   const { logout } = useAuth();
