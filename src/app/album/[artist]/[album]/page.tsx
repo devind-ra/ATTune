@@ -16,6 +16,7 @@ import { AlbumWiki } from "@/components/album/AlbumWiki";
 import { ReviewSection } from "@/components/album/ReviewSection";
 import { parseImage, parseReleaseDate, cleanWiki } from "@/lib/utils";
 
+// eslint-disable-next-line max-lines-per-function
 export default function AlbumPage() {
   const params = useParams();
   const artistName = decodeURIComponent((params.artist as string) ?? "");

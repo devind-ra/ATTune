@@ -16,7 +16,7 @@ interface ReviewItemProps {
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
 }
 
-// eslint-disable-next-line max-lines-per-function, complexity
+// eslint-disable-next-line max-lines-per-function
 export default function ReviewItem({
   item,
   onDelete,

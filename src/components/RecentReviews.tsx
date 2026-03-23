@@ -11,6 +11,7 @@ interface RecentReviewsProps {
   reviews: { uri: string; value: MusicReview }[];
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function RecentReviews({ reviews }: RecentReviewsProps) {
   if (reviews.length === 0) return null;
 

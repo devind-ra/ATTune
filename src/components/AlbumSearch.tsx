@@ -16,6 +16,7 @@ interface AlbumSearchProps {
   getImageUrl: (images: LastFMImage[] | undefined, size?: string) => string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 function SearchResults({
   searchQuery,
   searchResults,

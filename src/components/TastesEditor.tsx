@@ -38,6 +38,7 @@ const fetchGenreSuggestions = async (q: string): Promise<string[]> => {
     .map((t: LastFMTag) => t.name);
 };
 
+// eslint-disable-next-line max-lines-per-function
 export function TastesEditor({
   editArtists,
   editGenres,

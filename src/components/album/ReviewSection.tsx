@@ -17,6 +17,7 @@ interface Props {
   artistDisplayName: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function ReviewSection({
   albumName,
   artistName,
