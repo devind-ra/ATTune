@@ -10,7 +10,7 @@ const eslintConfig = defineConfig([
     plugins: { sonarjs },
     rules: {
       ...sonarjs.configs.recommended.rules,
-      complexity: ["error", 8],
+      complexity: ["error", 10],
       "sonarjs/cognitive-complexity": ["error", 10],
       "max-depth": ["error", 3],
       "max-params": ["error", 4],

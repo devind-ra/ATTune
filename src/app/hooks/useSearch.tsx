@@ -9,33 +9,56 @@ import {
 } from "../../lib/lastfm";
 
 const MAX_RESULTS = 10;
+const POPULARITY_THRESHOLD = 100000;
 
 function parsePrimaryType(
   parsedArtists: LastFMArtist[],
   parsedAlbums: LastFMAlbum[],
   query: string,
 ): "artist" | "album" {
-  const exactArtistMatch =
-    parsedArtists.length > 0 &&
-    parsedArtists[0].name.toLowerCase() === query.toLowerCase();
-  const exactAlbumMatch =
-    parsedAlbums.length > 0 &&
-    parsedAlbums[0].name.toLowerCase() === query.toLowerCase();
+  const q = query.toLowerCase();
+  const firstAlbum = parsedAlbums[0]?.name.toLowerCase();
+  const firstArtist = parsedArtists[0]?.name.toLowerCase();
 
-  if (exactAlbumMatch && !exactArtistMatch) return "album";
-  if (exactArtistMatch && !exactAlbumMatch) return "artist";
+  const isArtistMatch = firstArtist === q;
+  const isAlbumMatch = firstAlbum === q;
 
-  const artistPopularity =
-    parsedArtists.length > 0 && parsedArtists[0].listeners
-      ? parseInt(parsedArtists[0].listeners, 10)
-      : 0;
+  if (isAlbumMatch && !isArtistMatch) return "album";
+  if (isArtistMatch && !isAlbumMatch) return "artist";
 
-  return artistPopularity > 100000 ? "artist" : "album";
+  const listeners = parseInt(parsedArtists[0]?.listeners ?? "0", 10);
+  return listeners > POPULARITY_THRESHOLD ? "artist" : "album";
 }
 
 function toArray<T>(result: T | T[] | null | undefined): T[] {
   if (!result) return [];
   return Array.isArray(result) ? result.slice(0, MAX_RESULTS) : [result];
+}
+
+interface FetchOptions {
+  onStart: () => void;
+  onSuccess: (artists: LastFMArtist[], albums: LastFMAlbum[]) => void;
+  onError: (error: Error) => void;
+  onDone: () => void;
+}
+
+async function fetchResults(query: string, options: FetchOptions) {
+  options.onStart();
+  try {
+    const [artistResults, albumResults] = await Promise.all([
+      searchArtist(query),
+      searchAlbum(query),
+    ]);
+
+    const parsedArtists = toArray(artistResults);
+    const parsedAlbums = toArray(albumResults);
+
+    options.onSuccess(parsedArtists, parsedAlbums);
+  } catch (error) {
+    options.onError(error as Error);
+  } finally {
+    options.onDone();
+  }
 }
 
 export function useSearch(query: string | null) {
@@ -57,30 +80,16 @@ export function useSearch(query: string | null) {
   useEffect(() => {
     if (!query) return;
 
-    const fetchResults = async () => {
-      setIsSearching(true);
-      try {
-        const [artistResults, albumResults] = await Promise.all([
-          searchArtist(query),
-          searchAlbum(query),
-        ]);
-
-        const parsedArtists = toArray(artistResults);
-        const parsedAlbums = toArray(albumResults);
-
-        setArtists(parsedArtists);
-        setAlbums(parsedAlbums);
-        setPrimaryResultType(
-          parsePrimaryType(parsedArtists, parsedAlbums, query),
-        );
-      } catch (error) {
-        console.error("Search failed:", error);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-
-    fetchResults();
+    fetchResults(query, {
+      onStart: () => setIsSearching(true),
+      onSuccess: (a, b) => {
+        setArtists(a);
+        setAlbums(b);
+        setPrimaryResultType(parsePrimaryType(a, b, query));
+      },
+      onError: (err) => console.error("Search failed:", err),
+      onDone: () => setIsSearching(false),
+    });
   }, [query]);
 
   return {
