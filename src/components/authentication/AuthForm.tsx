@@ -15,6 +15,7 @@ interface AuthFormProps {
   onLogin: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export default function AuthForm({ onLogin }: AuthFormProps) {
   const {
     identifier,
