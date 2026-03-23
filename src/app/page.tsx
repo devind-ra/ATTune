@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import AuthForm from "../components/AuthForm";
+import AuthForm from "../components/authentication/AuthForm";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {

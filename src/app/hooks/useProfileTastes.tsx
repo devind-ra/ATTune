@@ -20,7 +20,7 @@ function hasDuplicates(arr: string[]): boolean {
   return new Set(arr).size !== arr.length;
 }
 
-//eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function
 export function useProfileTastes(did: string | undefined) {
   const [tastes, setTastes] = useState<UserTastes | null>(null);
   const [isEditingTastes, setIsEditingTastes] = useState(false);
