@@ -4,6 +4,17 @@
 
 import { LastFMImage } from "./lastfm";
 
+export function shuffle<T>(arr: T[]): T[] {
+  const array = [...arr];
+  for (let i = array.length - 1; i > 0; i--) {
+    const randomBuffer = new Uint32Array(1);
+    crypto.getRandomValues(randomBuffer);
+    const j = randomBuffer[0]! % (i + 1);
+    [array[i], array[j]] = [array[j]!, array[i]!];
+  }
+  return array;
+}
+
 export function parseImage(images: LastFMImage[] | undefined) {
   return (
     images?.find((i) => i.size === "extralarge") ??
