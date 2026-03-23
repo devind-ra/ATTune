@@ -4,10 +4,11 @@
 // - Handles review submission
 // - Handles album search and selection
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { atApiService } from "../../lib/atproto";
-import { searchAlbum, LastFMAlbum } from "../../lib/lastfm";
+import { LastFMAlbum } from "../../lib/lastfm";
 import { getArtistName, getImageUrl } from "~/lib/utils";
+import { useAlbumSearch } from "./useAlbumSearch";
 
 interface UseReviewFormProps {
   initialTitle?: string;
@@ -16,50 +17,36 @@ interface UseReviewFormProps {
   onReviewCreated: () => void;
 }
 
+const todayISO = () => new Date().toISOString().split("T")[0];
+
+// eslint-disable-next-line max-lines-per-function
 export function useReviewForm({
   initialTitle,
   initialArtist,
   initialImage,
   onReviewCreated,
 }: UseReviewFormProps) {
-  const [title, setTitle] = useState(initialTitle || "");
-  const [artist, setArtist] = useState(initialArtist || "");
-  const [albumImage, setAlbumImage] = useState(initialImage || "");
+  const [title, setTitle] = useState(initialTitle ?? "");
+  const [artist, setArtist] = useState(initialArtist ?? "");
+  const [albumImage, setAlbumImage] = useState(initialImage ?? "");
   const [rating, setRating] = useState(10);
   const [text, setText] = useState("");
-  const [listenedAt, setListenedAt] = useState(
-    () => new Date().toISOString().split("T")[0],
-  );
+  const [listenedAt, setListenedAt] = useState(todayISO);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSearchStep, setIsSearchStep] = useState(!initialTitle);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<LastFMAlbum[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (searchQuery.trim().length > 2) {
-        setIsSearching(true);
-        try {
-          const results = await searchAlbum(searchQuery);
-          setSearchResults(Array.isArray(results) ? results.slice(0, 5) : []);
-        } catch (err) {
-          console.error("Search failed:", err);
-        } finally {
-          setIsSearching(false);
-        }
-      } else {
-        setSearchResults([]);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    isSearching,
+    clearSearch,
+  } = useAlbumSearch();
 
   const resetReviewFields = () => {
     setRating(10);
     setText("");
-    setListenedAt(new Date().toISOString().split("T")[0]);
+    setListenedAt(todayISO());
     setError("");
   };
 
@@ -68,11 +55,10 @@ export function useReviewForm({
     setArtist(getArtistName(album.artist));
     setAlbumImage(
       getImageUrl(album.image, "extralarge") ||
-        getImageUrl(album.image, "large"),
+      getImageUrl(album.image, "large"),
     );
     setIsSearchStep(false);
-    setSearchQuery("");
-    setSearchResults([]);
+    clearSearch();
   };
 
   const handleBackToSearch = () => {
@@ -103,7 +89,6 @@ export function useReviewForm({
       }
       onReviewCreated();
     } catch (err: unknown) {
-      console.error("Failed to create review", err);
       setError(err instanceof Error ? err.message : "Failed to create review");
     } finally {
       setLoading(false);
@@ -130,6 +115,5 @@ export function useReviewForm({
     handleSelectAlbum,
     handleBackToSearch,
     handleSubmit,
-    getImageUrl,
   };
 }

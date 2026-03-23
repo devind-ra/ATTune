@@ -4,8 +4,8 @@
 // - Displays album search results and buttons associated with selection
 
 import Image from "next/image";
-import { LastFMAlbum, LastFMImage } from "../lib/lastfm";
-import { getArtistName } from "~/lib/utils";
+import { LastFMAlbum } from "../lib/lastfm";
+import { getArtistName, getImageUrl } from "@/lib/utils";
 
 interface AlbumSearchProps {
   searchQuery: string;
@@ -13,7 +13,6 @@ interface AlbumSearchProps {
   searchResults: LastFMAlbum[];
   isSearching: boolean;
   onSelectAlbum: (album: LastFMAlbum) => void;
-  getImageUrl: (images: LastFMImage[] | undefined, size?: string) => string;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -22,7 +21,6 @@ function SearchResults({
   searchResults,
   isSearching,
   onSelectAlbum,
-  getImageUrl,
 }: Omit<AlbumSearchProps, "onSearchChange">) {
   if (isSearching) {
     return (

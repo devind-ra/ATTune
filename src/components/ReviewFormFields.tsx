@@ -24,6 +24,7 @@ interface ReviewFormFieldsProps {
   onBackToSearch: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function ReviewFormFields({
   title,
   artist,

@@ -52,7 +52,6 @@ export default function ReviewForm({
           searchResults={form.searchResults}
           isSearching={form.isSearching}
           onSelectAlbum={form.handleSelectAlbum}
-          getImageUrl={form.getImageUrl}
         />
       ) : (
         <form onSubmit={form.handleSubmit} className="space-y-6">
