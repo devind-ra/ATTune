@@ -4,7 +4,7 @@
 // - Calls to useAutocomplete hook for logic
 // - Calls to SuggestionList for displaying suggestions
 
-import { useAutocomplete } from "../app/hooks/useAutocomplete";
+import { useAutocomplete } from "@/app/hooks/useAutocomplete";
 import { SuggestionList } from "./SuggestionList";
 
 interface AutocompleteInputProps {

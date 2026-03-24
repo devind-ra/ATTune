@@ -5,7 +5,7 @@
 // - Calls to Link for linking to artist/album pages
 
 import Link from "next/link";
-import { MusicReview } from "../lib/atproto";
+import { MusicReview } from "@/lib/atproto";
 
 interface RecentReviewsProps {
   reviews: { uri: string; value: MusicReview }[];

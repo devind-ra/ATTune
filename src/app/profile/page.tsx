@@ -7,10 +7,10 @@
 
 "use client";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { TastesPanel } from "@/components/profile/TastesPanel";
-import { RecentReviews } from "@/components/RecentReviews";
+import { RecentReviews } from "@/components/review/RecentReviews";
 import { useProfilePage } from "@/app/hooks/useProfilePage";
 
 export default function ProfilePage() {

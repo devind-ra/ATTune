@@ -4,7 +4,7 @@
 // - Calls to Link for linking to artist/album pages
 
 import Link from "next/link";
-import { UserTastes } from "../lib/atproto";
+import { UserTastes } from "@/lib/atproto";
 
 export function TastesViewer({ tastes }: { tastes: UserTastes | null }) {
   return (

@@ -6,7 +6,7 @@
 
 "use client";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { ArtistList } from "@/components/ArtistList";
 import { AlbumList } from "@/components/AlbumList";
 import { SectionFilter } from "@/components/SectionFilter";

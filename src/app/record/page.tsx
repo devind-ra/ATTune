@@ -6,10 +6,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../contexts/AuthContext";
-import ReviewList from "../../components/ReviewList";
-import ReviewForm from "../../components/ReviewForm";
-import Navbar from "../../components/Navbar";
+import { useAuth } from "@/contexts/AuthContext";
+import ReviewList from "@/components/review/ReviewList";
+import ReviewForm from "@/components/review/ReviewForm";
+import Navbar from "@/components/navbar/Navbar";
 
 export default function RecordPage() {
   const { session, isLoading } = useAuth();

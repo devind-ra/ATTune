@@ -9,9 +9,9 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import Navbar from "../../components/Navbar";
-import { useSearch } from "../hooks/useSearch";
-import { SearchResultSections } from "../../components/SearchResultSections";
+import Navbar from "@/components/navbar/Navbar";
+import { useSearch } from "@/app/hooks/useSearch";
+import { SearchResultSections } from "@/components/SearchResultSections";
 
 function SearchResults() {
   const searchParams = useSearchParams();

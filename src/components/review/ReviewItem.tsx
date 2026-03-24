@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MusicReview } from "../lib/atproto";
+import { MusicReview } from "@/lib/atproto";
 import StarRating from "./StarRating";
 
 interface ReviewItemProps {

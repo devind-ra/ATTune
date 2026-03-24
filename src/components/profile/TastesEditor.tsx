@@ -10,7 +10,7 @@ import {
   LastFMTag,
   getTopTags,
   searchArtist,
-} from "../lib/lastfm";
+} from "@/lib/lastfm";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface TastesEditorProps {

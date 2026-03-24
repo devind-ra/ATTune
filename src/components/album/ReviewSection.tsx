@@ -4,8 +4,8 @@
 // - Review list for displaying user reviews
 
 import { useState } from "react";
-import ReviewForm from "../ReviewForm";
-import ReviewList from "../ReviewList";
+import ReviewForm from "../review/ReviewForm";
+import ReviewList from "../review/ReviewList";
 import { useAuth } from "@/contexts/AuthContext";
 import { LastFMImage } from "@/lib/lastfm";
 

@@ -6,9 +6,9 @@
 
 "use client";
 
-import { useReviews, UseReviewsProps } from "../app/hooks/useReviews";
+import { useReviews, UseReviewsProps } from "@/app/hooks/useReviews";
 import ReviewItem from "./ReviewItem";
-import { atApiService, MusicReview } from "../lib/atproto";
+import { atApiService, MusicReview } from "@/lib/atproto";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ReviewList(props: UseReviewsProps) {

@@ -3,9 +3,9 @@
 // - Receives search results from useSearch hook
 // - Displays search results in a structured format
 
-import { LastFMArtist, LastFMAlbum } from "../lib/lastfm";
+import { LastFMArtist, LastFMAlbum } from "@/lib/lastfm";
 import { ArtistList } from "./ArtistList";
-import { AlbumList } from "./AlbumList";
+import { AlbumList } from "~/components/AlbumList";
 
 interface SearchResultSectionsProps {
   artists: LastFMArtist[];

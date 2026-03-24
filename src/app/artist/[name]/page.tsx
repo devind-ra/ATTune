@@ -1,10 +1,11 @@
 // Artist Page
 // Contains the following:
 // - Calls for ArtistHeader, TopTracks, AlbumGrid components
+
 "use client";
 
 import { useParams } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { ArtistHeader } from "@/components/artist/ArtistHeader";
 import { TopTracksList } from "@/components/artist/TopTracksList";
 import { AlbumGrid } from "@/components/artist/AlbumGrid";

@@ -4,7 +4,7 @@
 // - Displays list of artists with artist name
 
 import Link from "next/link";
-import { LastFMArtist } from "../lib/lastfm";
+import { LastFMArtist } from "@/lib/lastfm";
 
 interface ArtistListProps {
   artists: LastFMArtist[];

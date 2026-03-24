@@ -5,8 +5,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { LastFMAlbum } from "../lib/lastfm";
-import { getArtistName } from "../lib/utils";
+import { LastFMAlbum } from "@/lib/lastfm";
+import { getArtistName } from "@/lib/utils";
 
 interface AlbumListProps {
   albums: LastFMAlbum[];

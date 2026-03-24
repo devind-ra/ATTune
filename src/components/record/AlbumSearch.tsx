@@ -4,7 +4,7 @@
 // - Displays album search results and buttons associated with selection
 
 import Image from "next/image";
-import { LastFMAlbum } from "../lib/lastfm";
+import { LastFMAlbum } from "@/lib/lastfm";
 import { getArtistName, getImageUrl } from "@/lib/utils";
 
 interface AlbumSearchProps {

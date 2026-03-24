@@ -4,8 +4,8 @@
 // - Calls to TastesViewer for viewing tastes
 // - Handles editing and saving tastes
 
-import { TastesEditor } from "../TastesEditor";
-import { TastesViewer } from "../TastesViewer";
+import { TastesEditor } from "./TastesEditor";
+import { TastesViewer } from "./TastesViewer";
 import { UserTastes } from "@/lib/atproto";
 
 interface Props {

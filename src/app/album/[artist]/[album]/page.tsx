@@ -7,7 +7,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlbumPage } from "@/app/hooks/useAlbumPage";
 import { AlbumHeader } from "@/components/album/AlbumHeader";

@@ -5,8 +5,8 @@
 // - Calls ReviewFormActions component to display cancel and post review buttons
 
 import StarRating from "./StarRating";
-import { AlbumPreview } from "./record/AlbumPreview";
-import { ReviewFormActions } from "./record/ReviewFormActions";
+import { AlbumPreview } from "../record/AlbumPreview";
+import { ReviewFormActions } from "../record/ReviewFormActions";
 
 interface ReviewFormFieldsProps {
   title: string;

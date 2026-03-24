@@ -7,8 +7,8 @@
 
 "use client";
 
-import { useReviewForm } from "../app/hooks/useReviewForm";
-import { AlbumSearch } from "./AlbumSearch";
+import { useReviewForm } from "@/app/hooks/useReviewForm";
+import { AlbumSearch } from "../record/AlbumSearch";
 import { ReviewFormFields } from "./ReviewFormFields";
 
 interface ReviewFormProps {

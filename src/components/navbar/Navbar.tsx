@@ -8,9 +8,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../contexts/AuthContext";
-import { NavSearchForm } from "./navbar/NavSearchForm";
-import { NavActions } from "./navbar/NavActions";
+import { useAuth } from "../../contexts/AuthContext";
+import { NavSearchForm } from "./NavSearchForm";
+import { NavActions } from "./NavActions";
 
 interface NavbarProps {
   initialSearchQuery?: string;
