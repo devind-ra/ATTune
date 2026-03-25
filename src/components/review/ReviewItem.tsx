@@ -154,14 +154,15 @@ export default function ReviewItem({
                   {item.value.subjectTitle}
                 </h4>
               </Link>
-              <Link
-                href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
-                className="hover:underline decoration-zinc-400 dark:decoration-zinc-500 inline-block mt-0.5"
-              >
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  by {item.value.subjectArtist}
-                </p>
-              </Link>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                by{" "}
+                <Link
+                  href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
+                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                >
+                  {item.value.subjectArtist}
+                </Link>
+              </p>
             </div>
             <div className="flex flex-col items-end gap-2">
               <div className="flex items-center space-x-1">

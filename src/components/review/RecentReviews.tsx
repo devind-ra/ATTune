@@ -28,9 +28,14 @@ export function RecentReviews({ reviews }: RecentReviewsProps) {
           >
             <div className="flex justify-between items-start mb-2">
               <div>
-                <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
-                  {item.value.subjectTitle}
-                </h4>
+                <Link
+                  href={`/album/${encodeURIComponent(item.value.subjectArtist)}/${encodeURIComponent(item.value.subjectTitle)}`}
+                  className="hover:underline decoration-zinc-400 dark:decoration-zinc-500"
+                >
+                  <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                    {item.value.subjectTitle}
+                  </h4>
+                </Link>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
                   by{" "}
                   <Link
