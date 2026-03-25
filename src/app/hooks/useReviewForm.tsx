@@ -29,7 +29,7 @@ export function useReviewForm({
   const [title, setTitle] = useState(initialTitle ?? "");
   const [artist, setArtist] = useState(initialArtist ?? "");
   const [albumImage, setAlbumImage] = useState(initialImage ?? "");
-  const [rating, setRating] = useState(10);
+  const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
   const [listenedAt, setListenedAt] = useState(todayISO);
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ export function useReviewForm({
   } = useAlbumSearch();
 
   const resetReviewFields = () => {
-    setRating(10);
+    setRating(0);
     setText("");
     setListenedAt(todayISO());
     setError("");
