@@ -8,6 +8,7 @@ import { BskyAgent, AtpSessionData } from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 export const PROFILE_COLLECTION = "app.attune.music.profile";
+export const ERROR_NOT_LOGGED_IN = "Not logged in";
 
 export type AuthSession = AtpSessionData;
 
@@ -60,7 +61,7 @@ export class AtProtoService {
 
   async createReview(review: Omit<MusicReview, "createdAt">) {
     if (!this.agent.session) {
-      throw new Error("Not logged in");
+      throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
     const record = {
@@ -82,7 +83,7 @@ export class AtProtoService {
     createdAt: string,
   ) {
     if (!this.agent.session) {
-      throw new Error("Not logged in");
+      throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
     const rkey = uri.split("/").pop() || uri;
@@ -104,7 +105,7 @@ export class AtProtoService {
 
   async deleteReview(uri: string) {
     if (!this.agent.session) {
-      throw new Error("Not logged in");
+      throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
     const rkey = uri.split("/").pop() || uri;
@@ -115,21 +116,6 @@ export class AtProtoService {
       rkey: rkey,
     });
   }
-
-  // async getReviewByRKey(did: string, rkey: string) : Promise<ReviewRecord> {
-  //     const response = await this.agent.com.atproto.repo.getRecord({
-  //         repo: did,
-  //         collection: REVIEW_COLLECTION,
-  //         rkey: rkey,
-  //     });
-
-  //     return {
-  //         uri: response.data.uri,
-  //         cid: response.data.cid,
-  //         value: response.data.value as unknown as MusicReview,
-  //         author: did,
-  //     }
-  // }
 
   async getReviews(did: string) {
     const response = await this.agent.com.atproto.repo.listRecords({
@@ -169,7 +155,7 @@ export class AtProtoService {
 
   async updateTastes(tastes: Omit<UserTastes, "updatedAt">) {
     if (!this.agent.session) {
-      throw new Error("Not logged in");
+      throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
     const record = {

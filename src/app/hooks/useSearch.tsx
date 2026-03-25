@@ -1,0 +1,103 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../contexts/AuthContext";
+import {
+  searchArtist,
+  searchAlbum,
+  LastFMArtist,
+  LastFMAlbum,
+} from "../../lib/lastfm";
+
+const MAX_RESULTS = 10;
+const POPULARITY_THRESHOLD = 100000;
+
+function parsePrimaryType(
+  parsedArtists: LastFMArtist[],
+  parsedAlbums: LastFMAlbum[],
+  query: string,
+): "artist" | "album" {
+  const q = query.toLowerCase();
+  const firstAlbum = parsedAlbums[0]?.name.toLowerCase();
+  const firstArtist = parsedArtists[0]?.name.toLowerCase();
+
+  const isArtistMatch = firstArtist === q;
+  const isAlbumMatch = firstAlbum === q;
+
+  if (isAlbumMatch && !isArtistMatch) return "album";
+  if (isArtistMatch && !isAlbumMatch) return "artist";
+
+  const listeners = parseInt(parsedArtists[0]?.listeners ?? "0", 10);
+  return listeners > POPULARITY_THRESHOLD ? "artist" : "album";
+}
+
+function toArray<T>(result: T | T[] | null | undefined): T[] {
+  if (!result) return [];
+  return Array.isArray(result) ? result.slice(0, MAX_RESULTS) : [result];
+}
+
+interface FetchOptions {
+  onStart: () => void;
+  onSuccess: (artists: LastFMArtist[], albums: LastFMAlbum[]) => void;
+  onError: (error: Error) => void;
+  onDone: () => void;
+}
+
+async function fetchResults(query: string, options: FetchOptions) {
+  options.onStart();
+  try {
+    const [artistResults, albumResults] = await Promise.all([
+      searchArtist(query),
+      searchAlbum(query),
+    ]);
+
+    const parsedArtists = toArray(artistResults);
+    const parsedAlbums = toArray(albumResults);
+
+    options.onSuccess(parsedArtists, parsedAlbums);
+  } catch (error) {
+    options.onError(error as Error);
+  } finally {
+    options.onDone();
+  }
+}
+
+export function useSearch(query: string | null) {
+  const router = useRouter();
+  const { session, isLoading: authLoading } = useAuth();
+  const [artists, setArtists] = useState<LastFMArtist[]>([]);
+  const [albums, setAlbums] = useState<LastFMAlbum[]>([]);
+  const [primaryResultType, setPrimaryResultType] = useState<
+    "artist" | "album"
+  >("artist");
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !session) {
+      router.push("/");
+    }
+  }, [session, authLoading, router]);
+
+  useEffect(() => {
+    if (!query) return;
+
+    fetchResults(query, {
+      onStart: () => setIsSearching(true),
+      onSuccess: (a, b) => {
+        setArtists(a);
+        setAlbums(b);
+        setPrimaryResultType(parsePrimaryType(a, b, query));
+      },
+      onError: (err) => console.error("Search failed:", err),
+      onDone: () => setIsSearching(false),
+    });
+  }, [query]);
+
+  return {
+    artists,
+    albums,
+    primaryResultType,
+    isSearching,
+    session,
+    authLoading,
+  };
+}

@@ -6,6 +6,7 @@
 "use server";
 
 const API_KEY = process.env.LASTFM_API_KEY;
+// eslint-disable-next-line sonarjs/no-clear-text-protocols
 const BASE_URL = "http://ws.audioscrobbler.com/2.0/";
 
 export interface LastFMImage {
