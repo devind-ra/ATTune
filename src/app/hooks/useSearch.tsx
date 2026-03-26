@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   searchArtist,
   searchAlbum,
   LastFMArtist,
   LastFMAlbum,
-} from "../../lib/lastfm";
+} from "@/lib/lastfm";
 
 const MAX_RESULTS = 10;
 const POPULARITY_THRESHOLD = 100000;
