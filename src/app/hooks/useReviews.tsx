@@ -36,7 +36,7 @@ export function useReviews({
         const artistMatch =
           !filterArtist ||
           item.value.subjectArtist?.toLowerCase() ===
-          filterArtist.toLowerCase();
+            filterArtist.toLowerCase();
         return titleMatch && artistMatch;
       });
 

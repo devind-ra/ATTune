@@ -23,7 +23,11 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}", "**/__tests__/**/*"],
+    files: [
+      "**/*.test.{js,jsx,ts,tsx}",
+      "**/*.spec.{js,jsx,ts,tsx}",
+      "**/__tests__/**/*",
+    ],
     rules: {
       "max-lines-per-function": "off",
       "max-lines": "off",
