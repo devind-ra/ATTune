@@ -22,11 +22,12 @@ export function useAuthForm(onLogin: () => void) {
       login(sessionData);
       onLogin();
     } catch (err: unknown) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Login failed. Please check your credentials.",
-      );
+      const message =
+        err && typeof err === "object" && "message" in err
+          ? String(err.message)
+          : "Login failed. Please check your credentials.";
+
+      setError(message);
     } finally {
       setLoading(false);
     }

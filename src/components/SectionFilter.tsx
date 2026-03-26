@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { ALL_SECTIONS, SectionId } from "@/lib/sections";
-import { useClickOutside } from "~/app/hooks/useClickOutside";
+import { useClickOutside } from "@/app/hooks/useClickOutside";
 
 interface Props {
   visibleSections: Set<SectionId>;

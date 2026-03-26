@@ -5,7 +5,7 @@
 
 import { LastFMArtist, LastFMAlbum } from "@/lib/lastfm";
 import { ArtistList } from "./ArtistList";
-import { AlbumList } from "~/components/AlbumList";
+import { AlbumList } from "@/components/AlbumList";
 
 interface SearchResultSectionsProps {
   artists: LastFMArtist[];

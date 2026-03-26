@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { atApiService } from "../../lib/atproto";
 import { LastFMAlbum } from "../../lib/lastfm";
-import { getArtistName, getImageUrl } from "~/lib/utils";
+import { getArtistName, getImageUrl } from "@/lib/utils";
 import { useAlbumSearch } from "./useAlbumSearch";
 
 interface UseReviewFormProps {

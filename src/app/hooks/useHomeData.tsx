@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import { atApiService } from "~/lib/atproto";
+import { atApiService } from "@/lib/atproto";
 import {
   getSimilarArtists,
   getTopAlbumsByTag,

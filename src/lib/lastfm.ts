@@ -5,7 +5,6 @@
 
 "use server";
 
-const API_KEY = process.env.LASTFM_API_KEY;
 // eslint-disable-next-line sonarjs/no-clear-text-protocols
 const BASE_URL = "http://ws.audioscrobbler.com/2.0/";
 
@@ -83,19 +82,20 @@ async function fetchLastFM(
   method: string,
   params: Record<string, string> = {},
 ) {
-  if (!API_KEY) {
-    throw new Error("Missing LASTFM_API_KEY in environment variables");
-  }
-
-  const queryParams = new URLSearchParams({
-    method,
-    api_key: API_KEY,
-    format: "json",
-    ...params,
-  });
-  const url = `${BASE_URL}?${queryParams.toString()}`;
-
   try {
+    const API_KEY = process.env.LASTFM_API_KEY;
+    if (!API_KEY) {
+      throw new Error("Missing LASTFM_API_KEY in environment variables");
+    }
+
+    const queryParams = new URLSearchParams({
+      method,
+      api_key: API_KEY,
+      format: "json",
+      ...params,
+    });
+    const url = `${BASE_URL}?${queryParams.toString()}`;
+
     const response = await fetch(url, {
       next: { revalidate: 60 * 60 },
     });
