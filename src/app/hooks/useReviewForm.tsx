@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { atApiService } from "../../lib/atproto";
 import { LastFMAlbum } from "../../lib/lastfm";
-import { getArtistName, getImageUrl } from "~/lib/utils";
+import { getArtistName, getImageUrl } from "@/lib/utils";
 import { useAlbumSearch } from "./useAlbumSearch";
 
 interface UseReviewFormProps {
@@ -55,7 +55,7 @@ export function useReviewForm({
     setArtist(getArtistName(album.artist));
     setAlbumImage(
       getImageUrl(album.image, "extralarge") ||
-        getImageUrl(album.image, "large"),
+      getImageUrl(album.image, "large"),
     );
     setIsSearchStep(false);
     clearSearch();

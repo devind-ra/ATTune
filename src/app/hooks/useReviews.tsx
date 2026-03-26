@@ -4,7 +4,7 @@
 // - Returns reviews sorted by date
 
 import { useState, useCallback, useEffect } from "react";
-import { atApiService, MusicReview } from "../../lib/atproto";
+import { atApiService, MusicReview } from "@/lib/atproto";
 
 export interface UseReviewsProps {
   did: string;
@@ -36,7 +36,7 @@ export function useReviews({
         const artistMatch =
           !filterArtist ||
           item.value.subjectArtist?.toLowerCase() ===
-            filterArtist.toLowerCase();
+          filterArtist.toLowerCase();
         return titleMatch && artistMatch;
       });
 

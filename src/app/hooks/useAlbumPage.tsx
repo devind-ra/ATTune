@@ -8,7 +8,7 @@ import {
   getAlbumTopTags,
   LastFMAlbumInfo,
   LastFMTag,
-} from "../../lib/lastfm";
+} from "@/lib/lastfm";
 
 export function useAlbumPage(artistName: string, albumName: string) {
   const [albumInfo, setAlbumInfo] = useState<LastFMAlbumInfo>();

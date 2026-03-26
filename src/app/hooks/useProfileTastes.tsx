@@ -5,7 +5,7 @@
 // - Validates user tastes
 
 import { useState, useEffect, useMemo } from "react";
-import { atApiService, UserTastes } from "../../lib/atproto";
+import { atApiService, UserTastes } from "@/lib/atproto";
 
 const ARTIST_COUNT = 5;
 const GENRE_COUNT = 3;

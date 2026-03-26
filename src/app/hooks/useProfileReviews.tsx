@@ -4,7 +4,7 @@
 // - Calculates this year's review count
 
 import { useState, useEffect } from "react";
-import { atApiService, MusicReview } from "../../lib/atproto";
+import { atApiService, MusicReview } from "@/lib/atproto";
 
 function getReviewDate(r: { value: MusicReview }) {
   return new Date(r.value.listenedAt || r.value.createdAt);

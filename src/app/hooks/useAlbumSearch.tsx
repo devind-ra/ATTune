@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { searchAlbum, LastFMAlbum } from "../../lib/lastfm";
+import { searchAlbum, LastFMAlbum } from "@/lib/lastfm";
 
 export function useAlbumSearch() {
   const [searchQuery, setSearchQuery] = useState("");
