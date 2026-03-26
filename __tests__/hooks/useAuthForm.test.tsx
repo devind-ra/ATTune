@@ -3,111 +3,116 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useAuthForm } from "@/app/hooks/useAuthForm";
 import { atApiService } from "@/lib/atproto";
 
+type LoginResponse = Awaited<ReturnType<typeof atApiService.login>>;
+
 vi.mock("@/lib/atproto", () => ({
-    atApiService: {
-        login: vi.fn(),
-    },
+  atApiService: {
+    login: vi.fn(),
+  },
 }));
 
 const contextLoginMock = vi.fn();
 vi.mock("@/contexts/AuthContext", () => ({
-    useAuth: () => ({
-        login: contextLoginMock,
-    }),
+  useAuth: () => ({
+    login: contextLoginMock,
+  }),
 }));
 
 describe("useAuthForm hook", () => {
-    const loginMock = vi.fn();
+  const loginMock = vi.fn();
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should initialise with default states", () => {
+    const { result } = renderHook(() => useAuthForm(loginMock));
+
+    expect(result.current.identifier).toBe("");
+    expect(result.current.password).toBe("");
+    expect(result.current.error).toBe("");
+    expect(result.current.loading).toBe(false);
+  });
+
+  it("should allow updating identifier and password", () => {
+    const { result } = renderHook(() => useAuthForm(loginMock));
+
+    act(() => {
+      result.current.setIdentifier("test_user");
+      result.current.setPassword("secure_password");
     });
 
-    it("should initialise with default states", () => {
-        const { result } = renderHook(() => useAuthForm(loginMock));
+    expect(result.current.identifier).toBe("test_user");
+    expect(result.current.password).toBe("secure_password");
+  });
 
-        expect(result.current.identifier).toBe("");
-        expect(result.current.password).toBe("");
-        expect(result.current.error).toBe("");
-        expect(result.current.loading).toBe(false);
+  it("should handle successful login flow", async () => {
+    const sessionDataMock = {
+      accessJwt: "12345",
+      handle: "test_user",
+    } as LoginResponse;
+    vi.mocked(atApiService.login).mockResolvedValueOnce(sessionDataMock);
+
+    const { result } = renderHook(() => useAuthForm(loginMock));
+
+    act(() => {
+      result.current.setIdentifier("test_user");
+      result.current.setPassword("secure_password");
     });
 
-    it("should allow updating identifier and password", () => {
-        const { result } = renderHook(() => useAuthForm(loginMock));
+    const eventMock = {
+      preventDefault: vi.fn(),
+    } as unknown as React.FormEvent;
 
-        act(() => {
-            result.current.setIdentifier("test_user");
-            result.current.setPassword("secure_password");
-        });
-
-        expect(result.current.identifier).toBe("test_user");
-        expect(result.current.password).toBe("secure_password");
+    await act(async () => {
+      await result.current.handleLogin(eventMock);
     });
 
-    it("should handle successful login flow", async () => {
-        const sessionDataMock = { accessJwt: "12345", handle: "test_user" };
-        vi.mocked(atApiService.login).mockResolvedValueOnce(sessionDataMock as any);
+    expect(eventMock.preventDefault).toHaveBeenCalled();
+    expect(atApiService.login).toHaveBeenCalledWith(
+      "test_user",
+      "secure_password",
+    );
+    expect(contextLoginMock).toHaveBeenCalledWith(sessionDataMock);
+    expect(loginMock).toHaveBeenCalled();
+    expect(result.current.error).toBe("");
+    expect(result.current.loading).toBe(false);
+  });
 
-        const { result } = renderHook(() => useAuthForm(loginMock));
+  it("should handle failed login flow correctly", async () => {
+    const testError = new Error("Invalid credentials");
+    vi.mocked(atApiService.login).mockRejectedValueOnce(testError);
 
-        act(() => {
-            result.current.setIdentifier("test_user");
-            result.current.setPassword("secure_password");
-        });
+    const { result } = renderHook(() => useAuthForm(loginMock));
 
-        const eventMock = {
-            preventDefault: vi.fn(),
-        } as unknown as React.FormEvent;
+    const eventMock = {
+      preventDefault: vi.fn(),
+    } as unknown as React.FormEvent;
 
-        await act(async () => {
-            await result.current.handleLogin(eventMock);
-        });
-
-        expect(eventMock.preventDefault).toHaveBeenCalled();
-        expect(atApiService.login).toHaveBeenCalledWith(
-            "test_user",
-            "secure_password",
-        );
-        expect(contextLoginMock).toHaveBeenCalledWith(sessionDataMock);
-        expect(loginMock).toHaveBeenCalled();
-        expect(result.current.error).toBe("");
-        expect(result.current.loading).toBe(false);
+    await act(async () => {
+      await result.current.handleLogin(eventMock);
     });
 
-    it("should handle failed login flow correctly", async () => {
-        const testError = new Error("Invalid credentials");
-        vi.mocked(atApiService.login).mockRejectedValueOnce(testError);
+    expect(contextLoginMock).not.toHaveBeenCalled();
+    expect(loginMock).not.toHaveBeenCalled();
 
-        const { result } = renderHook(() => useAuthForm(loginMock));
+    expect(result.current.error).toBe("Invalid credentials");
+    expect(result.current.loading).toBe(false);
+  });
 
-        const eventMock = {
-            preventDefault: vi.fn(),
-        } as unknown as React.FormEvent;
+  it("sets the fallback message when a non-Error value is thrown", async () => {
+    vi.mocked(atApiService.login).mockRejectedValueOnce("something went wrong");
 
-        await act(async () => {
-            await result.current.handleLogin(eventMock);
-        });
+    const { result } = renderHook(() => useAuthForm(vi.fn()));
 
-        expect(contextLoginMock).not.toHaveBeenCalled();
-        expect(loginMock).not.toHaveBeenCalled();
-
-        expect(result.current.error).toBe("Invalid credentials");
-        expect(result.current.loading).toBe(false);
+    await act(async () => {
+      await result.current.handleLogin({
+        preventDefault: vi.fn(),
+      } as unknown as React.FormEvent);
     });
 
-    it('sets the fallback message when a non-Error value is thrown', async () => {
-        vi.mocked(atApiService.login).mockRejectedValueOnce('something went wrong')
-
-        const { result } = renderHook(() => useAuthForm(vi.fn()))
-
-        await act(async () => {
-            await result.current.handleLogin({
-                preventDefault: vi.fn(),
-            } as unknown as React.FormEvent)
-        })
-
-        expect(result.current.error).toBe(
-            'Login failed. Please check your credentials.'
-        )
-    })
+    expect(result.current.error).toBe(
+      "Login failed. Please check your credentials.",
+    );
+  });
 });

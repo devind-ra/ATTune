@@ -4,85 +4,98 @@ import { useAlbumPage } from "@/app/hooks/useAlbumPage";
 import { getAlbumInfo, getAlbumTopTags } from "@/lib/lastfm";
 
 vi.mock("@/lib/lastfm", () => ({
-    getAlbumInfo: vi.fn(),
-    getAlbumTopTags: vi.fn(),
+  getAlbumInfo: vi.fn(),
+  getAlbumTopTags: vi.fn(),
 }));
 
 const mockAlbumInfo = {
-    name: "OK Computer",
-    artist: "Radiohead",
-    image: [],
-    tracks: { track: [] },
-    wiki: { published: "1997", summary: "A summary", content: "Content" }
+  name: "OK Computer",
+  artist: "Radiohead",
+  image: [],
+  tracks: { track: [] },
+  wiki: { published: "1997", summary: "A summary", content: "Content" },
 };
 
 const mockTags = [
-    { name: "alternative", url: "" },
-    { name: "rock", url: "" },
+  { name: "alternative", url: "" },
+  { name: "rock", url: "" },
 ];
 
 describe("useAlbumPage hook", () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-        vi.spyOn(console, "error").mockImplementation(() => { });
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  describe("initialisation", () => {
+    it("should initialise with default state", () => {
+      const { result } = renderHook(() => useAlbumPage("", ""));
+
+      expect(result.current.albumInfo).toBeUndefined();
+      expect(result.current.tags).toEqual([]);
+      expect(result.current.isLoading).toBe(true);
+    });
+  });
+
+  describe("fetching data", () => {
+    it("should not fetch if artistName or albumName is empty", async () => {
+      renderHook(() => useAlbumPage(mockAlbumInfo.artist, ""));
+      renderHook(() => useAlbumPage("", mockAlbumInfo.name));
+
+      expect(getAlbumInfo).not.toHaveBeenCalled();
+      expect(getAlbumTopTags).not.toHaveBeenCalled();
     });
 
-    afterEach(() => {
-        vi.restoreAllMocks();
+    it("should fetch album info and tags successfully", async () => {
+      vi.mocked(getAlbumInfo).mockResolvedValueOnce(mockAlbumInfo);
+      vi.mocked(getAlbumTopTags).mockResolvedValueOnce(mockTags);
+
+      const { result } = renderHook(() =>
+        useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
+      );
+
+      expect(result.current.isLoading).toBe(true);
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+
+      expect(getAlbumInfo).toHaveBeenCalledWith(
+        mockAlbumInfo.artist,
+        mockAlbumInfo.name,
+      );
+      expect(getAlbumTopTags).toHaveBeenCalledWith(
+        mockAlbumInfo.artist,
+        mockAlbumInfo.name,
+      );
+
+      expect(result.current.albumInfo).toEqual(mockAlbumInfo);
+      expect(result.current.tags).toEqual(mockTags);
     });
 
-    describe("initialisation", () => {
-        it("should initialise with default state", () => {
-            const { result } = renderHook(() => useAlbumPage("", ""));
+    it("should handle errors during fetch gracefully", async () => {
+      const error = new Error("API failure");
+      vi.mocked(getAlbumInfo).mockRejectedValueOnce(error);
+      vi.mocked(getAlbumTopTags).mockRejectedValueOnce(error);
 
-            expect(result.current.albumInfo).toBeUndefined();
-            expect(result.current.tags).toEqual([]);
-            expect(result.current.isLoading).toBe(true);
-        });
+      const { result } = renderHook(() =>
+        useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
+      );
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+
+      expect(console.error).toHaveBeenCalledWith(
+        "Failed to load album data",
+        error,
+      );
+      expect(result.current.albumInfo).toBeUndefined();
+      expect(result.current.tags).toEqual([]);
     });
-
-    describe("fetching data", () => {
-        it("should not fetch if artistName or albumName is empty", async () => {
-            renderHook(() => useAlbumPage("Radiohead", ""));
-            renderHook(() => useAlbumPage("", "OK Computer"));
-
-            expect(getAlbumInfo).not.toHaveBeenCalled();
-            expect(getAlbumTopTags).not.toHaveBeenCalled();
-        });
-
-        it("should fetch album info and tags successfully", async () => {
-            vi.mocked(getAlbumInfo).mockResolvedValueOnce(mockAlbumInfo as any);
-            vi.mocked(getAlbumTopTags).mockResolvedValueOnce(mockTags as any);
-
-            const { result } = renderHook(() => useAlbumPage("Radiohead", "OK Computer"));
-
-            expect(result.current.isLoading).toBe(true);
-
-            await waitFor(() => {
-                expect(result.current.isLoading).toBe(false);
-            });
-
-            expect(getAlbumInfo).toHaveBeenCalledWith("Radiohead", "OK Computer");
-            expect(getAlbumTopTags).toHaveBeenCalledWith("Radiohead", "OK Computer");
-
-            expect(result.current.albumInfo).toEqual(mockAlbumInfo);
-            expect(result.current.tags).toEqual(mockTags);
-        });
-
-        it("should handle errors during fetch gracefully", async () => {
-            const error = new Error("API failure");
-            vi.mocked(getAlbumInfo).mockRejectedValueOnce(error);
-            vi.mocked(getAlbumTopTags).mockRejectedValueOnce(error);
-
-            const { result } = renderHook(() => useAlbumPage("Radiohead", "OK Computer"));
-
-            await waitFor(() => {
-                expect(result.current.isLoading).toBe(false);
-            });
-
-            expect(console.error).toHaveBeenCalledWith("Failed to load album data", error);
-            expect(result.current.albumInfo).toBeUndefined();
-            expect(result.current.tags).toEqual([]);
-        });
-    });
+  });
 });
