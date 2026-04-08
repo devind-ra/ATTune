@@ -8,11 +8,17 @@
 
 import { useReviews, UseReviewsProps } from "@/app/hooks/useReviews";
 import ReviewItem from "./ReviewItem";
+import { ReviewModal } from "./ReviewModal";
+import { useState } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ReviewList(props: UseReviewsProps) {
   const { reviews, loading, refresh } = useReviews(props);
+  const [selectedReview, setSelectedReview] = useState<{
+    uri: string;
+    value: MusicReview;
+  } | null>(null);
 
   const handleDelete = async (uri: string) => {
     if (window.confirm("Are you sure you want to delete this review?")) {
@@ -64,15 +70,27 @@ export default function ReviewList(props: UseReviewsProps) {
   }
 
   return (
-    <div className="space-y-4">
-      {reviews.map((item) => (
-        <ReviewItem
-          key={item.uri}
-          item={item}
+    <>
+      <div className="space-y-4">
+        {reviews.map((item) => (
+          <ReviewItem
+            key={item.uri}
+            item={item}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onClick={() => setSelectedReview(item)}
+          />
+        ))}
+      </div>
+
+      {selectedReview && (
+        <ReviewModal
+          item={selectedReview}
+          onClose={() => setSelectedReview(null)}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />
-      ))}
-    </div>
+      )}
+    </>
   );
 }

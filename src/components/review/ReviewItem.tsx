@@ -8,12 +8,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MusicReview } from "@/lib/atproto";
-import StarRating from "./StarRating";
+import ReviewEditForm from "./ReviewEditForm";
 
 interface ReviewItemProps {
   item: { uri: string; value: MusicReview };
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
+  onClick?: () => void;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -21,6 +22,7 @@ export default function ReviewItem({
   item,
   onDelete,
   onEdit,
+  onClick,
 }: ReviewItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
@@ -50,98 +52,22 @@ export default function ReviewItem({
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow">
+    <div
+      className={`bg-white dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm transition-shadow ${onClick ? "cursor-pointer hover:shadow-md" : ""}`}
+      onClick={(e) => {
+        if (!onClick) return;
+        if ((e.target as HTMLElement).closest("button, a, input, textarea"))
+          return;
+        onClick();
+      }}
+    >
       {isEditing ? (
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-              Album Title
-            </label>
-            <input
-              type="text"
-              value={editForm.subjectTitle || ""}
-              onChange={(e) =>
-                setEditForm({ ...editForm, subjectTitle: e.target.value })
-              }
-              className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
-              disabled
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-              Artist
-            </label>
-            <input
-              type="text"
-              value={editForm.subjectArtist || ""}
-              onChange={(e) =>
-                setEditForm({ ...editForm, subjectArtist: e.target.value })
-              }
-              className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
-              disabled
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
-              Rating ({(editForm.rating || 10) / 2}/5)
-            </label>
-            <StarRating
-              rating={editForm.rating || 10}
-              onChange={(newRating) =>
-                setEditForm({ ...editForm, rating: newRating })
-              }
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-              Date Listened
-            </label>
-            <input
-              type="date"
-              value={
-                editForm.listenedAt
-                  ? new Date(editForm.listenedAt).toISOString().split("T")[0]
-                  : ""
-              }
-              max={new Date().toISOString().split("T")[0]}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  listenedAt: e.target.value
-                    ? new Date(e.target.value).toISOString()
-                    : undefined,
-                })
-              }
-              className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
-              Review
-            </label>
-            <textarea
-              value={editForm.text || ""}
-              onChange={(e) =>
-                setEditForm({ ...editForm, text: e.target.value })
-              }
-              className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none min-h-[100px] cursor-pointer"
-            />
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={submitEdit}
-              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-medium rounded-lg hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+        <ReviewEditForm
+          editForm={editForm}
+          onChange={setEditForm}
+          onSave={submitEdit}
+          onCancel={() => setIsEditing(false)}
+        />
       ) : (
         <>
           <div className="flex justify-between items-start mb-2">
