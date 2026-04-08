@@ -17,6 +17,7 @@ interface ReviewCommentsProps {
   postCid?: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
   const { comments, loading, resolvedCid, fetchComments } = useComments(
     postUri,
