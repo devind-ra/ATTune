@@ -31,7 +31,7 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
   return (
     <>
       <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800">
-        <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-sky-500 to-indigo-500 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold mb-6 text-center bg-white bg-clip-text text-transparent">
           Sign in with Bluesky
         </h2>
         {error && (
