@@ -20,6 +20,8 @@ export interface MusicReview {
   createdAt: string;
   updatedAt?: string;
   listenedAt: string;
+  postUri?: string;
+  postCid?: string;
 }
 
 export interface UserTastes {
@@ -59,14 +61,41 @@ export class AtProtoService {
     return this.agent.session;
   }
 
-  async createReview(review: Omit<MusicReview, "createdAt">) {
+  async createReview(
+    review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
+  ) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
+    const createdAt = new Date().toISOString();
+    const ellipsis = review.text && review.text.length > 200 ? "..." : "";
+    const truncatedText = review.text
+      ? review.text.substring(0, 200) + ellipsis
+      : "";
+
+    const postRecord = {
+      $type: "app.bsky.feed.post",
+      text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating}/5\n\n${truncatedText}`,
+      createdAt: createdAt,
+    };
+
+    let postRes;
+    try {
+      postRes = await this.agent.com.atproto.repo.createRecord({
+        repo: this.agent.session.did,
+        collection: "app.bsky.feed.post",
+        record: postRecord,
+      });
+    } catch (err) {
+      console.warn("Failed to create Bsky text post", err);
+    }
+
     const record = {
       $type: REVIEW_COLLECTION,
-      createdAt: new Date().toISOString(),
+      createdAt,
+      postUri: postRes?.data?.uri,
+      postCid: postRes?.data?.cid,
       ...review,
     };
 
