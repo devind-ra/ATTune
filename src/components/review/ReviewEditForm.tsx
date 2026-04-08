@@ -15,6 +15,7 @@ interface ReviewEditFormProps {
   onCancel: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export default function ReviewEditForm({
   editForm,
   onChange,
