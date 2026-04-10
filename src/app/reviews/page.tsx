@@ -1,6 +1,6 @@
-// Record Page
+// Reviews Page
 // Contains the following:
-// - Integrates ReviewForm and ReviewList components
+// - Calls ReviewList component to display reviews
 
 "use client";
 
@@ -8,13 +8,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import ReviewList from "@/components/review/ReviewList";
-import ReviewForm from "@/components/review/ReviewForm";
 import Navbar from "@/components/navbar/Navbar";
 
-export default function RecordPage() {
+export default function ReviewsPage() {
   const { session, isLoading } = useAuth();
   const router = useRouter();
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [refreshTrigger] = useState(0);
 
   useEffect(() => {
     if (!isLoading && !session) {
