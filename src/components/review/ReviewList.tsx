@@ -8,7 +8,7 @@
 
 import { useReviews, UseReviewsProps } from "@/app/hooks/useReviews";
 import ReviewItem from "./ReviewItem";
-import { ReviewModal } from "./ReviewModal";
+import { CommentModal } from "./CommentModal";
 import { useState } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 
@@ -84,7 +84,7 @@ export default function ReviewList(props: UseReviewsProps) {
       </div>
 
       {selectedReview && (
-        <ReviewModal
+        <CommentModal
           item={selectedReview}
           onClose={() => setSelectedReview(null)}
           onDelete={handleDelete}

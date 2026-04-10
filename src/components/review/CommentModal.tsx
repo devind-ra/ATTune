@@ -10,19 +10,19 @@ import ReviewItem from "./ReviewItem";
 import { ReviewComments } from "./ReviewComments";
 import { MusicReview } from "@/lib/atproto";
 
-interface ReviewModalProps {
+interface CommentModalProps {
   item: { uri: string; value: MusicReview };
   onClose: () => void;
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
 }
 
-export function ReviewModal({
+export function CommentModal({
   item,
   onClose,
   onDelete,
   onEdit,
-}: ReviewModalProps) {
+}: CommentModalProps) {
   // Close on escape key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -49,7 +49,7 @@ export function ReviewModal({
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors z-10"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors z-10 cursor-pointer"
           aria-label="Close modal"
         >
           ✕

@@ -64,9 +64,33 @@ export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
 
   return (
     <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800 pt-6">
-      <h4 className="text-lg font-bold mb-4 text-zinc-900 dark:text-zinc-100">
-        Comments ({comments.length})
-      </h4>
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+          Comments ({comments.length})
+        </h4>
+        <button
+          onClick={() => fetchComments()}
+          disabled={loading}
+          className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 rounded-lg md:hover:bg-zinc-200 md:dark:hover:bg-zinc-700 md:hover:text-zinc-900 md:dark:hover:text-zinc-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          aria-label="Refresh comments"
+        >
+          <svg
+            className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+          <span className="hidden sm:inline">Refresh</span>
+        </button>
+      </div>
       {loading ? (
         <div className="text-sm text-zinc-500 mb-4">Loading comments...</div>
       ) : (
