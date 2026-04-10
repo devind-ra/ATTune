@@ -12,7 +12,11 @@ import { MusicReview } from "@/lib/atproto";
 import { AppBskyActorDefs } from "@atproto/api";
 
 interface CommentModalProps {
-  item: { uri: string; value: MusicReview; author?: string | AppBskyActorDefs.ProfileViewBasic };
+  item: {
+    uri: string;
+    value: MusicReview;
+    author?: string | AppBskyActorDefs.ProfileViewBasic;
+  };
   onClose: () => void;
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;

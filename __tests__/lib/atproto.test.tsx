@@ -53,24 +53,31 @@ describe("AtProtoService", () => {
       let store: Record<string, string> = {};
       return {
         getItem: (key: string) => store[key] || null,
-        setItem: (key: string, value: string) => { store[key] = value; },
-        removeItem: (key: string) => { delete store[key]; },
-        clear: () => { store = {}; },
+        setItem: (key: string, value: string) => {
+          store[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete store[key];
+        },
+        clear: () => {
+          store = {};
+        },
       };
     })();
-    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+    Object.defineProperty(window, "localStorage", { value: localStorageMock });
     service = new AtProtoService();
   });
 
   describe("constructor and session persistence", () => {
     it("should handle session persistence in localStorage", () => {
-      const persistSession = (vi.mocked(BskyAgent).mock.calls[0][0] as any).persistSession;
+      const persistSession = (vi.mocked(BskyAgent).mock.calls[0][0] as any)
+        .persistSession;
 
-      const mockSess = { did: MOCK_DID, handle: 'user.test' };
-      persistSession('create', mockSess);
+      const mockSess = { did: MOCK_DID, handle: "user.test" };
+      persistSession("create", mockSess);
       expect(localStorage.getItem("atp_session")).toContain(MOCK_DID);
 
-      persistSession('expired');
+      persistSession("expired");
       expect(localStorage.getItem("atp_session")).toBeNull();
     });
   });
@@ -78,7 +85,10 @@ describe("AtProtoService", () => {
   describe("login", () => {
     it("should login successfully and return session", async () => {
       const mockSession = { did: MOCK_DID };
-      vi.mocked(service.agent.login).mockResolvedValueOnce({ success: true, data: mockSession } as any);
+      vi.mocked(service.agent.login).mockResolvedValueOnce({
+        success: true,
+        data: mockSession,
+      } as any);
       (service.agent as any).session = mockSession;
 
       const result = await service.login("id", "pass");
@@ -133,12 +143,14 @@ describe("AtProtoService", () => {
 
       await service.createReview(review);
 
-      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
-        collection: "app.bsky.feed.post",
-        record: expect.objectContaining({
-          text: expect.stringContaining("aaa..."),
-        })
-      }));
+      expect(mockCreate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          collection: "app.bsky.feed.post",
+          record: expect.objectContaining({
+            text: expect.stringContaining("aaa..."),
+          }),
+        }),
+      );
       const postCall = vi.mocked(mockCreate).mock.calls[0][0] as any;
       expect(postCall.record.text.length).toBeLessThan(300);
     });
@@ -148,13 +160,21 @@ describe("AtProtoService", () => {
       const originalConsoleWarn = console.warn;
       console.warn = vi.fn();
 
-      vi.mocked(mockCreateRecord).mockRejectedValueOnce(new Error("bsky post error"));
+      vi.mocked(mockCreateRecord).mockRejectedValueOnce(
+        new Error("bsky post error"),
+      );
 
       await service.createReview({
-        subjectTitle: "Title", subjectArtist: "Artist", rating: 5, listenedAt: "2023"
+        subjectTitle: "Title",
+        subjectArtist: "Artist",
+        rating: 5,
+        listenedAt: "2023",
       });
 
-      expect(console.warn).toHaveBeenCalledWith("Failed to create Bsky text post", expect.any(Error));
+      expect(console.warn).toHaveBeenCalledWith(
+        "Failed to create Bsky text post",
+        expect.any(Error),
+      );
       expect(mockCreateRecord).toHaveBeenCalledTimes(2); // once for post (failed/caught), once for review
 
       console.warn = originalConsoleWarn;
@@ -190,7 +210,9 @@ describe("AtProtoService", () => {
     it("should throw error if not logged in", async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
-      await expect(service.updateReview("uri", {} as any, "2023")).rejects.toThrow(ERROR_NOT_LOGGED_IN);
+      await expect(
+        service.updateReview("uri", {} as any, "2023"),
+      ).rejects.toThrow(ERROR_NOT_LOGGED_IN);
     });
   });
 
@@ -211,7 +233,9 @@ describe("AtProtoService", () => {
     it("should throw error if not logged in", async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
-      await expect(service.deleteReview("uri")).rejects.toThrow(ERROR_NOT_LOGGED_IN);
+      await expect(service.deleteReview("uri")).rejects.toThrow(
+        ERROR_NOT_LOGGED_IN,
+      );
     });
   });
 
@@ -219,12 +243,16 @@ describe("AtProtoService", () => {
     it("should list records and map them", async () => {
       const mockList = service.agent.com.atproto.repo.listRecords;
       vi.mocked(mockList).mockResolvedValueOnce({
-        data: { records: [{ uri: "u1", cid: "c1", value: { rating: 10 } }] }
+        data: { records: [{ uri: "u1", cid: "c1", value: { rating: 10 } }] },
       } as any);
 
       const res = await service.getReviews("did:other");
-      expect(mockList).toHaveBeenCalledWith(expect.objectContaining({ repo: "did:other" }));
-      expect(res).toEqual([{ uri: "u1", cid: "c1", value: { rating: 10 }, author: "did:other" }]);
+      expect(mockList).toHaveBeenCalledWith(
+        expect.objectContaining({ repo: "did:other" }),
+      );
+      expect(res).toEqual([
+        { uri: "u1", cid: "c1", value: { rating: 10 }, author: "did:other" },
+      ]);
     });
   });
 
@@ -240,12 +268,17 @@ describe("AtProtoService", () => {
       const originalConsoleWarn = console.warn;
       console.warn = vi.fn();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      vi.mocked((service.agent as any).app.bsky.feed.searchPosts).mockRejectedValueOnce(new Error("fail"));
-      
+      vi.mocked(
+        (service.agent as any).app.bsky.feed.searchPosts,
+      ).mockRejectedValueOnce(new Error("fail"));
+
       const res = await service.getOtherReviews("A", "B", "C");
       expect(res).toEqual([]);
-      expect(console.warn).toHaveBeenCalledWith("Failed to fetch other reviews via text search", expect.any(Error));
-      
+      expect(console.warn).toHaveBeenCalledWith(
+        "Failed to fetch other reviews via text search",
+        expect.any(Error),
+      );
+
       console.warn = originalConsoleWarn;
     });
 
@@ -255,13 +288,30 @@ describe("AtProtoService", () => {
       vi.mocked(mockSearch).mockResolvedValueOnce({
         data: {
           posts: [
-            { author: { did: MOCK_DID }, record: { text: "I just reviewed Title by Artist!\n\nRating: 4.5/5" } },
-            { author: { did: "did:other" }, uri: "u2", cid: "c2", record: { text: "I just reviewed Title by Artist!\n\nRating: 4.5/5\n\nGreat!" } },
+            {
+              author: { did: MOCK_DID },
+              record: {
+                text: "I just reviewed Title by Artist!\n\nRating: 4.5/5",
+              },
+            },
+            {
+              author: { did: "did:other" },
+              uri: "u2",
+              cid: "c2",
+              record: {
+                text: "I just reviewed Title by Artist!\n\nRating: 4.5/5\n\nGreat!",
+              },
+            },
             { author: { did: "did:other" }, record: {} },
             { author: { did: "did:other" }, record: { text: "Random post" } },
-            { author: { did: "did:other" }, record: { text: "I just reviewed Wrong by Artist!\n\nRating: 4/5" } },
-          ]
-        }
+            {
+              author: { did: "did:other" },
+              record: {
+                text: "I just reviewed Wrong by Artist!\n\nRating: 4/5",
+              },
+            },
+          ],
+        },
       } as any);
 
       const res = await service.getOtherReviews("Title", "Artist", MOCK_DID);
@@ -274,8 +324,10 @@ describe("AtProtoService", () => {
 
   describe("resumeSession", () => {
     it("should resume and verify session successfully", async () => {
-      vi.mocked(service.agent.com.atproto.server.getSession).mockResolvedValueOnce({
-        data: { did: "did:test:123" }
+      vi.mocked(
+        service.agent.com.atproto.server.getSession,
+      ).mockResolvedValueOnce({
+        data: { did: "did:test:123" },
       } as any);
       const mockSession = { did: "did:test:123" } as any;
 
@@ -285,20 +337,25 @@ describe("AtProtoService", () => {
     });
 
     it("should throw if verification fails", async () => {
-      vi.mocked(service.agent.com.atproto.server.getSession).mockResolvedValueOnce({
-        data: { did: "did:wrong:456" }
+      vi.mocked(
+        service.agent.com.atproto.server.getSession,
+      ).mockResolvedValueOnce({
+        data: { did: "did:wrong:456" },
       } as any);
 
-      await expect(service.resumeSession({ did: "did:test:123" } as any))
-        .rejects.toThrow("Session verification failed");
+      await expect(
+        service.resumeSession({ did: "did:test:123" } as any),
+      ).rejects.toThrow("Session verification failed");
     });
   });
 
   describe("getTastes and updateTastes", () => {
     it("should fetch user tastes", async () => {
       const mockGet = service.agent.com.atproto.repo.getRecord;
-      const mockTastes = { topArtists: ['Radiohead'], topGenres: ['Rock'] };
-      vi.mocked(mockGet).mockResolvedValueOnce({ data: { value: mockTastes } } as any);
+      const mockTastes = { topArtists: ["Radiohead"], topGenres: ["Rock"] };
+      vi.mocked(mockGet).mockResolvedValueOnce({
+        data: { value: mockTastes },
+      } as any);
 
       const result = await service.getTastes(MOCK_DID);
       expect(result).toEqual(mockTastes);
@@ -306,17 +363,19 @@ describe("AtProtoService", () => {
 
     it("should update user tastes", async () => {
       const mockPut = service.agent.com.atproto.repo.putRecord;
-      const tastes = { topArtists: ['Radiohead'], topGenres: ['Rock'] };
+      const tastes = { topArtists: ["Radiohead"], topGenres: ["Rock"] };
 
       await service.updateTastes(tastes);
 
-      expect(mockPut).toHaveBeenCalledWith(expect.objectContaining({
-        collection: PROFILE_COLLECTION,
-        record: expect.objectContaining({
-          topArtists: ['Radiohead'],
-          updatedAt: expect.any(String)
-        })
-      }));
+      expect(mockPut).toHaveBeenCalledWith(
+        expect.objectContaining({
+          collection: PROFILE_COLLECTION,
+          record: expect.objectContaining({
+            topArtists: ["Radiohead"],
+            updatedAt: expect.any(String),
+          }),
+        }),
+      );
     });
 
     it("should return null if fetching tastes fails", async () => {
@@ -330,7 +389,9 @@ describe("AtProtoService", () => {
     it("should throw error if updating tastes and not logged in", async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
-      await expect(service.updateTastes({ topArtists: [], topGenres: [] })).rejects.toThrow(ERROR_NOT_LOGGED_IN);
+      await expect(
+        service.updateTastes({ topArtists: [], topGenres: [] }),
+      ).rejects.toThrow(ERROR_NOT_LOGGED_IN);
     });
   });
 });

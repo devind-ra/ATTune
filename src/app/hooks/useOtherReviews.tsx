@@ -29,15 +29,15 @@ export function useOtherReviews({
       const fetchedReviews = await atApiService.getOtherReviews(
         title,
         artist,
-        currentUserDid
+        currentUserDid,
       );
 
       const sorted = fetchedReviews.sort((a, b) => {
         const timeA = new Date(
-          a.value.listenedAt || a.value.createdAt
+          a.value.listenedAt || a.value.createdAt,
         ).getTime();
         const timeB = new Date(
-          b.value.listenedAt || b.value.createdAt
+          b.value.listenedAt || b.value.createdAt,
         ).getTime();
         return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
       });

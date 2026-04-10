@@ -21,7 +21,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => { });
+        .mockImplementation(() => {});
 
       const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
 
@@ -56,7 +56,7 @@ describe("lastfm service", () => {
               artist: [
                 { name: "Drake" },
                 { name: "Drake feat. Future" },
-                { name: "Drake & 21 Savage" }
+                { name: "Drake & 21 Savage" },
               ],
             },
           },
@@ -108,7 +108,9 @@ describe("lastfm service", () => {
       const { getSimilarArtists } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ similarartists: { artist: [{ name: "Interpol" }] } }),
+        json: async () => ({
+          similarartists: { artist: [{ name: "Interpol" }] },
+        }),
       } as Response);
 
       const results = await getSimilarArtists(ARTIST_NAME);
@@ -124,7 +126,9 @@ describe("lastfm service", () => {
 
       const results = await getTopAlbumsByTag(TAG_NAME);
       expect(results).toHaveLength(1);
-      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(`tag=${TAG_NAME}`);
+      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
+        `tag=${TAG_NAME}`,
+      );
     });
 
     it("should use getArtistTopTracks to fetch autocorrect parameter", async () => {
@@ -181,7 +185,9 @@ describe("lastfm service", () => {
 
       const results = await getTopArtists("2");
       expect(results).toHaveLength(2);
-      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain("method=chart.gettopartists");
+      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
+        "method=chart.gettopartists",
+      );
     });
 
     it("should use searchTag to retrieve tags from tag matches", async () => {
@@ -222,7 +228,9 @@ describe("lastfm service", () => {
 
       const results = await getTopArtistsByTag(TAG_NAME);
       expect(results[0].name).toBe("Specific Artist");
-      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(`tag=${TAG_NAME}`);
+      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
+        `tag=${TAG_NAME}`,
+      );
     });
 
     it("should use getArtistInfo to return the artist object or null", async () => {
@@ -258,7 +266,9 @@ describe("lastfm service", () => {
       const results = await getArtistTopAlbums(ARTIST_NAME, "1");
       expect(results).toHaveLength(1);
       expect(results[0].name).toBe("The Bends");
-      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain("autocorrect=1");
+      expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
+        "autocorrect=1",
+      );
     });
   });
 });

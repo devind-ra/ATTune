@@ -13,7 +13,11 @@ import { AppBskyActorDefs } from "@atproto/api";
 import ReviewEditForm from "./ReviewEditForm";
 
 interface ReviewItemProps {
-  item: { uri: string; value: MusicReview; author?: string | AppBskyActorDefs.ProfileViewBasic };
+  item: {
+    uri: string;
+    value: MusicReview;
+    author?: string | AppBskyActorDefs.ProfileViewBasic;
+  };
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
   onClick?: () => void;

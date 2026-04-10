@@ -5,7 +5,12 @@
 // - Functions for getting user data from AT Protocol
 // - Functions for getting other users' reviews
 
-import { BskyAgent, AtpSessionData, AppBskyActorDefs, AppBskyFeedDefs } from "@atproto/api";
+import {
+  BskyAgent,
+  AtpSessionData,
+  AppBskyActorDefs,
+  AppBskyFeedDefs,
+} from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 export const PROFILE_COLLECTION = "app.attune.music.profile";
@@ -162,14 +167,19 @@ export class AtProtoService {
     }));
   }
 
-  private parsePostToReview(post: AppBskyFeedDefs.PostView, title: string, artist: string, currentUserDid: string) {
+  private parsePostToReview(
+    post: AppBskyFeedDefs.PostView,
+    title: string,
+    artist: string,
+    currentUserDid: string,
+  ) {
     if (post.author.did === currentUserDid) return null;
 
     const postRecord = post.record as { text?: string; createdAt?: string };
     if (!postRecord.text) return null;
 
     const match = postRecord.text.match(
-      /^I just reviewed (.+) by (.+)!\n\nRating: (\d+(?:\.\d+)?)\/5(?:\n\n([\s\S]*))?$/
+      /^I just reviewed (.+) by (.+)!\n\nRating: (\d+(?:\.\d+)?)\/5(?:\n\n([\s\S]*))?$/,
     );
     if (!match) return null;
 
@@ -209,7 +219,12 @@ export class AtProtoService {
       });
 
       return response.data.posts.flatMap((post) => {
-        const review = this.parsePostToReview(post, title, artist, currentUserDid);
+        const review = this.parsePostToReview(
+          post,
+          title,
+          artist,
+          currentUserDid,
+        );
         return review ? [review] : [];
       });
     } catch (err) {

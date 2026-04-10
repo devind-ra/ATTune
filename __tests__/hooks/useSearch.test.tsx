@@ -59,7 +59,7 @@ const mockAlbums: MockAlbum[] = [
 describe("useSearch hook: Auth & Init", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     contextMock.session = {
       did: "did:plc:123",
       handle: "testuser.bsky.social",
