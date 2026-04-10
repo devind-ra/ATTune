@@ -16,7 +16,6 @@ interface MockLinkProps {
 
 vi.mock("next/image", () => ({
   default: (props: ImageProps) => {
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...(props as React.ImgHTMLAttributes<HTMLImageElement>)} />;
   },
 }));

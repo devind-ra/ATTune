@@ -99,7 +99,6 @@ describe("AtProtoService", () => {
 
   describe("createReview", () => {
     it("should throw error if not logged in", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
       type ReviewParams = Parameters<typeof service.createReview>[0];
 
@@ -208,7 +207,6 @@ describe("AtProtoService", () => {
     });
 
     it("should throw error if not logged in", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
       await expect(
         service.updateReview("uri", {} as any, "2023"),
@@ -231,7 +229,6 @@ describe("AtProtoService", () => {
     });
 
     it("should throw error if not logged in", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
       await expect(service.deleteReview("uri")).rejects.toThrow(
         ERROR_NOT_LOGGED_IN,
@@ -258,7 +255,6 @@ describe("AtProtoService", () => {
 
   describe("getOtherReviews", () => {
     it("should return empty if not logged in", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
       const res = await service.getOtherReviews("A", "B", "C");
       expect(res).toEqual([]);
@@ -267,7 +263,6 @@ describe("AtProtoService", () => {
     it("should return empty if searchPosts fails", async () => {
       const originalConsoleWarn = console.warn;
       console.warn = vi.fn();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.mocked(
         (service.agent as any).app.bsky.feed.searchPosts,
       ).mockRejectedValueOnce(new Error("fail"));
@@ -283,7 +278,6 @@ describe("AtProtoService", () => {
     });
 
     it("should parse correctly matched posts and ignore own posts or mismatches", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockSearch = (service.agent as any).app.bsky.feed.searchPosts;
       vi.mocked(mockSearch).mockResolvedValueOnce({
         data: {
@@ -387,7 +381,6 @@ describe("AtProtoService", () => {
     });
 
     it("should throw error if updating tastes and not logged in", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service.agent as any).session = undefined;
       await expect(
         service.updateTastes({ topArtists: [], topGenres: [] }),
