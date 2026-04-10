@@ -2,19 +2,22 @@
 // Contains the following:
 // - Displays a single review
 // - Allows user to edit or delete a review
+// - Differentiating between read-only reviews and CRUD action reviews
 
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { MusicReview } from "@/lib/atproto";
+import { AppBskyActorDefs } from "@atproto/api";
 import ReviewEditForm from "./ReviewEditForm";
 
 interface ReviewItemProps {
-  item: { uri: string; value: MusicReview };
+  item: { uri: string; value: MusicReview; author?: string | AppBskyActorDefs.ProfileViewBasic };
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
   onClick?: () => void;
+  isReadOnly?: boolean;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -23,6 +26,7 @@ export default function ReviewItem({
   onDelete,
   onEdit,
   onClick,
+  isReadOnly,
 }: ReviewItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
@@ -76,7 +80,7 @@ export default function ReviewItem({
                 href={`/album/${encodeURIComponent(item.value.subjectArtist)}/${encodeURIComponent(item.value.subjectTitle)}`}
                 className="hover:underline decoration-zinc-400 dark:decoration-zinc-500"
               >
-                <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                   {item.value.subjectTitle}
                 </h4>
               </Link>
@@ -97,20 +101,22 @@ export default function ReviewItem({
                   {item.value.rating / 2}
                 </span>
               </div>
-              <div className="flex space-x-3 text-xs">
-                <button
-                  onClick={handleEditClick}
-                  className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors cursor-pointer"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => onDelete(item.uri)}
-                  className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors cursor-pointer"
-                >
-                  Delete
-                </button>
-              </div>
+              {!isReadOnly && (
+                <div className="flex space-x-3 text-xs">
+                  <button
+                    onClick={handleEditClick}
+                    className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => onDelete(item.uri)}
+                    className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -120,11 +126,25 @@ export default function ReviewItem({
             </p>
           )}
 
-          <div className="mt-4 text-xs text-zinc-400">
-            Listened on{" "}
-            {new Date(
-              item.value.listenedAt || item.value.createdAt,
-            ).toLocaleDateString()}
+          <div className="mt-4 flex items-center justify-between gap-4">
+            <div className="text-xs text-zinc-400">
+              Listened on{" "}
+              {new Date(
+                item.value.listenedAt || item.value.createdAt,
+              ).toLocaleDateString()}
+            </div>
+            {typeof item.author !== "string" && item.author?.handle && (
+              <a
+                href={`https://bsky.app/profile/${item.author.handle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                title="View Bluesky Profile"
+              >
+                @{item.author.handle}
+              </a>
+            )}
           </div>
         </>
       )}

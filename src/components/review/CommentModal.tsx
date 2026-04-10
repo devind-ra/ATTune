@@ -1,4 +1,4 @@
-// ReviewModel component
+// CommentModal component
 // Contains the following:
 // - ReviewItem to view comments on review
 // - Closing review modal on escape key
@@ -9,12 +9,14 @@ import { useEffect } from "react";
 import ReviewItem from "./ReviewItem";
 import { ReviewComments } from "./ReviewComments";
 import { MusicReview } from "@/lib/atproto";
+import { AppBskyActorDefs } from "@atproto/api";
 
 interface CommentModalProps {
-  item: { uri: string; value: MusicReview };
+  item: { uri: string; value: MusicReview; author?: string | AppBskyActorDefs.ProfileViewBasic };
   onClose: () => void;
   onDelete: (uri: string) => void;
   onEdit: (uri: string, data: Partial<MusicReview>) => Promise<void>;
+  isReadOnly?: boolean;
 }
 
 export function CommentModal({
@@ -22,6 +24,7 @@ export function CommentModal({
   onClose,
   onDelete,
   onEdit,
+  isReadOnly,
 }: CommentModalProps) {
   // Close on escape key
   useEffect(() => {
@@ -63,6 +66,7 @@ export function CommentModal({
               onClose();
             }}
             onEdit={onEdit}
+            isReadOnly={isReadOnly}
           />
 
           <ReviewComments

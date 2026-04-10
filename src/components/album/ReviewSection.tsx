@@ -1,11 +1,13 @@
 // ReviewSection component
 // Contains the following:
 // - Review form for adding reviews from album page
+// - Other reviews list for displaying other user reviews
 // - Review list for displaying user reviews
 
 import { useState } from "react";
 import ReviewForm from "../review/ReviewForm";
 import ReviewList from "../review/ReviewList";
+import OtherReviewsList from "../review/OtherReviewsList";
 import { useAuth } from "@/contexts/AuthContext";
 import { LastFMImage } from "@/lib/lastfm";
 
@@ -71,6 +73,18 @@ export function ReviewSection({
       </div>
 
       <section className="mt-12">
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 flex items-center gap-2">
+          Other User&apos;s Reviews
+        </h2>
+        <OtherReviewsList
+          title={albumName}
+          artist={artistName}
+          currentUserDid={session.did}
+          refreshTrigger={refreshTrigger}
+        />
+      </section>
+
+      <section className="mt-12 mb-12">
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 flex items-center gap-2">
           Your Reviews
           <span className="text-xs font-normal px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500">
