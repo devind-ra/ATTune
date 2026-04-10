@@ -4,6 +4,13 @@ import nextTs from "eslint-config-next/typescript";
 import sonarjs from "eslint-plugin-sonarjs";
 
 const eslintConfig = defineConfig([
+  {
+    ignores: [
+      "**/*.test.{js,jsx,ts,tsx}",
+      "**/*.spec.{js,jsx,ts,tsx}",
+      "**/__tests__/**/*",
+    ],
+  },
   ...nextVitals,
   ...nextTs,
   {
@@ -20,18 +27,6 @@ const eslintConfig = defineConfig([
       "no-nested-ternary": "error",
       "sonarjs/no-duplicate-string": "warn",
       "spaced-comment": ["error", "always"],
-    },
-  },
-  {
-    files: [
-      "**/*.test.{js,jsx,ts,tsx}",
-      "**/*.spec.{js,jsx,ts,tsx}",
-      "**/__tests__/**/*",
-    ],
-    rules: {
-      "max-lines-per-function": "off",
-      "max-lines": "off",
-      "sonarjs/no-duplicate-string": "off",
     },
   },
   // Override default ignores of eslint-config-next.

@@ -1,8 +1,16 @@
 import { renderHook, act } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ALL_SECTIONS, useVisibleSections } from "@/lib/sections";
 
+vi.mock("@/contexts/AuthContext", () => ({
+  useAuth: vi.fn(() => ({ session: { did: "did:test:123" } })),
+}));
+
 describe("sections lib", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   describe("ALL_SECTIONS", () => {
     it("should contain the correct predefined sections", () => {
       expect(ALL_SECTIONS).toHaveLength(3);

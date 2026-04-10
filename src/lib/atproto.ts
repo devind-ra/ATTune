@@ -3,8 +3,14 @@
 // - Interfaces for storing user data on AT Protocol
 // - Functions for logging in, creating, updating, and deleting reviews
 // - Functions for getting user data from AT Protocol
+// - Functions for getting other users' reviews
 
-import { BskyAgent, AtpSessionData } from "@atproto/api";
+import {
+  BskyAgent,
+  AtpSessionData,
+  AppBskyActorDefs,
+  AppBskyFeedDefs,
+} from "@atproto/api";
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 export const PROFILE_COLLECTION = "app.attune.music.profile";
@@ -20,6 +26,8 @@ export interface MusicReview {
   createdAt: string;
   updatedAt?: string;
   listenedAt: string;
+  postUri?: string;
+  postCid?: string;
 }
 
 export interface UserTastes {
@@ -32,7 +40,7 @@ export interface ReviewRecord {
   uri: string;
   cid: string;
   value: MusicReview;
-  author?: string;
+  author?: string | AppBskyActorDefs.ProfileViewBasic;
 }
 
 export class AtProtoService {
@@ -59,14 +67,41 @@ export class AtProtoService {
     return this.agent.session;
   }
 
-  async createReview(review: Omit<MusicReview, "createdAt">) {
+  async createReview(
+    review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
+  ) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
+    const createdAt = new Date().toISOString();
+    const ellipsis = review.text && review.text.length > 200 ? "..." : "";
+    const truncatedText = review.text
+      ? review.text.substring(0, 200) + ellipsis
+      : "";
+
+    const postRecord = {
+      $type: "app.bsky.feed.post",
+      text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
+      createdAt: createdAt,
+    };
+
+    let postRes;
+    try {
+      postRes = await this.agent.com.atproto.repo.createRecord({
+        repo: this.agent.session.did,
+        collection: "app.bsky.feed.post",
+        record: postRecord,
+      });
+    } catch (err) {
+      console.warn("Failed to create Bsky text post", err);
+    }
+
     const record = {
       $type: REVIEW_COLLECTION,
-      createdAt: new Date().toISOString(),
+      createdAt,
+      postUri: postRes?.data?.uri,
+      postCid: postRes?.data?.cid,
       ...review,
     };
 
@@ -130,6 +165,72 @@ export class AtProtoService {
       value: r.value as unknown as MusicReview,
       author: did,
     }));
+  }
+
+  private parsePostToReview(
+    post: AppBskyFeedDefs.PostView,
+    title: string,
+    artist: string,
+    currentUserDid: string,
+  ) {
+    if (post.author.did === currentUserDid) return null;
+
+    const postRecord = post.record as { text?: string; createdAt?: string };
+    if (!postRecord.text) return null;
+
+    const match = postRecord.text.match(
+      /^I just reviewed (.+) by (.+)!\n\nRating: (\d+(?:\.\d+)?)\/5(?:\n\n([\s\S]*))?$/,
+    );
+    if (!match) return null;
+
+    const [, subjectTitle, subjectArtist, ratingStr, text] = match;
+
+    if (
+      subjectTitle.toLowerCase().trim() !== title.toLowerCase().trim() ||
+      subjectArtist.toLowerCase().trim() !== artist.toLowerCase().trim()
+    ) {
+      return null;
+    }
+
+    return {
+      uri: post.uri,
+      cid: post.cid,
+      author: post.author as AppBskyActorDefs.ProfileViewBasic,
+      value: {
+        subjectTitle,
+        subjectArtist,
+        rating: parseFloat(ratingStr) * 2,
+        text: text || "",
+        createdAt: postRecord.createdAt || new Date().toISOString(),
+        listenedAt: postRecord.createdAt || new Date().toISOString(),
+        postUri: post.uri,
+        postCid: post.cid,
+      } as MusicReview,
+    };
+  }
+
+  async getOtherReviews(title: string, artist: string, currentUserDid: string) {
+    if (!this.agent.session) return [];
+
+    try {
+      const response = await this.agent.app.bsky.feed.searchPosts({
+        q: `"${title}" "${artist}" "I just reviewed"`,
+        limit: 50,
+      });
+
+      return response.data.posts.flatMap((post) => {
+        const review = this.parsePostToReview(
+          post,
+          title,
+          artist,
+          currentUserDid,
+        );
+        return review ? [review] : [];
+      });
+    } catch (err) {
+      console.warn("Failed to fetch other reviews via text search", err);
+      return [];
+    }
   }
 
   async resumeSession(session: AuthSession) {

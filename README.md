@@ -1,4 +1,4 @@
-ATTune - Next.js application utilising Last.fm API
+ATtune - Next.js application utilising Last.fm API
 
 To run this project:
 `npm run dev`

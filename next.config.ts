@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ["lastfm.freetls.fastly.net"],
+    domains: ["lastfm.freetls.fastly.net", "cdn.bsky.app"],
   },
 };
 

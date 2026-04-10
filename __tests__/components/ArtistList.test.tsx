@@ -26,12 +26,12 @@ vi.mock("next/link", () => ({
 }));
 
 describe("ArtistList component", () => {
-  it("renders empty state when no artists are provided", () => {
+  it("should render empty state when no artists are provided", () => {
     render(<ArtistList artists={[]} />);
     expect(screen.getByText("No artists found.")).toBeInTheDocument();
   });
 
-  it("renders a list of artists with correct links", () => {
+  it("should render a list of artists with correct links", () => {
     render(<ArtistList artists={MOCK_ARTISTS} />);
 
     expect(screen.getByText(MOCK_ARTISTS[0].name)).toBeInTheDocument();

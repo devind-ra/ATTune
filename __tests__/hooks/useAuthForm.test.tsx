@@ -100,7 +100,7 @@ describe("useAuthForm hook", () => {
     expect(result.current.loading).toBe(false);
   });
 
-  it("sets the fallback message when a non-Error value is thrown", async () => {
+  it("should set the fallback message when a non-Error value is thrown", async () => {
     vi.mocked(atApiService.login).mockRejectedValueOnce("something went wrong");
 
     const { result } = renderHook(() => useAuthForm(vi.fn()));

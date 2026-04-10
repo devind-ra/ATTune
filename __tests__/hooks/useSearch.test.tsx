@@ -98,7 +98,6 @@ describe("useSearch hook: Fetching", () => {
   });
 
   it("should set isSearching to true during fetch", async () => {
-    // Replaced 'any' with specific types for the promise
     let resolveArtist!: (v: MockArtist[]) => void;
     const artistPromise = new Promise<MockArtist[]>((res) => {
       resolveArtist = res;

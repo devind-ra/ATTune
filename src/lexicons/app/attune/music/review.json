@@ -61,6 +61,16 @@
             "format": "datetime",
             "description": "When the review was last updated"
           },
+          "postUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "AT-URI of the companion Bluesky post"
+          },
+          "postCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "CID of the companion Bluesky post"
+          },
           "listenedAt": {
             "type": "string",
             "format": "datetime",

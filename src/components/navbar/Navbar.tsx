@@ -38,7 +38,7 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
       <div className="flex items-center justify-between w-full md:w-auto flex-1 gap-6">
         <h1
           onClick={() => router.push("/home")}
-          className="text-3xl font-bold tracking-tight bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-3xl font-bold tracking-tight bg-white bg-clip-text text-transparent shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
         >
           ATtune
         </h1>
