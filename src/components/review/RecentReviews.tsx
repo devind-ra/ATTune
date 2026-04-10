@@ -69,7 +69,7 @@ export function RecentReviews({ reviews }: RecentReviewsProps) {
       </div>
       <div className="mt-6 text-center">
         <Link
-          href="#"
+          href="/reviews"
           className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
         >
           Show more reviews →
