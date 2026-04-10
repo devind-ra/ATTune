@@ -32,12 +32,12 @@ vi.mock("next/link", () => ({
 }));
 
 describe("AlbumList component", () => {
-  it("renders empty state when no albums are provided", () => {
+  it("should render empty state when no albums are provided", () => {
     render(<AlbumList albums={[]} />);
     expect(screen.getByText("No albums found.")).toBeInTheDocument();
   });
 
-  it("renders a list of albums", () => {
+  it("should render a list of albums", () => {
     const mockAlbums: LastFMAlbum[] = [
       {
         name: albumName,

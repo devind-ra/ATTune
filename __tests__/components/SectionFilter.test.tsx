@@ -17,7 +17,7 @@ describe("SectionFilter component", () => {
     vi.clearAllMocks();
   });
 
-  it("renders properly with closed dropdown initially", () => {
+  it("should render properly with closed dropdown initially", () => {
     render(
       <SectionFilter
         visibleSections={defaultVisibleSections}
@@ -31,7 +31,7 @@ describe("SectionFilter component", () => {
     expect(screen.queryByText(ALL_SECTIONS[0].label)).not.toBeInTheDocument();
   });
 
-  it("toggles the dropdown when the button is clicked", () => {
+  it("should toggle the dropdown when the button is clicked", () => {
     render(
       <SectionFilter
         visibleSections={defaultVisibleSections}
@@ -49,7 +49,7 @@ describe("SectionFilter component", () => {
     expect(screen.queryByText(RECOMMENDED_ALBUMS)).not.toBeInTheDocument();
   });
 
-  it("calls onToggle when a section is clicked", () => {
+  it("should call onToggle when a section is clicked", () => {
     render(
       <SectionFilter
         visibleSections={defaultVisibleSections}
@@ -67,7 +67,7 @@ describe("SectionFilter component", () => {
     expect(mockOnToggle).toHaveBeenCalledWith(ALL_SECTIONS[0].id);
   });
 
-  it("disables the toggle if it's the only visible section", () => {
+  it("should disable the toggle if it's the only visible section", () => {
     const singleVisible = new Set<SectionId>(["recommendedAlbums"]);
     render(
       <SectionFilter visibleSections={singleVisible} onToggle={mockOnToggle} />,
@@ -86,7 +86,7 @@ describe("SectionFilter component", () => {
     expect(inactiveSectionBtn).not.toBeDisabled();
   });
 
-  it("closes the dropdown when clicking outside", () => {
+  it("should close the dropdown when clicking outside", () => {
     render(
       <SectionFilter
         visibleSections={defaultVisibleSections}

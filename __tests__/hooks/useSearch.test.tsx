@@ -59,7 +59,7 @@ const mockAlbums: MockAlbum[] = [
 describe("useSearch hook: Auth & Init", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = {
       did: "did:plc:123",
       handle: "testuser.bsky.social",
@@ -98,7 +98,6 @@ describe("useSearch hook: Fetching", () => {
   });
 
   it("should set isSearching to true during fetch", async () => {
-    // Replaced 'any' with specific types for the promise
     let resolveArtist!: (v: MockArtist[]) => void;
     const artistPromise = new Promise<MockArtist[]>((res) => {
       resolveArtist = res;

@@ -14,13 +14,13 @@ describe("lastfm service", () => {
   });
 
   describe("internal logic", () => {
-    it("returns null and logs error when API key is missing", async () => {
+    it("should return null and log error when API key is missing", async () => {
       process.env.LASTFM_API_KEY = "";
 
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
 
@@ -29,7 +29,7 @@ describe("lastfm service", () => {
       consoleSpy.mockRestore();
     });
 
-    it("calls fetch with correct URL and search params", async () => {
+    it("should call fetch with correct URL and search params", async () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
 
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -44,7 +44,7 @@ describe("lastfm service", () => {
   });
 
   describe("artist filtering", () => {
-    it("filters out artists properly", async () => {
+    it("should filter out artists properly", async () => {
       const { searchArtist } = await import("@/lib/lastfm");
 
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -52,7 +52,11 @@ describe("lastfm service", () => {
         json: async () => ({
           results: {
             artistmatches: {
-              artist: [{ name: "Drake" }, { name: "Drake feat. Future" }],
+              artist: [
+                { name: "Drake" },
+                { name: "Drake feat. Future" },
+                { name: "Drake & 21 Savage" }
+              ],
             },
           },
         }),
@@ -61,6 +65,25 @@ describe("lastfm service", () => {
       const results = await searchArtist("Drake");
       expect(results).toHaveLength(1);
       expect(results[0].name).toBe("Drake");
+    });
+
+    it("should filter artists when the query explicitly includes collaboration terms", async () => {
+      const { searchArtist } = await import("@/lib/lastfm");
+
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          results: {
+            artistmatches: {
+              artist: [{ name: "Drake feat. Future" }],
+            },
+          },
+        }),
+      } as Response);
+
+      const results = await searchArtist("Drake feat");
+      expect(results).toHaveLength(1);
+      expect(results[0].name).toBe("Drake feat. Future");
     });
   });
 });
