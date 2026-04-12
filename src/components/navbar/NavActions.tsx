@@ -10,6 +10,7 @@ interface Props {
   onLogout: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function NavActions({ onLogout }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

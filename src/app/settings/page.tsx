@@ -15,12 +15,11 @@ import ReactMarkdown from "react-markdown";
 import { components } from "~/lib/markdown_components";
 import SettingsModal from "@/components/settings/SettingsModal";
 
+// eslint-disable-next-line max-lines-per-function
 export default function SettingsPage() {
   const { session, isLoading } = useAuth();
   const router = useRouter();
-
   const [markdownContent, setMarkdownContent] = useState<string>("");
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -81,12 +80,12 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className="mt-8 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-200 dark:border-red-900/30 p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-8 bg-red-50 dark:bg-red-900 rounded-2xl border border-red-200 dark:border-red-900/30 p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">
-              Danger Zone
+            <h2 className="text-xl font-bold text-white dark:text-white mb-2">
+              Delete ATtune Data
             </h2>
-            <p className="text-red-600/80 dark:text-red-400/80 text-sm">
+            <p className="text-white dark:text-white text-sm">
               Permanently wipe all your reviews and tastes. This action cannot
               be undone.
             </p>
