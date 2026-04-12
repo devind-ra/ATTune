@@ -272,6 +272,22 @@ export class AtProtoService {
       record: record,
     });
   }
+
+  async deleteTastes() {
+    if (!this.agent.session) {
+      throw new Error(ERROR_NOT_LOGGED_IN);
+    }
+
+    try {
+      await this.agent.com.atproto.repo.deleteRecord({
+        repo: this.agent.session.did,
+        collection: PROFILE_COLLECTION,
+        rkey: "self",
+      });
+    } catch (err) {
+      console.warn("No tastes found to delete or delete failed", err);
+    }
+  }
 }
 
 export const atApiService = new AtProtoService();
