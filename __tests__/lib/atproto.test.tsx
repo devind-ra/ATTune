@@ -343,7 +343,7 @@ describe("AtProtoService", () => {
     });
   });
 
-  describe("getTastes and updateTastes", () => {
+  describe("getTastes, updateTastes, deleteTastes", () => {
     it("should fetch user tastes", async () => {
       const mockGet = service.agent.com.atproto.repo.getRecord;
       const mockTastes = { topArtists: ["Radiohead"], topGenres: ["Rock"] };
@@ -385,6 +385,39 @@ describe("AtProtoService", () => {
       await expect(
         service.updateTastes({ topArtists: [], topGenres: [] }),
       ).rejects.toThrow(ERROR_NOT_LOGGED_IN);
+    });
+
+    it("should delete user tastes", async () => {
+      const mockDelete = service.agent.com.atproto.repo.deleteRecord;
+      await service.deleteTastes();
+      expect(mockDelete).toHaveBeenCalledWith(
+        expect.objectContaining({
+          collection: PROFILE_COLLECTION,
+          rkey: "self",
+        }),
+      );
+    });
+
+    it("should gracefully catch error if deleting tastes fails", async () => {
+      const mockDelete = service.agent.com.atproto.repo.deleteRecord;
+      vi.mocked(mockDelete).mockRejectedValueOnce(new Error("fail"));
+
+      const originalConsoleWarn = console.warn;
+      console.warn = vi.fn();
+
+      await service.deleteTastes();
+
+      expect(console.warn).toHaveBeenCalledWith(
+        "No tastes found to delete or delete failed",
+        expect.any(Error),
+      );
+
+      console.warn = originalConsoleWarn;
+    });
+
+    it("should throw error if deleting tastes and not logged in", async () => {
+      (service.agent as any).session = undefined;
+      await expect(service.deleteTastes()).rejects.toThrow(ERROR_NOT_LOGGED_IN);
     });
   });
 });

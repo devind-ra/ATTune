@@ -41,16 +41,16 @@ export function ProfileCard({ profile, thisYearReviewCount }: Props) {
   const reviewLabel = thisYearReviewCount === 1 ? "Review" : "Reviews";
   return (
     <div className="mt-8 p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <ProfileAvatar profile={profile} />
-        <div>
+        <div className="text-center sm:text-left">
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
             {profile.displayName || profile.handle}
           </h1>
           <p className="text-zinc-500 dark:text-zinc-400 mb-4">
             @{profile.handle}
           </p>
-          <div className="flex gap-4 text-sm mt-4">
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-sm mt-4">
             <div className="bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 px-3 py-1 rounded-full font-medium">
               {thisYearReviewCount} {reviewLabel} this year
             </div>
