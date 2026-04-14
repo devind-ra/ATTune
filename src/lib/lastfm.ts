@@ -232,3 +232,11 @@ export async function getAlbumTopTags(artistName: string, albumName: string) {
   });
   return data?.toptags?.tag || [];
 }
+
+export async function getGeoTopArtists(country: string, limit: string = "10") {
+  const data = await fetchLastFM("geo.gettopartists", {
+    country,
+    limit,
+  });
+  return data?.topartists?.artist || [];
+}
