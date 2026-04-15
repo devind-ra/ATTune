@@ -69,32 +69,36 @@ export class AtProtoService {
 
   async createReview(
     review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
+    publishToBluesky: boolean = true,
   ) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
     }
 
     const createdAt = new Date().toISOString();
-    const ellipsis = review.text && review.text.length > 200 ? "..." : "";
-    const truncatedText = review.text
-      ? review.text.substring(0, 200) + ellipsis
-      : "";
-
-    const postRecord = {
-      $type: "app.bsky.feed.post",
-      text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
-      createdAt: createdAt,
-    };
-
     let postRes;
-    try {
-      postRes = await this.agent.com.atproto.repo.createRecord({
-        repo: this.agent.session.did,
-        collection: "app.bsky.feed.post",
-        record: postRecord,
-      });
-    } catch (err) {
-      console.warn("Failed to create Bsky text post", err);
+
+    if (publishToBluesky) {
+      const ellipsis = review.text && review.text.length > 200 ? "..." : "";
+      const truncatedText = review.text
+        ? review.text.substring(0, 200) + ellipsis
+        : "";
+
+      const postRecord = {
+        $type: "app.bsky.feed.post",
+        text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
+        createdAt: createdAt,
+      };
+
+      try {
+        postRes = await this.agent.com.atproto.repo.createRecord({
+          repo: this.agent.session.did,
+          collection: "app.bsky.feed.post",
+          record: postRecord,
+        });
+      } catch (err) {
+        console.warn("Failed to create Bsky text post", err);
+      }
     }
 
     const record = {
