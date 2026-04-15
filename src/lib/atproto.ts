@@ -292,6 +292,43 @@ export class AtProtoService {
       console.warn("No tastes found to delete or delete failed", err);
     }
   }
+
+  async getPostMetrics(postUri: string) {
+    if (!this.agent.session) return { likeCount: 0, viewerLike: undefined };
+    try {
+      const response = await this.agent.getPosts({ uris: [postUri] });
+      const post = response.data.posts[0];
+      if (!post) return { likeCount: 0, viewerLike: undefined };
+      return {
+        likeCount: post.likeCount || 0,
+        viewerLike: post.viewer?.like,
+      };
+    } catch {
+      return { likeCount: 0, viewerLike: undefined };
+    }
+  }
+
+  async likePost(postUri: string, postCid: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    return await this.agent.com.atproto.repo.createRecord({
+      repo: this.agent.session.did,
+      collection: "app.bsky.feed.like",
+      record: {
+        subject: { uri: postUri, cid: postCid },
+        createdAt: new Date().toISOString(),
+      },
+    });
+  }
+
+  async unlikePost(likeUri: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    const rkey = likeUri.split("/").pop() || likeUri;
+    return await this.agent.com.atproto.repo.deleteRecord({
+      repo: this.agent.session.did,
+      collection: "app.bsky.feed.like",
+      rkey: rkey,
+    });
+  }
 }
 
 export const atApiService = new AtProtoService();
