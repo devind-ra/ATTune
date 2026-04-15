@@ -1,7 +1,7 @@
 // ReviewFormFields Component
 // Contains the following:
 // - Called by ReviewForm component to display review form fields
-// - Displays album preview, star rating, review text area and date listened
+// - Displays album preview, star rating, review text area, date listened and publish to BlueSky checkbox
 // - Calls ReviewFormActions component to display cancel and post review buttons
 
 import StarRating from "./StarRating";
@@ -98,8 +98,13 @@ export function ReviewFormFields({
             />
           </div>
           <div>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Publish to Bluesky Timeline</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">If unchecked, this review will only be saved to your ATtune profile. Comments will be disabled.</p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+              Publish to Bluesky Timeline
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+              If unchecked, this review will only be saved to your ATtune
+              profile. Comments will be disabled.
+            </p>
           </div>
         </label>
       </div>

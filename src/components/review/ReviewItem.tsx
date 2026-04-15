@@ -3,6 +3,7 @@
 // - Displays a single review
 // - Allows user to edit or delete a review
 // - Differentiating between read-only reviews and CRUD action reviews
+// - Displays like count and allows user to like or unlike a review
 
 "use client";
 
@@ -11,6 +12,7 @@ import Link from "next/link";
 import { MusicReview } from "@/lib/atproto";
 import { AppBskyActorDefs } from "@atproto/api";
 import ReviewEditForm from "./ReviewEditForm";
+import { usePostMetrics } from "@/app/hooks/usePostMetrics";
 
 interface ReviewItemProps {
   item: {
@@ -34,6 +36,10 @@ export default function ReviewItem({
 }: ReviewItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
+  const { likeCount, hasLiked, toggleLike, loading } = usePostMetrics(
+    item.value.postUri,
+    item.value.postCid,
+  );
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -131,24 +137,59 @@ export default function ReviewItem({
           )}
 
           <div className="mt-4 flex items-center justify-between gap-4">
-            <div className="text-xs text-zinc-400">
+            <div className="text-xs text-zinc-400 shrink-0">
               Listened on{" "}
               {new Date(
                 item.value.listenedAt || item.value.createdAt,
               ).toLocaleDateString()}
             </div>
-            {typeof item.author !== "string" && item.author?.handle && (
-              <a
-                href={`https://bsky.app/profile/${item.author.handle}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-xs font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                title="View Bluesky Profile"
-              >
-                @{item.author.handle}
-              </a>
-            )}
+
+            <div className="flex items-center gap-3">
+              {item.value.postUri && item.value.postCid && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleLike();
+                  }}
+                  disabled={loading}
+                  className={`flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors text-sm font-medium disabled:opacity-50 cursor-pointer
+                    ${hasLiked
+                      ? "text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30"
+                      : "text-zinc-500 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-950/30 dark:hover:text-pink-400"
+                    }`}
+                  title={hasLiked ? "Unlike review" : "Like review"}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill={hasLiked ? "currentColor" : "none"}
+                    stroke="currentColor"
+                    strokeWidth={hasLiked ? "0" : "2"}
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    />
+                  </svg>
+                  {likeCount > 0 && <span>{likeCount}</span>}
+                </button>
+              )}
+
+              {typeof item.author !== "string" && item.author?.handle && (
+                <a
+                  href={`https://bsky.app/profile/${item.author.handle}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-xs font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors shrink-0"
+                  title="View Bluesky Profile"
+                >
+                  @{item.author.handle}
+                </a>
+              )}
+            </div>
           </div>
         </>
       )}
