@@ -153,9 +153,10 @@ export default function ReviewItem({
                   }}
                   disabled={loading}
                   className={`flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors text-sm font-medium disabled:opacity-50 cursor-pointer
-                    ${hasLiked
-                      ? "text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30"
-                      : "text-zinc-500 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-950/30 dark:hover:text-pink-400"
+                    ${
+                      hasLiked
+                        ? "text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30"
+                        : "text-zinc-500 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-950/30 dark:hover:text-pink-400"
                     }`}
                   title={hasLiked ? "Unlike review" : "Like review"}
                 >
