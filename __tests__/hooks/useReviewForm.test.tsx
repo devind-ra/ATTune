@@ -134,6 +134,7 @@ describe("useReviewForm: Submission", () => {
         subjectArtist: ARTIST_RADIOHEAD,
         rating: 8,
       }),
+      true,
     );
     expect(onReviewCreatedMock).toHaveBeenCalled();
   });

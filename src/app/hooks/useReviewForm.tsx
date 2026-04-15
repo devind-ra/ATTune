@@ -32,6 +32,7 @@ export function useReviewForm({
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
   const [listenedAt, setListenedAt] = useState(todayISO);
+  const [publishToBluesky, setPublishToBluesky] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSearchStep, setIsSearchStep] = useState(!initialTitle);
@@ -47,6 +48,7 @@ export function useReviewForm({
     setRating(0);
     setText("");
     setListenedAt(todayISO());
+    setPublishToBluesky(true);
     setError("");
   };
 
@@ -75,13 +77,16 @@ export function useReviewForm({
     setLoading(true);
     setError("");
     try {
-      await atApiService.createReview({
-        subjectTitle: title,
-        subjectArtist: artist,
-        rating: Number(rating),
-        text,
-        listenedAt: new Date(listenedAt).toISOString(),
-      });
+      await atApiService.createReview(
+        {
+          subjectTitle: title,
+          subjectArtist: artist,
+          rating: Number(rating),
+          text,
+          listenedAt: new Date(listenedAt).toISOString(),
+        },
+        publishToBluesky,
+      );
       if (initialTitle) {
         resetReviewFields();
       } else {
@@ -105,6 +110,8 @@ export function useReviewForm({
     setText,
     listenedAt,
     setListenedAt,
+    publishToBluesky,
+    setPublishToBluesky,
     loading,
     error,
     isSearchStep,
