@@ -89,7 +89,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
               "Nov",
               "Dec",
             ],
-            totalCount: "{{count}} reviews in the last year",
+            totalCount: "{{count}} reviews in the last 365 days",
           }}
           renderBlock={(block, activity) =>
             React.cloneElement(block as React.ReactElement<Record<string, unknown>>, {
