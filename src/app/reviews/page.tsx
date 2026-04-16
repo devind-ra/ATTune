@@ -53,7 +53,10 @@ export default function ReviewsPage() {
               </span>
             </h2>
             <div className="flex items-center gap-2">
-              <label htmlFor="sort-select" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label
+                htmlFor="sort-select"
+                className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              >
                 Sort by:
               </label>
               <select
@@ -69,7 +72,11 @@ export default function ReviewsPage() {
               </select>
             </div>
           </div>
-          <ReviewList did={session.did} refreshTrigger={refreshTrigger} sortBy={filterSortBy} />
+          <ReviewList
+            did={session.did}
+            refreshTrigger={refreshTrigger}
+            sortBy={filterSortBy}
+          />
         </div>
       </main>
     </div>

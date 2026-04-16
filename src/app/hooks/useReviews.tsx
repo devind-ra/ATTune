@@ -7,7 +7,11 @@ import { useState, useCallback, useEffect } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 import { compareReviews } from "@/lib/utils";
 
-export type SortOption = "date-desc" | "date-asc" | "rating-desc" | "rating-asc";
+export type SortOption =
+  | "date-desc"
+  | "date-asc"
+  | "rating-desc"
+  | "rating-asc";
 
 export interface UseReviewsProps {
   did: string;
