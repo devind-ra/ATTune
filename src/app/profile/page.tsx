@@ -20,6 +20,7 @@ export default function ProfilePage() {
     profile,
     thisYearReviewCount,
     recentReviews,
+    refreshReviews,
     tastes,
     isEditingTastes,
     setIsEditingTastes,
@@ -66,7 +67,7 @@ export default function ProfilePage() {
           onSave={handleSaveTastes}
           onCancel={cancelEditTastes}
         />
-        <RecentReviews reviews={recentReviews} />
+        <RecentReviews reviews={recentReviews} refresh={refreshReviews} />
       </main>
     </div>
   );
