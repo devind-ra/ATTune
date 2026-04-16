@@ -168,14 +168,23 @@ export class AtProtoService {
     });
   }
 
-  async getReviews(did: string) {
-    const response = await this.agent.com.atproto.repo.listRecords({
-      repo: did,
-      collection: REVIEW_COLLECTION,
-      limit: 50,
-    });
+  async getReviews(did: string): Promise<ReviewRecord[]> {
+    let allRecords: any[] = [];
+    let cursor: string | undefined = undefined;
 
-    return response.data.records.map((r) => ({
+    do {
+      const response = await this.agent.com.atproto.repo.listRecords({
+        repo: did,
+        collection: REVIEW_COLLECTION,
+        limit: 100,
+        cursor: cursor,
+      });
+
+      allRecords = allRecords.concat(response.data.records);
+      cursor = response.data.cursor;
+    } while (cursor);
+
+    return allRecords.map((r) => ({
       uri: r.uri,
       cid: r.cid,
       value: r.value as unknown as MusicReview,
