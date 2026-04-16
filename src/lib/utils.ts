@@ -60,3 +60,39 @@ export const getImageUrl = (
   const img = imageArray.find((i) => i.size === preferredSize) ?? imageArray[0];
   return img?.["#text"] ?? "";
 };
+
+function compareByRating(
+  a: { value: { rating: number } },
+  b: { value: { rating: number } },
+  sortBy: string,
+) {
+  const ratingA = a.value.rating ?? 0;
+  const ratingB = b.value.rating ?? 0;
+  if (ratingA === ratingB) return 0;
+  return sortBy === "rating-desc" ? ratingB - ratingA : ratingA - ratingB;
+}
+
+function compareByDate(
+  a: { value: { listenedAt?: string; createdAt: string } },
+  b: { value: { listenedAt?: string; createdAt: string } },
+  sortBy: string,
+) {
+  const timeA =
+    new Date(a.value.listenedAt || a.value.createdAt).getTime() || 0;
+  const timeB =
+    new Date(b.value.listenedAt || b.value.createdAt).getTime() || 0;
+
+  return sortBy === "date-asc" ? timeA - timeB : timeB - timeA;
+}
+
+export function compareReviews(
+  a: { value: { rating: number; listenedAt?: string; createdAt: string } },
+  b: { value: { rating: number; listenedAt?: string; createdAt: string } },
+  sortBy: string,
+) {
+  if (sortBy.includes("rating")) {
+    const ratingDiff = compareByRating(a, b, sortBy);
+    if (ratingDiff !== 0) return ratingDiff;
+  }
+  return compareByDate(a, b, sortBy);
+}
