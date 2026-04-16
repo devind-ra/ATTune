@@ -68,7 +68,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
           maxLevel={4}
           theme={{
             light: ["#f4f4f5", "#bae6fd", "#7dd3fc", "#38bdf8", "#0ea5e9"],
-            dark: ["#18181b", "#0369a1", "#0284c7", "#0ea5e9", "#38bdf8"],
+            dark: ["#18181b", "#cfe2f3", "#9fc5e8", "#6fa8dc", "#0b5394"],
           }}
           labels={{
             legend: {
