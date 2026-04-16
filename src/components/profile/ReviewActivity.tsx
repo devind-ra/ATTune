@@ -4,13 +4,20 @@
 // - Calls to ActivityCalendar for displaying review activity
 
 import { ActivityCalendar } from "react-activity-calendar";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 import { MusicReview } from "@/lib/atproto";
-import { useMemo } from "react";
-import Link from "next/link";
+import React, { useMemo } from "react";
 
 interface ReviewActivityProps {
   allReviews: { uri: string; value: MusicReview }[];
 }
+
+const options: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 
 // eslint-disable-next-line max-lines-per-function
 export function ReviewActivity({ allReviews }: ReviewActivityProps) {
@@ -29,9 +36,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
     }
 
     allReviews.forEach((review) => {
-      const rDate = new Date(
-        review.value.listenedAt || review.value.createdAt,
-      );
+      const rDate = new Date(review.value.listenedAt || review.value.createdAt);
       const year = rDate.getFullYear();
       const month = String(rDate.getMonth() + 1).padStart(2, "0");
       const day = String(rDate.getDate()).padStart(2, "0");
@@ -86,15 +91,14 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
             ],
             totalCount: "{{count}} reviews in the last year",
           }}
+          renderBlock={(block, activity) =>
+            React.cloneElement(block as React.ReactElement<any>, {
+              "data-tooltip-id": "activity-tooltip",
+              "data-tooltip-content": `${activity.count} review${activity.count !== 1 ? "s" : ""} on ${new Date(activity.date).toLocaleString(undefined, options)}`,
+            })
+          }
         />
-      </div>
-      <div className="mt-6 text-center border-t border-zinc-100 dark:border-zinc-800 pt-5">
-        <Link
-          href="/reviews"
-          className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors inline-block"
-        >
-          View all reviews &rarr;
-        </Link>
+        <ReactTooltip id="activity-tooltip" />
       </div>
     </div>
   );

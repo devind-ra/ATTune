@@ -45,5 +45,10 @@ export function useProfileReviews(did: string | undefined) {
     fetchReviews();
   }, [fetchReviews]);
 
-  return { thisYearReviewCount, recentReviews, allReviews, refresh: fetchReviews };
+  return {
+    thisYearReviewCount,
+    recentReviews,
+    allReviews,
+    refresh: fetchReviews,
+  };
 }
