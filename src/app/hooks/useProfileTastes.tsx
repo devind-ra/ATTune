@@ -6,20 +6,9 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { atApiService, UserTastes } from "@/lib/atproto";
+import { ARTIST_COUNT, GENRE_COUNT, padArray, hasDuplicates } from "@/lib/utils";
 
-const ARTIST_COUNT = 5;
-const GENRE_COUNT = 3;
-
-function padArray(arr: string[], length: number): string[] {
-  const padded = [...arr];
-  while (padded.length < length) padded.push("");
-  return padded;
-}
-
-function hasDuplicates(arr: string[]): boolean {
-  return new Set(arr).size !== arr.length;
-}
-
+// eslint-disable-next-line max-lines-per-function
 export function useProfileTastes(did: string | undefined) {
   const [tastes, setTastes] = useState<UserTastes | null>(null);
   const [isEditingTastes, setIsEditingTastes] = useState(false);

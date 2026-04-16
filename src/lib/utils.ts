@@ -4,6 +4,18 @@
 
 import { LastFMImage } from "./lastfm";
 
+export const ARTIST_COUNT = 5;
+export const GENRE_COUNT = 3;
+
+export function padArray(arr: string[], length: number): string[] {
+  const padded = [...arr];
+  while (padded.length < length) padded.push("");
+  return padded;
+}
+
+export function hasDuplicates(arr: string[]): boolean {
+  return new Set(arr).size !== arr.length;
+}
 export function shuffle<T>(arr: T[]): T[] {
   const array = [...arr];
   for (let i = array.length - 1; i > 0; i--) {
