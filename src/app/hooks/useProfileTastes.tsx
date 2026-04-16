@@ -6,7 +6,12 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { atApiService, UserTastes } from "@/lib/atproto";
-import { ARTIST_COUNT, GENRE_COUNT, padArray, hasDuplicates } from "@/lib/utils";
+import {
+  ARTIST_COUNT,
+  GENRE_COUNT,
+  padArray,
+  hasDuplicates,
+} from "@/lib/utils";
 
 // eslint-disable-next-line max-lines-per-function
 export function useProfileTastes(did: string | undefined) {

@@ -17,9 +17,11 @@ export function useProfilePage() {
   const [profile, setProfile] =
     useState<AppBskyActorDefs.ProfileViewDetailed | null>(null);
 
-  const { thisYearReviewCount, recentReviews, refresh: refreshReviews } = useProfileReviews(
-    session?.did,
-  );
+  const {
+    thisYearReviewCount,
+    recentReviews,
+    refresh: refreshReviews,
+  } = useProfileReviews(session?.did);
   const tastesData = useProfileTastes(session?.did);
 
   useEffect(() => {

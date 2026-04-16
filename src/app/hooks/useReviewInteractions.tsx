@@ -59,7 +59,7 @@ export function useReviewInteractions(
             rating: Number(editData.rating!),
             text: editData.text,
             listenedAt: editData.listenedAt!,
-          }
+          },
         });
       }
     } catch (err) {
