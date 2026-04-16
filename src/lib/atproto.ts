@@ -169,7 +169,7 @@ export class AtProtoService {
   }
 
   async getReviews(did: string): Promise<ReviewRecord[]> {
-    let allRecords: any[] = [];
+    let allRecords: { uri: string; cid: string; value: unknown }[] = [];
     let cursor: string | undefined = undefined;
 
     do {

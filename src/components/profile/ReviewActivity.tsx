@@ -92,7 +92,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
             totalCount: "{{count}} reviews in the last year",
           }}
           renderBlock={(block, activity) =>
-            React.cloneElement(block as React.ReactElement<any>, {
+            React.cloneElement(block as React.ReactElement<Record<string, unknown>>, {
               "data-tooltip-id": "activity-tooltip",
               "data-tooltip-content": `${activity.count} review${activity.count !== 1 ? "s" : ""} on ${new Date(activity.date).toLocaleString(undefined, options)}`,
             })
