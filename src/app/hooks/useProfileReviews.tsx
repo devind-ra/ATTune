@@ -16,7 +16,7 @@ export function useProfileReviews(did: string | undefined) {
     { uri: string; value: MusicReview }[]
   >([]);
 
-  useEffect(() => {
+  const fetchReviews = () => {
     if (!did) return;
     atApiService
       .getReviews(did)
@@ -35,7 +35,11 @@ export function useProfileReviews(did: string | undefined) {
         );
       })
       .catch((err) => console.error("Error fetching reviews:", err));
+  };
+
+  useEffect(() => {
+    fetchReviews();
   }, [did]);
 
-  return { thisYearReviewCount, recentReviews };
+  return { thisYearReviewCount, recentReviews, refresh: fetchReviews };
 }
