@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // AT Protocol Service
 // Contains the following:
 // - Interfaces for storing user data on AT Protocol

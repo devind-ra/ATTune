@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 
+// eslint-disable-next-line max-lines-per-function
 export function useReviewInteractions(
   reviews: { uri: string; value: MusicReview }[],
   refresh: () => void,
