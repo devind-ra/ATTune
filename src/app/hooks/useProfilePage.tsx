@@ -3,7 +3,6 @@
 // - Deals with profile page logic
 // - Fetches profile information
 
-// hooks/useProfilePage.ts
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,9 +17,12 @@ export function useProfilePage() {
   const [profile, setProfile] =
     useState<AppBskyActorDefs.ProfileViewDetailed | null>(null);
 
-  const { thisYearReviewCount, recentReviews } = useProfileReviews(
-    session?.did,
-  );
+  const {
+    thisYearReviewCount,
+    recentReviews,
+    allReviews,
+    refresh: refreshReviews,
+  } = useProfileReviews(session?.did);
   const tastesData = useProfileTastes(session?.did);
 
   useEffect(() => {
@@ -41,6 +43,8 @@ export function useProfilePage() {
     profile,
     thisYearReviewCount,
     recentReviews,
+    allReviews,
+    refreshReviews,
     ...tastesData,
   };
 }

@@ -65,6 +65,8 @@ export default function ReviewForm({
             onTextChange={form.setText}
             listenedAt={form.listenedAt}
             onListenedAtChange={form.setListenedAt}
+            publishToBluesky={form.publishToBluesky}
+            onPublishToBlueskyChange={form.setPublishToBluesky}
             loading={form.loading}
             initialTitle={initialTitle}
             onCancel={onCancel}

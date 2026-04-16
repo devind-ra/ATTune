@@ -10,9 +10,11 @@
 import Navbar from "@/components/navbar/Navbar";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { TastesPanel } from "@/components/profile/TastesPanel";
-import { RecentReviews } from "@/components/review/RecentReviews";
+import { RecentReviews } from "@/components/profile/RecentReviews";
+import { ReviewActivity } from "@/components/profile/ReviewActivity";
 import { useProfilePage } from "@/app/hooks/useProfilePage";
 
+// eslint-disable-next-line max-lines-per-function
 export default function ProfilePage() {
   const {
     session,
@@ -20,6 +22,8 @@ export default function ProfilePage() {
     profile,
     thisYearReviewCount,
     recentReviews,
+    allReviews,
+    refreshReviews,
     tastes,
     isEditingTastes,
     setIsEditingTastes,
@@ -66,7 +70,8 @@ export default function ProfilePage() {
           onSave={handleSaveTastes}
           onCancel={cancelEditTastes}
         />
-        <RecentReviews reviews={recentReviews} />
+        <ReviewActivity allReviews={allReviews} />
+        <RecentReviews reviews={recentReviews} refresh={refreshReviews} />
       </main>
     </div>
   );

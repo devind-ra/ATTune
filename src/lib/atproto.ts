@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // AT Protocol Service
 // Contains the following:
 // - Interfaces for storing user data on AT Protocol
@@ -67,35 +68,50 @@ export class AtProtoService {
     return this.agent.session;
   }
 
-  async createReview(
+  private truncateReviewText(
+    text: string | undefined,
+    maxLength = 200,
+  ): string {
+    if (!text) return "";
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
+  }
+
+  private async createBlueskyPost(
     review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
+    createdAt: string,
   ) {
-    if (!this.agent.session) {
-      throw new Error(ERROR_NOT_LOGGED_IN);
-    }
-
-    const createdAt = new Date().toISOString();
-    const ellipsis = review.text && review.text.length > 200 ? "..." : "";
-    const truncatedText = review.text
-      ? review.text.substring(0, 200) + ellipsis
-      : "";
-
+    const truncatedText = this.truncateReviewText(review.text);
     const postRecord = {
       $type: "app.bsky.feed.post",
       text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
-      createdAt: createdAt,
+      createdAt,
     };
 
-    let postRes;
     try {
-      postRes = await this.agent.com.atproto.repo.createRecord({
-        repo: this.agent.session.did,
+      return await this.agent.com.atproto.repo.createRecord({
+        repo: this.agent.session!.did,
         collection: "app.bsky.feed.post",
         record: postRecord,
       });
     } catch (err) {
       console.warn("Failed to create Bsky text post", err);
     }
+  }
+
+  async createReview(
+    review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
+    publishToBluesky: boolean = true,
+  ) {
+    if (!this.agent.session) {
+      throw new Error(ERROR_NOT_LOGGED_IN);
+    }
+
+    const createdAt = new Date().toISOString();
+    const postRes = publishToBluesky
+      ? await this.createBlueskyPost(review, createdAt)
+      : undefined;
 
     const record = {
       $type: REVIEW_COLLECTION,
@@ -152,14 +168,23 @@ export class AtProtoService {
     });
   }
 
-  async getReviews(did: string) {
-    const response = await this.agent.com.atproto.repo.listRecords({
-      repo: did,
-      collection: REVIEW_COLLECTION,
-      limit: 50,
-    });
+  async getReviews(did: string): Promise<ReviewRecord[]> {
+    let allRecords: { uri: string; cid: string; value: unknown }[] = [];
+    let cursor: string | undefined = undefined;
 
-    return response.data.records.map((r) => ({
+    do {
+      const response = await this.agent.com.atproto.repo.listRecords({
+        repo: did,
+        collection: REVIEW_COLLECTION,
+        limit: 100,
+        cursor: cursor,
+      });
+
+      allRecords = allRecords.concat(response.data.records);
+      cursor = response.data.cursor;
+    } while (cursor);
+
+    return allRecords.map((r) => ({
       uri: r.uri,
       cid: r.cid,
       value: r.value as unknown as MusicReview,
@@ -287,6 +312,43 @@ export class AtProtoService {
     } catch (err) {
       console.warn("No tastes found to delete or delete failed", err);
     }
+  }
+
+  async getPostMetrics(postUri: string) {
+    if (!this.agent.session) return { likeCount: 0, viewerLike: undefined };
+    try {
+      const response = await this.agent.getPosts({ uris: [postUri] });
+      const post = response.data.posts[0];
+      if (!post) return { likeCount: 0, viewerLike: undefined };
+      return {
+        likeCount: post.likeCount || 0,
+        viewerLike: post.viewer?.like,
+      };
+    } catch {
+      return { likeCount: 0, viewerLike: undefined };
+    }
+  }
+
+  async likePost(postUri: string, postCid: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    return await this.agent.com.atproto.repo.createRecord({
+      repo: this.agent.session.did,
+      collection: "app.bsky.feed.like",
+      record: {
+        subject: { uri: postUri, cid: postCid },
+        createdAt: new Date().toISOString(),
+      },
+    });
+  }
+
+  async unlikePost(likeUri: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    const rkey = likeUri.split("/").pop() || likeUri;
+    return await this.agent.com.atproto.repo.deleteRecord({
+      repo: this.agent.session.did,
+      collection: "app.bsky.feed.like",
+      rkey: rkey,
+    });
   }
 }
 

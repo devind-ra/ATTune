@@ -3,7 +3,7 @@
 // - Fetches user reviews
 // - Calculates this year's review count
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 
 function getReviewDate(r: { value: MusicReview }) {
@@ -15,8 +15,11 @@ export function useProfileReviews(did: string | undefined) {
   const [recentReviews, setRecentReviews] = useState<
     { uri: string; value: MusicReview }[]
   >([]);
+  const [allReviews, setAllReviews] = useState<
+    { uri: string; value: MusicReview }[]
+  >([]);
 
-  useEffect(() => {
+  const fetchReviews = useCallback(() => {
     if (!did) return;
     atApiService
       .getReviews(did)
@@ -33,9 +36,19 @@ export function useProfileReviews(did: string | undefined) {
             )
             .slice(0, 2),
         );
+        setAllReviews(reviews);
       })
       .catch((err) => console.error("Error fetching reviews:", err));
   }, [did]);
 
-  return { thisYearReviewCount, recentReviews };
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
+
+  return {
+    thisYearReviewCount,
+    recentReviews,
+    allReviews,
+    refresh: fetchReviews,
+  };
 }

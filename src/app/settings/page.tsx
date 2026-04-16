@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/navbar/Navbar";
 import ReactMarkdown from "react-markdown";
-import { components } from "~/lib/markdown_components";
+import { components } from "@/lib/markdown_components";
 import SettingsModal from "@/components/settings/SettingsModal";
 
 // eslint-disable-next-line max-lines-per-function

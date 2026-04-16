@@ -8,7 +8,7 @@
 
 import Navbar from "@/components/navbar/Navbar";
 import { useExploreData } from "@/app/hooks/useExploreData";
-import { DiscoverAlbums } from "~/components/explore/DiscoverAlbums";
+import { DiscoverAlbums } from "@/components/explore/DiscoverAlbums";
 import { TrendingTracks } from "@/components/explore/TrendingTracks";
 import { GeoTopArtists } from "@/components/explore/GeoTopArtists";
 

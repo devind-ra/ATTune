@@ -5,12 +5,20 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
+import { compareReviews } from "@/lib/utils";
+
+export type SortOption =
+  | "date-desc"
+  | "date-asc"
+  | "rating-desc"
+  | "rating-asc";
 
 export interface UseReviewsProps {
   did: string;
   refreshTrigger: number;
   filterTitle?: string;
   filterArtist?: string;
+  sortBy?: SortOption;
 }
 
 export function useReviews({
@@ -18,6 +26,7 @@ export function useReviews({
   refreshTrigger,
   filterTitle,
   filterArtist,
+  sortBy = "date-desc",
 }: UseReviewsProps) {
   const [reviews, setReviews] = useState<{ uri: string; value: MusicReview }[]>(
     [],
@@ -40,15 +49,7 @@ export function useReviews({
         return titleMatch && artistMatch;
       });
 
-      const sorted = filtered.sort((a, b) => {
-        const timeA = new Date(
-          a.value.listenedAt || a.value.createdAt,
-        ).getTime();
-        const timeB = new Date(
-          b.value.listenedAt || b.value.createdAt,
-        ).getTime();
-        return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
-      });
+      const sorted = filtered.sort((a, b) => compareReviews(a, b, sortBy));
 
       setReviews(sorted);
     } catch (err) {
@@ -56,7 +57,7 @@ export function useReviews({
     } finally {
       setLoading(false);
     }
-  }, [did, filterTitle, filterArtist]);
+  }, [did, filterTitle, filterArtist, sortBy]);
 
   useEffect(() => {
     fetchReviews();
