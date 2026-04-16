@@ -10,7 +10,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { TastesPanel } from "@/components/profile/TastesPanel";
-import { RecentReviews } from "@/components/review/RecentReviews";
+import { RecentReviews } from "@/components/profile/RecentReviews";
 import { ReviewActivity } from "@/components/profile/ReviewActivity";
 import { useProfilePage } from "@/app/hooks/useProfilePage";
 
