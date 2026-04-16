@@ -20,6 +20,7 @@ export function useProfilePage() {
   const {
     thisYearReviewCount,
     recentReviews,
+    allReviews,
     refresh: refreshReviews,
   } = useProfileReviews(session?.did);
   const tastesData = useProfileTastes(session?.did);
@@ -42,6 +43,7 @@ export function useProfilePage() {
     profile,
     thisYearReviewCount,
     recentReviews,
+    allReviews,
     refreshReviews,
     ...tastesData,
   };

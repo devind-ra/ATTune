@@ -4,7 +4,6 @@
 // - Calls to MusicReview for displaying recent reviews
 // - Calls to Link for linking to artist/album pages
 
-import Link from "next/link";
 import { MusicReview } from "@/lib/atproto";
 import ReviewItem from "./ReviewItem";
 import { CommentModal } from "./CommentModal";
@@ -46,15 +45,6 @@ export function RecentReviews({ reviews, refresh }: RecentReviewsProps) {
           onEdit={handleEdit}
         />
       )}
-
-      <div className="mt-6 text-center">
-        <Link
-          href="/reviews"
-          className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
-        >
-          Show more reviews →
-        </Link>
-      </div>
     </div>
   );
 }

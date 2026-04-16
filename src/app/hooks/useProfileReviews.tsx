@@ -15,6 +15,9 @@ export function useProfileReviews(did: string | undefined) {
   const [recentReviews, setRecentReviews] = useState<
     { uri: string; value: MusicReview }[]
   >([]);
+  const [allReviews, setAllReviews] = useState<
+    { uri: string; value: MusicReview }[]
+  >([]);
 
   const fetchReviews = useCallback(() => {
     if (!did) return;
@@ -33,6 +36,7 @@ export function useProfileReviews(did: string | undefined) {
             )
             .slice(0, 2),
         );
+        setAllReviews(reviews);
       })
       .catch((err) => console.error("Error fetching reviews:", err));
   }, [did]);
@@ -41,5 +45,5 @@ export function useProfileReviews(did: string | undefined) {
     fetchReviews();
   }, [fetchReviews]);
 
-  return { thisYearReviewCount, recentReviews, refresh: fetchReviews };
+  return { thisYearReviewCount, recentReviews, allReviews, refresh: fetchReviews };
 }
