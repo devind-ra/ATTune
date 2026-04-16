@@ -10,7 +10,7 @@ const eslintConfig = defineConfig([
       "**/*.spec.{js,jsx,ts,tsx}",
       "**/__tests__/**/*",
       "playwright.config.ts",
-      "e2e/**"
+      "e2e/**",
     ],
   },
   ...nextVitals,
