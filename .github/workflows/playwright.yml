@@ -17,11 +17,18 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Start app
-        run: npm run build && npm start
+      - name: Build app
+        run: npm run build
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+      - name: Start app
+        run: npm start &
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+      - name: Wait for app to be ready
+        run: npx wait-on http://localhost:3000 --timeout 60000
       - name: Run Playwright tests
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
