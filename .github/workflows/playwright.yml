@@ -12,6 +12,7 @@ jobs:
       BASE_URL: "http://localhost:3000"
       BLUESKY_HANDLE: ${{secrets.BLUESKY_HANDLE}}
       BLUESKY_APP_PASSWORD: ${{secrets.BLUESKY_APP_PASSWORD}}
+      LASTFM_API_KEY: ${{secrets.LASTFM_API_KEY}}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
