@@ -1,0 +1,25 @@
+export const landingPageContent = {
+  title: "ATtune",
+  subheading: "Decentralised Music. Real Connections.",
+  description:
+    "Join the revolution of music discovery. Rate, review, and discuss your favourite tracks through the use of the AT Protocol. Own your data, find your rhythm.",
+  getStartedButton: "Get Started",
+  signInButton: "Sign In",
+  signUpButton: "Sign Up",
+  authenticationSectionHeading: "Welcome to the Community",
+  authenticationSectionDescription:
+    "Sign in with your Bluesky account to continue",
+  formHeading: "Sign in with Bluesky",
+  handleOrEmail: "Handle or Email",
+  handleOrEmailPlaceholder: "alice.bsky.social",
+  appPassword: "App Password",
+  appPasswordPlaceholder: "xxxx-xxxx-xxxx-xxxx",
+  whereDoIGetThisButton: "Where do I get this?",
+  dontHaveAnAccount: "Don't have an account?",
+  rateHeading: "Rate",
+  rateDescription: "Share your opinion on albums and tracks.",
+  reviewHeading: "Review",
+  reviewDescription: "Write in-depth reviews and gain a following.",
+  connectHeading: "Connect",
+  connectDescription: "Find users with similar taste in music.",
+};

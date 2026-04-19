@@ -9,6 +9,8 @@ const eslintConfig = defineConfig([
       "**/*.test.{js,jsx,ts,tsx}",
       "**/*.spec.{js,jsx,ts,tsx}",
       "**/__tests__/**/*",
+      "playwright.config.ts",
+      "e2e/**",
     ],
   },
   ...nextVitals,
