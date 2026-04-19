@@ -72,10 +72,15 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run build && npm run start",
+    command: "npm run start",
     url: "http://localhost:3000",
+    timeout: 120 * 1000,
+    reuseExistingServer: !process.env.CI,
+    env: {
+      BLUESKY_HANDLE: process.env.BLUESKY_HANDLE!,
+      BLUESKY_APP_PASSWORD: process.env.BLUESKY_APP_PASSWORD!,
+    },
     // reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-    reuseExistingServer: true,
+    // reuseExistingServer: true,
   },
 });
