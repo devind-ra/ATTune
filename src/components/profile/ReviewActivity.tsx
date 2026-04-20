@@ -59,9 +59,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
 
   return (
     <div className="mt-12 mb-8 bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 overflow-hidden shadow-sm">
-      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
-        Review Activity
-      </h2>
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">Review Activity</h2>
       <div className="flex justify-center overflow-x-auto pb-4 hide-scrollbar">
         <ActivityCalendar
           data={data}

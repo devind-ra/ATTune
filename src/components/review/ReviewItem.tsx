@@ -48,9 +48,10 @@ function LikeButton({
       }}
       disabled={loading}
       className={`flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors text-sm font-medium disabled:opacity-50 cursor-pointer
-        ${hasLiked
-          ? "text-pink-400 bg-pink-950/30"
-          : "text-zinc-500 hover:text-pink-600 hover:bg-pink-950/30"
+        ${
+          hasLiked
+            ? "text-pink-400 bg-pink-950/30"
+            : "text-zinc-500 hover:text-pink-600 hover:bg-pink-950/30"
         }`}
       title={hasLiked ? "Unlike review" : "Like review"}
     >

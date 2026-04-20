@@ -16,10 +16,7 @@ export function TastesViewer({ tastes }: { tastes: UserTastes | null }) {
         {tastes?.topArtists?.length ? (
           <ul className="space-y-2">
             {tastes.topArtists.map((artist, idx) => (
-              <li
-                key={idx}
-                className="flex items-center gap-3 text-zinc-200"
-              >
+              <li key={idx} className="flex items-center gap-3 text-zinc-200">
                 <span className="w-6 text-center font-medium text-sky-500">
                   {idx + 1}.
                 </span>

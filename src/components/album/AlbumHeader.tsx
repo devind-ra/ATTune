@@ -42,9 +42,7 @@ export function AlbumHeader({ name, artist, img, releaseDate }: Props) {
         </p>
       </Link>
 
-      <div className="text-sm text-zinc-400 mb-6">
-        Released: {releaseDate}
-      </div>
+      <div className="text-sm text-zinc-400 mb-6">Released: {releaseDate}</div>
     </>
   );
 }

@@ -47,9 +47,7 @@ export function ProfileCard({ profile, thisYearReviewCount }: Props) {
           <h1 className="text-3xl font-bold text-zinc-100 mb-1">
             {profile.displayName || profile.handle}
           </h1>
-          <p className="text-zinc-400 mb-4">
-            @{profile.handle}
-          </p>
+          <p className="text-zinc-400 mb-4">@{profile.handle}</p>
           <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-sm mt-4">
             <div className="bg-sky-900/20 text-sky-400 px-3 py-1 rounded-full font-medium">
               {thisYearReviewCount} {reviewLabel} this year

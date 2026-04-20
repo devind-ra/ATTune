@@ -23,9 +23,7 @@ export function RecentReviews({ reviews, refresh }: RecentReviewsProps) {
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
-        Recent Reviews
-      </h2>
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">Recent Reviews</h2>
       <div className="space-y-4">
         {reviews.map((item) => (
           <ReviewItem

@@ -32,7 +32,9 @@ export function ArtistList({ artists }: ArtistListProps) {
             href={`/artist/${encodeURIComponent(artist.name)}`}
             className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-800 transition-colors"
           >
-            <span className={`font-medium text-zinc-100 text-center hover:text-sky-400 ${getArtistTextSize(artist.name)}`}>
+            <span
+              className={`font-medium text-zinc-100 text-center hover:text-sky-400 ${getArtistTextSize(artist.name)}`}
+            >
               {artist.name}
             </span>
           </Link>

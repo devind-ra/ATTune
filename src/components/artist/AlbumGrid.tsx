@@ -12,9 +12,7 @@ export function AlbumGrid({ albums }: { albums: LastFMAlbum[] }) {
   if (!albums.length) return null;
   return (
     <section className="mt-12">
-      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
-        Discography
-      </h2>
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">Discography</h2>
       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {albums.map((item, idx) => (
           <AlbumCard key={idx} item={item} />
