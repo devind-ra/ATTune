@@ -20,7 +20,7 @@ export class HomePage {
     this.currentTopArtistsHeading = homePageContent.currentTopArtistsHeading;
   }
 
-  async checkPageElements(): Promise<void> {
+  async checkPageElements() {
     await expect(this.page).toHaveTitle(this.title);
     await this.checkFilters();
     await this.checkRecommendedAlbums();
@@ -28,55 +28,48 @@ export class HomePage {
     await this.checkCurrentTopArtists();
   }
 
-  async checkFilters(): Promise<void> {
-    await Promise.all([
-      await expect(this.page.getByText(this.filterSectionsText)).toBeVisible(),
-      await this.page.getByText(this.filterSectionsText).click(),
-      await expect(
-        this.page.getByRole("button", { name: this.recommendedAlbumsHeading }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.recommendedArtistsHeading }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.currentTopArtistsHeading }),
-      ).toBeVisible(),
-    ]);
+  async checkFilters() {
+    await this.page
+      .getByRole("button", { name: this.filterSectionsText })
+      .click();
+    await expect(
+      this.page.getByRole("button", { name: this.recommendedAlbumsHeading }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.recommendedArtistsHeading }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.currentTopArtistsHeading }),
+    ).toBeVisible();
   }
 
-  async checkRecommendedAlbums(): Promise<void> {
-    await Promise.all([
-      await expect(
-        this.page.getByRole("heading", { name: this.recommendedAlbumsHeading }),
-      ).toBeVisible(),
-      await expect(
-        this.page.locator(homePageLocators.recommendedAlbumsListItems),
-      ).toHaveCount(5),
-    ]);
+  async checkRecommendedAlbums() {
+    await expect(
+      this.page.getByRole("heading", { name: this.recommendedAlbumsHeading }),
+    ).toBeVisible();
+    await expect(
+      this.page.locator(homePageLocators.recommendedAlbumsListItems),
+    ).toHaveCount(5);
   }
 
-  async checkRecommendedArtists(): Promise<void> {
-    await Promise.all([
-      await expect(
-        this.page.getByRole("heading", {
-          name: this.recommendedArtistsHeading,
-        }),
-      ).toBeVisible(),
-      await expect(
-        this.page.locator(homePageLocators.recommendedArtistsListItems),
-      ).toHaveCount(5),
-    ]);
+  async checkRecommendedArtists() {
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.recommendedArtistsHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.locator(homePageLocators.recommendedArtistsListItems),
+    ).toHaveCount(5);
   }
 
-  async checkCurrentTopArtists(): Promise<void> {
-    await Promise.all([
-      await expect(
-        this.page.getByRole("heading", { name: this.currentTopArtistsHeading }),
-      ).toBeVisible(),
-      await expect(
-        this.page.locator(homePageLocators.currentTopArtistsListItems),
-      ).toHaveCount(5),
-    ]);
+  async checkCurrentTopArtists() {
+    await expect(
+      this.page.getByRole("heading", { name: this.currentTopArtistsHeading }),
+    ).toBeVisible();
+    await expect(
+      this.page.locator(homePageLocators.currentTopArtistsListItems),
+    ).toHaveCount(5);
   }
 }
 

@@ -19,40 +19,38 @@ export class Navbar {
     this.account = homePageContent.account;
   }
 
-  async checkPageElements(): Promise<void> {
-    await Promise.all([
-      await expect(this.page).toHaveTitle(this.title),
-      await expect(
-        this.page.getByPlaceholder(this.searchBarPlaceholder),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("link", { name: this.profile }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("link", { name: this.explore }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.record }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.account }),
-      ).toBeVisible(),
-    ]);
+  async checkPageElements() {
+    await expect(this.page).toHaveTitle(this.title);
+    await expect(
+      this.page.getByPlaceholder(this.searchBarPlaceholder).first(),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("link", { name: this.profile }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("link", { name: this.explore }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.record }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.account }),
+    ).toBeVisible();
   }
 
-  async clickProfile(): Promise<void> {
+  async clickProfile() {
     await this.page.getByRole("link", { name: this.profile }).click();
   }
 
-  async clickExplore(): Promise<void> {
+  async clickExplore() {
     await this.page.getByRole("link", { name: this.explore }).click();
   }
 
-  async clickRecord(): Promise<void> {
+  async clickRecord() {
     await this.page.getByRole("button", { name: this.record }).click();
   }
 
-  async clickAccount(): Promise<void> {
+  async clickAccount() {
     await this.page.getByRole("button", { name: this.account }).click();
   }
 }

@@ -51,99 +51,95 @@ export class LandingPage {
     this.connectDescription = landingPageContent.connectDescription;
   }
 
-  async checkPageElements(): Promise<void> {
+  async checkPageElements() {
     await this.checkHeroSection();
     await this.checkAuthenticationSection();
   }
 
-  async checkHeroSection(): Promise<void> {
-    await Promise.all([
-      await expect(
-        this.page.getByRole("heading", { name: this.title }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.subheading)).toBeVisible(),
-      await expect(this.page.getByText(this.description)).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.getStartedButton }),
-      ).toBeVisible(),
-    ]);
+  async checkHeroSection() {
+    await expect(
+      this.page.getByRole("heading", { name: this.title }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.subheading)).toBeVisible();
+    await expect(this.page.getByText(this.description)).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.getStartedButton }),
+    ).toBeVisible();
   }
 
-  async checkAuthenticationSection(): Promise<void> {
-    await Promise.all([
-      await expect(
-        this.page.getByRole("heading", {
-          name: this.authenticationSectionHeading,
-        }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByText(this.authenticationSectionDescription),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("heading", { name: this.formHeading }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.handleOrEmail)).toBeVisible(),
-      await expect(this.page.getByText(this.appPassword)).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", {
-          name: this.whereDoIGetThisButton,
-        }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.signInButton }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.dontHaveAnAccount)).toBeVisible(),
-      await expect(
-        this.page.getByRole("button", { name: this.signUpButton }),
-      ).toBeVisible(),
-      await expect(
-        this.page.getByText(this.rateHeading, { exact: true }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.rateDescription)).toBeVisible(),
-      await expect(
-        this.page.getByText(this.reviewHeading, { exact: true }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.reviewDescription)).toBeVisible(),
-      await expect(
-        this.page.getByText(this.connectHeading, { exact: true }),
-      ).toBeVisible(),
-      await expect(this.page.getByText(this.connectDescription)).toBeVisible(),
-    ]);
+  async checkAuthenticationSection() {
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.authenticationSectionHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByText(this.authenticationSectionDescription),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: this.formHeading }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.handleOrEmail)).toBeVisible();
+    await expect(this.page.getByText(this.appPassword)).toBeVisible();
+    await expect(
+      this.page.getByRole("button", {
+        name: this.whereDoIGetThisButton,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.signInButton }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.dontHaveAnAccount)).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.signUpButton }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByText(this.rateHeading, { exact: true }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.rateDescription)).toBeVisible();
+    await expect(
+      this.page.getByText(this.reviewHeading, { exact: true }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.reviewDescription)).toBeVisible();
+    await expect(
+      this.page.getByText(this.connectHeading, { exact: true }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.connectDescription)).toBeVisible();
   }
 
-  async clickGetStarted(): Promise<void> {
+  async clickGetStarted() {
     await this.page
       .getByRole("button", { name: this.getStartedButton })
       .click();
   }
 
-  async clickSignIn(): Promise<void> {
+  async clickSignIn() {
     await this.page.getByRole("button", { name: this.signInButton }).click();
   }
 
-  async clickSignUp(): Promise<void> {
+  async clickSignUp() {
     await this.page.getByRole("button", { name: this.signUpButton }).click();
   }
 
-  async clickWhereDoIGetThis(): Promise<void> {
+  async clickWhereDoIGetThis() {
     await this.page
       .getByRole("button", { name: this.whereDoIGetThisButton })
       .click();
   }
 
-  async fillDetails(): Promise<void> {
+  async fillDetails() {
     await this.fillHandleOrEmail();
     await this.fillAppPassword();
   }
 
-  async fillHandleOrEmail(): Promise<void> {
+  async fillHandleOrEmail() {
     await this.page.getByPlaceholder(this.handleOrEmailPlaceholder).click();
     await this.page
       .getByPlaceholder(this.handleOrEmailPlaceholder)
       .fill(process.env.BLUESKY_HANDLE!);
   }
 
-  async fillAppPassword(): Promise<void> {
+  async fillAppPassword() {
     await this.page
       .getByPlaceholder(this.appPasswordPlaceholder)
       .fill(process.env.BLUESKY_APP_PASSWORD!);
