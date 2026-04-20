@@ -26,7 +26,7 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
           {image?.["#text"] ? (
             <Image
               src={image["#text"]}
-              alt=""
+              alt={`${album.name} cover`}
               width={300}
               height={300}
               className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
@@ -40,9 +40,8 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         </div>
         <div className="p-3 pb-1">
           <span
-            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${
-              artistHovered ? "" : "group-hover:text-sky-400"
-            }`}
+            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${artistHovered ? "" : "group-hover:text-sky-400"
+              }`}
           >
             {album.name}
           </span>
