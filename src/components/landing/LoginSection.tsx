@@ -38,9 +38,7 @@ export function LoginSection({ onLogin }: Props) {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           {FEATURES.map(({ label, description }) => (
             <div key={label} className="p-4">
-              <div className="font-bold text-lg mb-1 text-white">
-                {label}
-              </div>
+              <div className="font-bold text-lg mb-1 text-white">{label}</div>
               <p className="text-sm text-zinc-400">{description}</p>
             </div>
           ))}

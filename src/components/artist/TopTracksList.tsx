@@ -9,9 +9,7 @@ export function TopTracksList({ tracks }: { tracks: LastFMTrack[] }) {
   if (!tracks.length) return null;
   return (
     <section className="mt-12">
-      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
-        Top Tracks
-      </h2>
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">Top Tracks</h2>
       <div className="bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm overflow-hidden">
         <ul className="divide-y divide-zinc-800">
           {tracks.map((track, idx) => (
