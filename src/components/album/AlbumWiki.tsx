@@ -13,6 +13,7 @@ export function AlbumWiki({ html, url }: { html: string; url?: string }) {
       {url && (
         <a
           href={url}
+          aria-label="View full album on Last.fm"
           target="_blank"
           rel="noreferrer"
           className="mt-6 text-sm font-medium text-sky-400 hover:text-sky-300 inline-block w-fit"

@@ -30,6 +30,7 @@ export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
         {artistInfo.url && (
           <a
             href={artistInfo.url}
+            aria-label="View full profile on Last.fm"
             target="_blank"
             rel="noreferrer"
             className="mt-4 text-sm font-medium text-sky-400 hover:text-sky-300 inline-block w-fit"

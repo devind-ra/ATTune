@@ -52,6 +52,7 @@ export function ReviewSection({
         ) : (
           <button
             onClick={() => setIsFormOpen(true)}
+            aria-label="Add a Review"
             className="w-full py-4 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm text-zinc-100 font-medium hover:bg-zinc-800/50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <svg
