@@ -34,11 +34,11 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
   };
 
   return (
-    <header className="flex flex-col md:flex-row md:items-center gap-4 mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-6 relative">
+    <header className="flex flex-col md:flex-row md:items-center gap-4 mb-12 border-b border-zinc-800 pb-6 relative">
       <div className="flex items-center justify-between w-full md:w-auto flex-1 gap-6">
         <h1
           onClick={() => router.push("/home")}
-          className="text-3xl font-bold tracking-tight bg-white bg-clip-text text-transparent shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-3xl font-bold tracking-tight bg-clip-text text-white shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
         >
           ATtune
         </h1>
@@ -49,7 +49,7 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
           className="hidden md:block max-w-md w-full md:w-64"
         />
         <button
-          className="md:hidden text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded-md transition-colors"
+          className="md:hidden text-zinc-500 hover:text-zinc-200 p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded-md transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >

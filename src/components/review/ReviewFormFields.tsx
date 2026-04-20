@@ -88,20 +88,20 @@ export function ReviewFormFields({
       </div>
 
       <div>
-        <label className="flex items-start gap-3 p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+        <label className="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-zinc-800/50 cursor-pointer hover:bg-zinc-800 transition-colors">
           <div className="flex items-center h-5 mt-0.5">
             <input
               type="checkbox"
               checked={publishToBluesky}
               onChange={(e) => onPublishToBlueskyChange(e.target.checked)}
-              className="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 text-sky-500 focus:ring-sky-500 dark:bg-zinc-900 bg-white"
+              className="w-4 h-4 rounded border-zinc-700 text-sky-500 focus:ring-sky-500 bg-zinc-900"
             />
           </div>
           <div>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+            <p className="text-sm font-medium text-zinc-100">
               Publish to Bluesky Timeline
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               If unchecked, this review will only be saved to your ATtune
               profile. Comments will be disabled.
             </p>

@@ -20,10 +20,10 @@ export function SectionFilter({ visibleSections, onToggle }: Props) {
     <div className="mt-8 relative" ref={filterRef}>
       <button
         onClick={() => setFilterOpen((prev) => !prev)}
-        className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-600 transition-colors cursor-pointer shadow-sm"
+        className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-sm font-medium text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-600 transition-colors cursor-pointer shadow-sm"
       >
         <span>Filter Sections</span>
-        <span className="text-xs bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400 px-1.5 py-0.5 rounded-full">
+        <span className="text-xs bg-sky-900/40 text-sky-400 px-1.5 py-0.5 rounded-full">
           {visibleSections.size}
         </span>
         <svg
@@ -42,7 +42,7 @@ export function SectionFilter({ visibleSections, onToggle }: Props) {
       </button>
 
       {filterOpen && (
-        <div className="absolute z-20 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-lg overflow-hidden">
+        <div className="absolute z-20 mt-2 w-56 bg-zinc-900 border border-zinc-700 rounded-xl shadow-lg overflow-hidden">
           {ALL_SECTIONS.map(({ id, label }) => {
             const active = visibleSections.has(id);
             const isLast = visibleSections.size === 1 && active;
@@ -52,8 +52,8 @@ export function SectionFilter({ visibleSections, onToggle }: Props) {
                 onClick={() => onToggle(id)}
                 disabled={isLast}
                 className={`w-full flex items-center justify-between px-4 py-3 text-sm transition-colors
-                  ${isLast ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800"}
-                  text-zinc-700 dark:text-zinc-300 border-b border-zinc-100 dark:border-zinc-800 last:border-0`}
+                  ${isLast ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-zinc-800"}
+                  text-zinc-100 border-b border-zinc-800 last:border-0`}
               >
                 <span className="font-medium">{label}</span>
                 <span

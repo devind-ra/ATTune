@@ -36,10 +36,10 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={props.placeholder}
-        className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-sky-500 outline-none"
+        className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 focus:ring-2 focus:ring-sky-500 outline-none"
       />
       {showSuggestions && (
-        <ul className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-lg max-h-48 overflow-auto">
+        <ul className="absolute z-10 w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-lg shadow-lg max-h-48 overflow-auto">
           <SuggestionList
             isSearching={isSearching}
             searchResults={searchResults}

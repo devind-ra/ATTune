@@ -21,10 +21,10 @@ export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
         <div key={tag.name} className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="text-sm font-medium text-sky-600 dark:text-sky-400 capitalize">
+              <span className="text-sm font-medium text-sky-400 capitalize">
                 Discover
               </span>
-              <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 capitalize">
+              <h3 className="text-2xl font-bold text-zinc-100 capitalize">
                 {tag.name}
               </h3>
             </div>
@@ -33,13 +33,13 @@ export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
                 href={tag.url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
+                className="text-sm bg-zinc-900 hover:bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
               >
                 More on Last.fm <span aria-hidden="true">&rarr;</span>
               </Link>
             )}
           </div>
-          <div className="bg-zinc-50 dark:bg-black/20 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/50">
+          <div className="bg-black/50 rounded-2xl p-4 border border-zinc-800/50">
             <AlbumList albums={albums} />
           </div>
         </div>

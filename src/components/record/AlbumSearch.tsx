@@ -39,11 +39,11 @@ function SearchResults({
             <li
               key={idx}
               onClick={() => onSelectAlbum(album)}
-              className="bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 dark:hover:border-sky-500 hover:shadow-md transition-all group"
+              className=" dark:bg-zinc-800/50 border border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 hover:shadow-md transition-all group"
             >
               <div className="shrink-0">
                 {imgUrl ? (
-                  <div className="relative w-12 h-12 rounded-md overflow-hidden bg-zinc-200 dark:bg-zinc-700">
+                  <div className="relative w-12 h-12 rounded-md overflow-hidden bg-zinc-700">
                     <Image
                       src={imgUrl}
                       alt={album.name}
@@ -53,7 +53,7 @@ function SearchResults({
                     />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-md bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-md bg-zinc-700 flex items-center justify-center">
                     <svg
                       className="w-5 h-5 text-zinc-400"
                       fill="currentColor"
@@ -65,7 +65,7 @@ function SearchResults({
                 )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="font-medium text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                <span className="font-medium text-sm text-zinc-100 truncate">
                   {album.name}
                 </span>
                 <span className="text-xs text-zinc-500 truncate">

@@ -13,7 +13,7 @@ export function CommentItem({
   const { post } = comment;
   const record = post.record as AppBskyFeedPost.Record;
   return (
-    <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-lg">
+    <div className="bg-zinc-800/50 p-4 rounded-lg">
       <div className="flex items-center gap-2 mb-2">
         {post.author.avatar && (
           <Image
@@ -24,7 +24,7 @@ export function CommentItem({
             className="w-6 h-6 rounded-full"
           />
         )}
-        <span className="font-medium text-sm text-zinc-900 dark:text-zinc-100">
+        <span className="font-medium text-sm text-zinc-100">
           {post.author.displayName || post.author.handle}
         </span>
         <span className="text-xs text-zinc-500">@{post.author.handle}</span>

@@ -21,14 +21,14 @@ export function LoginSection({ onLogin }: Props) {
   return (
     <section
       id="login-section"
-      className="min-h-screen w-full flex flex-col items-center justify-center py-20 px-6 bg-zinc-50 dark:bg-black"
+      className="min-h-screen w-full flex flex-col items-center justify-center py-20 px-6  "
     >
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
+          <h2 className="text-3xl font-bold text-white mb-2">
             Welcome to the Community
           </h2>
-          <p className="text-zinc-500 dark:text-zinc-400">
+          <p className="text-zinc-400">
             Sign in with your Bluesky account to continue.
           </p>
         </div>
@@ -38,10 +38,10 @@ export function LoginSection({ onLogin }: Props) {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           {FEATURES.map(({ label, description }) => (
             <div key={label} className="p-4">
-              <div className="font-bold text-lg mb-1 dark:text-white">
+              <div className="font-bold text-lg mb-1 text-white">
                 {label}
               </div>
-              <p className="text-sm text-zinc-500">{description}</p>
+              <p className="text-sm text-zinc-400">{description}</p>
             </div>
           ))}
         </div>

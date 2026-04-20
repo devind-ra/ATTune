@@ -52,7 +52,7 @@ export function ReviewSection({
         ) : (
           <button
             onClick={() => setIsFormOpen(true)}
-            className="w-full py-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm text-zinc-900 dark:text-zinc-100 font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-4 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm text-zinc-100 font-medium hover:bg-zinc-800/50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <svg
               className="w-5 h-5"
@@ -73,7 +73,7 @@ export function ReviewSection({
       </div>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-zinc-100 mb-6 flex items-center gap-2">
           Other User&apos;s Reviews
         </h2>
         <OtherReviewsList
@@ -85,9 +85,9 @@ export function ReviewSection({
       </section>
 
       <section className="mt-12 mb-12">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-zinc-100 mb-6 flex items-center gap-2">
           Your Reviews
-          <span className="text-xs font-normal px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500">
+          <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
             {session.handle}
           </span>
         </h2>

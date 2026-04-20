@@ -27,14 +27,14 @@ export default function LoginPage() {
 
   if (isLoading || session) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <HeroSection onScrollToLogin={scrollToLogin} />
       <LoginSection onLogin={() => router.push("/home")} />
     </div>
