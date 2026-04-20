@@ -27,7 +27,7 @@ export default function AlbumPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600" />
       </div>
     );
@@ -35,7 +35,7 @@ export default function AlbumPage() {
 
   if (!albumInfo) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans">
+      <div className="min-h-screen font-sans">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Navbar />
           <div className="mt-8 text-center text-zinc-500">Album not found.</div>
@@ -47,11 +47,11 @@ export default function AlbumPage() {
   const img = parseImage(albumInfo.image);
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen   font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 
-        <div className="mt-8 bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-800 flex flex-col items-center p-8 md:p-12 text-center">
+        <div className="mt-8 bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-800 flex flex-col items-center p-8 md:p-12 text-center">
           <div className="w-full max-w-2xl flex flex-col items-center">
             <AlbumHeader
               name={albumInfo.name}

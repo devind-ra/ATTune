@@ -10,6 +10,12 @@ interface ArtistListProps {
   artists: LastFMArtist[];
 }
 
+function getArtistTextSize(name: string): string {
+  if (name.length > 20) return "text-xs";
+  if (name.length > 12) return "text-sm";
+  return "text-base";
+}
+
 export function ArtistList({ artists }: ArtistListProps) {
   if (artists.length === 0) {
     return <p className="text-zinc-500 text-sm">No artists found.</p>;
@@ -20,13 +26,15 @@ export function ArtistList({ artists }: ArtistListProps) {
       {artists.map((artist, idx) => (
         <li
           key={idx}
-          className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow relative"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow relative"
         >
           <Link
             href={`/artist/${encodeURIComponent(artist.name)}`}
-            className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="absolute inset-0 flex items-center justify-center rounded-xl hover:bg-zinc-800 transition-colors"
           >
-            <span className="font-medium text-zinc-900 dark:text-zinc-100 text-center text-sm hover:text-sky-600 dark:hover:text-sky-400">
+            <span
+              className={`font-medium text-zinc-100 text-center hover:text-sky-400 ${getArtistTextSize(artist.name)}`}
+            >
               {artist.name}
             </span>
           </Link>

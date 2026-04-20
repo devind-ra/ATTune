@@ -26,36 +26,36 @@ export default function ReviewsPage() {
 
   if (isLoading || !session) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 
         <a
           href="/profile"
-          className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
+          className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
         >
           Back to Profile
         </a>
         <br />
         <div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <h2 className="text-2xl font-bold mb-0 text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <h2 className="text-2xl font-bold mb-0 text-zinc-100 flex items-center gap-2">
               Your Reviews
-              <span className="text-xs font-normal px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500">
+              <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
                 {session.handle}
               </span>
             </h2>
             <div className="flex items-center gap-2">
               <label
                 htmlFor="sort-select"
-                className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="text-sm font-medium text-zinc-300"
               >
                 Sort by:
               </label>
@@ -63,7 +63,7 @@ export default function ReviewsPage() {
                 id="sort-select"
                 value={filterSortBy}
                 onChange={(e) => setFilterSortBy(e.target.value as SortOption)}
-                className="bg-zinc-100 dark:bg-zinc-800 py-1.5 px-3 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block focus:outline-none"
+                className="bg-zinc-800 py-1.5 px-3 border border-zinc-700 text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block focus:outline-none"
               >
                 <option value="date-desc">Latest Listened</option>
                 <option value="date-asc">Earliest Listened</option>

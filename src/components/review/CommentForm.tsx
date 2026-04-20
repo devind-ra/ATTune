@@ -25,7 +25,7 @@ export function CommentForm({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Add a comment..."
-          className="w-full p-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
+          className="w-full p-3 bg-zinc-900 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
           disabled={submitting}
         />
         <div className="flex justify-end">

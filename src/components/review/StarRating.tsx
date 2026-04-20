@@ -68,14 +68,14 @@ function Star({
       className={`relative w-8 h-8 ${interactive ? "cursor-pointer group" : ""}`}
     >
       <StarSvg
-        className={`text-zinc-300 dark:text-zinc-600 ${interactive ? "transition-transform group-hover:scale-110" : ""}`}
+        className={`text-zinc-600 ${interactive ? "transition-transform group-hover:scale-110" : ""}`}
       />
 
       {(isFull || isHalf) && (
         <div
           className={`absolute top-0 left-0 h-full overflow-hidden pointer-events-none ${interactive ? "transition-transform group-hover:scale-110" : ""} ${isHalf ? "w-1/2" : "w-full"}`}
         >
-          <StarSvg className="text-yellow-400 dark:text-yellow-500" />
+          <StarSvg className="text-yellow-500" />
         </div>
       )}
 

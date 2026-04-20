@@ -24,20 +24,21 @@ export function TrendingTracks({ tracks }: TrendingTracksProps) {
         return (
           <li
             key={`${track.name}-${artistName}`}
-            className="flex items-center gap-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow group"
+            className="flex items-center gap-4 bg-zinc-900 border border-zinc-800 rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow group"
           >
-            <div className="w-8 shrink-0 text-center font-bold text-zinc-400 dark:text-zinc-500">
+            <div className="w-8 shrink-0 text-center font-bold text-zinc-500">
               {idx + 1}
             </div>
 
             <div className="flex flex-col flex-grow">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100 transition-colors">
+              <span className="font-semibold text-zinc-100 transition-colors">
                 {track.name}
               </span>
-              <span className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
+              <span className="text-sm text-zinc-400 mt-0.5">
                 <Link
                   href={`/artist/${encodeURIComponent(artistName)}`}
-                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
+                  aria-label={`View artist: ${artistName}`}
+                  className="hover:text-sky-400 hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
                 >
                   {artistName}
                 </Link>

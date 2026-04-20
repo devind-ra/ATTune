@@ -1,13 +1,13 @@
 # Settings
 
-### Data Privacy Policies
+## Data Privacy Policies
 
 _Information about how user data is collected and processed._
 
 - ATtune reviews and tastes are stored on the decentralised AT Protocol network, on your own Personal Data Server (PDS).
 - ATtune uses data associated with your AT Protocol account (Bluesky).
 
-### Third-Party Services
+## Third-Party Services
 
 _Details about integrations used within ATtune, such as Last.fm and the AT Protocol._
 
@@ -16,7 +16,7 @@ _Details about integrations used within ATtune, such as Last.fm and the AT Proto
 - ATtune uses the AT Protocol to store your reviews.
 - ATtune uses the AT Protocol to store your taste profile e.g. Top Artists and Tags.
 
-### Account Data Handling
+## Account Data Handling
 
 _Procedures for data retention, account moderation, and user deletion rights._
 

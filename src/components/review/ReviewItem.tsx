@@ -50,8 +50,8 @@ function LikeButton({
       className={`flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors text-sm font-medium disabled:opacity-50 cursor-pointer
         ${
           hasLiked
-            ? "text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30"
-            : "text-zinc-500 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-950/30 dark:hover:text-pink-400"
+            ? "text-pink-400 bg-pink-950/30"
+            : "text-zinc-500 hover:text-pink-600 hover:bg-pink-950/30"
         }`}
       title={hasLiked ? "Unlike review" : "Like review"}
     >
@@ -111,7 +111,7 @@ export default function ReviewItem({
 
   return (
     <div
-      className={`bg-white dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm transition-shadow ${onClick ? "cursor-pointer hover:shadow-md" : ""}`}
+      className={`bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-sm transition-shadow ${onClick ? "cursor-pointer hover:shadow-md" : ""}`}
       onClick={(e) => {
         if (!onClick) return;
         if ((e.target as HTMLElement).closest("button, a, input, textarea"))
@@ -132,17 +132,17 @@ export default function ReviewItem({
             <div>
               <Link
                 href={`/album/${encodeURIComponent(item.value.subjectArtist)}/${encodeURIComponent(item.value.subjectTitle)}`}
-                className="hover:underline decoration-zinc-400 dark:decoration-zinc-500"
+                className="hover:underline decoration-zinc-500"
               >
-                <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <h4 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
                   {item.value.subjectTitle}
                 </h4>
               </Link>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="text-sm text-zinc-400">
                 by{" "}
                 <Link
                   href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
-                  className="hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors"
+                  className="hover:text-sky-400 hover:bg-sky-50 px-1 -mx-1 rounded transition-colors"
                 >
                   {item.value.subjectArtist}
                 </Link>
@@ -151,7 +151,7 @@ export default function ReviewItem({
             <div className="flex flex-col items-end gap-2">
               <div className="flex items-center space-x-1">
                 <span className="text-yellow-500">★</span>
-                <span className="font-bold text-zinc-900 dark:text-zinc-100">
+                <span className="font-bold text-zinc-100">
                   {item.value.rating / 2}
                 </span>
               </div>
@@ -159,13 +159,15 @@ export default function ReviewItem({
                 <div className="flex space-x-3 text-xs">
                   <button
                     onClick={handleEditClick}
-                    className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors cursor-pointer"
+                    aria-label="Edit review"
+                    className="text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDelete(item.uri)}
-                    className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors cursor-pointer"
+                    aria-label="Delete review"
+                    className="text-red-400 hover:text-red-300 font-medium transition-colors cursor-pointer"
                   >
                     Delete
                   </button>
@@ -175,7 +177,7 @@ export default function ReviewItem({
           </div>
 
           {item.value.text && (
-            <p className="text-zinc-700 dark:text-zinc-300 mt-2 text-sm leading-relaxed">
+            <p className="text-zinc-300 mt-2 text-sm leading-relaxed">
               {item.value.text}
             </p>
           )}
@@ -200,7 +202,7 @@ export default function ReviewItem({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors shrink-0"
+                  className="text-xs font-medium text-zinc-500 bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-700 hover:text-zinc-100 transition-colors shrink-0"
                   title="View Bluesky Profile"
                 >
                   @{item.author.handle}

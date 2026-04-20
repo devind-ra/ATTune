@@ -28,23 +28,23 @@ export default function RecordPage() {
 
   if (isLoading || !session) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 
         <ReviewForm onReviewCreated={handleReviewCreated} />
 
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-2xl font-bold mb-6 text-zinc-100 flex items-center gap-2">
             Your Reviews
-            <span className="text-xs font-normal px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500">
+            <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
               {session.handle}
             </span>
           </h2>

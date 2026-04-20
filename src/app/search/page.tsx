@@ -28,12 +28,12 @@ function SearchResults() {
   if (authLoading || !session) return null;
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar initialSearchQuery={query || ""} />
 
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-zinc-100">
             {query ? `Search results for "${query}"` : "Enter a search term"}
           </h2>
         </div>
@@ -60,7 +60,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+        <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div>
         </div>
       }

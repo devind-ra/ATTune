@@ -15,7 +15,7 @@ interface SearchResultSectionsProps {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-lg font-semibold mb-4 text-zinc-800 dark:text-zinc-200 border-b border-zinc-200 dark:border-zinc-800 pb-2">
+    <h3 className="text-lg font-semibold mb-4 text-zinc-200 border-b border-zinc-800 pb-2">
       {children}
     </h3>
   );

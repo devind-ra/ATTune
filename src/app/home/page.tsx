@@ -21,7 +21,7 @@ export default function HomePage() {
 
   if (!isReady) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-black">
+      <div className="flex items-center justify-center min-h-screen ">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600" />
       </div>
     );
@@ -34,7 +34,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
         <SectionFilter
@@ -44,7 +44,7 @@ export default function HomePage() {
         {ALL_SECTIONS.filter((s) => visibleSections.has(s.id)).map(
           ({ id, label }) => (
             <section key={id} className="mt-8">
-              <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-xl font-semibold mb-4 text-zinc-100">
                 {label}
               </h2>
               {sectionContent[id]}

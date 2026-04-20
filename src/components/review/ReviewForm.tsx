@@ -34,13 +34,11 @@ export default function ReviewForm({
   });
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 p-6 mb-8">
-      <h3 className="text-xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
-        Add a Review
-      </h3>
+    <div className="bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 p-6 mb-8">
+      <h2 className="text-2xl font-bold mb-4 text-zinc-100">Add a Review</h2>
 
       {form.error && (
-        <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md border border-red-200 dark:border-red-800">
+        <div className="mb-4 p-3 text-sm text-red-500 bg-red-900/20 rounded-md border border-red-800">
           {form.error}
         </div>
       )}

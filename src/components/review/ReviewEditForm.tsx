@@ -25,7 +25,7 @@ export default function ReviewEditForm({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-1 text-zinc-300">
           Album Title
         </label>
         <input
@@ -34,12 +34,12 @@ export default function ReviewEditForm({
           onChange={(e) =>
             onChange({ ...editForm, subjectTitle: e.target.value })
           }
-          className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
+          className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
           disabled
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-1 text-zinc-300">
           Artist
         </label>
         <input
@@ -48,12 +48,12 @@ export default function ReviewEditForm({
           onChange={(e) =>
             onChange({ ...editForm, subjectArtist: e.target.value })
           }
-          className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
+          className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none opacity-50 cursor-not-allowed"
           disabled
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-2 text-zinc-300">
           Rating ({(editForm.rating || 10) / 2}/5)
         </label>
         <StarRating
@@ -62,7 +62,7 @@ export default function ReviewEditForm({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-1 text-zinc-300">
           Date Listened
         </label>
         <input
@@ -81,17 +81,17 @@ export default function ReviewEditForm({
                 : undefined,
             })
           }
-          className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
+          className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-1 text-zinc-300">
           Review
         </label>
         <textarea
           value={editForm.text || ""}
           onChange={(e) => onChange({ ...editForm, text: e.target.value })}
-          className="w-full p-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none min-h-[100px] cursor-pointer"
+          className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none min-h-[100px] cursor-pointer"
         />
       </div>
       <div className="flex space-x-2">
@@ -103,7 +103,7 @@ export default function ReviewEditForm({
         </button>
         <button
           onClick={onCancel}
-          className="px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-medium rounded-lg hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors cursor-pointer"
+          className="px-4 py-2 bg-zinc-700 text-zinc-100 font-medium rounded-lg hover:bg-zinc-600 transition-colors cursor-pointer"
         >
           Cancel
         </button>

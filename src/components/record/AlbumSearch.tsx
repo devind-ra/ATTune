@@ -39,11 +39,11 @@ function SearchResults({
             <li
               key={idx}
               onClick={() => onSelectAlbum(album)}
-              className="bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 dark:hover:border-sky-500 hover:shadow-md transition-all group"
+              className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 hover:shadow-md transition-all group"
             >
               <div className="shrink-0">
                 {imgUrl ? (
-                  <div className="relative w-12 h-12 rounded-md overflow-hidden bg-zinc-200 dark:bg-zinc-700">
+                  <div className="relative w-12 h-12 rounded-md overflow-hidden bg-zinc-700">
                     <Image
                       src={imgUrl}
                       alt={album.name}
@@ -53,7 +53,7 @@ function SearchResults({
                     />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-md bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-md bg-zinc-700 flex items-center justify-center">
                     <svg
                       className="w-5 h-5 text-zinc-400"
                       fill="currentColor"
@@ -65,7 +65,7 @@ function SearchResults({
                 )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="font-medium text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                <span className="font-medium text-sm text-zinc-100 truncate">
                   {album.name}
                 </span>
                 <span className="text-xs text-zinc-500 truncate">
@@ -98,16 +98,20 @@ export function AlbumSearch(props: AlbumSearchProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label
+          className="block text-sm font-medium mb-1 text-zinc-300"
+          htmlFor="album-search"
+        >
           Search Album
         </label>
         <div className="relative">
           <input
+            id="album-search"
             type="text"
             value={props.searchQuery}
             onChange={(e) => props.onSearchChange(e.target.value)}
             placeholder="Type an album name..."
-            className="w-full pl-10 pr-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
+            className="w-full pl-10 pr-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg

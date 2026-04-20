@@ -30,38 +30,38 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
 
   return (
     <>
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800">
+      <div className="max-w-md mx-auto mt-10 p-6 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800">
         <h2 className="text-2xl font-bold mb-6 text-center bg-white bg-clip-text text-transparent">
           Sign in with Bluesky
         </h2>
         {error && (
-          <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md border border-red-200 dark:border-red-800">
+          <div className="mb-4 p-3 text-sm text-red-500 bg-red-900/20 rounded-md border border-red-800">
             {error}
           </div>
         )}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+            <label className="block text-sm font-medium mb-1 text-zinc-300">
               Handle or Email
             </label>
             <input
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
               placeholder="alice.bsky.social"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+            <label className="block text-sm font-medium mb-1 text-zinc-300">
               App Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
               placeholder="xxxx-xxxx-xxxx-xxxx"
               required
             />
@@ -80,7 +80,7 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
-          <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 mt-4">
+          <div className="text-center text-sm text-zinc-400 mt-4">
             Don&apos;t have an account?
             <br />
             <button
