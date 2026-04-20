@@ -36,6 +36,7 @@ export function TastesPanel({
         {!isEditingTastes && (
           <button
             onClick={() => setIsEditingTastes(true)}
+            aria-label="Edit tastes"
             className="text-sm px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 rounded-lg font-medium transition-colors cursor-pointer"
           >
             Edit Tastes

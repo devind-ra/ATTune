@@ -159,12 +159,14 @@ export default function ReviewItem({
                 <div className="flex space-x-3 text-xs">
                   <button
                     onClick={handleEditClick}
+                    aria-label="Edit review"
                     className="text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDelete(item.uri)}
+                    aria-label="Delete review"
                     className="text-red-400 hover:text-red-300 font-medium transition-colors cursor-pointer"
                   >
                     Delete

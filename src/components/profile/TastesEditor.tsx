@@ -53,7 +53,7 @@ export function TastesEditor({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-3">
+        <h3 className="text-sm font-bold text-white tracking-wider mb-3">
           Top 5 Artists
         </h3>
         <div className="space-y-2">
@@ -75,7 +75,7 @@ export function TastesEditor({
       </div>
 
       <div>
-        <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-3">
+        <h3 className="text-sm font-bold text-white tracking-wider mb-3">
           Top 3 Genres
         </h3>
         <div className="space-y-2">

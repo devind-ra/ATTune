@@ -21,9 +21,9 @@ export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
         <div key={tag.name} className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="text-sm font-medium text-sky-400 capitalize">
+              <h2 className="text-sm font-medium text-sky-400 capitalize">
                 Discover
-              </span>
+              </h2>
               <h3 className="text-2xl font-bold text-zinc-100 capitalize">
                 {tag.name}
               </h3>

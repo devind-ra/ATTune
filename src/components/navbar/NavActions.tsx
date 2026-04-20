@@ -33,12 +33,14 @@ export function NavActions({ onLogout }: Props) {
       <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm font-medium text-white w-full md:w-auto">
         <a
           href="/profile"
+          aria-label="Profile"
           className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
         >
           Profile
         </a>
         <a
           href="/explore"
+          aria-label="Explore"
           className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
         >
           Explore
@@ -47,6 +49,7 @@ export function NavActions({ onLogout }: Props) {
       <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto pt-4 md:pt-0 border-t md:border-0 border-zinc-800">
         <button
           onClick={() => location.replace("/record")}
+          aria-label="Record Album"
           className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-red-950 hover:bg-red-900 text-white text-sm font-medium transition-colors shadow-sm cursor-pointer w-full sm:w-auto"
         >
           <svg
@@ -65,6 +68,7 @@ export function NavActions({ onLogout }: Props) {
         >
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            aria-label="Open Account Menu"
             className="flex items-center justify-center gap-2 text-sm font-medium text-white hover:text-zinc-200 transition-colors cursor-pointer w-full sm:w-auto py-2 md:py-0 focus:outline-none"
           >
             Account
@@ -87,6 +91,7 @@ export function NavActions({ onLogout }: Props) {
             <div className="absolute top-full mt-2 w-48 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 py-2 z-50 flex flex-col md:right-0">
               <a
                 href="/settings"
+                aria-label="Settings"
                 className="px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors text-left"
                 onClick={() => setIsDropdownOpen(false)}
               >
@@ -97,6 +102,7 @@ export function NavActions({ onLogout }: Props) {
                   setIsDropdownOpen(false);
                   onLogout();
                 }}
+                aria-label="Sign Out"
                 className="px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 transition-colors text-left cursor-pointer"
               >
                 Sign Out

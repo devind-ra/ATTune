@@ -98,11 +98,15 @@ export function AlbumSearch(props: AlbumSearchProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          className="block text-sm font-medium mb-1 text-zinc-300"
+          htmlFor="album-search"
+        >
           Search Album
         </label>
         <div className="relative">
           <input
+            id="album-search"
             type="text"
             value={props.searchQuery}
             onChange={(e) => props.onSearchChange(e.target.value)}

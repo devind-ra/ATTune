@@ -30,6 +30,7 @@ function CountryDropdown({
     <div className="shrink-0 relative">
       <select
         value={country}
+        aria-label="Select country from dropdown"
         onChange={(e) => setCountry(e.target.value)}
         className="appearance-none bg-zinc-900 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full outline-none py-2.5 pl-4 pr-10 shadow-sm transition-colors cursor-pointer"
       >

@@ -37,6 +37,7 @@ export function TrendingTracks({ tracks }: TrendingTracksProps) {
               <span className="text-sm text-zinc-400 mt-0.5">
                 <Link
                   href={`/artist/${encodeURIComponent(artistName)}`}
+                  aria-label={`View artist: ${artistName}`}
                   className="hover:text-sky-400 hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
                 >
                   {artistName}

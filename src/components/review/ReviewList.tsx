@@ -23,7 +23,7 @@ export default function ReviewList(props: UseReviewsProps) {
 
   if (reviews.length === 0) {
     return (
-      <div className="text-center py-10 text-zinc-500">
+      <div className="text-center py-10 text-white">
         No reviews yet. Be the first!
       </div>
     );
@@ -32,6 +32,9 @@ export default function ReviewList(props: UseReviewsProps) {
   return (
     <>
       <div className="space-y-4">
+        <h3 className="text-sm font-bold text-white tracking-wider mb-3">
+          Edit, delete a review or click on a review to view comments
+        </h3>
         {reviews.map((item) => (
           <ReviewItem
             key={item.uri}
