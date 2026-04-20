@@ -58,8 +58,8 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
   }, [allReviews]);
 
   return (
-    <div className="mt-12 mb-8 bg-white dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 overflow-hidden shadow-sm">
-      <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6">
+    <div className="mt-12 mb-8 bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 overflow-hidden shadow-sm">
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
         Review Activity
       </h2>
       <div className="flex justify-center overflow-x-auto pb-4 hide-scrollbar">

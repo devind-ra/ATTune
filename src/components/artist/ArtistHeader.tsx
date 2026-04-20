@@ -16,15 +16,15 @@ export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
     "No biography available.";
 
   return (
-    <div className="mt-8 relative bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-800">
+    <div className="mt-8 relative bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-800">
       <div className="p-8 flex flex-col justify-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+        <h1 className="text-4xl md:text-5xl font-bold text-zinc-100 mb-2">
           {artistInfo.name}
         </h1>
         <ArtistStats stats={stats} />
         <ArtistTags tags={tags} />
         <div
-          className="prose dark:prose-invert prose-zinc prose-sm max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed max-h-48 overflow-y-auto pr-2 custom-scrollbar"
+          className="prose dark:prose-invert prose-zinc prose-sm max-w-none text-zinc-300 leading-relaxed max-h-48 overflow-y-auto pr-2 custom-scrollbar"
           dangerouslySetInnerHTML={{ __html: bioContent }}
         />
         {artistInfo.url && (
@@ -32,7 +32,7 @@ export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
             href={artistInfo.url}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 text-sm font-medium text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 inline-block w-fit"
+            className="mt-4 text-sm font-medium text-sky-400 hover:text-sky-300 inline-block w-fit"
           >
             View full profile on Last.fm →
           </a>
@@ -45,7 +45,7 @@ export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
 function ArtistStats({ stats }: { stats: Record<string, string> }) {
   if (!stats.listeners && !stats.playcount) return null;
   return (
-    <div className="flex gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-6 font-medium">
+    <div className="flex gap-4 text-sm text-zinc-400 mb-6 font-medium">
       {stats.listeners && (
         <span>{parseInt(stats.listeners).toLocaleString()} Listeners</span>
       )}
@@ -63,7 +63,7 @@ function ArtistTags({ tags }: { tags: LastFMTag[] }) {
       {tags.slice(0, 5).map((tag, idx) => (
         <span
           key={idx}
-          className="px-3 py-1 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 rounded-full text-xs font-medium border border-sky-100 dark:border-sky-800"
+          className="px-3 py-1 bg-sky-900/20 text-sky-400 rounded-full text-xs font-medium border border-sky-800"
         >
           {tag.name}
         </span>

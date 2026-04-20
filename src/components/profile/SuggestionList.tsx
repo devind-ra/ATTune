@@ -34,7 +34,7 @@ export function SuggestionList({
               e.preventDefault();
               onSelect(s);
             }}
-            className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 cursor-pointer text-zinc-900 dark:text-zinc-100 text-sm"
+            className="p-2 hover:bg-zinc-700 cursor-pointer text-zinc-100 text-sm"
           >
             {s}
           </li>

@@ -31,7 +31,7 @@ function CountryDropdown({
       <select
         value={country}
         onChange={(e) => setCountry(e.target.value)}
-        className="appearance-none bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full outline-none py-2.5 pl-4 pr-10 shadow-sm transition-colors cursor-pointer"
+        className="appearance-none bg-zinc-900 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full outline-none py-2.5 pl-4 pr-10 shadow-sm transition-colors cursor-pointer"
       >
         {COUNTRIES.map((c) => (
           <option key={c} value={c}>
@@ -39,7 +39,7 @@ function CountryDropdown({
           </option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-zinc-500 dark:text-zinc-400">
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-zinc-400">
         <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
           <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
         </svg>
@@ -105,13 +105,13 @@ export function GeoTopArtists() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-zinc-100 flex items-center gap-2">
             Global Sounds
             <span aria-hidden="true">🌍</span>
           </h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
+          <p className="text-zinc-400 text-sm mt-1">
             Discover the top artists in different countries around the world.
           </p>
         </div>

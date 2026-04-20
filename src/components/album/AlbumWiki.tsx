@@ -7,7 +7,7 @@ export function AlbumWiki({ html, url }: { html: string; url?: string }) {
   return (
     <>
       <div
-        className="prose dark:prose-invert prose-zinc prose-sm max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-700 text-center px-4"
+        className="prose dark:prose-invert prose-zinc prose-sm max-w-none text-zinc-300 leading-relaxed max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 text-center px-4"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {url && (
@@ -15,7 +15,7 @@ export function AlbumWiki({ html, url }: { html: string; url?: string }) {
           href={url}
           target="_blank"
           rel="noreferrer"
-          className="mt-6 text-sm font-medium text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 inline-block w-fit"
+          className="mt-6 text-sm font-medium text-sky-400 hover:text-sky-300 inline-block w-fit"
         >
           View full album on Last.fm →
         </a>

@@ -15,10 +15,10 @@ interface Props {
 function HelpModalContent() {
   return (
     <>
-      <h3 className="text-xl font-bold mb-4 dark:text-white">
+      <h3 className="text-xl font-bold mb-4 text-white">
         How to get an App Password
       </h3>
-      <div className="prose prose-sm dark:prose-invert space-y-3 text-zinc-600 dark:text-zinc-300">
+      <div className="prose prose-sm space-y-3 text-zinc-300">
         <p>
           To keep your account secure, you should use an App Password instead of
           your main password.
@@ -57,8 +57,8 @@ function HelpModalContent() {
 function SignupModalContent() {
   return (
     <>
-      <h3 className="text-xl font-bold mb-4 dark:text-white">Join Bluesky</h3>
-      <p className="mb-6 text-zinc-600 dark:text-zinc-300">
+      <h3 className="text-xl font-bold mb-4 text-white">Join Bluesky</h3>
+      <p className="mb-6 text-zinc-300">
         ATtune is built on the AT Protocol. To use ATtune, you need a Bluesky
         account.
       </p>
@@ -85,14 +85,14 @@ export function AuthModals({ activeModal, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-zinc-900 rounded-xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200"
+        className="bg-zinc-900 rounded-xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {activeModal === "help" ? <HelpModalContent /> : <SignupModalContent />}
         <div className="mt-6 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer"
+            className="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
           >
             Close
           </button>

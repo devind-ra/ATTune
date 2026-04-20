@@ -23,7 +23,7 @@ export function RecentReviews({ reviews, refresh }: RecentReviewsProps) {
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6">
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
         Recent Reviews
       </h2>
       <div className="space-y-4">
@@ -50,7 +50,7 @@ export function RecentReviews({ reviews, refresh }: RecentReviewsProps) {
       <div className="mt-6 text-center">
         <Link
           href="/reviews"
-          className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
+          className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
         >
           Show more reviews →
         </Link>
