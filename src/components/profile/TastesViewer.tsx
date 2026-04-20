@@ -18,14 +18,14 @@ export function TastesViewer({ tastes }: { tastes: UserTastes | null }) {
             {tastes.topArtists.map((artist, idx) => (
               <li
                 key={idx}
-                className="flex items-center gap-3 text-zinc-800 dark:text-zinc-200"
+                className="flex items-center gap-3 text-zinc-200"
               >
                 <span className="w-6 text-center font-medium text-sky-500">
                   {idx + 1}.
                 </span>
                 <Link
                   href={`/artist/${encodeURIComponent(artist)}`}
-                  className="font-medium hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 px-2 py-1 -mx-2 rounded transition-colors"
+                  className="font-medium hover:text-sky-400 hover:bg-sky-900/20 px-2 py-1 -mx-2 rounded transition-colors"
                 >
                   {artist}
                 </Link>
@@ -45,7 +45,7 @@ export function TastesViewer({ tastes }: { tastes: UserTastes | null }) {
             {tastes.topGenres.map((genre, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full text-sm font-medium border border-zinc-200 dark:border-zinc-700"
+                className="px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full text-sm font-medium border border-zinc-700"
               >
                 {genre}
               </span>

@@ -44,7 +44,7 @@ export default function HomePage() {
         {ALL_SECTIONS.filter((s) => visibleSections.has(s.id)).map(
           ({ id, label }) => (
             <section key={id} className="mt-8">
-              <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-xl font-semibold mb-4 text-zinc-100">
                 {label}
               </h2>
               {sectionContent[id]}

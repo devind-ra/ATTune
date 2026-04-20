@@ -39,7 +39,7 @@ export function ReviewFormActions({ loading, showCancel, onCancel }: Props) {
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium transition-colors cursor-pointer"
+          className="px-4 py-2 rounded-lg text-zinc-400 hover:bg-zinc-800 font-medium transition-colors cursor-pointer"
         >
           Cancel
         </button>

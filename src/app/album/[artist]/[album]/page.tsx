@@ -51,7 +51,7 @@ export default function AlbumPage() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 
-        <div className="mt-8 bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-800 flex flex-col items-center p-8 md:p-12 text-center">
+        <div className="mt-8 bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-800 flex flex-col items-center p-8 md:p-12 text-center">
           <div className="w-full max-w-2xl flex flex-col items-center">
             <AlbumHeader
               name={albumInfo.name}

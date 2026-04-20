@@ -29,7 +29,7 @@ export function CommentItem({
         </span>
         <span className="text-xs text-zinc-500">@{post.author.handle}</span>
       </div>
-      <p className="text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">
+      <p className="text-sm text-zinc-300 whitespace-pre-wrap">
         {record.text}
       </p>
     </div>

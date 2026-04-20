@@ -39,7 +39,7 @@ function SearchResults({
             <li
               key={idx}
               onClick={() => onSelectAlbum(album)}
-              className=" dark:bg-zinc-800/50 border border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 hover:shadow-md transition-all group"
+              className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-sky-500 hover:shadow-md transition-all group"
             >
               <div className="shrink-0">
                 {imgUrl ? (
@@ -98,7 +98,7 @@ export function AlbumSearch(props: AlbumSearchProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">
+        <label className="block text-sm font-medium mb-1 text-zinc-300">
           Search Album
         </label>
         <div className="relative">
@@ -107,7 +107,7 @@ export function AlbumSearch(props: AlbumSearchProps) {
             value={props.searchQuery}
             onChange={(e) => props.onSearchChange(e.target.value)}
             placeholder="Type an album name..."
-            className="w-full pl-10 pr-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
+            className="w-full pl-10 pr-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg

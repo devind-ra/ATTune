@@ -21,25 +21,25 @@ export default function SettingsModal({ isOpen, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white dark:bg-zinc-900 w-full max-w-md rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden transform transition-all p-6">
-        <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+      <div className="bg-zinc-900 w-full max-w-md rounded-2xl shadow-xl border border-zinc-800 overflow-hidden transform transition-all p-6">
+        <h3 className="text-2xl font-bold text-zinc-100 mb-2">
           Are you absolutely sure?
         </h3>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm">
+        <p className="text-zinc-400 mb-6 text-sm">
           This will delete all of your reviews and tastes from the AT Protocol
           network permanently. Please enter your password to confirm.
         </p>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+            <label className="block text-sm font-medium text-zinc-300 mb-1">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-zinc-200 rounded-lg dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
+              className="w-full px-4 py-2 border border-zinc-200 rounded-lg bg-zinc-900/50 text-zinc-100 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
               placeholder="Enter your password"
               autoFocus
             />
@@ -57,7 +57,7 @@ export default function SettingsModal({ isOpen, onClose }: Props) {
               onClose();
             }}
             disabled={isDeleting}
-            className="px-4 py-2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium rounded-lg transition-colors cursor-pointer"
+            className="px-4 py-2 text-zinc-400 hover:bg-zinc-800 font-medium rounded-lg transition-colors cursor-pointer"
           >
             Cancel
           </button>

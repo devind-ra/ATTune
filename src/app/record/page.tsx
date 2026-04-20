@@ -42,9 +42,9 @@ export default function RecordPage() {
         <ReviewForm onReviewCreated={handleReviewCreated} />
 
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-2xl font-bold mb-6 text-zinc-100 flex items-center gap-2">
             Your Reviews
-            <span className="text-xs font-normal px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500">
+            <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
               {session.handle}
             </span>
           </h2>

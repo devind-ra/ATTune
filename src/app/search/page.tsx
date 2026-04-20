@@ -33,7 +33,7 @@ function SearchResults() {
         <Navbar initialSearchQuery={query || ""} />
 
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-zinc-100">
             {query ? `Search results for "${query}"` : "Enter a search term"}
           </h2>
         </div>

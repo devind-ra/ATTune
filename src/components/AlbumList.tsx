@@ -40,9 +40,8 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         </div>
         <div className="p-3 pb-1">
           <span
-            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${
-              artistHovered ? "" : "group-hover:text-sky-400"
-            }`}
+            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${artistHovered ? "" : "group-hover:text-sky-400"
+              }`}
           >
             {album.name}
           </span>
@@ -50,7 +49,7 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
       </Link>
 
       <div className="px-3 pb-3">
-        <span className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
+        <span className="text-xs text-zinc-400 line-clamp-1 mt-0.5">
           <Link
             href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
             onMouseEnter={() => setArtistHovered(true)}

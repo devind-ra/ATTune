@@ -30,10 +30,10 @@ export default function ExplorePage() {
         <Navbar />
 
         <header className="mb-12 mt-8">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-zinc-900 dark:text-white tracking-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             Explore
           </h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl">
+          <p className="text-lg text-zinc-400 max-w-2xl">
             Expand your taste profile. Discover trending tracks globally,
             explore brand new genres, and see what the rest of the world is
             listening to.
@@ -45,11 +45,11 @@ export default function ExplorePage() {
             <DiscoverAlbums data={discoveryData} />
           </section>
 
-          <div className="border-t border-zinc-200 dark:border-zinc-800" />
+          <div className="border-t border-zinc-800" />
 
           <section>
             <div className="flex items-center gap-2 mb-6">
-              <span className="p-2 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 font-bold rounded-lg shrink-0">
+              <span className="p-2 bg-sky-900/30 text-sky-400 font-bold rounded-lg shrink-0">
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -65,10 +65,10 @@ export default function ExplorePage() {
                 </svg>
               </span>
               <div>
-                <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+                <h2 className="text-2xl font-bold text-zinc-100">
                   Trending Globally
                 </h2>
-                <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+                <p className="text-zinc-400 text-sm">
                   The most scrobbled tracks in the world right now.
                 </p>
               </div>
@@ -82,7 +82,7 @@ export default function ExplorePage() {
             )}
           </section>
 
-          <div className="border-t border-zinc-200 dark:border-zinc-800" />
+          <div className="border-t border-zinc-800" />
 
           <section>
             <GeoTopArtists />

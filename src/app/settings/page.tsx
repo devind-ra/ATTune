@@ -72,20 +72,20 @@ export default function SettingsPage() {
           Back
         </button>
 
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-8 shadow-sm">
-          <div className="flex flex-col text-zinc-800 dark:text-zinc-200 leading-relaxed max-w-none">
+        <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-8 shadow-sm">
+          <div className="flex flex-col text-zinc-200 leading-relaxed max-w-none">
             <ReactMarkdown components={components}>
               {markdownContent}
             </ReactMarkdown>
           </div>
         </div>
 
-        <div className="mt-8 bg-red-50 dark:bg-red-900 rounded-2xl border border-red-200 dark:border-red-900/30 p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-8 bg-red-900 rounded-2xl border border-red-900/30 p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-xl font-bold text-white dark:text-white mb-2">
+            <h2 className="text-xl font-bold text-white mb-2">
               Delete ATtune Data
             </h2>
-            <p className="text-white dark:text-white text-sm">
+            <p className="text-white text-sm">
               Permanently wipe all your reviews and tastes. This action cannot
               be undone.
             </p>
