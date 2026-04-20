@@ -40,8 +40,9 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         </div>
         <div className="p-3 pb-1">
           <span
-            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${artistHovered ? "" : "group-hover:text-sky-400"
-              }`}
+            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${
+              artistHovered ? "" : "group-hover:text-sky-400"
+            }`}
           >
             {album.name}
           </span>
