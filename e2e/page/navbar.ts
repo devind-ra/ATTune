@@ -58,6 +58,11 @@ export class Navbar {
     await this.page.getByRole("button", { name: this.account }).click();
   }
 
+  async clickSearch() {
+    await this.page.getByPlaceholder(this.searchBarPlaceholder).first().fill("Drake");
+    await this.page.getByPlaceholder(this.searchBarPlaceholder).first().press("Enter");
+  }
+
   async clickSettings() {
     await this.page.getByRole("link", { name: this.settings }).click();
   }
