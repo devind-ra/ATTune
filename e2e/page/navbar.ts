@@ -59,8 +59,14 @@ export class Navbar {
   }
 
   async clickSearch() {
-    await this.page.getByPlaceholder(this.searchBarPlaceholder).first().fill("Drake");
-    await this.page.getByPlaceholder(this.searchBarPlaceholder).first().press("Enter");
+    await this.page
+      .getByPlaceholder(this.searchBarPlaceholder)
+      .first()
+      .fill("Drake");
+    await this.page
+      .getByPlaceholder(this.searchBarPlaceholder)
+      .first()
+      .press("Enter");
   }
 
   async clickSettings() {

@@ -4,16 +4,16 @@ import { Navbar } from "./page/navbar";
 import { SearchPage } from "./page/search_page";
 
 test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3000");
-    const landingPage = new LandingPage(page);
-    await landingPage.clickGetStarted();
-    await landingPage.fillDetails();
-    await landingPage.clickSignIn();
-    const navbar = new Navbar(page);
-    await navbar.clickSearch();
+  await page.goto("http://localhost:3000");
+  const landingPage = new LandingPage(page);
+  await landingPage.clickGetStarted();
+  await landingPage.fillDetails();
+  await landingPage.clickSignIn();
+  const navbar = new Navbar(page);
+  await navbar.clickSearch();
 });
 
 test("checking all normal search page elements", async ({ page }) => {
-    const searchPage = new SearchPage(page);
-    await searchPage.checkPageElements();
+  const searchPage = new SearchPage(page);
+  await searchPage.checkPageElements();
 });
