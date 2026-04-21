@@ -7,13 +7,13 @@ import { ReviewsPage } from "./page/reviews_page";
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3000");
   const landingPage = new LandingPage(page);
-  landingPage.clickGetStarted();
-  landingPage.fillDetails();
-  landingPage.clickSignIn();
+  await landingPage.clickGetStarted();
+  await landingPage.fillDetails();
+  await landingPage.clickSignIn();
   const navbar = new Navbar(page);
-  navbar.clickProfile();
+  await navbar.clickProfile();
   const profilePage = new ProfilePage(page);
-  profilePage.clickShowMoreReviews();
+  await profilePage.clickShowMoreReviews();
 });
 
 test("checking all review page elements", async ({ page }) => {

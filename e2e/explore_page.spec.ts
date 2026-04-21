@@ -6,11 +6,11 @@ import { Navbar } from "./page/navbar";
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3000");
   const landingPage = new LandingPage(page);
-  landingPage.clickGetStarted();
-  landingPage.fillDetails();
-  landingPage.clickSignIn();
+  await landingPage.clickGetStarted();
+  await landingPage.fillDetails();
+  await landingPage.clickSignIn();
   const navbar = new Navbar(page);
-  navbar.clickExplore();
+  await navbar.clickExplore();
 });
 
 test("checking all explore page elements", async ({ page }) => {
