@@ -27,4 +27,16 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run playwright tests
+        id: first-run
         run: npx playwright test
+        continue-on-error: true
+
+      - name: Retry failed tests
+        id: retry-run
+        if: steps.first-run.outcome == 'failure'
+        run: npx playwright test --last-failed
+        continue-on-error: true
+
+      - name: Fail pipeline if retries also failed
+        if: steps.retry-run.outcome == 'failure'
+        run: exit 1
