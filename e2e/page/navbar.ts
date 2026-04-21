@@ -58,11 +58,11 @@ export class Navbar {
     await this.page.getByRole("button", { name: this.account }).click();
   }
 
-  async clickSearch() {
+  async clickSearch(query: string) {
     await this.page
       .getByPlaceholder(this.searchBarPlaceholder)
       .first()
-      .fill("Drake");
+      .fill(query);
     await this.page
       .getByPlaceholder(this.searchBarPlaceholder)
       .first()
