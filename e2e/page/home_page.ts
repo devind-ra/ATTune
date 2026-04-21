@@ -1,9 +1,6 @@
 import { Page, type Locator } from "playwright";
 import { expect } from "@playwright/test";
-import {
-  homePageContent,
-  homePageLocators,
-} from "../content/home_page_content";
+import { homePageContent } from "../content/home_page_content";
 
 export class HomePage {
   private readonly title: string;
@@ -47,9 +44,11 @@ export class HomePage {
     await expect(
       this.page.getByRole("heading", { name: this.recommendedAlbumsHeading }),
     ).toBeVisible();
-    await expect(
-      this.page.locator(homePageLocators.recommendedAlbumsListItems),
-    ).toHaveCount(5);
+    const recommendedAlbumsListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.recommendedAlbumsHeading })
+      .locator("li");
+    await expect(recommendedAlbumsListItems).toHaveCount(5);
   }
 
   async checkRecommendedArtists() {
@@ -58,18 +57,22 @@ export class HomePage {
         name: this.recommendedArtistsHeading,
       }),
     ).toBeVisible();
-    await expect(
-      this.page.locator(homePageLocators.recommendedArtistsListItems),
-    ).toHaveCount(5);
+    const recommendedArtistsListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.recommendedArtistsHeading })
+      .locator("li");
+    await expect(recommendedArtistsListItems).toHaveCount(5);
   }
 
   async checkCurrentTopArtists() {
     await expect(
       this.page.getByRole("heading", { name: this.currentTopArtistsHeading }),
     ).toBeVisible();
-    await expect(
-      this.page.locator(homePageLocators.currentTopArtistsListItems),
-    ).toHaveCount(5);
+    const currentTopArtistsListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.currentTopArtistsHeading })
+      .locator("li");
+    await expect(currentTopArtistsListItems).toHaveCount(5);
   }
 }
 
