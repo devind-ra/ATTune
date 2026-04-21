@@ -7,8 +7,8 @@ export const recordPageContent = {
   yourReviewsHeading: "Your Reviews",
   reviewFunctionsSubheading:
     "Edit, delete a review or click on a review to view comments",
-  albumName: "Octane",
-  artistName: "Don Toliver",
+  albumName: (album: string) => `${album}`,
+  artistName: (artist: string) => `${artist}`,
   ratingHeading: "Rating (0/5)",
   reviewHeading: "Review",
   rating: "5",

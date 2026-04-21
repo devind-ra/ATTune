@@ -1,0 +1,25 @@
+export const albumPageContent = {
+  title: "ATtune",
+  heading: (album: string) => `${album}`,
+  artistSubheading: (artist: string) => `${artist}`,
+  released: (date: string) => `Released: ${date}`,
+  tags: (tags: string[]) => tags,
+  viewFullAlbum: "View full album on Last.fm",
+  addAReview: "Add a Review",
+  otherUsersReviews: "Other User's Reviews",
+  yourReviews: "Your Reviews",
+  reviewFunctionsSubheading:
+    "Edit, delete a review or click on a review to view comments",
+  albumName: (album: string) => `${album}`,
+  artistName: (artist: string) => `${artist}`,
+  ratingHeading: "Rating (0/5)",
+  reviewHeading: "Review",
+  rating: "5",
+  reviewTextPlaceholder: "What did you think?",
+  dateListenedHeading: "Date Listened",
+  publishToBluesky: "Publish to Bluesky Timeline",
+  publishToBlueskyDescription:
+    "If unchecked, this review will only be saved to your ATtune profile. Comments will be disabled.",
+  postReviewButton: "Post Review",
+  cancelButton: "Cancel",
+};

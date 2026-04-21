@@ -10,6 +10,8 @@ export class RecordPage {
   private readonly startTypingMessage: string;
   private readonly yourReviewsHeading: string;
   private readonly reviewFunctionsSubheading: string;
+  private readonly albumName: string;
+  private readonly artistName: string;
   private readonly ratingHeading: string;
   private readonly rating: string;
   private readonly reviewHeading: string;
@@ -29,6 +31,8 @@ export class RecordPage {
     this.yourReviewsHeading = recordPageContent.yourReviewsHeading;
     this.reviewFunctionsSubheading =
       recordPageContent.reviewFunctionsSubheading;
+    this.albumName = recordPageContent.albumName("Octane");
+    this.artistName = recordPageContent.artistName("Don Toliver");
     this.ratingHeading = recordPageContent.ratingHeading;
     this.rating = recordPageContent.rating;
     this.reviewHeading = recordPageContent.reviewHeading;
@@ -71,9 +75,9 @@ export class RecordPage {
     await this.page.getByPlaceholder(this.searchPlaceholder).click();
     await this.page
       .getByPlaceholder(this.searchPlaceholder)
-      .fill(recordPageContent.albumName);
+      .fill(this.albumName);
     await this.page.waitForTimeout(1000);
-    await this.page.getByText(recordPageContent.artistName).first().click();
+    await this.page.getByText(this.artistName).first().click();
   }
 
   async checkReviewForm() {

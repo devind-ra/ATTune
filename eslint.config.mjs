@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
       "**/__tests__/**/*",
       "playwright.config.ts",
       "e2e/**",
+      "playwright-report/**",
+      "test-results/**",
     ],
   },
   ...nextVitals,
