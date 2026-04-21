@@ -9,6 +9,8 @@ export class Navbar {
   private readonly explore: string;
   private readonly record: string;
   private readonly account: string;
+  private readonly settings: string;
+  private readonly signOut: string;
 
   constructor(private page: Page) {
     this.title = homePageContent.title;
@@ -17,6 +19,8 @@ export class Navbar {
     this.explore = homePageContent.explore;
     this.record = homePageContent.record;
     this.account = homePageContent.account;
+    this.settings = homePageContent.settings;
+    this.signOut = homePageContent.signOut;
   }
 
   async checkPageElements() {
@@ -52,6 +56,14 @@ export class Navbar {
 
   async clickAccount() {
     await this.page.getByRole("button", { name: this.account }).click();
+  }
+
+  async clickSettings() {
+    await this.page.getByRole("link", { name: this.settings }).click();
+  }
+
+  async clickSignOut() {
+    await this.page.getByRole("link", { name: this.signOut }).click();
   }
 }
 

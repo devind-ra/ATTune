@@ -5,6 +5,8 @@ export const homePageContent = {
   explore: "Explore",
   record: "Record",
   account: "Account",
+  settings: "Settings",
+  signOut: "Sign Out",
   filterSectionsText: "Filter Sections",
   recommendedAlbumsHeading: "Recommended Albums",
   recommendedArtistsHeading: "Recommended Artists",
