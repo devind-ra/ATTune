@@ -19,6 +19,7 @@ function SearchResults() {
   const {
     artists,
     albums,
+    users,
     primaryResultType,
     isSearching,
     session,
@@ -47,6 +48,7 @@ function SearchResults() {
             <SearchResultSections
               artists={artists}
               albums={albums}
+              users={users}
               primaryResultType={primaryResultType}
             />
           )
