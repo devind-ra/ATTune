@@ -11,10 +11,11 @@ import { useExploreData } from "@/app/hooks/useExploreData";
 import { DiscoverAlbums } from "@/components/explore/DiscoverAlbums";
 import { TrendingTracks } from "@/components/explore/TrendingTracks";
 import { GeoTopArtists } from "@/components/explore/GeoTopArtists";
+import { TrendingArtists } from "~/components/explore/TrendingArtists";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ExplorePage() {
-  const { discoveryData, topTracks, isReady } = useExploreData();
+  const { discoveryData, topTracks, topArtists, isReady } = useExploreData();
 
   if (!isReady) {
     return (
@@ -43,6 +44,18 @@ export default function ExplorePage() {
         <div className="flex flex-col gap-16">
           <section>
             <DiscoverAlbums data={discoveryData} />
+          </section>
+
+          <div className="border-t border-zinc-800" />
+
+          <section>
+            <h2 className="text-2xl font-bold text-zinc-100">
+              Top Artists Globally
+            </h2>
+            <p className="text-zinc-400 text-sm mb-6">
+              The most scrobbled artists in the world right now.
+            </p>
+            <TrendingArtists artists={topArtists} />
           </section>
 
           <div className="border-t border-zinc-800" />

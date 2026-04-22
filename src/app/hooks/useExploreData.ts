@@ -9,10 +9,12 @@ import { atApiService } from "@/lib/atproto";
 import {
   getTopTags,
   getTopTracks,
+  getTopArtists,
   getTopAlbumsByTag,
   LastFMTag,
   LastFMTrack,
   LastFMAlbum,
+  LastFMArtist,
 } from "@/lib/lastfm";
 import { shuffle } from "@/lib/utils";
 
@@ -24,6 +26,7 @@ export interface DiscoveryTagData {
 interface ExploreData {
   discoveryData: DiscoveryTagData[];
   topTracks: LastFMTrack[];
+  topArtists: LastFMArtist[];
   isReady: boolean;
 }
 
@@ -33,6 +36,7 @@ export function useExploreData(): ExploreData {
 
   const [discoveryData, setDiscoveryData] = useState<DiscoveryTagData[]>([]);
   const [topTracks, setTopTracks] = useState<LastFMTrack[]>([]);
+  const [topArtists, setTopArtists] = useState<LastFMArtist[]>([]);
 
   useEffect(() => {
     if (!isLoading && !session) {
@@ -43,10 +47,11 @@ export function useExploreData(): ExploreData {
 
     async function loadData(did: string) {
       try {
-        const [tastes, tags, tracks] = await Promise.all([
+        const [tastes, tags, tracks, artists] = await Promise.all([
           atApiService.getTastes(did),
           getTopTags("50"),
           getTopTracks("10"),
+          getTopArtists("10"),
         ]);
 
         const userGenres = new Set(
@@ -59,15 +64,19 @@ export function useExploreData(): ExploreData {
 
         const selectedTags = shuffle(filteredTags).slice(0, 3) as LastFMTag[];
 
-        const discoveryResults = await Promise.all(
+        const allDiscoveryResults = await Promise.all(
           selectedTags.map(async (tag) => {
             const albums = await getTopAlbumsByTag(tag.name, "5");
             return { tag, albums };
           }),
         );
+        const discoveryResults = allDiscoveryResults
+          .filter(({ albums }) => albums.length > 0)
+          .slice(0, 3);
 
         setDiscoveryData(discoveryResults);
         setTopTracks(tracks);
+        setTopArtists(artists);
       } catch (err) {
         console.error(err);
       }
@@ -79,6 +88,7 @@ export function useExploreData(): ExploreData {
   return {
     discoveryData,
     topTracks,
+    topArtists,
     isReady: !isLoading && !!session,
   };
 }

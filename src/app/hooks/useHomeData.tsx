@@ -9,16 +9,16 @@ import { atApiService } from "@/lib/atproto";
 import {
   getSimilarArtists,
   getTopAlbumsByTag,
-  getTopArtists,
+  getTopArtistsByTag,
   LastFMArtist,
   LastFMAlbum,
 } from "@/lib/lastfm";
 import { getArtistName, shuffle } from "@/lib/utils";
 
 interface HomeData {
-  topArtists: LastFMArtist[];
   recommendedArtists: LastFMArtist[];
   recommendedAlbums: LastFMAlbum[];
+  tagArtists: LastFMArtist[];
   isReady: boolean;
 }
 
@@ -32,15 +32,16 @@ function removeDupeAlbums(albums: LastFMAlbum[]): LastFMAlbum[] {
   );
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function useHomeData(): HomeData {
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
-  const [topArtists, setTopArtists] = useState<LastFMArtist[]>([]);
   const [recommendedArtists, setRecommendedArtists] = useState<LastFMArtist[]>(
     [],
   );
   const [recommendedAlbums, setRecommendedAlbums] = useState<LastFMAlbum[]>([]);
+  const [tagArtists, setTagArtists] = useState<LastFMArtist[]>([]);
 
   useEffect(() => {
     if (!isLoading && !session) {
@@ -53,6 +54,7 @@ export function useHomeData(): HomeData {
       const tastes = await atApiService.getTastes(did);
       if (!tastes) return;
 
+      const tagArtistResults: LastFMArtist[] = [];
       const artistResults: LastFMArtist[] = [];
       const albumResults: LastFMAlbum[] = [];
 
@@ -61,18 +63,28 @@ export function useHomeData(): HomeData {
       }
       for (const genre of tastes.topGenres || []) {
         albumResults.push(...(await getTopAlbumsByTag(genre, "5")));
+        tagArtistResults.push(...(await getTopArtistsByTag(genre, "5")));
       }
 
-      setRecommendedArtists(
-        shuffle(removeDupeArtists(artistResults)).slice(0, 5),
-      );
+      const dedupedRecommended = shuffle(
+        removeDupeArtists(artistResults),
+      ).slice(0, 5);
+      const recommendedNames = new Set(dedupedRecommended.map((a) => a.name));
+
+      setRecommendedArtists(dedupedRecommended);
       setRecommendedAlbums(shuffle(removeDupeAlbums(albumResults)).slice(0, 5));
+      setTagArtists(
+        shuffle(
+          removeDupeArtists(
+            tagArtistResults.filter((a) => !recommendedNames.has(a.name)),
+          ),
+        ).slice(0, 5),
+      );
     }
 
     async function loadData() {
       try {
         await loadRecommendations(session!.did);
-        setTopArtists(await getTopArtists());
       } catch (err) {
         console.error(err);
       }
@@ -82,9 +94,9 @@ export function useHomeData(): HomeData {
   }, [session, isLoading, router]);
 
   return {
-    topArtists,
     recommendedArtists,
     recommendedAlbums,
+    tagArtists,
     isReady: !isLoading && !!session,
   };
 }

@@ -15,7 +15,7 @@ import { useVisibleSections } from "@/lib/sections";
 import { ALL_SECTIONS, SectionId } from "@/lib/sections";
 
 export default function HomePage() {
-  const { topArtists, recommendedArtists, recommendedAlbums, isReady } =
+  const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
     useHomeData();
   const { visibleSections, toggleSection } = useVisibleSections();
 
@@ -30,7 +30,7 @@ export default function HomePage() {
   const sectionContent: Record<SectionId, React.ReactNode> = {
     recommendedAlbums: <AlbumList albums={recommendedAlbums} />,
     recommendedArtists: <ArtistList artists={recommendedArtists} />,
-    topArtists: <ArtistList artists={topArtists} />,
+    tagArtists: <ArtistList artists={tagArtists} />,
   };
 
   return (
