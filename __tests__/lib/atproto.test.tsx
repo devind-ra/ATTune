@@ -238,12 +238,14 @@ describe("AtProtoService", () => {
 
   describe("getReviews", () => {
     it("should list records and map them", async () => {
-      const mockList = service.agent.com.atproto.repo.listRecords;
+      const publicAgent = (service as any).publicAgent;
+      const mockList = publicAgent.com.atproto.repo.listRecords;
+
       vi.mocked(mockList).mockResolvedValueOnce({
         data: { records: [{ uri: "u1", cid: "c1", value: { rating: 10 } }] },
       } as any);
-
       const res = await service.getReviews("did:other");
+
       expect(mockList).toHaveBeenCalledWith(
         expect.objectContaining({ repo: "did:other" }),
       );

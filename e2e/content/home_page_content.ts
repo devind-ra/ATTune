@@ -8,7 +8,7 @@ export const homePageContent = {
   settings: "Settings",
   signOut: "Sign Out",
   filterSectionsText: "Filter Sections",
+  recommendedArtistsByTasteHeading: "Recommended Artists by Taste",
+  similarArtistsByTasteHeading: "Similar Artists by Taste",
   recommendedAlbumsHeading: "Recommended Albums",
-  recommendedArtistsHeading: "Recommended Artists",
-  currentTopArtistsHeading: "Current Top Artists",
 };
