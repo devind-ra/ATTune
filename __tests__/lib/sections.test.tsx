@@ -115,13 +115,13 @@ describe("sections lib", () => {
 
         await waitFor(() => {
           expect(result.current.visibleSections.size).toBe(1);
-          expect(
-            result.current.visibleSections.has("recommendedAlbums"),
-          ).toBe(true);
+          expect(result.current.visibleSections.has("recommendedAlbums")).toBe(
+            true,
+          );
           expect(result.current.visibleSections.has("tagArtists")).toBe(false);
-          expect(
-            result.current.visibleSections.has("recommendedArtists"),
-          ).toBe(false);
+          expect(result.current.visibleSections.has("recommendedArtists")).toBe(
+            false,
+          );
         });
       });
 
@@ -137,9 +137,9 @@ describe("sections lib", () => {
           expect(result.current.visibleSections.has("topArtists" as any)).toBe(
             false,
           );
-          expect(
-            result.current.visibleSections.has("recommendedAlbums"),
-          ).toBe(true);
+          expect(result.current.visibleSections.has("recommendedAlbums")).toBe(
+            true,
+          );
         });
       });
 

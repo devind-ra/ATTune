@@ -28,7 +28,7 @@ export function HeroSection({ onScrollToLogin }: Props) {
         </p>
         <button
           onClick={onScrollToLogin}
-          className="px-8 py-3 rounded-full bg-zinc-900 text-white font-semibold hover:opacity-90 transition-opacity cursor-pointer"
+          className="px-8 py-3 rounded-full bg-white text-black font-semibold hover:opacity-90 transition-opacity cursor-pointer"
         >
           Get Started
         </button>
