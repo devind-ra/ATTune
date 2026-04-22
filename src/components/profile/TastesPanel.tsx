@@ -9,21 +9,23 @@ import { TastesViewer } from "./TastesViewer";
 import { UserTastes } from "@/lib/atproto";
 
 interface Props {
+  isReadonly?: boolean;
   tastes: UserTastes | null;
-  isEditingTastes: boolean;
-  setIsEditingTastes: (val: boolean) => void;
+  isEditingTastes?: boolean;
+  setIsEditingTastes?: (val: boolean) => void;
   editArtists: string[];
   editGenres: string[];
   onArtistChange: (idx: number, val: string) => void;
   onGenreChange: (idx: number, val: string) => void;
   artistExcludeValues: string[][];
   genreExcludeValues: string[][];
-  isSaving: boolean;
-  onSave: () => void;
-  onCancel: () => void;
+  isSaving?: boolean;
+  onSave?: () => void;
+  onCancel?: () => void;
 }
 
 export function TastesPanel({
+  isReadonly,
   isEditingTastes,
   setIsEditingTastes,
   tastes,
@@ -33,7 +35,7 @@ export function TastesPanel({
     <div className="mt-8 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-zinc-100">Music Tastes</h2>
-        {!isEditingTastes && (
+        {!isReadonly && !isEditingTastes && setIsEditingTastes && (
           <button
             onClick={() => setIsEditingTastes(true)}
             aria-label="Edit tastes"
@@ -43,8 +45,18 @@ export function TastesPanel({
           </button>
         )}
       </div>
-      {isEditingTastes ? (
-        <TastesEditor {...editorProps} />
+      {isEditingTastes && !isReadonly ? (
+        <TastesEditor
+          editArtists={editorProps.editArtists!}
+          editGenres={editorProps.editGenres!}
+          onArtistChange={editorProps.onArtistChange!}
+          onGenreChange={editorProps.onGenreChange!}
+          artistExcludeValues={editorProps.artistExcludeValues!}
+          genreExcludeValues={editorProps.genreExcludeValues!}
+          isSaving={editorProps.isSaving!}
+          onSave={editorProps.onSave!}
+          onCancel={editorProps.onCancel!}
+        />
       ) : (
         <TastesViewer tastes={tastes} />
       )}
