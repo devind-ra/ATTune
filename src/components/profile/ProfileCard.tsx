@@ -40,6 +40,39 @@ function ProfileAvatar({
   );
 }
 
+function FollowButton({
+  isFollowingLoading,
+  isFollowing,
+  onFollowToggle,
+}: {
+  isFollowingLoading?: boolean;
+  isFollowing?: boolean;
+  onFollowToggle?: () => void;
+}) {
+  let label = "Follow";
+  if (isFollowingLoading) {
+    label = "...";
+  } else if (isFollowing) {
+    label = "Unfollow";
+  }
+
+  const baseClass =
+    "px-6 py-2 rounded-full font-medium transition-colors cursor-pointer disabled:opacity-50";
+  const followingClass =
+    "bg-zinc-800 hover:bg-red-900/30 text-zinc-100 hover:text-red-400 hover:border-red-900/50 border border-transparent";
+  const notFollowingClass = "bg-sky-600 hover:bg-sky-500 text-white";
+
+  return (
+    <button
+      onClick={onFollowToggle}
+      disabled={isFollowingLoading}
+      className={`${baseClass} ${isFollowing ? followingClass : notFollowingClass}`}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function ProfileCard({
   profile,
   thisYearReviewCount,
@@ -58,21 +91,11 @@ export function ProfileCard({
               {profile.displayName || profile.handle}
             </h1>
             {isOtherUser && onFollowToggle && (
-              <button
-                onClick={onFollowToggle}
-                disabled={isFollowingLoading}
-                className={`px-6 py-2 rounded-full font-medium transition-colors ${
-                  profile.viewer?.following
-                    ? "bg-zinc-800 hover:bg-red-900/30 text-zinc-100 hover:text-red-400 hover:border-red-900/50 border border-transparent cursor-pointer"
-                    : "bg-sky-600 hover:bg-sky-500 text-white cursor-pointer"
-                } disabled:opacity-50`}
-              >
-                {isFollowingLoading
-                  ? "..."
-                  : profile.viewer?.following
-                    ? "Unfollow"
-                    : "Follow"}
-              </button>
+              <FollowButton
+                isFollowingLoading={isFollowingLoading}
+                isFollowing={!!profile.viewer?.following}
+                onFollowToggle={onFollowToggle}
+              />
             )}
           </div>
           <p className="text-zinc-400 mb-4">@{profile.handle}</p>
