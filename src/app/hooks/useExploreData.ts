@@ -30,6 +30,7 @@ interface ExploreData {
   isReady: boolean;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function useExploreData(): ExploreData {
   const router = useRouter();
   const { session, isLoading } = useAuth();

@@ -173,7 +173,8 @@ export class AtProtoService {
   async getReviews(did: string): Promise<ReviewRecord[]> {
     let allRecords: { uri: string; cid: string; value: unknown }[] = [];
     let cursor: string | undefined = undefined;
-    const agentToUse = did === this.agent.session?.did ? this.agent : this.publicAgent;
+    const agentToUse =
+      did === this.agent.session?.did ? this.agent : this.publicAgent;
 
     try {
       do {
@@ -275,7 +276,8 @@ export class AtProtoService {
   }
 
   async getTastes(did: string) {
-    const agentToUse = did === this.agent.session?.did ? this.agent : this.publicAgent;
+    const agentToUse =
+      did === this.agent.session?.did ? this.agent : this.publicAgent;
     try {
       const response = await agentToUse.com.atproto.repo.getRecord({
         repo: did,
