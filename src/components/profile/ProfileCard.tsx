@@ -61,10 +61,11 @@ export function ProfileCard({
               <button
                 onClick={onFollowToggle}
                 disabled={isFollowingLoading}
-                className={`px-6 py-2 rounded-full font-medium transition-colors ${profile.viewer?.following
-                  ? "bg-zinc-800 hover:bg-red-900/30 text-zinc-100 hover:text-red-400 hover:border-red-900/50 border border-transparent cursor-pointer"
-                  : "bg-sky-600 hover:bg-sky-500 text-white cursor-pointer"
-                  } disabled:opacity-50`}
+                className={`px-6 py-2 rounded-full font-medium transition-colors ${
+                  profile.viewer?.following
+                    ? "bg-zinc-800 hover:bg-red-900/30 text-zinc-100 hover:text-red-400 hover:border-red-900/50 border border-transparent cursor-pointer"
+                    : "bg-sky-600 hover:bg-sky-500 text-white cursor-pointer"
+                } disabled:opacity-50`}
               >
                 {isFollowingLoading
                   ? "..."

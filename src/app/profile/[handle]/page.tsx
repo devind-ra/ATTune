@@ -81,19 +81,24 @@ export default function OtherProfilePage({
           isReadonly={true}
           tastes={tastes}
           isEditingTastes={false}
-          setIsEditingTastes={() => { }}
+          setIsEditingTastes={() => {}}
           editArtists={[]}
           editGenres={[]}
-          onArtistChange={() => { }}
-          onGenreChange={() => { }}
+          onArtistChange={() => {}}
+          onGenreChange={() => {}}
           artistExcludeValues={[]}
           genreExcludeValues={[]}
           isSaving={false}
-          onSave={() => { }}
-          onCancel={() => { }}
+          onSave={() => {}}
+          onCancel={() => {}}
         />
         <ReviewActivity allReviews={allReviews} />
-        <RecentReviews reviews={recentReviews} refresh={refreshReviews} isReadOnly={!isSelf} />
+        <RecentReviews
+          reviews={recentReviews}
+          refresh={refreshReviews}
+          isReadOnly={!isSelf}
+          handle={handle}
+        />
       </main>
     </div>
   );
