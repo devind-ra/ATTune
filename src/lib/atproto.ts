@@ -46,6 +46,7 @@ export interface ReviewRecord {
 
 export class AtProtoService {
   public agent: BskyAgent;
+  private publicAgent: BskyAgent;
 
   constructor() {
     this.agent = new BskyAgent({
@@ -60,6 +61,7 @@ export class AtProtoService {
         }
       },
     });
+    this.publicAgent = new BskyAgent({ service: "https://bsky.social" });
   }
 
   async login(identifier: string, password: string) {
@@ -171,18 +173,24 @@ export class AtProtoService {
   async getReviews(did: string): Promise<ReviewRecord[]> {
     let allRecords: { uri: string; cid: string; value: unknown }[] = [];
     let cursor: string | undefined = undefined;
+    const agentToUse = did === this.agent.session?.did ? this.agent : this.publicAgent;
 
-    do {
-      const response = await this.agent.com.atproto.repo.listRecords({
-        repo: did,
-        collection: REVIEW_COLLECTION,
-        limit: 100,
-        cursor: cursor,
-      });
+    try {
+      do {
+        const response = await agentToUse.com.atproto.repo.listRecords({
+          repo: did,
+          collection: REVIEW_COLLECTION,
+          limit: 100,
+          cursor: cursor,
+        });
 
-      allRecords = allRecords.concat(response.data.records);
-      cursor = response.data.cursor;
-    } while (cursor);
+        allRecords = allRecords.concat(response.data.records);
+        cursor = response.data.cursor;
+      } while (cursor);
+    } catch (err) {
+      console.warn("Could not fetch reviews for user", err);
+      return [];
+    }
 
     return allRecords.map((r) => ({
       uri: r.uri,
@@ -267,8 +275,9 @@ export class AtProtoService {
   }
 
   async getTastes(did: string) {
+    const agentToUse = did === this.agent.session?.did ? this.agent : this.publicAgent;
     try {
-      const response = await this.agent.com.atproto.repo.getRecord({
+      const response = await agentToUse.com.atproto.repo.getRecord({
         repo: did,
         collection: PROFILE_COLLECTION,
         rkey: "self",
@@ -349,6 +358,29 @@ export class AtProtoService {
       collection: "app.bsky.feed.like",
       rkey: rkey,
     });
+  }
+
+  async searchUsers(query: string) {
+    try {
+      const response = await this.agent.searchActorsTypeahead({
+        q: query,
+        limit: 10,
+      });
+      return response.data.actors;
+    } catch (err) {
+      console.warn("Failed to search users", err);
+      return [];
+    }
+  }
+
+  async followUser(did: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    return await this.agent.follow(did);
+  }
+
+  async unfollowUser(followUri: string) {
+    if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
+    return await this.agent.deleteFollow(followUri);
   }
 }
 
