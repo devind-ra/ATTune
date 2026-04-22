@@ -1,3 +1,7 @@
+// useSearch hook
+// Contains the following:
+// - Searches for artists, albums and users
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,6 +11,8 @@ import {
   LastFMArtist,
   LastFMAlbum,
 } from "@/lib/lastfm";
+import { atApiService } from "@/lib/atproto";
+import { AppBskyActorDefs } from "@atproto/api";
 
 const MAX_RESULTS = 10;
 const POPULARITY_THRESHOLD = 100000;
@@ -37,7 +43,11 @@ function toArray<T>(result: T | T[] | null | undefined): T[] {
 
 interface FetchOptions {
   onStart: () => void;
-  onSuccess: (artists: LastFMArtist[], albums: LastFMAlbum[]) => void;
+  onSuccess: (
+    artists: LastFMArtist[],
+    albums: LastFMAlbum[],
+    users: AppBskyActorDefs.ProfileViewBasic[],
+  ) => void;
   onError: (error: Error) => void;
   onDone: () => void;
 }
@@ -45,15 +55,16 @@ interface FetchOptions {
 async function fetchResults(query: string, options: FetchOptions) {
   options.onStart();
   try {
-    const [artistResults, albumResults] = await Promise.all([
+    const [artistResults, albumResults, userResults] = await Promise.all([
       searchArtist(query),
       searchAlbum(query),
+      atApiService.searchUsers(query),
     ]);
 
     const parsedArtists = toArray(artistResults);
     const parsedAlbums = toArray(albumResults);
 
-    options.onSuccess(parsedArtists, parsedAlbums);
+    options.onSuccess(parsedArtists, parsedAlbums, userResults);
   } catch (error) {
     options.onError(error as Error);
   } finally {
@@ -66,6 +77,7 @@ export function useSearch(query: string | null) {
   const { session, isLoading: authLoading } = useAuth();
   const [artists, setArtists] = useState<LastFMArtist[]>([]);
   const [albums, setAlbums] = useState<LastFMAlbum[]>([]);
+  const [users, setUsers] = useState<AppBskyActorDefs.ProfileViewBasic[]>([]);
   const [primaryResultType, setPrimaryResultType] = useState<
     "artist" | "album"
   >("artist");
@@ -82,9 +94,10 @@ export function useSearch(query: string | null) {
 
     fetchResults(query, {
       onStart: () => setIsSearching(true),
-      onSuccess: (a, b) => {
+      onSuccess: (a, b, u) => {
         setArtists(a);
         setAlbums(b);
+        setUsers(u);
         setPrimaryResultType(parsePrimaryType(a, b, query));
       },
       onError: (err) => console.error("Search failed:", err),
@@ -95,6 +108,7 @@ export function useSearch(query: string | null) {
   return {
     artists,
     albums,
+    users,
     primaryResultType,
     isSearching,
     session,
