@@ -71,17 +71,25 @@ describe("sections lib", () => {
       });
 
       expect(result.current.visibleSections.size).toBe(1);
-      expect(result.current.visibleSections.has("musicPublications")).toBe(true);
+      expect(result.current.visibleSections.has("musicPublications")).toBe(
+        true,
+      );
       expect(result.current.visibleSections.has("tagArtists")).toBe(false);
-      expect(result.current.visibleSections.has("recommendedArtists")).toBe(false);
-      expect(result.current.visibleSections.has("recommendedAlbums")).toBe(false);
+      expect(result.current.visibleSections.has("recommendedArtists")).toBe(
+        false,
+      );
+      expect(result.current.visibleSections.has("recommendedAlbums")).toBe(
+        false,
+      );
 
       act(() => {
         result.current.toggleSection("musicPublications");
       });
 
       expect(result.current.visibleSections.size).toBe(1);
-      expect(result.current.visibleSections.has("musicPublications")).toBe(true);
+      expect(result.current.visibleSections.has("musicPublications")).toBe(
+        true,
+      );
     });
 
     describe("localStorage persistence", () => {
