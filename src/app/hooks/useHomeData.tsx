@@ -72,7 +72,9 @@ export function useHomeData(): HomeData {
       const recommendedNames = new Set(dedupedRecommended.map((a) => a.name));
 
       setRecommendedArtists(dedupedRecommended);
-      setRecommendedAlbums(shuffle(removeDupeAlbums(albumResults)).slice(0, 20));
+      setRecommendedAlbums(
+        shuffle(removeDupeAlbums(albumResults)).slice(0, 20),
+      );
       setTagArtists(
         shuffle(
           removeDupeArtists(

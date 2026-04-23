@@ -14,18 +14,26 @@ test.beforeEach(async ({ page }) => {
   const navbar = new Navbar(page);
   await navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!);
   await Promise.all([
-    page.waitForURL("http://localhost:3000/search?q=" + process.env.OTHER_BLUESKY_HANDLE!),
+    page.waitForURL(
+      "http://localhost:3000/search?q=" + process.env.OTHER_BLUESKY_HANDLE!,
+    ),
     navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!),
   ]);
   const searchPage = new SearchPage(page);
   await Promise.all([
-    page.waitForURL("http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!, { waitUntil: "load" }),
+    page.waitForURL(
+      "http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!,
+      { waitUntil: "load" },
+    ),
     searchPage.clickProfile(),
   ]);
   await page.waitForTimeout(5000);
   const otherUserProfilePage = new OtherUserProfilePage(page);
   await Promise.all([
-    page.waitForURL("http://localhost:3000/" + process.env.OTHER_BLUESKY_HANDLE! + "/reviews", { waitUntil: "load" }),
+    page.waitForURL(
+      "http://localhost:3000/" + process.env.OTHER_BLUESKY_HANDLE! + "/reviews",
+      { waitUntil: "load" },
+    ),
     otherUserProfilePage.clickShowMoreReviews(),
   ]);
 });

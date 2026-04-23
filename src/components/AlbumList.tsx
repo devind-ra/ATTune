@@ -41,8 +41,9 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         </div>
         <div className="p-3 pb-1">
           <span
-            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${artistHovered ? "" : "group-hover:text-sky-400"
-              }`}
+            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${
+              artistHovered ? "" : "group-hover:text-sky-400"
+            }`}
           >
             {album.name}
           </span>
@@ -66,7 +67,9 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
 }
 
 export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
-  const [shuffledAlbums, setShuffledAlbums] = useState<LastFMAlbum[] | null>(null);
+  const [shuffledAlbums, setShuffledAlbums] = useState<LastFMAlbum[] | null>(
+    null,
+  );
   const [prevAlbums, setPrevAlbums] = useState(albums);
 
   if (albums !== prevAlbums) {
@@ -83,7 +86,7 @@ export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
   };
 
   const displayedAlbums = enableShuffle
-    ? (shuffledAlbums || albums.slice(0, 5))
+    ? shuffledAlbums || albums.slice(0, 5)
     : albums;
 
   return (
