@@ -17,7 +17,6 @@ export class HomePage {
     this.similarArtistsByTasteHeading =
       homePageContent.similarArtistsByTasteHeading;
     this.recommendedAlbumsHeading = homePageContent.recommendedAlbumsHeading;
-
   }
 
   async checkPageElements() {
@@ -33,10 +32,14 @@ export class HomePage {
       .getByRole("button", { name: this.filterSectionsText })
       .click();
     await expect(
-      this.page.getByRole("button", { name: this.recommendedArtistsByTasteHeading }),
+      this.page.getByRole("button", {
+        name: this.recommendedArtistsByTasteHeading,
+      }),
     ).toBeVisible();
     await expect(
-      this.page.getByRole("button", { name: this.similarArtistsByTasteHeading }),
+      this.page.getByRole("button", {
+        name: this.similarArtistsByTasteHeading,
+      }),
     ).toBeVisible();
     await expect(
       this.page.getByRole("button", { name: this.recommendedAlbumsHeading }),
@@ -48,7 +51,11 @@ export class HomePage {
       .locator("section")
       .filter({ hasText: this.recommendedArtistsByTasteHeading })
       .locator("li");
-    await expect(this.page.getByRole("heading", { name: this.recommendedArtistsByTasteHeading })).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.recommendedArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
     await expect(recommendedArtistsByTasteListItems).toHaveCount(5);
   }
 
@@ -57,7 +64,11 @@ export class HomePage {
       .locator("section")
       .filter({ hasText: this.similarArtistsByTasteHeading })
       .locator("li");
-    await expect(this.page.getByRole("heading", { name: this.similarArtistsByTasteHeading })).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.similarArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
     await expect(similarArtistsByTasteListItems).toHaveCount(5);
   }
 

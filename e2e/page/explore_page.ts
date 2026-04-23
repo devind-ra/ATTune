@@ -23,8 +23,7 @@ export class ExplorePage {
     this.discoverSubHeading = explorePageContent.discoverSubHeading;
     this.moreOnLastFM = explorePageContent.moreOnLastFM;
     this.topArtistsHeading = explorePageContent.topArtistsHeading;
-    this.topArtistsDescription =
-      explorePageContent.topArtistsDescription;
+    this.topArtistsDescription = explorePageContent.topArtistsDescription;
     this.trendingGloballyHeading = explorePageContent.trendingGloballyHeading;
     this.trendingGloballyDescription =
       explorePageContent.trendingGloballyDescription;
@@ -59,9 +58,7 @@ export class ExplorePage {
     await expect(
       this.page.getByRole("heading", { name: this.topArtistsHeading }),
     ).toBeVisible();
-    await expect(
-      this.page.getByText(this.topArtistsDescription),
-    ).toBeVisible();
+    await expect(this.page.getByText(this.topArtistsDescription)).toBeVisible();
     await expect(topArtists).toHaveCount(10);
   }
 

@@ -6,8 +6,7 @@ export const explorePageContent = {
   discoverSubHeading: "Discover",
   moreOnLastFM: "More on Last.fm",
   topArtistsHeading: "Top Artists Globally",
-  topArtistsDescription:
-    "The most scrobbled artists in the world right now.",
+  topArtistsDescription: "The most scrobbled artists in the world right now.",
   trendingGloballyHeading: "Trending Globally",
   trendingGloballyDescription:
     "The most scrobbled tracks in the world right now.",
