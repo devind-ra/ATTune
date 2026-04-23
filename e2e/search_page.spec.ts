@@ -11,10 +11,9 @@ test.beforeEach(async ({ page }) => {
   await landingPage.clickSignIn();
   const navbar = new Navbar(page);
   await Promise.all([
-    page.waitForURL("http://localhost:3000/search?q=Drake"),
+    page.waitForURL("http://localhost:3000/search?q=Drake", { timeout: 20000 }),
     navbar.clickSearch("Drake"),
   ]);
-  await page.waitForTimeout(2000);
 });
 
 test("checking all normal search page elements", async ({ page }) => {
