@@ -65,8 +65,11 @@ export class SearchPage {
       .locator("section")
       .filter({ hasText: this.usersHeading })
       .locator("li")
-      .first();
+      .first()
+      .locator("a");
 
+    await user.waitFor({ state: "visible", timeout: 15000 });
+    await this.page.waitForTimeout(3000);
     await user.click();
   }
 }

@@ -17,15 +17,14 @@ test.beforeEach(async ({ page }) => {
     ),
     navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!),
   ]);
-  await page.waitForTimeout(5000);
   const searchPage = new SearchPage(page);
   await Promise.all([
     page.waitForURL(
       "http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!,
+      { timeout: 20000 }
     ),
     searchPage.clickProfile(),
   ]);
-  await page.waitForTimeout(5000);
 });
 
 test("checking profile page elements", async ({ page }) => {

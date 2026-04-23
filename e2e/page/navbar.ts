@@ -59,14 +59,13 @@ export class Navbar {
   }
 
   async clickSearch(query: string) {
-    await this.page
+    const searchBar = this.page
       .getByPlaceholder(this.searchBarPlaceholder)
-      .first()
-      .fill(query);
-    await this.page
-      .getByPlaceholder(this.searchBarPlaceholder)
-      .first()
-      .press("Enter");
+      .first();
+
+    await searchBar.waitFor({ state: "visible", timeout: 10000 });
+    await searchBar.fill(query);
+    await searchBar.press("Enter");
   }
 
   async clickSettings() {
