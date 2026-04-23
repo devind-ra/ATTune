@@ -8,6 +8,7 @@ export class HomePage {
   private readonly recommendedArtistsByTasteHeading: string;
   private readonly similarArtistsByTasteHeading: string;
   private readonly recommendedAlbumsHeading: string;
+  private readonly shuffleButtonText: string;
 
   constructor(private page: Page) {
     this.title = homePageContent.title;
@@ -17,6 +18,7 @@ export class HomePage {
     this.similarArtistsByTasteHeading =
       homePageContent.similarArtistsByTasteHeading;
     this.recommendedAlbumsHeading = homePageContent.recommendedAlbumsHeading;
+    this.shuffleButtonText = homePageContent.shuffleButtonText;
   }
 
   async checkPageElements() {
@@ -73,6 +75,7 @@ export class HomePage {
   }
 
   async checkRecommendedAlbums() {
+    await expect(this.page.getByText(this.shuffleButtonText)).toBeVisible();
     await expect(
       this.page.getByRole("heading", { name: this.recommendedAlbumsHeading }),
     ).toBeVisible();
@@ -81,6 +84,12 @@ export class HomePage {
       .filter({ hasText: this.recommendedAlbumsHeading })
       .locator("li");
     await expect(recommendedAlbumsListItems).toHaveCount(5);
+  }
+
+  async clickShuffleButton() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .click();
   }
 }
 

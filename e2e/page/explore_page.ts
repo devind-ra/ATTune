@@ -15,6 +15,7 @@ export class ExplorePage {
   private readonly globalSoundsHeading: string;
   private readonly globalSoundsDescription: string;
   private readonly countryDropdownPlaceholder: string;
+  private readonly shuffleButtonText: string;
 
   constructor(private page: Page) {
     this.title = explorePageContent.title;
@@ -31,6 +32,7 @@ export class ExplorePage {
     this.globalSoundsDescription = explorePageContent.globalSoundsDescription;
     this.countryDropdownPlaceholder =
       explorePageContent.countryDropdownPlaceholder;
+    this.shuffleButtonText = explorePageContent.shuffleButtonText;
   }
 
   async checkExploreGenresSection() {
@@ -38,6 +40,7 @@ export class ExplorePage {
     await expect(
       this.page.getByRole("heading", { name: this.heading }),
     ).toBeVisible();
+    await expect(this.page.getByText(this.shuffleButtonText)).toHaveCount(3);
     await expect(this.page.getByText(this.description)).toBeVisible();
     await expect(
       this.page.getByRole("heading", {
@@ -90,6 +93,27 @@ export class ExplorePage {
       .getByLabel(this.countryDropdownPlaceholder)
       .selectOption("United Kingdom");
     await expect(this.page.getByText("United Kingdom")).toBeVisible();
+  }
+
+  async clickShuffleButtonOne() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .first()
+      .click();
+  }
+
+  async clickShuffleButtonTwo() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .nth(1)
+      .click();
+  }
+
+  async clickShuffleButtonThree() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .nth(2)
+      .click();
   }
 }
 

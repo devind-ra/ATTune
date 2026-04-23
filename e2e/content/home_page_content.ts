@@ -11,4 +11,5 @@ export const homePageContent = {
   recommendedArtistsByTasteHeading: "Recommended Artists by Taste",
   similarArtistsByTasteHeading: "Similar Artists by Taste",
   recommendedAlbumsHeading: "Recommended Albums",
+  shuffleButtonText: "Shuffle",
 };
