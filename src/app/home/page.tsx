@@ -13,6 +13,7 @@ import { SectionFilter } from "@/components/SectionFilter";
 import { useHomeData } from "@/app/hooks/useHomeData";
 import { useVisibleSections } from "@/lib/sections";
 import { ALL_SECTIONS, SectionId } from "@/lib/sections";
+import { MusicPublications } from "@/components/MusicPublications";
 
 export default function HomePage() {
   const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
@@ -31,6 +32,7 @@ export default function HomePage() {
     recommendedAlbums: <AlbumList albums={recommendedAlbums} enableShuffle />,
     recommendedArtists: <ArtistList artists={recommendedArtists} />,
     tagArtists: <ArtistList artists={tagArtists} />,
+    musicPublications: <MusicPublications />,
   };
 
   return (

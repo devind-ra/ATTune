@@ -10,6 +10,7 @@ export const ALL_SECTIONS = [
   { id: "tagArtists", label: "Recommended Artists by Taste" },
   { id: "recommendedArtists", label: "Similar Artists by Taste" },
   { id: "recommendedAlbums", label: "Recommended Albums" },
+  { id: "musicPublications", label: "Music Publications on Bluesky" },
 ] as const;
 
 export type SectionId = (typeof ALL_SECTIONS)[number]["id"];
