@@ -60,7 +60,7 @@ export class AlbumPage {
 
   async checkAlbumOverview() {
     await expect(
-      this.page.getByRole("heading", { name: this.heading }),
+      this.page.getByRole("heading", { name: this.heading }).first(),
     ).toBeVisible();
     await expect(
       this.page.getByText(this.artistSubheading).first(),
