@@ -8,6 +8,7 @@ export class HomePage {
   private readonly recommendedArtistsByTasteHeading: string;
   private readonly similarArtistsByTasteHeading: string;
   private readonly recommendedAlbumsHeading: string;
+  private readonly musicPublicationsHeading: string;
   private readonly shuffleButtonText: string;
 
   constructor(private page: Page) {
@@ -18,6 +19,7 @@ export class HomePage {
     this.similarArtistsByTasteHeading =
       homePageContent.similarArtistsByTasteHeading;
     this.recommendedAlbumsHeading = homePageContent.recommendedAlbumsHeading;
+    this.musicPublicationsHeading = homePageContent.musicPublicationsHeading;
     this.shuffleButtonText = homePageContent.shuffleButtonText;
   }
 
@@ -27,6 +29,7 @@ export class HomePage {
     await this.checkRecommendedArtistsByTaste();
     await this.checkSimilarArtistsByTaste();
     await this.checkRecommendedAlbums();
+    await this.checkMusicPublications();
   }
 
   async checkFilters() {
@@ -84,6 +87,19 @@ export class HomePage {
       .filter({ hasText: this.recommendedAlbumsHeading })
       .locator("li");
     await expect(recommendedAlbumsListItems).toHaveCount(5);
+  }
+
+  async checkMusicPublications() {
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.musicPublicationsHeading,
+      }),
+    ).toBeVisible();
+    const musicPublicationsListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.musicPublicationsHeading })
+      .locator("li");
+    await expect(musicPublicationsListItems).toHaveCount(4);
   }
 
   async clickShuffleButton() {
