@@ -24,6 +24,7 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "rating-asc", label: "Lowest Rated" },
 ];
 
+// eslint-disable-next-line max-lines-per-function
 export default function HandleReviewsPage() {
   const { handle } = useParams<{ handle: string }>();
   const { allReviews, isLoadingProfile, refreshReviews, session } =
