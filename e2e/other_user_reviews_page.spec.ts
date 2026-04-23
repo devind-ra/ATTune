@@ -13,11 +13,15 @@ test.beforeEach(async ({ page }) => {
   await landingPage.clickSignIn();
   const navbar = new Navbar(page);
   await navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!);
+  await page.waitForURL(
+    "http://localhost:3000/search?q=" + process.env.OTHER_BLUESKY_HANDLE!,
+  );
   const searchPage = new SearchPage(page);
   await searchPage.clickProfile();
   await page.waitForURL(
     "http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!,
   );
+  await page.waitForTimeout(5000);
   const otherUserProfilePage = new OtherUserProfilePage(page);
   await otherUserProfilePage.clickShowMoreReviews();
   await page.waitForURL(

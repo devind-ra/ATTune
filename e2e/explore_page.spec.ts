@@ -11,6 +11,7 @@ test.beforeEach(async ({ page }) => {
   await landingPage.clickSignIn();
   const navbar = new Navbar(page);
   await navbar.clickExplore();
+  await page.waitForURL("http://localhost:3000/explore");
 });
 
 test("checking all explore page elements", async ({ page }) => {
