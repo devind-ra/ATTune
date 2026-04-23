@@ -74,7 +74,7 @@ const mockTagArtists = [
 describe("useHomeData hook", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);
@@ -185,8 +185,8 @@ describe("useHomeData hook", () => {
       renderHook(() => useHomeData());
 
       await waitFor(() => {
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Electronic", "5");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Ambient", "5");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Electronic", "20");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Ambient", "20");
       });
     });
 
@@ -237,7 +237,7 @@ describe("useHomeData hook", () => {
       const { result } = renderHook(() => useHomeData());
 
       await waitFor(() => {
-        expect(result.current.recommendedAlbums).toHaveLength(5);
+        expect(result.current.recommendedAlbums).toHaveLength(8);
       });
     });
 

@@ -84,7 +84,7 @@ const mockAlbums = [
 describe("useExploreData hook", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);
@@ -179,12 +179,12 @@ describe("useExploreData hook", () => {
         expect(result.current.topTracks).toEqual(mockTracks);
       });
 
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "5");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "5");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "5");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "5");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "5");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Electronic", "5");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Electronic", "20");
 
       expect(result.current.topArtists).toEqual(mockArtists);
       expect(result.current.discoveryData).toEqual([
@@ -217,9 +217,9 @@ describe("useExploreData hook", () => {
       renderHook(() => useExploreData());
 
       await waitFor(() => {
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "5");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "5");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "5");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "20");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "20");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
       });
     });
 
