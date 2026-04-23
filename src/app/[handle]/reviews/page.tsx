@@ -66,18 +66,24 @@ export default function HandleReviewsPage() {
               {handle}
             </span>
           </h2>
-          <select
-            value={filterSortBy}
-            onChange={(e) => setFilterSortBy(e.target.value as SortOption)}
-            className="bg-zinc-800 py-1.5 px-3 border border-zinc-700 text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 focus:outline-none"
-          >
-            {SORT_OPTIONS.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-zinc-400">Sort by</label>
+            <select
+              value={filterSortBy}
+              onChange={(e) => setFilterSortBy(e.target.value as SortOption)}
+              className="bg-zinc-800 py-1.5 px-3 border border-zinc-700 text-zinc-100 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 focus:outline-none"
+            >
+              {SORT_OPTIONS.map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+        <h3 className="text-sm font-bold text-white tracking-wider mb-3">
+          Click on a review to view comments
+        </h3>
 
         {sortedReviews.length > 0 ? (
           <div className="space-y-4">

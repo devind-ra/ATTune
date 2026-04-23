@@ -67,8 +67,8 @@ export function SearchResultSections({
   const userSection = <UserSection users={users} />;
   const sections =
     primaryResultType === "artist"
-      ? [userSection, artistSection, albumSection]
-      : [userSection, albumSection, artistSection];
+      ? [artistSection, albumSection, userSection]
+      : [albumSection, artistSection, userSection];
 
   return (
     <div className="space-y-12">
