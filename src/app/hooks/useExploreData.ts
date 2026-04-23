@@ -67,7 +67,7 @@ export function useExploreData(): ExploreData {
 
         const allDiscoveryResults = await Promise.all(
           selectedTags.map(async (tag) => {
-            const albums = await getTopAlbumsByTag(tag.name, "5");
+            const albums = await getTopAlbumsByTag(tag.name, "20");
             return { tag, albums };
           }),
         );

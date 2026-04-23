@@ -28,7 +28,7 @@ export default function HomePage() {
   }
 
   const sectionContent: Record<SectionId, React.ReactNode> = {
-    recommendedAlbums: <AlbumList albums={recommendedAlbums} />,
+    recommendedAlbums: <AlbumList albums={recommendedAlbums} enableShuffle />,
     recommendedArtists: <ArtistList artists={recommendedArtists} />,
     tagArtists: <ArtistList artists={tagArtists} />,
   };

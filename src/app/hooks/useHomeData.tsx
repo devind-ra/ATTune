@@ -62,7 +62,7 @@ export function useHomeData(): HomeData {
         artistResults.push(...(await getSimilarArtists(artist, "5")));
       }
       for (const genre of tastes.topGenres || []) {
-        albumResults.push(...(await getTopAlbumsByTag(genre, "5")));
+        albumResults.push(...(await getTopAlbumsByTag(genre, "20")));
         tagArtistResults.push(...(await getTopArtistsByTag(genre, "5")));
       }
 
@@ -72,7 +72,7 @@ export function useHomeData(): HomeData {
       const recommendedNames = new Set(dedupedRecommended.map((a) => a.name));
 
       setRecommendedArtists(dedupedRecommended);
-      setRecommendedAlbums(shuffle(removeDupeAlbums(albumResults)).slice(0, 5));
+      setRecommendedAlbums(shuffle(removeDupeAlbums(albumResults)).slice(0, 20));
       setTagArtists(
         shuffle(
           removeDupeArtists(
