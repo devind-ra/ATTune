@@ -17,6 +17,7 @@ test.beforeEach(async ({ page }) => {
     ),
     navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!),
   ]);
+  await page.waitForTimeout(5000);
   const searchPage = new SearchPage(page);
   await Promise.all([
     page.waitForURL(

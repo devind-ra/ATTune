@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
     page.waitForURL("http://localhost:3000/search?q=Drake"),
     navbar.clickSearch("Drake"),
   ]);
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(10000);
 });
 
 test("checking all normal search page elements", async ({ page }) => {
