@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([
     page.waitForURL(
       "http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!,
-      { timeout: 20000 }
+      { timeout: 20000 },
     ),
     searchPage.clickProfile(),
   ]);
