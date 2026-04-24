@@ -44,6 +44,8 @@ export function useReviewInteractions(
           rating: Number(editData.rating!),
           text: editData.text,
           listenedAt: editData.listenedAt!,
+          postUri: originalItem.value.postUri,
+          postCid: originalItem.value.postCid,
         },
         originalItem.value.createdAt,
       );
