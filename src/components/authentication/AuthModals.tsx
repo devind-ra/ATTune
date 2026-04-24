@@ -64,10 +64,13 @@ function SignupModalContent() {
       </p>
       <ol className="list-decimal pl-5 space-y-1 mb-6">
         <li>Click on the button below to sign up for a Bluesky account.</li>
-        <li>After creating your account, come back here to sign in!</li>
+        <li>
+          After creating your account, come back here to sign in with your app
+          password!
+        </li>
       </ol>
       <Link
-        href="https://bsky.app/"
+        href="https://bsky.app/settings/app-passwords"
         target="_blank"
         className="block w-full text-center py-2.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium transition-colors"
       >

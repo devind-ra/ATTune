@@ -14,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ATtune",
-  description: "ATtune - A Decentralised Music-Social Platform",
+  title: {
+    template: "%s - ATtune",
+    default: "ATtune",
+  },
+  description:
+    "ATtune: A Decentralised Social Media platform for Music Interaction ",
 };
 
 export default function RootLayout({
