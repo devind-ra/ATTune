@@ -66,7 +66,7 @@ function SignupModalContent() {
         <li>Click on the button below to sign up for a Bluesky account.</li>
         <li>
           After creating your account, come back here to sign in with your app
-          password!
+          password! (not your normal Bluesky password)
         </li>
       </ol>
       <Link

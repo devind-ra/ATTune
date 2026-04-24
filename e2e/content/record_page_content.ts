@@ -2,7 +2,7 @@ export const recordPageContent = {
   title: "Record - ATtune",
   heading: "Add a Review",
   description: "Search Album",
-  searchPlaceholder: "Type an album name...",
+  searchPlaceholder: "Type an album or artist name...",
   startTypingMessage: "Start typing to search for an album to review",
   yourReviewsHeading: "Your Reviews",
   reviewFunctionsSubheading:
