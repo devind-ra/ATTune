@@ -195,19 +195,6 @@ export default function ReviewItem({
                 postUri={item.value.postUri}
                 postCid={item.value.postCid}
               />
-
-              {typeof item.author !== "string" && item.author?.handle && (
-                <a
-                  href={`https://bsky.app/profile/${item.author.handle}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-xs font-medium text-zinc-500 bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-700 hover:text-zinc-100 transition-colors shrink-0"
-                  title="View Bluesky Profile"
-                >
-                  @{item.author.handle}
-                </a>
-              )}
             </div>
           </div>
         </>

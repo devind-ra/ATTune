@@ -49,7 +49,7 @@ export default function ReviewsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <h2 className="text-2xl font-bold mb-0 text-zinc-100 flex items-center gap-2">
               Your Reviews
-              <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
+              <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-100">
                 {session.handle}
               </span>
             </h2>

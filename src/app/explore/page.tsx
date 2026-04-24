@@ -34,7 +34,7 @@ export default function ExplorePage() {
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             Explore
           </h1>
-          <p className="text-lg text-zinc-400 max-w-2xl">
+          <p className="text-lg text-zinc-200 max-w-2xl">
             Expand your taste profile. Discover trending tracks globally,
             explore brand new genres, and see what the rest of the world is
             listening to.
@@ -62,21 +62,6 @@ export default function ExplorePage() {
 
           <section>
             <div className="flex items-center gap-2 mb-6">
-              <span className="p-2 bg-sky-900/30 text-sky-400 font-bold rounded-lg shrink-0">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-              </span>
               <div>
                 <h2 className="text-2xl font-bold text-zinc-100">
                   Trending Globally

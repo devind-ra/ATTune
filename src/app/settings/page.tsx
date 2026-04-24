@@ -89,7 +89,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setIsModalOpen(true)}
             aria-label="Delete all data"
-            className="w-full sm:w-auto px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors cursor-pointer shrink-0"
+            className="w-full sm:w-auto px-6 py-2.5 bg-white text-black hover:bg-red-700 hover:text-white font-medium rounded-lg transition-colors cursor-pointer shrink-0"
           >
             Wipe All Data
           </button>
