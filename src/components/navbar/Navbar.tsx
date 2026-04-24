@@ -41,7 +41,13 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
           onClick={() => router.push("/home")}
           className="text-3xl font-bold tracking-tight bg-clip-text text-white shrink-0 cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-2"
         >
-          <Image src="/ATtune-logo.png" width={32} height={32} alt="ATtune logo" className="h-8 w-auto" />
+          <Image
+            src="/ATtune-logo.png"
+            width={32}
+            height={32}
+            alt="ATtune logo"
+            className="h-8 w-auto"
+          />
           ATtune
         </h1>
         <NavSearchForm

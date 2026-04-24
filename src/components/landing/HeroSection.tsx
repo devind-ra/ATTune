@@ -9,7 +9,6 @@ interface Props {
 export function HeroSection({ onScrollToLogin }: Props) {
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-zinc-950">
-
       <div className="text-center z-10 max-w-4xl px-6">
         <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-in-expand mb-6 pb-2">
           ATtune
@@ -18,7 +17,8 @@ export function HeroSection({ onScrollToLogin }: Props) {
           Decentralised Music. Own Your Data.
         </p>
         <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10">
-          Join the revolution of music discovery. Have data ownership, share your opions, and discover more!
+          Join the revolution of music discovery. Have data ownership, share
+          your opions, and discover more!
         </p>
         <button
           onClick={onScrollToLogin}
