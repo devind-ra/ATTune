@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import { NavSearchForm } from "./NavSearchForm";
 import { NavActions } from "./NavActions";
+import Image from "next/image";
 
 interface NavbarProps {
   initialSearchQuery?: string;
@@ -38,8 +39,9 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
       <div className="flex items-center justify-between w-full md:w-auto flex-1 gap-6">
         <h1
           onClick={() => router.push("/home")}
-          className="text-3xl font-bold tracking-tight bg-clip-text text-white shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-3xl font-bold tracking-tight bg-clip-text text-white shrink-0 cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-2"
         >
+          <Image src="/ATtune-logo.png" width={32} height={32} alt="ATtune logo" className="h-8 w-auto" />
           ATtune
         </h1>
         <NavSearchForm
