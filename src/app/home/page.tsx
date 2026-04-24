@@ -13,9 +13,10 @@ import { SectionFilter } from "@/components/SectionFilter";
 import { useHomeData } from "@/app/hooks/useHomeData";
 import { useVisibleSections } from "@/lib/sections";
 import { ALL_SECTIONS, SectionId } from "@/lib/sections";
+import { MusicPublications } from "@/components/MusicPublications";
 
 export default function HomePage() {
-  const { topArtists, recommendedArtists, recommendedAlbums, isReady } =
+  const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
     useHomeData();
   const { visibleSections, toggleSection } = useVisibleSections();
 
@@ -28,9 +29,10 @@ export default function HomePage() {
   }
 
   const sectionContent: Record<SectionId, React.ReactNode> = {
-    recommendedAlbums: <AlbumList albums={recommendedAlbums} />,
+    recommendedAlbums: <AlbumList albums={recommendedAlbums} enableShuffle />,
     recommendedArtists: <ArtistList artists={recommendedArtists} />,
-    topArtists: <ArtistList artists={topArtists} />,
+    tagArtists: <ArtistList artists={tagArtists} />,
+    musicPublications: <MusicPublications />,
   };
 
   return (

@@ -4,6 +4,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
 interface Props {
@@ -31,20 +32,20 @@ export function NavActions({ onLogout }: Props) {
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
       <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm font-medium text-white w-full md:w-auto">
-        <a
+        <Link
           href="/profile"
           aria-label="Profile"
           className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
         >
           Profile
-        </a>
-        <a
+        </Link>
+        <Link
           href="/explore"
           aria-label="Explore"
           className="hover:text-sky-500 transition-colors w-full md:w-auto text-center md:text-left py-2 md:py-0"
         >
           Explore
-        </a>
+        </Link>
       </nav>
       <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto pt-4 md:pt-0 border-t md:border-0 border-zinc-800">
         <button

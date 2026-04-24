@@ -42,8 +42,10 @@ export function useProfileReviews(did: string | undefined) {
   }, [did]);
 
   useEffect(() => {
-    fetchReviews();
-  }, [fetchReviews]);
+    if (did) {
+      fetchReviews();
+    }
+  }, [did, fetchReviews]);
 
   return {
     thisYearReviewCount,

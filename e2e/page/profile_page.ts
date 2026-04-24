@@ -73,7 +73,7 @@ export class ProfilePage {
   async checkReviewActivity() {
     const activitySection = this.page.locator("div").filter({
       has: this.page.getByRole("heading", {
-        name: profilePageContent.reviewActivityHeading,
+        name: this.reviewActivityHeading,
       }),
     });
     const activityGraph = this.page.locator(
@@ -81,7 +81,7 @@ export class ProfilePage {
     );
     (await expect(
       activitySection.getByRole("heading", {
-        name: profilePageContent.reviewActivityHeading,
+        name: this.reviewActivityHeading,
       }),
     ).toBeVisible(),
       await expect(activityGraph).toBeVisible(),
@@ -102,15 +102,15 @@ export class ProfilePage {
       this.page.getByText(this.recentReviewsListenedOnText),
     ).toHaveCount(2);
     await expect(
-      this.page.getByText(profilePageContent.recentReviewsListenedOnText),
+      this.page.getByText(this.recentReviewsListenedOnText),
     ).toHaveCount(2);
     await expect(
-      this.page.getByText(profilePageContent.recentReviewsEditText, {
+      this.page.getByText(this.recentReviewsEditText, {
         exact: true,
       }),
     ).toHaveCount(2);
     await expect(
-      this.page.getByText(profilePageContent.recentReviewsDeleteText, {
+      this.page.getByText(this.recentReviewsDeleteText, {
         exact: true,
       }),
     ).toHaveCount(2);
@@ -121,7 +121,7 @@ export class ProfilePage {
 
   async clickShowMoreReviews() {
     await this.page
-      .getByRole("link", { name: profilePageContent.showMoreReviewsText })
+      .getByRole("link", { name: this.showMoreReviewsText })
       .click();
     await expect(this.page).toHaveURL("http://localhost:3000/reviews");
   }

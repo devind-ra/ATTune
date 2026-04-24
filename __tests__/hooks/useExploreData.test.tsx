@@ -2,7 +2,12 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useExploreData } from "@/app/hooks/useExploreData";
 import { atApiService } from "@/lib/atproto";
-import { getTopTags, getTopTracks, getTopAlbumsByTag } from "@/lib/lastfm";
+import {
+  getTopTags,
+  getTopTracks,
+  getTopArtists,
+  getTopAlbumsByTag,
+} from "@/lib/lastfm";
 import { shuffle } from "@/lib/utils";
 
 interface UserSession {
@@ -38,6 +43,7 @@ vi.mock("@/lib/atproto", () => ({
 vi.mock("@/lib/lastfm", () => ({
   getTopTags: vi.fn(),
   getTopTracks: vi.fn(),
+  getTopArtists: vi.fn(),
   getTopAlbumsByTag: vi.fn(),
 }));
 
@@ -63,6 +69,11 @@ const mockTags = [
 const mockTracks = [
   { name: "Track 1", artist: { name: "Artist 1" } },
   { name: "Track 2", artist: { name: "Artist 2" } },
+];
+
+const mockArtists = [
+  { name: "Artist 1", listeners: "1000000" },
+  { name: "Artist 2", listeners: "900000" },
 ];
 
 const mockAlbums = [
@@ -95,6 +106,7 @@ describe("useExploreData hook", () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
       vi.mocked(getTopTags).mockResolvedValueOnce([]);
       vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
 
       renderHook(() => useExploreData());
 
@@ -138,10 +150,11 @@ describe("useExploreData hook", () => {
   });
 
   describe("loading explore data", () => {
-    it("should fetch tastes, tags, and tracks", async () => {
+    it("should fetch tastes, tags, tracks, and artists concurrently", async () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
       vi.mocked(getTopTags).mockResolvedValueOnce([]);
       vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
 
       renderHook(() => useExploreData());
 
@@ -149,6 +162,7 @@ describe("useExploreData hook", () => {
         expect(atApiService.getTastes).toHaveBeenCalledWith("did:plc:123");
         expect(getTopTags).toHaveBeenCalledWith("50");
         expect(getTopTracks).toHaveBeenCalledWith("10");
+        expect(getTopArtists).toHaveBeenCalledWith("10");
       });
     });
 
@@ -156,6 +170,7 @@ describe("useExploreData hook", () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
       vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
       vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
+      vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
       vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
 
       const { result } = renderHook(() => useExploreData());
@@ -164,11 +179,14 @@ describe("useExploreData hook", () => {
         expect(result.current.topTracks).toEqual(mockTracks);
       });
 
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "5");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "5");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "5");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Electronic", "5");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "20");
+      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Electronic", "20");
 
+      expect(result.current.topArtists).toEqual(mockArtists);
       expect(result.current.discoveryData).toEqual([
         { tag: { name: "Jazz" }, albums: mockAlbums },
         { tag: { name: "Blues" }, albums: mockAlbums },
@@ -176,19 +194,39 @@ describe("useExploreData hook", () => {
       ]);
     });
 
+    it("should set topArtists from getTopArtists result", async () => {
+      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+      vi.mocked(getTopTags).mockResolvedValueOnce([]);
+      vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+      vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
+
+      const { result } = renderHook(() => useExploreData());
+
+      await waitFor(() => {
+        expect(result.current.topArtists).toEqual(mockArtists);
+      });
+    });
+
     it("should handle tastes gracefully when it's null", async () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
       vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
       vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
+      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
       vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
 
       renderHook(() => useExploreData());
 
       await waitFor(() => {
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "5");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "5");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "5");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "20");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "20");
+        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
       });
+    });
+
+    it("should initialise topArtists as an empty array", () => {
+      const { result } = renderHook(() => useExploreData());
+
+      expect(result.current.topArtists).toEqual([]);
     });
   });
 
@@ -199,6 +237,7 @@ describe("useExploreData hook", () => {
       );
       vi.mocked(getTopTags).mockResolvedValueOnce([]);
       vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
 
       renderHook(() => useExploreData());
 

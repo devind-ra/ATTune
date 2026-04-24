@@ -7,10 +7,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LastFMAlbum } from "@/lib/lastfm";
-import { getArtistName } from "@/lib/utils";
+import { getArtistName, shuffle } from "@/lib/utils";
 
 interface AlbumListProps {
   albums: LastFMAlbum[];
+  enableShuffle?: boolean;
 }
 
 function AlbumCover({ album }: { album: LastFMAlbum }) {
@@ -65,16 +66,59 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
   );
 }
 
-export function AlbumList({ albums }: AlbumListProps) {
+export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
+  const [shuffledAlbums, setShuffledAlbums] = useState<LastFMAlbum[] | null>(
+    null,
+  );
+  const [prevAlbums, setPrevAlbums] = useState(albums);
+
+  if (albums !== prevAlbums) {
+    setPrevAlbums(albums);
+    setShuffledAlbums(null);
+  }
+
   if (albums.length === 0) {
     return <p className="text-zinc-500 text-sm">No albums found.</p>;
   }
 
+  const handleShuffle = () => {
+    setShuffledAlbums(shuffle([...albums]).slice(0, 5));
+  };
+
+  const displayedAlbums = enableShuffle
+    ? shuffledAlbums || albums.slice(0, 5)
+    : albums;
+
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
-      {albums.map((album, idx) => (
-        <AlbumCover key={idx} album={album} />
-      ))}
-    </ul>
+    <div>
+      {enableShuffle && albums.length > 5 && (
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={handleShuffle}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-sky-400 bg-sky-900/20 hover:bg-sky-900/40 rounded-full transition-colors cursor-pointer"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            Shuffle
+          </button>
+        </div>
+      )}
+      <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {(enableShuffle ? displayedAlbums : albums).map((album, idx) => (
+          <AlbumCover key={`${album.name}-${idx}`} album={album} />
+        ))}
+      </ul>
+    </div>
   );
 }

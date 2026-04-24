@@ -76,12 +76,12 @@ describe("SectionFilter component", () => {
     fireEvent.click(screen.getByRole(BUTTON, { name: /Filter Sections/i }));
 
     const activeSectionBtn = screen
-      .getByText("Recommended Albums")
+      .getByText(RECOMMENDED_ALBUMS)
       .closest(BUTTON);
     expect(activeSectionBtn).toBeDisabled();
 
     const inactiveSectionBtn = screen
-      .getByText("Recommended Artists")
+      .getByText("Recommended Artists by Taste")
       .closest("button");
     expect(inactiveSectionBtn).not.toBeDisabled();
   });

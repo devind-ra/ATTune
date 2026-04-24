@@ -10,6 +10,9 @@ import { AppBskyActorDefs } from "@atproto/api";
 interface Props {
   profile: AppBskyActorDefs.ProfileViewDetailed;
   thisYearReviewCount: number;
+  isOtherUser?: boolean;
+  isFollowingLoading?: boolean;
+  onFollowToggle?: () => void;
 }
 
 function ProfileAvatar({
@@ -37,16 +40,64 @@ function ProfileAvatar({
   );
 }
 
-export function ProfileCard({ profile, thisYearReviewCount }: Props) {
+function FollowButton({
+  isFollowingLoading,
+  isFollowing,
+  onFollowToggle,
+}: {
+  isFollowingLoading?: boolean;
+  isFollowing?: boolean;
+  onFollowToggle?: () => void;
+}) {
+  let label = "Follow";
+  if (isFollowingLoading) {
+    label = "...";
+  } else if (isFollowing) {
+    label = "Unfollow";
+  }
+
+  const baseClass =
+    "px-6 py-2 rounded-full font-medium transition-colors cursor-pointer disabled:opacity-50";
+  const followingClass =
+    "bg-zinc-800 hover:bg-red-900/30 text-zinc-100 hover:text-red-400 hover:border-red-900/50 border border-transparent";
+  const notFollowingClass = "bg-sky-600 hover:bg-sky-500 text-white";
+
+  return (
+    <button
+      onClick={onFollowToggle}
+      disabled={isFollowingLoading}
+      className={`${baseClass} ${isFollowing ? followingClass : notFollowingClass}`}
+    >
+      {label}
+    </button>
+  );
+}
+
+export function ProfileCard({
+  profile,
+  thisYearReviewCount,
+  isOtherUser,
+  isFollowingLoading,
+  onFollowToggle,
+}: Props) {
   const reviewLabel = thisYearReviewCount === 1 ? "Review" : "Reviews";
   return (
-    <div className="mt-8 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm">
+    <div className="mt-8 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm relative">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <ProfileAvatar profile={profile} />
-        <div className="text-center sm:text-left">
-          <h1 className="text-3xl font-bold text-zinc-100 mb-1">
-            {profile.displayName || profile.handle}
-          </h1>
+        <div className="text-center sm:text-left flex-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-1">
+            <h1 className="text-3xl font-bold text-zinc-100">
+              {profile.displayName || profile.handle}
+            </h1>
+            {isOtherUser && onFollowToggle && (
+              <FollowButton
+                isFollowingLoading={isFollowingLoading}
+                isFollowing={!!profile.viewer?.following}
+                onFollowToggle={onFollowToggle}
+              />
+            )}
+          </div>
           <p className="text-zinc-400 mb-4">@{profile.handle}</p>
           <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-sm mt-4">
             <div className="bg-sky-900/20 text-sky-400 px-3 py-1 rounded-full font-medium">

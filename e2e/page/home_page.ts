@@ -5,24 +5,31 @@ import { homePageContent } from "../content/home_page_content";
 export class HomePage {
   private readonly title: string;
   private readonly filterSectionsText: string;
+  private readonly recommendedArtistsByTasteHeading: string;
+  private readonly similarArtistsByTasteHeading: string;
   private readonly recommendedAlbumsHeading: string;
-  private readonly recommendedArtistsHeading: string;
-  private readonly currentTopArtistsHeading: string;
+  private readonly musicPublicationsHeading: string;
+  private readonly shuffleButtonText: string;
 
   constructor(private page: Page) {
     this.title = homePageContent.title;
     this.filterSectionsText = homePageContent.filterSectionsText;
+    this.recommendedArtistsByTasteHeading =
+      homePageContent.recommendedArtistsByTasteHeading;
+    this.similarArtistsByTasteHeading =
+      homePageContent.similarArtistsByTasteHeading;
     this.recommendedAlbumsHeading = homePageContent.recommendedAlbumsHeading;
-    this.recommendedArtistsHeading = homePageContent.recommendedArtistsHeading;
-    this.currentTopArtistsHeading = homePageContent.currentTopArtistsHeading;
+    this.musicPublicationsHeading = homePageContent.musicPublicationsHeading;
+    this.shuffleButtonText = homePageContent.shuffleButtonText;
   }
 
   async checkPageElements() {
     await expect(this.page).toHaveTitle(this.title);
     await this.checkFilters();
+    await this.checkRecommendedArtistsByTaste();
+    await this.checkSimilarArtistsByTaste();
     await this.checkRecommendedAlbums();
-    await this.checkRecommendedArtists();
-    await this.checkCurrentTopArtists();
+    await this.checkMusicPublications();
   }
 
   async checkFilters() {
@@ -30,17 +37,48 @@ export class HomePage {
       .getByRole("button", { name: this.filterSectionsText })
       .click();
     await expect(
+      this.page.getByRole("button", {
+        name: this.recommendedArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", {
+        name: this.similarArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
+    await expect(
       this.page.getByRole("button", { name: this.recommendedAlbumsHeading }),
-    ).toBeVisible();
-    await expect(
-      this.page.getByRole("button", { name: this.recommendedArtistsHeading }),
-    ).toBeVisible();
-    await expect(
-      this.page.getByRole("button", { name: this.currentTopArtistsHeading }),
     ).toBeVisible();
   }
 
+  async checkRecommendedArtistsByTaste() {
+    const recommendedArtistsByTasteListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.recommendedArtistsByTasteHeading })
+      .locator("li");
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.recommendedArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
+    await expect(recommendedArtistsByTasteListItems).toHaveCount(5);
+  }
+
+  async checkSimilarArtistsByTaste() {
+    const similarArtistsByTasteListItems = this.page
+      .locator("section")
+      .filter({ hasText: this.similarArtistsByTasteHeading })
+      .locator("li");
+    await expect(
+      this.page.getByRole("heading", {
+        name: this.similarArtistsByTasteHeading,
+      }),
+    ).toBeVisible();
+    await expect(similarArtistsByTasteListItems).toHaveCount(5);
+  }
+
   async checkRecommendedAlbums() {
+    await expect(this.page.getByText(this.shuffleButtonText)).toBeVisible();
     await expect(
       this.page.getByRole("heading", { name: this.recommendedAlbumsHeading }),
     ).toBeVisible();
@@ -51,28 +89,23 @@ export class HomePage {
     await expect(recommendedAlbumsListItems).toHaveCount(5);
   }
 
-  async checkRecommendedArtists() {
+  async checkMusicPublications() {
     await expect(
       this.page.getByRole("heading", {
-        name: this.recommendedArtistsHeading,
+        name: this.musicPublicationsHeading,
       }),
     ).toBeVisible();
-    const recommendedArtistsListItems = this.page
+    const musicPublicationsListItems = this.page
       .locator("section")
-      .filter({ hasText: this.recommendedArtistsHeading })
+      .filter({ hasText: this.musicPublicationsHeading })
       .locator("li");
-    await expect(recommendedArtistsListItems).toHaveCount(5);
+    await expect(musicPublicationsListItems).toHaveCount(4);
   }
 
-  async checkCurrentTopArtists() {
-    await expect(
-      this.page.getByRole("heading", { name: this.currentTopArtistsHeading }),
-    ).toBeVisible();
-    const currentTopArtistsListItems = this.page
-      .locator("section")
-      .filter({ hasText: this.currentTopArtistsHeading })
-      .locator("li");
-    await expect(currentTopArtistsListItems).toHaveCount(5);
+  async clickShuffleButton() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .click();
   }
 }
 

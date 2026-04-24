@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import ReviewList from "@/components/review/ReviewList";
 import Navbar from "@/components/navbar/Navbar";
+import Link from "next/link";
 import { SortOption } from "@/app/hooks/useReviews";
 
 // eslint-disable-next-line max-lines-per-function
@@ -37,12 +38,12 @@ export default function ReviewsPage() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 
-        <a
+        <Link
           href="/profile"
           className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
         >
           Back to Profile
-        </a>
+        </Link>
         <br />
         <div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">

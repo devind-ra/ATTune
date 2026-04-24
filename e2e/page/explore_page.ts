@@ -8,11 +8,14 @@ export class ExplorePage {
   private readonly description: string;
   private readonly discoverSubHeading: string;
   private readonly moreOnLastFM: string;
+  private readonly topArtistsHeading: string;
+  private readonly topArtistsDescription: string;
   private readonly trendingGloballyHeading: string;
   private readonly trendingGloballyDescription: string;
   private readonly globalSoundsHeading: string;
   private readonly globalSoundsDescription: string;
   private readonly countryDropdownPlaceholder: string;
+  private readonly shuffleButtonText: string;
 
   constructor(private page: Page) {
     this.title = explorePageContent.title;
@@ -20,6 +23,8 @@ export class ExplorePage {
     this.description = explorePageContent.description;
     this.discoverSubHeading = explorePageContent.discoverSubHeading;
     this.moreOnLastFM = explorePageContent.moreOnLastFM;
+    this.topArtistsHeading = explorePageContent.topArtistsHeading;
+    this.topArtistsDescription = explorePageContent.topArtistsDescription;
     this.trendingGloballyHeading = explorePageContent.trendingGloballyHeading;
     this.trendingGloballyDescription =
       explorePageContent.trendingGloballyDescription;
@@ -27,6 +32,7 @@ export class ExplorePage {
     this.globalSoundsDescription = explorePageContent.globalSoundsDescription;
     this.countryDropdownPlaceholder =
       explorePageContent.countryDropdownPlaceholder;
+    this.shuffleButtonText = explorePageContent.shuffleButtonText;
   }
 
   async checkExploreGenresSection() {
@@ -34,6 +40,7 @@ export class ExplorePage {
     await expect(
       this.page.getByRole("heading", { name: this.heading }),
     ).toBeVisible();
+    await expect(this.page.getByText(this.shuffleButtonText)).toHaveCount(3);
     await expect(this.page.getByText(this.description)).toBeVisible();
     await expect(
       this.page.getByRole("heading", {
@@ -46,13 +53,30 @@ export class ExplorePage {
     ).toHaveCount(3);
   }
 
+  async checkTopArtistsSection() {
+    const topArtists = this.page
+      .locator("section")
+      .filter({ hasText: this.topArtistsHeading })
+      .locator("li");
+    await expect(
+      this.page.getByRole("heading", { name: this.topArtistsHeading }),
+    ).toBeVisible();
+    await expect(this.page.getByText(this.topArtistsDescription)).toBeVisible();
+    await expect(topArtists).toHaveCount(10);
+  }
+
   async checkTrendingGloballySection() {
+    const trendingTracks = this.page
+      .locator("section")
+      .filter({ hasText: this.trendingGloballyHeading })
+      .locator("li");
     await expect(
       this.page.getByRole("heading", { name: this.trendingGloballyHeading }),
     ).toBeVisible();
     await expect(
       this.page.getByText(this.trendingGloballyDescription),
     ).toBeVisible();
+    await expect(trendingTracks).toHaveCount(10);
   }
 
   async checkGlobalSoundsSection() {
@@ -69,6 +93,27 @@ export class ExplorePage {
       .getByLabel(this.countryDropdownPlaceholder)
       .selectOption("United Kingdom");
     await expect(this.page.getByText("United Kingdom")).toBeVisible();
+  }
+
+  async clickShuffleButtonOne() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .first()
+      .click();
+  }
+
+  async clickShuffleButtonTwo() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .nth(1)
+      .click();
+  }
+
+  async clickShuffleButtonThree() {
+    await this.page
+      .getByRole("button", { name: this.shuffleButtonText })
+      .nth(2)
+      .click();
   }
 }
 

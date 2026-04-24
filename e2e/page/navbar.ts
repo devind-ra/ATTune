@@ -29,7 +29,7 @@ export class Navbar {
       this.page.getByPlaceholder(this.searchBarPlaceholder).first(),
     ).toBeVisible();
     await expect(
-      this.page.getByRole("link", { name: this.profile }),
+      this.page.getByRole("link", { name: this.profile }).first(),
     ).toBeVisible();
     await expect(
       this.page.getByRole("link", { name: this.explore }),
@@ -43,7 +43,7 @@ export class Navbar {
   }
 
   async clickProfile() {
-    await this.page.getByRole("link", { name: this.profile }).click();
+    await this.page.getByRole("link", { name: this.profile }).first().click();
   }
 
   async clickExplore() {
@@ -59,14 +59,13 @@ export class Navbar {
   }
 
   async clickSearch(query: string) {
-    await this.page
+    const searchBar = this.page
       .getByPlaceholder(this.searchBarPlaceholder)
-      .first()
-      .fill(query);
-    await this.page
-      .getByPlaceholder(this.searchBarPlaceholder)
-      .first()
-      .press("Enter");
+      .first();
+
+    await searchBar.waitFor({ state: "visible", timeout: 10000 });
+    await searchBar.fill(query);
+    await searchBar.press("Enter");
   }
 
   async clickSettings() {

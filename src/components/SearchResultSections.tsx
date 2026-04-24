@@ -4,12 +4,15 @@
 // - Displays search results in a structured format
 
 import { LastFMArtist, LastFMAlbum } from "@/lib/lastfm";
+import { AppBskyActorDefs } from "@atproto/api";
 import { ArtistList } from "./ArtistList";
 import { AlbumList } from "@/components/AlbumList";
+import { UserList } from "@/components/UserList";
 
 interface SearchResultSectionsProps {
   artists: LastFMArtist[];
   albums: LastFMAlbum[];
+  users: AppBskyActorDefs.ProfileViewBasic[];
   primaryResultType: "artist" | "album";
 }
 
@@ -39,17 +42,33 @@ function AlbumSection({ albums }: { albums: LastFMAlbum[] }) {
   );
 }
 
+function UserSection({
+  users,
+}: {
+  users: AppBskyActorDefs.ProfileViewBasic[];
+}) {
+  if (users.length === 0) return null;
+  return (
+    <section>
+      <SectionHeading>Users</SectionHeading>
+      <UserList users={users} />
+    </section>
+  );
+}
+
 export function SearchResultSections({
   artists,
   albums,
+  users,
   primaryResultType,
 }: SearchResultSectionsProps) {
   const artistSection = <ArtistSection artists={artists} />;
   const albumSection = <AlbumSection albums={albums} />;
+  const userSection = <UserSection users={users} />;
   const sections =
     primaryResultType === "artist"
-      ? [artistSection, albumSection]
-      : [albumSection, artistSection];
+      ? [artistSection, albumSection, userSection]
+      : [albumSection, artistSection, userSection];
 
   return (
     <div className="space-y-12">

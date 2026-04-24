@@ -2,8 +2,8 @@
 // Contains the following:
 // - Profile page displays user profile information linked to Bluesky
 // - Calls to TastesPanel for editing and viewing tastes
-// - Calls to ProfileCard for displaying profile information
-// - Calls to RecentReviews for displaying recent reviews
+// - Displaying profile information using ProfileCard component
+// - Displaying recent reviews using RecentReviews component
 
 "use client";
 
@@ -71,7 +71,11 @@ export default function ProfilePage() {
           onCancel={cancelEditTastes}
         />
         <ReviewActivity allReviews={allReviews} />
-        <RecentReviews reviews={recentReviews} refresh={refreshReviews} />
+        <RecentReviews
+          reviews={recentReviews}
+          refresh={refreshReviews}
+          handle={session.handle}
+        />
       </main>
     </div>
   );

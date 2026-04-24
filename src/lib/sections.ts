@@ -7,9 +7,10 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export const ALL_SECTIONS = [
+  { id: "tagArtists", label: "Recommended Artists by Taste" },
+  { id: "recommendedArtists", label: "Similar Artists by Taste" },
   { id: "recommendedAlbums", label: "Recommended Albums" },
-  { id: "recommendedArtists", label: "Recommended Artists" },
-  { id: "topArtists", label: "Current Top Artists" },
+  { id: "musicPublications", label: "Music Publications on Bluesky" },
 ] as const;
 
 export type SectionId = (typeof ALL_SECTIONS)[number]["id"];

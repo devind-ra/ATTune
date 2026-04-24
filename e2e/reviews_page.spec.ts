@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
   await navbar.clickProfile();
   const profilePage = new ProfilePage(page);
   await profilePage.clickShowMoreReviews();
+  await page.waitForURL("http://localhost:3000/reviews");
 });
 
 test("checking all review page elements", async ({ page }) => {

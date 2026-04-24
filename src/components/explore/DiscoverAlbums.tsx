@@ -40,7 +40,7 @@ export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
             )}
           </div>
           <div className="bg-black/50 rounded-2xl p-4 border border-zinc-800/50">
-            <AlbumList albums={albums} />
+            <AlbumList albums={albums} enableShuffle />
           </div>
         </div>
       ))}
