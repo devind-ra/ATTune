@@ -13,7 +13,7 @@ export class ArtistPage {
   private readonly discography: string;
 
   constructor(private page: Page) {
-    this.title = artistPageContents.title;
+    this.title = artistPageContents.title("Drake");
     this.heading = artistPageContents.heading("Drake");
     this.topTags = artistPageContents.topTags;
     this.listeners = artistPageContents.listeners;

@@ -1,5 +1,5 @@
 export const otherUserProfilePageContent = {
-  title: "ATtune",
+  title: (handle: string) => `${handle}'s Profile - ATtune`,
   reviewText: "Reviews this year",
   followerText: "Followers",
   followingText: "Following",

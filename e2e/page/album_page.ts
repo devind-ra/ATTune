@@ -26,7 +26,7 @@ export class AlbumPage {
   private readonly cancelButton: string;
 
   constructor(private page: Page) {
-    this.title = albumPageContent.title;
+    this.title = albumPageContent.title("Octane", "Don Toliver");
     this.heading = albumPageContent.heading("Octane");
     this.artistSubheading = albumPageContent.artistSubheading("Don Toliver");
     this.released = albumPageContent.released("01 Jan 2026");

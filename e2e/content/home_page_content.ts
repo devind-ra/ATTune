@@ -1,5 +1,5 @@
 export const homePageContent = {
-  title: "ATtune",
+  title: "Home - ATtune",
   searchBarPlaceholder: "Search artists, albums...",
   profile: "Profile",
   explore: "Explore",

@@ -22,7 +22,9 @@ export class OtherUserProfilePage {
   private readonly showMoreReviewsText: string;
 
   constructor(private page: Page) {
-    this.title = otherUserProfilePageContent.title;
+    this.title = otherUserProfilePageContent.title(
+      process.env.OTHER_BLUESKY_HANDLE!,
+    );
     this.reviewText = otherUserProfilePageContent.reviewText;
     this.followerText = otherUserProfilePageContent.followerText;
     this.followingText = otherUserProfilePageContent.followingText;

@@ -1,5 +1,5 @@
 export const recordPageContent = {
-  title: "ATtune",
+  title: "Record - ATtune",
   heading: "Add a Review",
   description: "Search Album",
   searchPlaceholder: "Type an album name...",

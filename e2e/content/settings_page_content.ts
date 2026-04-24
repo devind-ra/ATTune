@@ -1,5 +1,5 @@
 export const settingsPageContent = {
-  title: "ATtune",
+  title: "Settings - ATtune",
   heading: "Settings",
   backButton: "Back",
   dataPrivacyPoliciesHeading: "Data Privacy Policies",

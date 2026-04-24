@@ -1,5 +1,5 @@
 export const artistPageContents = {
-  title: "ATtune",
+  title: (artistName: string) => `${artistName} - ATtune`,
   heading: (artistName: string) => `${artistName}`,
   topTags: ["Hip-Hop", "rap", "Canadian"],
   listeners: "listeners",

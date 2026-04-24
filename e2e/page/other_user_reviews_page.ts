@@ -14,7 +14,9 @@ export class OtherUserReviewsPage {
   private readonly lowestRated: string;
 
   constructor(private page: Page) {
-    this.title = otherUserReviewsPageContent.title;
+    this.title = otherUserReviewsPageContent.title(
+      process.env.OTHER_BLUESKY_HANDLE!,
+    );
     this.heading = otherUserReviewsPageContent.heading;
     this.backtoProfile = otherUserReviewsPageContent.backtoProfile(
       process.env.OTHER_BLUESKY_HANDLE!,

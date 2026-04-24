@@ -1,5 +1,5 @@
 export const profilePageContent = {
-  title: "ATtune",
+  title: "Profile - ATtune",
   reviewText: "Reviews this year",
   followerText: "Followers",
   followingText: "Following",

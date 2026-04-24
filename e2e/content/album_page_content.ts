@@ -1,5 +1,5 @@
 export const albumPageContent = {
-  title: "ATtune",
+  title: (album: string, artist: string) => `${album} by ${artist} - ATtune`,
   heading: (album: string) => `${album}`,
   artistSubheading: (artist: string) => `${artist}`,
   released: (date: string) => `Released: ${date}`,
