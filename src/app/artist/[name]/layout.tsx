@@ -8,10 +8,10 @@ export async function generateMetadata({
   const { name } = await params;
 
   const cleanArtist = decodeURIComponent(name);
-  const capitalizedArtist =
+  const capitalisedArtist =
     cleanArtist.charAt(0).toUpperCase() + cleanArtist.slice(1);
 
-  return { title: `${capitalizedArtist}` };
+  return { title: `${capitalisedArtist}` };
 }
 
 export default function ArtistPageLayout({

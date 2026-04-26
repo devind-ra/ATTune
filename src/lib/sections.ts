@@ -22,7 +22,7 @@ export function useVisibleSections() {
     () => new Set(ALL_SECTIONS.map((s) => s.id)),
   );
 
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isInitialised, setIsInitialised] = useState(false);
 
   useEffect(() => {
     if (!session?.did) return;
@@ -44,17 +44,17 @@ export function useVisibleSections() {
       console.error("Failed to parse stored section preferences:", e);
     }
 
-    setIsInitialized(true);
+    setIsInitialised(true);
   }, [session?.did]);
 
   useEffect(() => {
-    if (!session?.did || !isInitialized) return;
+    if (!session?.did || !isInitialised) return;
 
     localStorage.setItem(
       `attune_sections_${session.did}`,
       JSON.stringify(Array.from(visibleSections)),
     );
-  }, [visibleSections, session?.did, isInitialized]);
+  }, [visibleSections, session?.did, isInitialised]);
 
   const toggleSection = (id: SectionId) => {
     setVisibleSections((prev) => {

@@ -26,7 +26,7 @@ describe("sections lib", () => {
   });
 
   describe("useVisibleSections hook", () => {
-    it("should initialize with all sections visible", () => {
+    it("should initialise with all sections visible", () => {
       const { result } = renderHook(() => useVisibleSections());
 
       expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
