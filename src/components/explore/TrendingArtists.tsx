@@ -1,6 +1,6 @@
-// TrendingTracks Component
+// TrendingArtists Component
 // Contains the following:
-// - Displays global trending tracks
+// - Displays global trending artists
 // - Allows user to navigate to artist page
 
 import Link from "next/link";
