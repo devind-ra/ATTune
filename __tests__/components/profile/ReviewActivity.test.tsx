@@ -20,11 +20,17 @@ vi.mock("react-tooltip", () => ({
 }));
 
 describe("ReviewActivity", () => {
-  const today = new Date();
-  const dateStr = today.toISOString().split("T")[0];
+  const mockNow = new Date("2026-06-20T12:00:00Z");
+  const dateStr = "2026-06-20";
 
   beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(mockNow);
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it("should calculate activity data correctly for 365 days", () => {
@@ -76,8 +82,8 @@ describe("ReviewActivity", () => {
 
   it("should generate the correct tooltip content via renderBlock", () => {
     const mockReviews = [
-      { uri: "1", value: { createdAt: today.toISOString() } },
-      { uri: "2", value: { createdAt: today.toISOString() } },
+      { uri: "1", value: { createdAt: mockNow.toISOString() } },
+      { uri: "2", value: { createdAt: mockNow.toISOString() } },
     ];
 
     render(<ReviewActivity allReviews={mockReviews as any} />);
@@ -92,9 +98,9 @@ describe("ReviewActivity", () => {
 
   it("should correctly handle logic for levels 1, 2, and 3", () => {
     const reviews = [
-      { uri: "1", value: { createdAt: today.toISOString() } },
-      { uri: "2", value: { createdAt: today.toISOString() } },
-      { uri: "3", value: { createdAt: today.toISOString() } },
+      { uri: "1", value: { createdAt: mockNow.toISOString() } },
+      { uri: "2", value: { createdAt: mockNow.toISOString() } },
+      { uri: "3", value: { createdAt: mockNow.toISOString() } },
     ];
 
     const { rerender } = render(
@@ -120,7 +126,7 @@ describe("ReviewActivity", () => {
     const review = [
       {
         uri: "at://1",
-        value: { createdAt: specificDate.toISOString() },
+        value: { createdAt: specificDate },
       },
     ];
 
