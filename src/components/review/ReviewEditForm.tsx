@@ -25,10 +25,14 @@ export default function ReviewEditForm({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="edit-album-title"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Album Title
         </label>
         <input
+          id="edit-album-title"
           type="text"
           value={editForm.subjectTitle || ""}
           onChange={(e) =>
@@ -39,10 +43,14 @@ export default function ReviewEditForm({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="edit-artist"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Artist
         </label>
         <input
+          id="edit-artist"
           type="text"
           value={editForm.subjectArtist || ""}
           onChange={(e) =>
@@ -52,20 +60,24 @@ export default function ReviewEditForm({
           disabled
         />
       </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-zinc-300">
+      <fieldset className="border-none p-0 m-0">
+        <legend className="block text-sm font-medium mb-2 text-zinc-300">
           Rating ({(editForm.rating || 10) / 2}/5)
-        </label>
+        </legend>
         <StarRating
           rating={editForm.rating || 10}
           onChange={(newRating) => onChange({ ...editForm, rating: newRating })}
         />
-      </div>
+      </fieldset>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="edit-listened-at"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Date Listened
         </label>
         <input
+          id="edit-listened-at"
           type="date"
           value={
             editForm.listenedAt
@@ -85,10 +97,14 @@ export default function ReviewEditForm({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="edit-review"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Review
         </label>
         <textarea
+          id="edit-review"
           value={editForm.text || ""}
           onChange={(e) => onChange({ ...editForm, text: e.target.value })}
           className="w-full p-2 rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-100 placeholder-zinc-400 focus:ring-2 focus:ring-blue-500 outline-none min-h-[100px] cursor-pointer"

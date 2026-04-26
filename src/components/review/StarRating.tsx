@@ -36,6 +36,8 @@ export default function StarRating({
 
   return (
     <div
+      role="group"
+      aria-label="Star Rating"
       className="flex gap-1"
       onMouseLeave={() => interactive && setHoveredRating(0)}
     >
@@ -81,15 +83,19 @@ function Star({
 
       {interactive && (
         <div className="absolute inset-0 flex">
-          <div
+          <button
+            type="button"
             className="w-1/2 h-full z-10"
             onMouseEnter={() => onHover((index - 0.5) * 2)}
             onClick={() => onClick((index - 0.5) * 2)}
+            aria-label={`Rate ${index - 0.5} stars`}
           />
-          <div
+          <button
+            type="button"
             className="w-1/2 h-full z-10"
             onMouseEnter={() => onHover(index * 2)}
             onClick={() => onClick(index * 2)}
+            aria-label={`Rate ${index} stars`}
           />
         </div>
       )}

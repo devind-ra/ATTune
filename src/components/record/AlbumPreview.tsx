@@ -50,7 +50,7 @@ export function AlbumPreview({
         )}
       </div>
       <div className="flex flex-col flex-1 min-w-0 pt-1">
-        <h4 className="font-bold text-lg text-zinc-100 truncate">{title}</h4>
+        <h3 className="font-bold text-lg text-zinc-100 truncate">{title}</h3>
         <p className="text-zinc-500 text-sm truncate mb-2">{artist}</p>
         {showChangeAlbum && (
           <button

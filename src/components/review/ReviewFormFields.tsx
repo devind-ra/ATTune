@@ -54,18 +54,22 @@ export function ReviewFormFields({
         onBackToSearch={onBackToSearch}
       />
 
-      <div>
-        <label className="block text-sm font-medium mb-2 text-zinc-300">
+      <fieldset className="border-none p-0 m-0">
+        <legend className="block text-sm font-medium mb-1 text-zinc-300">
           Rating ({rating / 2}/5)
-        </label>
+        </legend>
         <StarRating rating={rating} onChange={onRatingChange} />
-      </div>
+      </fieldset>
 
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="review-text-input"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Review
         </label>
         <textarea
+          id="review-text-input"
           value={text}
           onChange={(e) => onTextChange(e.target.value)}
           rows={3}
@@ -75,10 +79,14 @@ export function ReviewFormFields({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1 text-zinc-300">
+        <label
+          htmlFor="date-listened-input"
+          className="block text-sm font-medium mb-1 text-zinc-300"
+        >
           Date Listened
         </label>
         <input
+          id="date-listened-input"
           type="date"
           value={listenedAt}
           max={new Date().toISOString().split("T")[0]}
