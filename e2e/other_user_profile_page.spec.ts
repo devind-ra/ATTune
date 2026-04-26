@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([
     page.waitForURL(
       "http://localhost:3000/search?q=" + process.env.OTHER_BLUESKY_HANDLE!,
+      { waitUntil: "networkidle" },
     ),
     navbar.clickSearch(process.env.OTHER_BLUESKY_HANDLE!),
   ]);
@@ -21,7 +22,7 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([
     page.waitForURL(
       "http://localhost:3000/profile/" + process.env.OTHER_BLUESKY_HANDLE!,
-      { timeout: 20000 },
+      { waitUntil: "networkidle" },
     ),
     searchPage.clickProfile(),
   ]);
