@@ -1,6 +1,6 @@
 // useArtistData hook
 // Contains the following:
-// - Uses promise.all to fetch artist info, top tracks, and top albums to return data
+// - Uses promise.all to fetch artist info, top tracks and top albums to return data
 
 import { useEffect, useState } from "react";
 import {

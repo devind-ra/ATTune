@@ -1,6 +1,6 @@
 // ArtistHeader component
 // Contains the following:
-// - Displays artist name, stats, tags, and bio
+// - Displays artist name, stats, tags and bio
 // - Utilises functions to retrieve artist tags and stats
 
 import { LastFMArtistInfo, LastFMTag } from "@/lib/lastfm";

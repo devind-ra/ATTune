@@ -36,7 +36,7 @@ export default function ExplorePage() {
           </h1>
           <p className="text-lg text-zinc-200 max-w-2xl">
             Expand your taste profile. Discover trending tracks globally,
-            explore brand new genres, and see what the rest of the world is
+            explore brand new genres and see what the rest of the world is
             listening to.
           </p>
         </header>

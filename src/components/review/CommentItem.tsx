@@ -1,6 +1,6 @@
 // CommentItem component
 // Contains the following:
-// - Displaying a single comment with avatar, display name, handle, and text
+// - Displaying a single comment with avatar, display name, handle and text
 
 import Image from "next/image";
 import { AppBskyFeedDefs, AppBskyFeedPost } from "@atproto/api";

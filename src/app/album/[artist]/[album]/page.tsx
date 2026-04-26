@@ -1,6 +1,6 @@
 // Album template page
 // Contains the following:
-// - Calls Album header, tags, wiki, and review components
+// - Calls Album header, tags, wiki and review components
 // - Uses useAlbumPage hook to fetch album data
 // - Uses parseImage, parseReleaseDate, cleanWiki utils to parse album data
 

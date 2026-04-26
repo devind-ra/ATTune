@@ -22,7 +22,7 @@ export const settingsPageContent = {
     "ATtune uses the AT Protocol to store your taste profile e.g. Top Artists and Tags.",
   accountDataHandlingHeading: "Account Data Handling",
   accountDataHandlingSummary:
-    "Procedures for data retention, account moderation, and user deletion rights.",
+    "Procedures for data retention, account moderation and user deletion rights.",
   accountDataHandlingDescription:
     "ATtune does not guarantee deletion of records in ATtune as data is stored on a decentralised network.",
   accountDataHandlingDescription2:

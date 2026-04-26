@@ -1,6 +1,6 @@
 // HeroSection component
 // Contains the following:
-// - Hero section with title, description, and call to action button
+// - Hero section with title, description and call to action button
 
 interface Props {
   onScrollToLogin: () => void;
@@ -18,7 +18,7 @@ export function HeroSection({ onScrollToLogin }: Props) {
         </p>
         <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10">
           Join the revolution of music discovery. Have data ownership, share
-          your opions, and discover more!
+          your opinions and discover more!
         </p>
         <button
           onClick={onScrollToLogin}

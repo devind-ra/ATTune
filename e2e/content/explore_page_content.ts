@@ -2,7 +2,7 @@ export const explorePageContent = {
   title: "Explore - ATtune",
   heading: "Explore",
   description:
-    "Expand your taste profile. Discover trending tracks globally, explore brand new genres, and see what the rest of the world is listening to.",
+    "Expand your taste profile. Discover trending tracks globally, explore brand new genres and see what the rest of the world is listening to.",
   discoverSubHeading: "Discover",
   shuffleButtonText: "Shuffle",
   moreOnLastFM: "More on Last.fm",
