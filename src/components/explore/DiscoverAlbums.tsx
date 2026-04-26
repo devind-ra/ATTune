@@ -32,6 +32,7 @@ export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
               <Link
                 href={tag.url}
                 target="_blank"
+                aria-label={`More ${tag.name} on Last.fm`}
                 rel="noreferrer noopener"
                 className="text-sm bg-zinc-900 hover:bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
               >

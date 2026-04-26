@@ -15,6 +15,7 @@ import {
 
 export const REVIEW_COLLECTION = "app.attune.music.review";
 export const PROFILE_COLLECTION = "app.attune.music.profile";
+export const BSKY_POST_COLLECTION = "app.bsky.feed.post";
 export const ERROR_NOT_LOGGED_IN = "Not logged in";
 
 export type AuthSession = AtpSessionData;
@@ -86,7 +87,7 @@ export class AtProtoService {
   ) {
     const truncatedText = this.truncateReviewText(review.text);
     const postRecord = {
-      $type: "app.bsky.feed.post",
+      $type: BSKY_POST_COLLECTION,
       text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
       createdAt,
     };
@@ -94,7 +95,7 @@ export class AtProtoService {
     try {
       return await this.agent.com.atproto.repo.createRecord({
         repo: this.agent.session!.did,
-        collection: "app.bsky.feed.post",
+        collection: BSKY_POST_COLLECTION,
         record: postRecord,
       });
     } catch (err) {
@@ -130,6 +131,30 @@ export class AtProtoService {
     });
   }
 
+  private async updateBlueskyPost(
+    postUri: string,
+    review: Omit<MusicReview, "createdAt" | "updatedAt">,
+    createdAt: string,
+  ) {
+    const rkey = postUri.split("/").pop() || postUri;
+    const truncatedText = this.truncateReviewText(review.text);
+
+    try {
+      await this.agent.com.atproto.repo.putRecord({
+        repo: this.agent.session!.did,
+        collection: BSKY_POST_COLLECTION,
+        rkey,
+        record: {
+          $type: BSKY_POST_COLLECTION,
+          text: `I just reviewed ${review.subjectTitle} by ${review.subjectArtist}!\n\nRating: ${review.rating / 2}/5\n\n${truncatedText}`,
+          createdAt,
+        },
+      });
+    } catch (err) {
+      console.warn("Failed to update Bsky text post", err);
+    }
+  }
+
   async updateReview(
     uri: string,
     review: Omit<MusicReview, "createdAt" | "updatedAt">,
@@ -137,6 +162,10 @@ export class AtProtoService {
   ) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
+    }
+
+    if (review.postUri) {
+      await this.updateBlueskyPost(review.postUri, review, createdAt);
     }
 
     const rkey = uri.split("/").pop() || uri;

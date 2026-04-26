@@ -8,23 +8,17 @@ interface Props {
 
 export function HeroSection({ onScrollToLogin }: Props) {
   return (
-    <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-zinc-900 border-b border-zinc-800">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-      </div>
-
+    <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-zinc-950">
       <div className="text-center z-10 max-w-4xl px-6">
-        <h1 className="text-6xl md:text-8xl font-extrabold tracking-in-expand mb-6 bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent pb-2">
+        <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-in-expand mb-6 pb-2">
           ATtune
         </h1>
         <p className="text-2xl md:text-3xl font-medium text-zinc-100 mb-6">
-          Decentralised Music. Real Connections.
+          Decentralised Music. Own Your Data.
         </p>
         <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10">
-          Join the revolution of music discovery. Rate, review, and discuss your
-          favourite tracks through the use of the AT Protocol. Own your data,
-          find your rhythm.
+          Join the revolution of music discovery. Have data ownership, share
+          your opions, and discover more!
         </p>
         <button
           onClick={onScrollToLogin}

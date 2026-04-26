@@ -64,7 +64,7 @@ export function RecentReviews({
         {!isReadOnly && (
           <Link
             href="/reviews"
-            className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
+            className="text-white hover:text-zinc-400 font-medium transition-colors"
           >
             Show more reviews →
           </Link>
@@ -72,7 +72,7 @@ export function RecentReviews({
         {isReadOnly && (
           <Link
             href={`/${handle}/reviews`}
-            className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
+            className="text-white hover:text-zinc-400 font-medium transition-colors"
           >
             Show more reviews →
           </Link>

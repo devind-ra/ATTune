@@ -51,7 +51,7 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
       </Link>
 
       <div className="px-3 pb-3">
-        <span className="text-xs text-zinc-400 line-clamp-1 mt-0.5">
+        <span className="text-xs text-zinc-200 line-clamp-1 mt-0.5">
           <Link
             href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
             onMouseEnter={() => setArtistHovered(true)}

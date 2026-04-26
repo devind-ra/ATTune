@@ -1,5 +1,5 @@
 export const reviewsPageContent = {
-  title: "ATtune",
+  title: "Reviews - ATtune",
   heading: "Your Reviews",
   backtoProfile: "Back to Profile",
   reviewFunctionsSubheading:

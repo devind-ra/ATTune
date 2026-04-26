@@ -44,14 +44,10 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen   font-sans selection:bg-sky-500/30">
-      <div className="pt-8 px-6">
-        <div className="max-w-4xl mx-auto">
-          <Navbar />
-        </div>
-      </div>
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
+      <main className="max-w-4xl mx-auto px-6 py-12">
+        <Navbar />
 
-      <main className="max-w-3xl mx-auto px-6 pb-12">
         <button
           onClick={() => router.back()}
           className="group flex items-center gap-2 text-white hover:text-zinc-900 font-medium transition-colors mb-8 bg-transparent border-none p-0 cursor-pointer"
@@ -93,7 +89,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setIsModalOpen(true)}
             aria-label="Delete all data"
-            className="w-full sm:w-auto px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors cursor-pointer shrink-0"
+            className="w-full sm:w-auto px-6 py-2.5 bg-white text-black hover:bg-red-700 hover:text-white font-medium rounded-lg transition-colors cursor-pointer shrink-0"
           >
             Wipe All Data
           </button>

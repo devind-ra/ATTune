@@ -58,7 +58,7 @@ function PublicationCard({
           <span className="font-medium text-zinc-100 truncate block group-hover:text-sky-400 transition-colors">
             {profile.displayName || profile.handle}
           </span>
-          <span className="text-xs text-zinc-400 truncate block mt-0.5">
+          <span className="text-xs text-zinc-200 truncate block mt-0.5">
             @{profile.handle}
           </span>
         </div>

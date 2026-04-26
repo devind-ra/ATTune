@@ -1,5 +1,5 @@
 export const otherUserReviewsPageContent = {
-  title: "ATtune",
+  title: (handle: string) => `${handle}'s Reviews - ATtune`,
   heading: "All Reviews",
   backtoProfile: (handle: string) => `Back to ${handle}'s Profile`,
   reviewFunctionsSubheading: "Click on a review to view comments",

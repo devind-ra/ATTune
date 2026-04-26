@@ -138,7 +138,7 @@ export default function ReviewItem({
                   {item.value.subjectTitle}
                 </h4>
               </Link>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-300">
                 by{" "}
                 <Link
                   href={`/artist/${encodeURIComponent(item.value.subjectArtist)}`}
@@ -160,14 +160,14 @@ export default function ReviewItem({
                   <button
                     onClick={handleEditClick}
                     aria-label="Edit review"
-                    className="text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
+                    className="text-blue-300 hover:text-blue-400 font-medium transition-colors cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDelete(item.uri)}
                     aria-label="Delete review"
-                    className="text-red-400 hover:text-red-300 font-medium transition-colors cursor-pointer"
+                    className="text-red-300 hover:text-red-400 font-medium transition-colors cursor-pointer"
                   >
                     Delete
                   </button>
@@ -183,7 +183,7 @@ export default function ReviewItem({
           )}
 
           <div className="mt-4 flex items-center justify-between gap-4">
-            <div className="text-xs text-zinc-400 shrink-0">
+            <div className="text-xs text-zinc-300 shrink-0">
               Listened on{" "}
               {new Date(
                 item.value.listenedAt || item.value.createdAt,
@@ -195,19 +195,6 @@ export default function ReviewItem({
                 postUri={item.value.postUri}
                 postCid={item.value.postCid}
               />
-
-              {typeof item.author !== "string" && item.author?.handle && (
-                <a
-                  href={`https://bsky.app/profile/${item.author.handle}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-xs font-medium text-zinc-500 bg-zinc-800 px-2.5 py-1 rounded-full hover:bg-zinc-700 hover:text-zinc-100 transition-colors shrink-0"
-                  title="View Bluesky Profile"
-                >
-                  @{item.author.handle}
-                </a>
-              )}
             </div>
           </div>
         </>

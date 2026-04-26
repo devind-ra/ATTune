@@ -37,12 +37,12 @@ export function AlbumHeader({ name, artist, img, releaseDate }: Props) {
       </h1>
 
       <Link href={`/artist/${encodeURIComponent(artist)}`} className="group">
-        <p className="text-xl text-zinc-400 group-hover:text-sky-400 mb-4 font-medium transition-colors">
+        <p className="text-xl text-zinc-100 group-hover:text-sky-400 mb-4 font-medium transition-colors">
           {artist}
         </p>
       </Link>
 
-      <div className="text-sm text-zinc-400 mb-6">Released: {releaseDate}</div>
+      <div className="text-sm text-zinc-100 mb-6">Released: {releaseDate}</div>
     </>
   );
 }

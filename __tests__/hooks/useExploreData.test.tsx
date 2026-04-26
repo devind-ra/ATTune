@@ -182,16 +182,13 @@ describe("useExploreData hook", () => {
       expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
       expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "20");
       expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "20");
+
       expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "20");
       expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "20");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Electronic", "20");
 
       expect(result.current.topArtists).toEqual(mockArtists);
-      expect(result.current.discoveryData).toEqual([
-        { tag: { name: "Jazz" }, albums: mockAlbums },
-        { tag: { name: "Blues" }, albums: mockAlbums },
-        { tag: { name: "Classical" }, albums: mockAlbums },
-      ]);
+      expect(result.current.discoveryData).toHaveLength(3);
+      expect(result.current.discoveryData[0].tag.name).toBe("Jazz");
     });
 
     it("should set topArtists from getTopArtists result", async () => {

@@ -44,7 +44,7 @@ export default function RecordPage() {
         <div>
           <h2 className="text-2xl font-bold mb-6 text-zinc-100 flex items-center gap-2">
             Your Reviews
-            <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-500">
+            <span className="text-xs font-normal px-2 py-1 bg-zinc-800 rounded-full text-zinc-100">
               {session.handle}
             </span>
           </h2>
