@@ -71,7 +71,7 @@ describe("useComments hook", () => {
   it("should not fetch and set loading to false when no postUri is provided", async () => {
     const { result } = renderHook(() => useComments());
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(atApiService.agent.getPostThread).not.toHaveBeenCalled();
     expect(result.current.loading).toBe(false);
@@ -88,7 +88,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(atApiService.agent.getPostThread).toHaveBeenCalledWith({
       uri: "at://did:plc:xyz/app.bsky.feed.post/123",
@@ -107,7 +107,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123", "stale-cid"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(result.current.resolvedCid).toBe("cid-root-post");
   });
@@ -138,7 +138,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(result.current.comments).toHaveLength(1);
     expect(result.current.comments[0]).toEqual(mockReply);
@@ -163,7 +163,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(result.current.comments).toEqual([]);
   });
@@ -179,7 +179,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(result.current.comments).toEqual([]);
     expect(result.current.loading).toBe(false);
@@ -189,13 +189,13 @@ describe("useComments hook", () => {
     vi.mocked(atApiService.agent.getPostThread).mockRejectedValue(
       new Error("network error"),
     );
-    vi.spyOn(console, "warn").mockImplementation(() => { });
+    vi.spyOn(console, "warn").mockImplementation(() => {});
 
     const { result } = renderHook(() =>
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(result.current.loading).toBe(false);
     expect(result.current.comments).toEqual([]);
@@ -204,11 +204,11 @@ describe("useComments hook", () => {
   it("should warn with the error when fetch throws", async () => {
     const error = new Error("network error");
     vi.mocked(atApiService.agent.getPostThread).mockRejectedValue(error);
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     renderHook(() => useComments("at://did:plc:xyz/app.bsky.feed.post/123"));
 
-    await act(async () => { });
+    await act(async () => {});
 
     expect(warnSpy).toHaveBeenCalledWith("Failed to fetch comments", error);
   });
@@ -229,7 +229,7 @@ describe("useComments hook", () => {
       useComments("at://did:plc:xyz/app.bsky.feed.post/123"),
     );
 
-    await act(async () => { });
+    await act(async () => {});
     expect(result.current.comments).toEqual([]);
 
     await act(async () => {
@@ -249,12 +249,12 @@ describe("useComments hook", () => {
       { initialProps: { uri: "at://did:plc:xyz/app.bsky.feed.post/1" } },
     );
 
-    await act(async () => { });
+    await act(async () => {});
     expect(atApiService.agent.getPostThread).toHaveBeenCalledTimes(1);
 
     rerender({ uri: "at://did:plc:xyz/app.bsky.feed.post/2" });
 
-    await act(async () => { });
+    await act(async () => {});
     expect(atApiService.agent.getPostThread).toHaveBeenCalledTimes(2);
     expect(atApiService.agent.getPostThread).toHaveBeenLastCalledWith({
       uri: "at://did:plc:xyz/app.bsky.feed.post/2",
