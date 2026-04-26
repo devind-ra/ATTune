@@ -63,7 +63,7 @@ export function useExploreData(): ExploreData {
           (tag: LastFMTag) => !userGenres.has(tag.name.toLowerCase()),
         );
 
-        const selectedTags = shuffle(filteredTags).slice(0, 3) as LastFMTag[];
+        const selectedTags = shuffle(filteredTags).slice(0, 5) as LastFMTag[];
 
         const allDiscoveryResults = await Promise.all(
           selectedTags.map(async (tag) => {
@@ -71,6 +71,7 @@ export function useExploreData(): ExploreData {
             return { tag, albums };
           }),
         );
+
         const discoveryResults = allDiscoveryResults
           .filter(({ albums }) => albums.length > 0)
           .slice(0, 3);

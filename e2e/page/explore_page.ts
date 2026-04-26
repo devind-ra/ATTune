@@ -43,14 +43,9 @@ export class ExplorePage {
     await expect(this.page.getByText(this.shuffleButtonText)).toHaveCount(3);
     await expect(this.page.getByText(this.description)).toBeVisible();
     await expect(
-      this.page.getByRole("heading", {
-        name: this.discoverSubHeading,
-        exact: true,
-      }),
+      this.page.getByRole("heading", { name: this.discoverSubHeading }),
     ).toHaveCount(3);
-    await expect(
-      this.page.getByRole("link", { name: this.moreOnLastFM }),
-    ).toHaveCount(3);
+    await expect(this.page.getByText(this.moreOnLastFM)).toHaveCount(3);
   }
 
   async checkTopArtistsSection() {

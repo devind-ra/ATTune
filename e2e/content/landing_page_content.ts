@@ -1,8 +1,8 @@
 export const landingPageContent = {
   title: "ATtune",
-  subheading: "Decentralised Music. Real Connections.",
+  subheading: "Decentralised Music. Own Your Data.",
   description:
-    "Join the revolution of music discovery. Rate, review, and discuss your favourite tracks through the use of the AT Protocol. Own your data, find your rhythm.",
+    "Join the revolution of music discovery. Have data ownership, share your opions, and discover more!",
   getStartedButton: "Get Started",
   signInButton: "Sign In",
   signUpButton: "Sign Up",
