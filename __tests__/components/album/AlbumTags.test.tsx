@@ -11,7 +11,7 @@ describe("AlbumTags", () => {
     { name: "Classic Rock", url: "" },
   ];
 
-  it("renders the tags correctly", () => {
+  it("should render the tags correctly", () => {
     render(<AlbumTags tags={mockTags} />);
 
     mockTags.forEach((tag) => {
@@ -19,13 +19,13 @@ describe("AlbumTags", () => {
     });
   });
 
-  it("returns null and renders nothing when the tags array is empty", () => {
+  it("should return null and render nothing when the tags array is empty", () => {
     const { container } = render(<AlbumTags tags={[]} />);
 
     expect(container.firstChild).toBeNull();
   });
 
-  it("limits the display to exactly 8 tags even if more are provided", () => {
+  it("should limit the display to exactly 8 tags even if more are provided", () => {
     const manyTags: LastFMTag[] = Array.from({ length: 15 }, (_, i) => ({
       name: `Tag ${i}`,
       url: "",
@@ -41,7 +41,7 @@ describe("AlbumTags", () => {
     expect(screen.queryByText("Tag 8")).toBeNull();
   });
 
-  it("applies the correct styling classes to the tags", () => {
+  it("should apply the correct styling classes to the tags", () => {
     render(<AlbumTags tags={[mockTags[0]]} />);
 
     const tag = screen.getByText("Rock");

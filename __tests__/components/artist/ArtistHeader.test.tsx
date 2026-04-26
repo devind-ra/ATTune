@@ -26,19 +26,19 @@ describe("ArtistHeader", () => {
     },
   };
 
-  it("renders the artist name correctly", () => {
+  it("should render the artist name correctly", () => {
     render(<ArtistHeader artistInfo={mockArtistInfo as any} />);
     expect(screen.getByText("Radiohead")).toBeDefined();
   });
 
-  it("formats and displays stats correctly using local strings", () => {
+  it("should format and display stats correctly using local strings", () => {
     render(<ArtistHeader artistInfo={mockArtistInfo as any} />);
 
     expect(screen.getByText(/3,500,000 Listeners/)).toBeDefined();
     expect(screen.getByText(/150,000,000 Scrobbles/)).toBeDefined();
   });
 
-  it("cleans the biography by removing the Last.fm 'Read more' anchor tag", () => {
+  it("should clean the biography by removing the Last.fm 'Read more' anchor tag", () => {
     render(<ArtistHeader artistInfo={mockArtistInfo as any} />);
 
     const bioElement = screen.getByText(/Radiohead are an English rock band/);
@@ -47,7 +47,7 @@ describe("ArtistHeader", () => {
     expect(bioElement.innerHTML).not.toContain("<a href=");
   });
 
-  it("renders the first 5 tags only", () => {
+  it("should render the first 5 tags only", () => {
     render(<ArtistHeader artistInfo={mockArtistInfo as any} />);
 
     expect(screen.getByText("Alternative Rock")).toBeDefined();
@@ -55,14 +55,14 @@ describe("ArtistHeader", () => {
     expect(screen.queryByText("Indie")).toBeNull();
   });
 
-  it("renders fallback text when biography is missing", () => {
+  it("should render fallback text when biography is missing", () => {
     const infoNoBio = { ...mockArtistInfo, bio: { summary: "" } };
     render(<ArtistHeader artistInfo={infoNoBio as any} />);
 
     expect(screen.getByText("No biography available.")).toBeDefined();
   });
 
-  it("returns null for stats if listeners and playcount are missing", () => {
+  it("should return null for stats if listeners and playcount are missing", () => {
     const infoNoStats = { ...mockArtistInfo, stats: {} };
     render(<ArtistHeader artistInfo={infoNoStats as any} />);
 
@@ -70,7 +70,7 @@ describe("ArtistHeader", () => {
     expect(screen.queryByText(/Scrobbles/)).toBeNull();
   });
 
-  it("renders the external link to Last.fm correctly", () => {
+  it("should render the external link to Last.fm correctly", () => {
     render(<ArtistHeader artistInfo={mockArtistInfo as any} />);
 
     const link = screen.getByRole("link", {
@@ -80,7 +80,7 @@ describe("ArtistHeader", () => {
     expect(link.getAttribute("target")).toBe("_blank");
   });
 
-  it("handles missing stats and tags objects gracefully (Lines 12-13 fallback)", () => {
+  it("should handle missing stats and tags objects gracefully", () => {
     const incompleteInfo = {
       name: "Daft Punk",
       url: "https://last.fm/daft-punk",
@@ -93,7 +93,7 @@ describe("ArtistHeader", () => {
     expect(screen.queryByText(/Listeners/)).toBeNull();
   });
 
-  it("handles tags object existing without nested tag array (Line 13 optional chaining)", () => {
+  it("should handle tags object existing without nested tag array", () => {
     const malformedTags = {
       ...mockArtistInfo,
       tags: {},
@@ -105,7 +105,7 @@ describe("ArtistHeader", () => {
     expect(screen.getByText("Radiohead")).toBeDefined();
   });
 
-  it("returns null for ArtistTags when tag array is empty (Line 61)", () => {
+  it("should return null for ArtistTags when tag array is empty", () => {
     const emptyTagsInfo = {
       ...mockArtistInfo,
       tags: { tag: [] },

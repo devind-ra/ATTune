@@ -8,7 +8,7 @@ describe("AlbumWiki", () => {
   const mockUrl =
     "https://www.last.fm/music/Pink+Floyd/The+Dark+Side+of+the+Moon";
 
-  it("renders the HTML content correctly", () => {
+  it("should render the HTML content correctly", () => {
     render(<AlbumWiki html={mockWiki} />);
 
     const wikiContainer = screen.getByText(/revolutionary/i);
@@ -17,12 +17,12 @@ describe("AlbumWiki", () => {
     expect(wikiContainer).toBeDefined();
   });
 
-  it("returns null if no html content is provided", () => {
+  it("should return null if no html content is provided", () => {
     const { container } = render(<AlbumWiki html="" />);
     expect(container.firstChild).toBeNull();
   });
 
-  it("renders the Last.fm link when a url is provided", () => {
+  it("should render the Last.fm link when a url is provided", () => {
     render(<AlbumWiki html={mockWiki} url={mockUrl} />);
 
     const link = screen.getByRole("link", {
@@ -35,16 +35,14 @@ describe("AlbumWiki", () => {
     expect(link.getAttribute("rel")).toBe("noreferrer");
   });
 
-  it("does not render the link if url is missing", () => {
+  it("should not render the link if url is missing", () => {
     render(<AlbumWiki html={mockWiki} />);
 
     const link = screen.queryByRole("link");
     expect(link).toBeNull();
   });
 
-  it("applies the scrollable styling classes", () => {
-    render(<AlbumWiki html={mockWiki} />);
-
+  it("should apply the scrollable styling classes", () => {
     const { container } = render(<AlbumWiki html={mockWiki} />);
     const div = container.querySelector("div");
 

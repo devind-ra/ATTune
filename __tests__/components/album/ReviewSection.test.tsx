@@ -39,7 +39,7 @@ describe("ReviewSection", () => {
     vi.clearAllMocks();
   });
 
-  it("renders nothing if there is no session", () => {
+  it("should render nothing if there is no session", () => {
     vi.mocked(useAuth).mockReturnValue({
       session: null,
       isLoading: false,
@@ -48,7 +48,7 @@ describe("ReviewSection", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("renders the 'Add a Review' button initially when logged in", () => {
+  it("should render the 'Add a Review' button initially when logged in", () => {
     vi.mocked(useAuth).mockReturnValue({ session: mockSession } as any);
     render(<ReviewSection {...mockProps} />);
 
@@ -56,7 +56,7 @@ describe("ReviewSection", () => {
     expect(screen.queryByTestId("review-form")).toBeNull();
   });
 
-  it("shows the ReviewForm when 'Add a Review' is clicked", async () => {
+  it("should show the ReviewForm when 'Add a Review' is clicked", async () => {
     vi.mocked(useAuth).mockReturnValue({ session: mockSession } as any);
     render(<ReviewSection {...mockProps} />);
 
@@ -67,7 +67,7 @@ describe("ReviewSection", () => {
     expect(screen.queryByRole("button", { name: /add a review/i })).toBeNull();
   });
 
-  it("closes the form when onCancel is called", () => {
+  it("should close the form when onCancel is called", () => {
     vi.mocked(useAuth).mockReturnValue({ session: mockSession } as any);
     render(<ReviewSection {...mockProps} />);
 
@@ -78,7 +78,7 @@ describe("ReviewSection", () => {
     expect(screen.getByRole("button", { name: /add a review/i })).toBeDefined();
   });
 
-  it("closes the form and updates lists when onReviewCreated is called", () => {
+  it("should close the form and update lists when onReviewCreated is called", () => {
     vi.mocked(useAuth).mockReturnValue({ session: mockSession } as any);
     render(<ReviewSection {...mockProps} />);
 
@@ -90,7 +90,7 @@ describe("ReviewSection", () => {
     expect(screen.getByRole("button", { name: /add a review/i })).toBeDefined();
   });
 
-  it("renders the other users and current user review lists", () => {
+  it("should render the other users and current user review lists", () => {
     vi.mocked(useAuth).mockReturnValue({ session: mockSession } as any);
     render(<ReviewSection {...mockProps} />);
 

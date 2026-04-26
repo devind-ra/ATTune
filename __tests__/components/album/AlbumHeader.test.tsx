@@ -13,7 +13,7 @@ describe("AlbumHeader", () => {
     releaseDate: "1 March 1973",
   };
 
-  it("renders the album name, artist, and release date correctly", () => {
+  it("should render the album name, artist and release date correctly", () => {
     render(<AlbumHeader {...mockProps} />);
 
     expect(screen.getByText(mockProps.name)).toBeDefined();
@@ -23,7 +23,7 @@ describe("AlbumHeader", () => {
     ).toBeDefined();
   });
 
-  it("renders the album cover image when provided", () => {
+  it("should render the album cover image when provided", () => {
     render(<AlbumHeader {...mockProps} />);
 
     const img = screen.getByRole("img", {
@@ -33,14 +33,14 @@ describe("AlbumHeader", () => {
     expect(img.getAttribute("src")).toContain("cover.jpg");
   });
 
-  it("renders a placeholder when no image is provided", () => {
+  it("should render a placeholder when no image is provided", () => {
     render(<AlbumHeader {...mockProps} img={undefined} />);
 
     expect(screen.getByText("N/A")).toBeDefined();
     expect(screen.queryByRole("img")).toBeNull();
   });
 
-  it("contains a link to the artist page with the correct encoded URL", () => {
+  it("should contain a link to the artist page with the correct encoded URL", () => {
     render(<AlbumHeader {...mockProps} />);
 
     const link = screen.getByRole("link");

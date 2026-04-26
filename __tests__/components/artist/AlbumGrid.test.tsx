@@ -25,7 +25,7 @@ describe("AlbumGrid", () => {
     },
   ];
 
-  it("renders a list of albums correctly", () => {
+  it("should render a list of albums correctly", () => {
     render(<AlbumGrid albums={mockAlbums as any} />);
 
     expect(screen.getByText("Discography")).toBeDefined();
@@ -36,12 +36,12 @@ describe("AlbumGrid", () => {
     expect(listItems).toHaveLength(2);
   });
 
-  it("returns null when the album list is empty", () => {
+  it("should return null when the album list is empty", () => {
     const { container } = render(<AlbumGrid albums={[]} />);
     expect(container.firstChild).toBeNull();
   });
 
-  it("constructs the correct link with encoded parameters", () => {
+  it("should construct the correct link with encoded parameters", () => {
     render(<AlbumGrid albums={[mockAlbums[0]] as any} />);
 
     const link = screen.getByRole("link");
@@ -51,21 +51,21 @@ describe("AlbumGrid", () => {
     );
   });
 
-  it("prioritizes extralarge images over other sizes", () => {
+  it("should prioritise extralarge images over other sizes", () => {
     render(<AlbumGrid albums={[mockAlbums[0]] as any} />);
 
     const img = screen.getByRole("img");
     expect(img.getAttribute("src")).toBe("large.jpg");
   });
 
-  it("renders a placeholder 'N/A' when no image text is present", () => {
+  it("should render a placeholder 'N/A' when no image text is present", () => {
     render(<AlbumGrid albums={[mockAlbums[1]] as any} />);
 
     expect(screen.getByText("N/A")).toBeDefined();
     expect(screen.queryByRole("img")).toBeNull();
   });
 
-  it("handles complex artist names with special characters in the URL", () => {
+  it("should handle complex artist names with special characters in the URL", () => {
     const complexAlbum = {
       name: "A & B",
       artist: "Artist @ Work",
