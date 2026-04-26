@@ -49,7 +49,7 @@ describe("useOtherReviews hook", () => {
     expect(atApiService.getOtherReviews).not.toHaveBeenCalled();
   });
 
-  it("should fetch, sort reviews, and handle loading state", async () => {
+  it("should fetch, sort reviews and handle loading state", async () => {
     vi.mocked(atApiService.getOtherReviews).mockResolvedValueOnce(
       mockReviews as any,
     );

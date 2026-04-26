@@ -1,7 +1,7 @@
 // ReviewEditForm component
 // Contains the following:
 // - Form for editing reviews
-// - Contains album title, artist, rating, date listened, and review text
+// - Contains album title, artist, rating, date listened and review text
 
 "use client";
 

@@ -84,7 +84,7 @@ const mockAlbums = [
 describe("useExploreData hook", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);
@@ -150,7 +150,7 @@ describe("useExploreData hook", () => {
   });
 
   describe("loading explore data", () => {
-    it("should fetch tastes, tags, tracks, and artists concurrently", async () => {
+    it("should fetch tastes, tags, tracks and artists concurrently", async () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
       vi.mocked(getTopTags).mockResolvedValueOnce([]);
       vi.mocked(getTopTracks).mockResolvedValueOnce([]);
@@ -166,7 +166,7 @@ describe("useExploreData hook", () => {
       });
     });
 
-    it("should filter tags, fetch albums, and set data completely", async () => {
+    it("should filter tags, fetch albums and set data completely", async () => {
       vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
       vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
       vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);

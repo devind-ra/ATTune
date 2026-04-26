@@ -47,7 +47,7 @@ describe("useReviews hook", () => {
     refreshTrigger: 0,
   };
 
-  it("should fetch, filter, and sort reviews", async () => {
+  it("should fetch, filter and sort reviews", async () => {
     vi.mocked(atApiService.getReviews).mockResolvedValueOnce(
       mockReviews as any,
     );
