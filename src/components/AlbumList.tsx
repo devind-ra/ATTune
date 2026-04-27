@@ -26,6 +26,8 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         <div className="shrink-0 overflow-hidden relative block">
           {image?.["#text"] ? (
             <Image
+              loading="eager"
+              fetchPriority="high"
               src={image["#text"]}
               alt={`${album.name} cover`}
               width={300}
@@ -56,7 +58,7 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
             href={`/artist/${encodeURIComponent(getArtistName(album.artist))}`}
             onMouseEnter={() => setArtistHovered(true)}
             onMouseLeave={() => setArtistHovered(false)}
-            className="hover:text-sky-400 hover:bg-sky-900/20 px-1 -mx-1 rounded transition-colors inline-block"
+            className="hover:text-sky-400 hover:bg-sky-900/20 p-2 -m-2 rounded transition-colors inline-block"
           >
             {getArtistName(album.artist)}
           </Link>
@@ -95,7 +97,7 @@ export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
         <div className="flex justify-end mb-4">
           <button
             onClick={handleShuffle}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-sky-400 bg-sky-900/20 hover:bg-sky-900/40 rounded-full transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-sky-200 bg-sky-900/20 hover:bg-sky-900/40 rounded-full transition-colors cursor-pointer"
           >
             <svg
               className="w-4 h-4"
