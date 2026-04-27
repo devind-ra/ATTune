@@ -270,5 +270,34 @@ describe("lastfm service", () => {
         "autocorrect=1",
       );
     });
+
+    it("should use getGeoTopArtists to retrieve top artists for a country", async () => {
+      const { getGeoTopArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          topartists: { artist: [{ name: "Arctic Monkeys" }, { name: "Oasis" }] },
+        }),
+      } as Response);
+
+      const results = await getGeoTopArtists("United Kingdom", "2");
+      expect(results).toHaveLength(2);
+      expect(results[0].name).toBe("Arctic Monkeys");
+      const url = vi.mocked(global.fetch).mock.calls[0][0] as string;
+      expect(url).toContain("method=geo.gettopartists");
+      expect(url).toContain("country=United+Kingdom");
+      expect(url).toContain("limit=2");
+    });
+
+    it("should return empty array when getGeoTopArtists receives no data", async () => {
+      const { getGeoTopArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getGeoTopArtists("Unknown Country");
+      expect(results).toEqual([]);
+    });
   });
 });
