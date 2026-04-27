@@ -80,6 +80,20 @@ describe("AtProtoService", () => {
 
       global.window = originalWindow;
     });
+
+    it("should not call localStorage if window is undefined", () => {
+      const originalWindow = global.window;
+      // @ts-expect-error - simulating SSR
+      delete global.window;
+
+      const persistSession = (vi.mocked(BskyAgent).mock.calls[0][0] as any)
+        .persistSession;
+
+      expect(() => persistSession("create", { did: MOCK_DID })).not.toThrow();
+      expect(() => persistSession("expired")).not.toThrow();
+
+      global.window = originalWindow;
+    });
   });
 
   describe("constructor and session persistence", () => {
