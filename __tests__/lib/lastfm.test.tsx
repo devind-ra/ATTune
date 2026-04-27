@@ -45,7 +45,9 @@ describe("lastfm service", () => {
 
     it("should return null and log error when response is not ok", async () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
-      const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
 
       vi.mocked(global.fetch).mockResolvedValueOnce({
         ok: false,
@@ -63,9 +65,13 @@ describe("lastfm service", () => {
 
     it("should return null and log error when fetch throws", async () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
-      const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
 
-      vi.mocked(global.fetch).mockRejectedValueOnce(new Error("Network failure"));
+      vi.mocked(global.fetch).mockRejectedValueOnce(
+        new Error("Network failure"),
+      );
 
       const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
       expect(result).toBeNull();
@@ -438,7 +444,9 @@ describe("lastfm service", () => {
       vi.mocked(global.fetch).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
-          topartists: { artist: [{ name: "Arctic Monkeys" }, { name: "Oasis" }] },
+          topartists: {
+            artist: [{ name: "Arctic Monkeys" }, { name: "Oasis" }],
+          },
         }),
       } as Response);
 
