@@ -6,6 +6,9 @@ import {
   cleanWiki,
   getArtistName,
   getImageUrl,
+  padArray,
+  hasDuplicates,
+  compareReviews,
 } from "@/lib/utils";
 import { LastFMImage } from "@/lib/lastfm";
 
@@ -146,6 +149,131 @@ describe("utils", () => {
     it("should return empty string if found image has no url", () => {
       const images: LastFMImage[] = [{ size: "medium", "#text": "" }];
       expect(getImageUrl(images, "medium")).toBe("");
+    });
+
+    it("should return empty string if image has no #text property", () => {
+      const images = [{ size: "medium" }] as unknown as LastFMImage[];
+      expect(getImageUrl(images, "medium")).toBe("");
+    });
+
+    it("should treat missing rating as 0 when comparing", () => {
+      const a = {
+        value: { rating: null as unknown as number, createdAt: "2026-01-01" },
+      };
+      const b = {
+        value: { rating: null as unknown as number, createdAt: "2026-01-01" },
+      };
+      expect(compareReviews(a, b, "rating-desc")).toBe(0);
+    });
+
+    it("should treat missing rating as 0 and sort accordingly", () => {
+      const a = {
+        value: { rating: null as unknown as number, createdAt: "2026-01-01" },
+      };
+      const b = { value: { rating: 3, createdAt: "2026-01-01" } };
+      expect(compareReviews(a, b, "rating-desc")).toBeGreaterThan(0);
+    });
+  });
+
+  describe("padArray", () => {
+    it("should pad array with empty strings to reach target length", () => {
+      expect(padArray(["a", "b"], 5)).toEqual(["a", "b", "", "", ""]);
+    });
+
+    it("should return array unchanged if already at target length", () => {
+      expect(padArray(["a", "b", "c"], 3)).toEqual(["a", "b", "c"]);
+    });
+
+    it("should return array unchanged if longer than target length", () => {
+      expect(padArray(["a", "b", "c", "d"], 2)).toEqual(["a", "b", "c", "d"]);
+    });
+
+    it("should not mutate the original array", () => {
+      const original = ["a", "b"];
+      padArray(original, 4);
+      expect(original).toEqual(["a", "b"]);
+    });
+
+    it("should handle empty array input", () => {
+      expect(padArray([], 3)).toEqual(["", "", ""]);
+    });
+  });
+
+  describe("hasDuplicates", () => {
+    it("should return true when duplicates exist", () => {
+      expect(hasDuplicates(["a", "b", "a"])).toBe(true);
+    });
+
+    it("should return false when no duplicates exist", () => {
+      expect(hasDuplicates(["a", "b", "c"])).toBe(false);
+    });
+
+    it("should return false for an empty array", () => {
+      expect(hasDuplicates([])).toBe(false);
+    });
+
+    it("should return false for a single element array", () => {
+      expect(hasDuplicates(["a"])).toBe(false);
+    });
+  });
+
+  describe("compareReviews", () => {
+    const makeReview = (rating: number, date: string, listenedAt?: string) => ({
+      value: { rating, createdAt: date, listenedAt },
+    });
+
+    it("should sort by rating descending", () => {
+      const a = makeReview(4, "2026-01-01");
+      const b = makeReview(2, "2026-01-01");
+      expect(compareReviews(a, b, "rating-desc")).toBeLessThan(0);
+    });
+
+    it("should sort by rating ascending", () => {
+      const a = makeReview(2, "2026-01-01");
+      const b = makeReview(4, "2026-01-01");
+      expect(compareReviews(a, b, "rating-asc")).toBeLessThan(0);
+    });
+
+    it("should fall back to date when ratings are equal (rating-desc)", () => {
+      const a = makeReview(3, "2026-01-01");
+      const b = makeReview(3, "2025-01-01");
+      expect(compareReviews(a, b, "rating-desc")).toBeLessThan(0);
+    });
+
+    it("should fall back to date when ratings are equal (rating-asc)", () => {
+      const a = makeReview(3, "2025-01-01");
+      const b = makeReview(3, "2026-01-01");
+      expect(compareReviews(a, b, "rating-asc")).toBeGreaterThan(0);
+    });
+
+    it("should sort by date descending", () => {
+      const a = makeReview(3, "2026-01-01");
+      const b = makeReview(3, "2025-01-01");
+      expect(compareReviews(a, b, "date-desc")).toBeLessThan(0);
+    });
+
+    it("should sort by date ascending", () => {
+      const a = makeReview(3, "2025-01-01");
+      const b = makeReview(3, "2026-01-01");
+      expect(compareReviews(a, b, "date-asc")).toBeLessThan(0);
+    });
+
+    it("should prefer listenedAt over createdAt when present", () => {
+      const a = makeReview(3, "2022-01-01", "2026-01-01");
+      const b = makeReview(3, "2025-01-01");
+      expect(compareReviews(a, b, "date-desc")).toBeLessThan(0);
+    });
+
+    it("should return 0 when both rating and date are equal", () => {
+      const a = makeReview(3, "2026-01-01");
+      const b = makeReview(3, "2026-01-01");
+      expect(compareReviews(a, b, "date-desc")).toBe(0);
+    });
+
+    it("should handle missing/invalid dates gracefully (falls back to 0)", () => {
+      const a = makeReview(3, "not-a-date");
+      const b = makeReview(3, "not-a-date");
+      expect(compareReviews(a, b, "date-asc")).toBe(0);
     });
   });
 });
