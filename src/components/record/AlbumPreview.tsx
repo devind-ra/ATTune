@@ -1,4 +1,4 @@
-// AlbumPreviews component
+// AlbumPreview component
 // Contains the following:
 // - Displays album image, title and artist
 // - Displays a button to change the album

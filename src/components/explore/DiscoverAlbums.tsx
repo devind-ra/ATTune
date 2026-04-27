@@ -1,6 +1,7 @@
-// DiscoveryCarousel Component
+// DiscoveryAlbums Component
 // Contains the following:
 // - Displays albums based on tags
+// - Allows user to navigate to each album page
 
 import Link from "next/link";
 import { DiscoveryTagData } from "@/app/hooks/useExploreData";
