@@ -1,4 +1,3 @@
-
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
@@ -82,7 +81,7 @@ describe("AuthContext", () => {
     it("should throw when used outside AuthProvider", () => {
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => { });
+        .mockImplementation(() => {});
       expect(() => render(<TestConsumer />)).toThrow(
         "useAuth must be used within an AuthProvider",
       );

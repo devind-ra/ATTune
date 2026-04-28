@@ -78,4 +78,81 @@ describe("AuthForm", () => {
     fireEvent.click(screen.getByRole("button", { name: /Sign Up/i }));
     expect(screen.getByText("Modal Active: signup")).toBeDefined();
   });
+
+  it("should call setIdentifier when the handle input changes", () => {
+    const setIdentifierMock = vi.fn();
+    vi.mocked(useAuthForm).mockReturnValue({
+      identifier: "",
+      setIdentifier: setIdentifierMock,
+      password: "",
+      setPassword: vi.fn(),
+      error: "",
+      loading: false,
+      handleLogin: vi.fn(),
+    } as any);
+
+    render(<AuthForm onLogin={mockOnLogin} />);
+
+    const input = screen.getByPlaceholderText("alice.bsky.social");
+    fireEvent.change(input, { target: { value: "test-user" } });
+
+    expect(setIdentifierMock).toHaveBeenCalledWith("test-user");
+  });
+
+  it("should call setPassword when the password input changes", () => {
+    const setPasswordMock = vi.fn();
+    vi.mocked(useAuthForm).mockReturnValue({
+      identifier: "",
+      setIdentifier: vi.fn(),
+      password: "",
+      setPassword: setPasswordMock,
+      error: "",
+      loading: false,
+      handleLogin: vi.fn(),
+    } as any);
+
+    render(<AuthForm onLogin={mockOnLogin} />);
+
+    const input = screen.getByPlaceholderText("xxxx-xxxx-xxxx-xxxx");
+    fireEvent.change(input, { target: { value: "password123" } });
+
+    expect(setPasswordMock).toHaveBeenCalledWith("password123");
+  });
+
+  it("should display the error message when it exists", () => {
+    const errorMessage = "Invalid credentials";
+    vi.mocked(useAuthForm).mockReturnValue({
+      identifier: "",
+      setIdentifier: vi.fn(),
+      password: "",
+      setPassword: vi.fn(),
+      error: errorMessage,
+      loading: false,
+      handleLogin: vi.fn(),
+    } as any);
+
+    render(<AuthForm onLogin={mockOnLogin} />);
+
+    expect(screen.getByText(errorMessage)).toBeDefined();
+  });
+
+  it("should call handleLogin when the form is submitted", () => {
+    const handleLoginMock = vi.fn((e) => e.preventDefault());
+    vi.mocked(useAuthForm).mockReturnValue({
+      identifier: "test",
+      password: "password",
+      setIdentifier: vi.fn(),
+      setPassword: vi.fn(),
+      error: "",
+      loading: false,
+      handleLogin: handleLoginMock,
+    } as any);
+
+    render(<AuthForm onLogin={mockOnLogin} />);
+
+    const submitButton = screen.getByRole("button", { name: /Sign In/i });
+    fireEvent.click(submitButton);
+
+    expect(handleLoginMock).toHaveBeenCalled();
+  });
 });
