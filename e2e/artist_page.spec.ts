@@ -1,5 +1,4 @@
 import { test } from "@playwright/test";
-import { HomePage } from "./page/home_page";
 import { LandingPage } from "./page/landing_page";
 import { ArtistPage } from "./page/artist_page";
 

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 import { Navbar } from "./page/navbar";
 

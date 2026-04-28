@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import React from "react";
 import { ReviewComments } from "@/components/review/ReviewComments";
 import { useComments } from "@/app/hooks/useComments";
 import { atApiService } from "@/lib/atproto";

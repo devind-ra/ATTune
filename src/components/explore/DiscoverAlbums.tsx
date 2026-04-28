@@ -4,7 +4,7 @@
 // - Allows user to navigate to each album page
 
 import Link from "next/link";
-import { DiscoveryTagData } from "@/app/hooks/useExploreData";
+import { DiscoveryTagData } from "~/app/hooks/useExploreData";
 import { AlbumList } from "@/components/AlbumList";
 
 interface DiscoveryCarouselProps {

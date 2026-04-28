@@ -1,4 +1,4 @@
-import { Page, type Locator } from "playwright";
+import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { homePageContent } from "../content/home_page_content";
 
