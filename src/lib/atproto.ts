@@ -2,7 +2,7 @@
 // AT Protocol Service
 // Contains the following:
 // - Interfaces for storing user data on AT Protocol
-// - Functions for logging in, creating, updating, and deleting reviews
+// - Functions for logging in, creating, updating and deleting reviews
 // - Functions for getting user data from AT Protocol
 // - Functions for getting other users' reviews
 

@@ -43,4 +43,24 @@ describe("ArtistList component", () => {
     const beatlesLink = screen.getByText("The Beatles").closest("a");
     expect(beatlesLink).toHaveAttribute("href", "/artist/The%20Beatles");
   });
+
+  it("should apply text-xs class for artist names longer than 20 characters", () => {
+    const longNameArtist: LastFMArtist[] = [
+      { name: "The Very Long Artist Name", url: "" },
+    ];
+    render(<ArtistList artists={longNameArtist} />);
+
+    const span = screen.getByText("The Very Long Artist Name");
+    expect(span).toHaveClass("text-xs");
+  });
+
+  it("should apply text-sm class for artist names longer than 12 but not more than 20 characters", () => {
+    const mediumNameArtist: LastFMArtist[] = [
+      { name: "Fleetwood Mac", url: "" },
+    ];
+    render(<ArtistList artists={mediumNameArtist} />);
+
+    const span = screen.getByText("Fleetwood Mac");
+    expect(span).toHaveClass("text-sm");
+  });
 });

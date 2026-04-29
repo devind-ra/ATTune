@@ -56,7 +56,7 @@ const mockAlbums: MockAlbum[] = [
   { name: "The Bends", artist: { name: "Radiohead" }, image: [] },
 ];
 
-describe("useSearch hook: Auth & Init", () => {
+describe("useSearch hook: Authentication & Initialisation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -127,6 +127,22 @@ describe("useSearch hook: Fetching", () => {
       expect(result.current.artists).toEqual([mockArtists[0]]);
     });
   });
+
+  it("should return 'album' when query matches album name but not artist name", async () => {
+    const artists = [{ name: "Daft Punk", listeners: "2000000" }];
+    const albums = [
+      { name: "Discovery", artist: { name: "Daft Punk" }, image: [] },
+    ];
+
+    vi.mocked(searchArtist).mockResolvedValueOnce(artists);
+    vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
+
+    const { result } = renderHook(() => useSearch("Discovery"));
+
+    await waitFor(() => {
+      expect(result.current.primaryResultType).toBe("album");
+    });
+  });
 });
 
 describe("useSearch hook: parsePrimaryType logic", () => {
@@ -157,6 +173,49 @@ describe("useSearch hook: parsePrimaryType logic", () => {
 
     await waitFor(() => {
       expect(result.current.primaryResultType).toBe("album");
+    });
+  });
+
+  describe("useSearch hook: Error Handling", () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+      vi.spyOn(console, "error").mockImplementation(() => {});
+    });
+
+    it("should call console.error when a search service fails", async () => {
+      const mockError = new Error("Network Failure");
+
+      vi.mocked(searchArtist).mockRejectedValueOnce(mockError);
+      vi.mocked(searchAlbum).mockResolvedValueOnce([]);
+
+      renderHook(() => useSearch(TEST_QUERY));
+
+      await waitFor(() => {
+        expect(console.error).toHaveBeenCalledWith("Search failed:", mockError);
+      });
+    });
+
+    it("should set isSearching to false even if the request fails", async () => {
+      vi.mocked(searchArtist).mockRejectedValueOnce(new Error("Failed"));
+
+      const { result } = renderHook(() => useSearch(TEST_QUERY));
+
+      await waitFor(() => expect(result.current.isSearching).toBe(true), {
+        timeout: 500,
+      });
+      await waitFor(() => expect(result.current.isSearching).toBe(false));
+    });
+
+    it("should return an empty array if the API result is null or undefined", async () => {
+      vi.mocked(searchArtist).mockResolvedValueOnce(null as any);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(undefined as any);
+
+      const { result } = renderHook(() => useSearch(TEST_QUERY));
+
+      await waitFor(() => {
+        expect(result.current.artists).toEqual([]);
+        expect(result.current.albums).toEqual([]);
+      });
     });
   });
 });

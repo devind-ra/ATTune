@@ -42,6 +42,42 @@ describe("lastfm service", () => {
 
       expect(result).toEqual({ name: ALBUM_NAME });
     });
+
+    it("should return null and log error when response is not ok", async () => {
+      const { getAlbumInfo } = await import("@/lib/lastfm");
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+      } as Response);
+
+      const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
+      expect(result).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Failed to fetch Last.fm method"),
+        expect.any(Error),
+      );
+      consoleSpy.mockRestore();
+    });
+
+    it("should return null and log error when fetch throws", async () => {
+      const { getAlbumInfo } = await import("@/lib/lastfm");
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+
+      vi.mocked(global.fetch).mockRejectedValueOnce(
+        new Error("Network failure"),
+      );
+
+      const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
+      expect(result).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      consoleSpy.mockRestore();
+    });
   });
 
   describe("artist filtering", () => {
@@ -86,6 +122,17 @@ describe("lastfm service", () => {
       expect(results).toHaveLength(1);
       expect(results[0].name).toBe("Drake feat. Future");
     });
+
+    it("should use searchArtist to return empty array when artistmatches is missing", async () => {
+      const { searchArtist } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await searchArtist(ARTIST_NAME);
+      expect(results).toEqual([]);
+    });
   });
 
   describe("search and discovery", () => {
@@ -104,6 +151,17 @@ describe("lastfm service", () => {
       expect(url).toContain("limit=10");
     });
 
+    it("should use getTopTracks to return empty array when tracks is missing", async () => {
+      const { getTopTracks } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getTopTracks();
+      expect(results).toEqual([]);
+    });
+
     it("should use getSimilarArtists to fetch data", async () => {
       const { getSimilarArtists } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -115,6 +173,17 @@ describe("lastfm service", () => {
 
       const results = await getSimilarArtists(ARTIST_NAME);
       expect(results[0].name).toBe("Interpol");
+    });
+
+    it("should use getSimilarArtists to return empty array when similarartists is missing", async () => {
+      const { getSimilarArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getSimilarArtists(ARTIST_NAME);
+      expect(results).toEqual([]);
     });
 
     it("should use getTopAlbumsByTag to fetch data", async () => {
@@ -131,6 +200,17 @@ describe("lastfm service", () => {
       );
     });
 
+    it("should use getTopAlbumsByTag to return empty array when albums is missing", async () => {
+      const { getTopAlbumsByTag } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getTopAlbumsByTag(TAG_NAME);
+      expect(results).toEqual([]);
+    });
+
     it("should use getArtistTopTracks to fetch autocorrect parameter", async () => {
       const { getArtistTopTracks } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -141,6 +221,17 @@ describe("lastfm service", () => {
       await getArtistTopTracks(ARTIST_NAME);
       const url = vi.mocked(global.fetch).mock.calls[0][0] as string;
       expect(url).toContain("autocorrect=1");
+    });
+
+    it("should use getArtistTopTracks to return empty array when toptracks is missing", async () => {
+      const { getArtistTopTracks } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getArtistTopTracks(ARTIST_NAME);
+      expect(results).toEqual([]);
     });
 
     it("should use getAlbumTopTags to fetch tags for a specific album", async () => {
@@ -154,6 +245,17 @@ describe("lastfm service", () => {
       expect(results[0].name).toBe("Alt Rock");
       const url = vi.mocked(global.fetch).mock.calls[0][0] as string;
       expect(url).toContain("method=album.gettoptags");
+    });
+
+    it("should use getAlbumTopTags to return empty array when toptags is missing", async () => {
+      const { getAlbumTopTags } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getAlbumTopTags(ARTIST_NAME, ALBUM_NAME);
+      expect(results).toEqual([]);
     });
 
     it("should use searchAlbum to retrieve albums from nested results", async () => {
@@ -174,6 +276,17 @@ describe("lastfm service", () => {
       expect(results[0].name).toBe(ALBUM_NAME);
     });
 
+    it("should use searchAlbum to return empty array when albummatches is missing", async () => {
+      const { searchAlbum } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await searchAlbum(ALBUM_NAME);
+      expect(results).toEqual([]);
+    });
+
     it("should use getTopArtists to retrieve artists from chart", async () => {
       const { getTopArtists } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -190,6 +303,17 @@ describe("lastfm service", () => {
       );
     });
 
+    it("should use geoTopArtists to return empty array when artists is missing", async () => {
+      const { getTopArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getTopArtists();
+      expect(results).toEqual([]);
+    });
+
     it("should use searchTag to retrieve tags from tag matches", async () => {
       const { searchTag } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -201,6 +325,17 @@ describe("lastfm service", () => {
 
       const results = await searchTag(TAG_NAME);
       expect(results[0].name).toBe(TAG_NAME);
+    });
+
+    it("should use searchTag to retrieve empty array when tagmatches is missing", async () => {
+      const { searchTag } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await searchTag(TAG_NAME);
+      expect(results).toEqual([]);
     });
 
     it("should use getTopTags to retrieve tags from chart", async () => {
@@ -217,6 +352,17 @@ describe("lastfm service", () => {
       expect(results[0].name).toBe("Rock");
     });
 
+    it("should use getTopTags to return empty array when tags is missing", async () => {
+      const { getTopTags } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getTopTags();
+      expect(results).toEqual([]);
+    });
+
     it("should use getTopArtistsByTag to retrieve artists for a tag", async () => {
       const { getTopArtistsByTag } = await import("@/lib/lastfm");
       vi.mocked(global.fetch).mockResolvedValueOnce({
@@ -231,6 +377,17 @@ describe("lastfm service", () => {
       expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
         `tag=${TAG_NAME}`,
       );
+    });
+
+    it("should use getTopArtistsByTag to return empty array when topartists is missing", async () => {
+      const { getTopArtistsByTag } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getTopArtistsByTag(TAG_NAME);
+      expect(results).toEqual([]);
     });
 
     it("should use getArtistInfo to return the artist object or null", async () => {
@@ -269,6 +426,48 @@ describe("lastfm service", () => {
       expect(vi.mocked(global.fetch).mock.calls[0][0]).toContain(
         "autocorrect=1",
       );
+    });
+
+    it("should use getArtistTopAlbums to return empty array when topalbums is missing", async () => {
+      const { getArtistTopAlbums } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getArtistTopAlbums(ARTIST_NAME);
+      expect(results).toEqual([]);
+    });
+
+    it("should use getGeoTopArtists to retrieve top artists for a country", async () => {
+      const { getGeoTopArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          topartists: {
+            artist: [{ name: "Arctic Monkeys" }, { name: "Oasis" }],
+          },
+        }),
+      } as Response);
+
+      const results = await getGeoTopArtists("United Kingdom", "2");
+      expect(results).toHaveLength(2);
+      expect(results[0].name).toBe("Arctic Monkeys");
+      const url = vi.mocked(global.fetch).mock.calls[0][0] as string;
+      expect(url).toContain("method=geo.gettopartists");
+      expect(url).toContain("country=United+Kingdom");
+      expect(url).toContain("limit=2");
+    });
+
+    it("should return empty array when getGeoTopArtists receives no data", async () => {
+      const { getGeoTopArtists } = await import("@/lib/lastfm");
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as Response);
+
+      const results = await getGeoTopArtists("Unknown Country");
+      expect(results).toEqual([]);
     });
   });
 });

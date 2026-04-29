@@ -2,7 +2,7 @@ export const landingPageContent = {
   title: "ATtune",
   subheading: "Decentralised Music. Own Your Data.",
   description:
-    "Join the revolution of music discovery. Have data ownership, share your opions, and discover more!",
+    "Join the revolution of music discovery. Have data ownership, share your opinions and discover more!",
   getStartedButton: "Get Started",
   signInButton: "Sign In",
   signUpButton: "Sign Up",

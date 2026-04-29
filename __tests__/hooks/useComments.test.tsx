@@ -54,7 +54,7 @@ describe("useComments hook", () => {
     vi.clearAllMocks();
   });
 
-  it("should initialise with loading true, empty comments, and the provided postCid", () => {
+  it("should initialise with loading true, empty comments and the provided postCid", () => {
     vi.mocked(atApiService.agent.getPostThread).mockResolvedValue(
       mockThreadResponse,
     );

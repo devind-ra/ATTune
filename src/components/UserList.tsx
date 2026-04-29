@@ -17,7 +17,7 @@ function UserAvatar({ user }: { user: AppBskyActorDefs.ProfileViewBasic }) {
     return (
       <Image
         src={user.avatar}
-        alt="Avatar"
+        alt=""
         width={48}
         height={48}
         className="w-12 h-12 rounded-full object-cover border border-zinc-700"

@@ -1,4 +1,4 @@
-import { Page, type Locator } from "playwright";
+import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { landingPageContent } from "../content/landing_page_content";
 

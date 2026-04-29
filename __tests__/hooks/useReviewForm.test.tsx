@@ -98,6 +98,48 @@ describe("useReviewForm: Navigation and Selection", () => {
     expect(result.current.isSearchStep).toBe(true);
     expect(result.current.title).toBe("");
   });
+
+  it("should fallback to large image if extralarge is not available", () => {
+    vi.mocked(getArtistName).mockReturnValue(ARTIST_RADIOHEAD);
+
+    vi.mocked(getImageUrl).mockReturnValueOnce("https://example.com/large.jpg");
+
+    const { result } = renderHook(() => useReviewForm(defaultProps));
+
+    act(() => {
+      result.current.handleSelectAlbum(mockAlbumData as any);
+    });
+
+    expect(result.current.albumImage).toBe("https://example.com/large.jpg");
+    expect(result.current.isSearchStep).toBe(false);
+    expect(clearSearchMock).toHaveBeenCalled();
+  });
+
+  it("should not go back to search or clear fields if initialTitle is provided", () => {
+    const { result } = renderHook(() => useReviewForm(propsWithInitialAlbum));
+
+    expect(result.current.isSearchStep).toBe(false);
+    expect(result.current.title).toBe("OK Computer");
+
+    act(() => {
+      result.current.handleBackToSearch();
+    });
+
+    expect(result.current.isSearchStep).toBe(false);
+    expect(result.current.title).toBe("OK Computer");
+    expect(result.current.artist).toBe(ARTIST_RADIOHEAD);
+  });
+
+  it("should finish selection by closing search step and clearing search state", () => {
+    const { result } = renderHook(() => useReviewForm(defaultProps));
+
+    act(() => {
+      result.current.handleSelectAlbum(mockAlbumData as any);
+    });
+
+    expect(result.current.isSearchStep).toBe(false);
+    expect(clearSearchMock).toHaveBeenCalled();
+  });
 });
 
 describe("useReviewForm: Submission", () => {
@@ -163,5 +205,48 @@ describe("useReviewForm: Submission", () => {
     });
 
     expect(result.current.error).toBe("Failed to create review");
+  });
+
+  describe("useReviewForm: State Resetting", () => {
+    const eventMock = { preventDefault: vi.fn() } as unknown as React.FormEvent;
+
+    beforeEach(() => vi.clearAllMocks());
+
+    it("should reset review fields after successful submission when initialTitle is present", async () => {
+      vi.mocked(atApiService.createReview).mockResolvedValue({} as any);
+      const { result } = renderHook(() => useReviewForm(propsWithInitialAlbum));
+
+      act(() => {
+        result.current.setRating(5);
+        result.current.setText("Great album!");
+        result.current.setPublishToBluesky(false);
+      });
+
+      await act(async () => {
+        await result.current.handleSubmit(eventMock);
+      });
+
+      expect(result.current.rating).toBe(0);
+      expect(result.current.text).toBe("");
+      expect(result.current.publishToBluesky).toBe(true);
+      expect(result.current.error).toBe("");
+    });
+
+    it("should reset review fields when navigating back to search", () => {
+      const { result } = renderHook(() => useReviewForm(defaultProps));
+
+      act(() => {
+        result.current.setRating(10);
+        result.current.setText("I love this");
+      });
+
+      act(() => {
+        result.current.handleBackToSearch();
+      });
+
+      expect(result.current.rating).toBe(0);
+      expect(result.current.text).toBe("");
+      expect(result.current.isSearchStep).toBe(true);
+    });
   });
 });

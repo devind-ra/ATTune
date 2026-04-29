@@ -1,6 +1,6 @@
 // NavSearchForm component
 // Contains the following:
-// - Search form for searching artists, albums, and songs
+// - Search form for searching artists, albums and songs
 
 interface Props {
   searchQuery: string;

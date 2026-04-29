@@ -1,6 +1,7 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ALL_SECTIONS, useVisibleSections } from "@/lib/sections";
+import { useAuth } from "@/contexts/AuthContext";
 
 const mockSession = { did: "did:test:123" };
 
@@ -26,7 +27,7 @@ describe("sections lib", () => {
   });
 
   describe("useVisibleSections hook", () => {
-    it("should initialize with all sections visible", () => {
+    it("should initialise with all sections visible", () => {
       const { result } = renderHook(() => useVisibleSections());
 
       expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
@@ -193,6 +194,60 @@ describe("sections lib", () => {
           expect(
             localStorage.getItem("attune_sections_did:other:456"),
           ).toBeNull();
+        });
+      });
+    });
+
+    describe("when session does not exist", () => {
+      it("should not read from localStorage when session.did is missing", () => {
+        vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
+        const getItemSpy = vi.spyOn(Storage.prototype, "getItem");
+
+        renderHook(() => useVisibleSections());
+
+        expect(getItemSpy).not.toHaveBeenCalled();
+      });
+
+      it("should not write to localStorage when session.did is missing", async () => {
+        vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
+        const setItemSpy = vi.spyOn(Storage.prototype, "setItem");
+
+        const { result } = renderHook(() => useVisibleSections());
+        act(() => result.current.toggleSection("tagArtists"));
+
+        await waitFor(() => {
+          expect(setItemSpy).not.toHaveBeenCalled();
+        });
+      });
+
+      it("should still default to all sections visible", () => {
+        vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
+        const { result } = renderHook(() => useVisibleSections());
+
+        expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
+      });
+    });
+
+    describe("when session.did changes", () => {
+      it("should load preferences for the new session did", async () => {
+        const did2 = "did:test:456";
+        localStorage.setItem(
+          `attune_sections_${did2}`,
+          JSON.stringify(["musicPublications"]),
+        );
+
+        const mockUseAuth = vi.mocked(useAuth);
+        mockUseAuth.mockReturnValue({ session: null } as any);
+
+        const { result, rerender } = renderHook(() => useVisibleSections());
+
+        mockUseAuth.mockReturnValue({ session: { did: did2 } } as any);
+        rerender();
+
+        await waitFor(() => {
+          expect(result.current.visibleSections).toEqual(
+            new Set(["musicPublications"]),
+          );
         });
       });
     });

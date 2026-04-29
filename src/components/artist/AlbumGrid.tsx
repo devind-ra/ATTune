@@ -1,7 +1,7 @@
 // AlbumGrid component
 // Contains the following:
 // - Uses AlbumCard component to display albums in AlbumGrid function
-// - AlbumCard component to display album cover, name, and artist
+// - AlbumCard component to display album cover, name and artist
 
 import Image from "next/image";
 import Link from "next/link";

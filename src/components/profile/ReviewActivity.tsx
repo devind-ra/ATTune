@@ -5,7 +5,6 @@
 
 import { ActivityCalendar } from "react-activity-calendar";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import { MusicReview } from "@/lib/atproto";
 import React, { useMemo } from "react";
 

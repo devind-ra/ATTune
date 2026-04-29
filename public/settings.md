@@ -18,7 +18,7 @@ _Details about integrations used within ATtune, such as Last.fm and the AT Proto
 
 ## Account Data Handling
 
-_Procedures for data retention, account moderation, and user deletion rights._
+_Procedures for data retention, account moderation and user deletion rights._
 
 - ATtune does not guarantee deletion of records in ATtune as data is stored on a decentralised network.
 - ATtune does not store any user data on its own servers.
