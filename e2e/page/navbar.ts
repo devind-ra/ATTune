@@ -10,6 +10,7 @@ export class Navbar {
   private readonly record: string;
   private readonly account: string;
   private readonly settings: string;
+  private readonly help: string;
   private readonly signOut: string;
 
   constructor(private page: Page) {
@@ -20,6 +21,7 @@ export class Navbar {
     this.record = homePageContent.record;
     this.account = homePageContent.account;
     this.settings = homePageContent.settings;
+    this.help = homePageContent.help;
     this.signOut = homePageContent.signOut;
   }
 
@@ -70,6 +72,10 @@ export class Navbar {
 
   async clickSettings() {
     await this.page.getByRole("link", { name: this.settings }).click();
+  }
+
+  async clickHelp() {
+    await this.page.getByRole("link", { name: this.help }).click();
   }
 
   async clickSignOut() {

@@ -98,6 +98,14 @@ export function NavActions({ onLogout }: Props) {
               >
                 Settings
               </a>
+              <a
+                href="/help"
+                aria-label="Help"
+                className="px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors text-left"
+                onClick={() => setIsDropdownOpen(false)}
+              >
+                Help
+              </a>
               <button
                 onClick={() => {
                   setIsDropdownOpen(false);
