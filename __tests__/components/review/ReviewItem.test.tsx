@@ -124,4 +124,80 @@ describe("ReviewItem", () => {
 
     expect(defaultProps.onClick).not.toHaveBeenCalled();
   });
+
+  it("should not call onEdit when required edit fields are missing", async () => {
+    vi.mock("@/components/review/ReviewEditForm", () => ({
+      default: vi.fn(({ onSave, onCancel, onChange }) => (
+        <div data-testid="mock-edit-form">
+          <button
+            onClick={() => {
+              onChange({
+                subjectTitle: "",
+                subjectArtist: "",
+                rating: undefined,
+                listenedAt: undefined,
+              });
+              onSave();
+            }}
+          >
+            Save Changes
+          </button>
+          <button onClick={onCancel}>Cancel Edit</button>
+        </div>
+      )),
+    }));
+
+    const incompleteReview = {
+      ...mockReview,
+      value: {
+        ...mockReview.value,
+        subjectTitle: "",
+        subjectArtist: "",
+        rating: undefined,
+        listenedAt: undefined,
+      },
+    };
+
+    render(
+      <ReviewItem
+        {...defaultProps}
+        item={incompleteReview as any}
+        onEdit={defaultProps.onEdit}
+      />,
+    );
+
+    fireEvent.click(screen.getByLabelText(/edit review/i));
+    fireEvent.click(screen.getByText("Save Changes"));
+
+    await waitFor(() => {
+      expect(defaultProps.onEdit).not.toHaveBeenCalled();
+    });
+
+    expect(screen.getByTestId("mock-edit-form")).toBeDefined();
+  });
+
+  it("should not call onClick when no onClick prop is provided and container is clicked", () => {
+    render(
+      <ReviewItem
+        item={mockReview as any}
+        onDelete={vi.fn()}
+        onEdit={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+
+    const container = screen.getByText("In Utero").closest("div")!;
+    fireEvent.click(container);
+    expect(defaultProps.onClick).not.toHaveBeenCalled();
+  });
+
+  it("should exit editing mode when Cancel is clicked", () => {
+    render(<ReviewItem {...defaultProps} />);
+
+    fireEvent.click(screen.getByLabelText(/edit review/i));
+    expect(screen.getByTestId("mock-edit-form")).toBeDefined();
+
+    fireEvent.click(screen.getByText("Cancel Edit"));
+    expect(screen.queryByTestId("mock-edit-form")).toBeNull();
+    expect(screen.getByText("In Utero")).toBeDefined();
+  });
 });
