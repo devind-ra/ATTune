@@ -6,6 +6,7 @@ export const homePageContent = {
   record: "Record",
   account: "Account",
   settings: "Settings",
+  help: "Help",
   signOut: "Sign Out",
   filterSectionsText: "Filter Sections",
   recommendedArtistsByTasteHeading: "Recommended Artists by Taste",
