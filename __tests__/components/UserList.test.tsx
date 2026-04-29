@@ -109,7 +109,7 @@ describe("UserList", () => {
   describe("UserAvatar", () => {
     it("should render an image when user has an avatar", () => {
       render(<UserList users={[mockUserWithAvatar]} />);
-      const img = screen.getByRole("img", { name: "Avatar" });
+      const img = screen.getByAltText("");
       expect(img).toBeInTheDocument();
       expect(img).toHaveAttribute("src", mockUserWithAvatar.avatar);
     });
