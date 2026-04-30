@@ -37,7 +37,7 @@ describe("GeoTopArtists", () => {
 
   it("should display an error message if the fetch fails", async () => {
     (getGeoTopArtists as any).mockRejectedValue(new Error("API Failure"));
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     render(<GeoTopArtists />);
 
     await waitFor(() => {
