@@ -40,26 +40,26 @@ export function useOtherProfilePage(handle: string) {
   }, [handle]);
 
   const syncProfile = useCallback(() => {
-    setTimeout(() => {
-      atApiService.agent
-        .getProfile({ actor: handle })
-        .then((res) => {
-          setProfile((prev) => {
-            if (!prev) return res.data;
-            const currentFollowing = !!prev.viewer?.following;
-            const fetchedFollowing = !!res.data.viewer?.following;
+    setTimeout(async () => {
+      try {
+        const res = await atApiService.agent.getProfile({ actor: handle });
+        setProfile((prev) => {
+          if (!prev) return res.data;
+          const currentFollowing = !!prev.viewer?.following;
+          const fetchedFollowing = !!res.data.viewer?.following;
 
-            if (currentFollowing !== fetchedFollowing) {
-              return {
-                ...res.data,
-                viewer: prev.viewer,
-                followersCount: prev.followersCount,
-              };
-            }
-            return res.data;
-          });
-        })
-        .catch((err) => console.error("Sync Error:", err));
+          if (currentFollowing !== fetchedFollowing) {
+            return {
+              ...res.data,
+              viewer: prev.viewer,
+              followersCount: prev.followersCount,
+            };
+          }
+          return res.data;
+        });
+      } catch (err) {
+        console.error("Sync Error:", err);
+      }
     }, 3000);
   }, [handle]);
 

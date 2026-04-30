@@ -24,6 +24,7 @@ export const EXPLORE_SECTIONS = [
 
 export type ExploreSectionId = (typeof EXPLORE_SECTIONS)[number]["id"];
 
+// eslint-disable-next-line max-lines-per-function
 export function useVisibleSections<T extends string>(
   sections: readonly { id: T; label: string }[],
   storageKeyPrefix: string
@@ -48,7 +49,6 @@ export function useVisibleSections<T extends string>(
         ) as T[];
 
         if (validIds.length > 0) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setVisibleSections(new Set(validIds));
         }
       }
@@ -57,7 +57,8 @@ export function useVisibleSections<T extends string>(
     }
 
     setIsInitialised(true);
-  }, [session?.did]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.did, storageKeyPrefix]);
 
   useEffect(() => {
     if (!session?.did || !isInitialised) return;
