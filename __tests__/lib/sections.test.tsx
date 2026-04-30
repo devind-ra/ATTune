@@ -28,7 +28,9 @@ describe("sections lib", () => {
 
   describe("useVisibleSections hook", () => {
     it("should initialise with all sections visible", () => {
-      const { result } = renderHook(() => useVisibleSections());
+      const { result } = renderHook(() =>
+        useVisibleSections(ALL_SECTIONS, "sections"),
+      );
 
       expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
       ALL_SECTIONS.forEach((section) => {
@@ -37,7 +39,9 @@ describe("sections lib", () => {
     });
 
     it("should remove a section when toggleSection is called for an active section", () => {
-      const { result } = renderHook(() => useVisibleSections());
+      const { result } = renderHook(() =>
+        useVisibleSections(ALL_SECTIONS, "sections"),
+      );
 
       act(() => {
         result.current.toggleSection("tagArtists");
@@ -48,7 +52,9 @@ describe("sections lib", () => {
     });
 
     it("should add a section when toggleSection is called for an inactive section", () => {
-      const { result } = renderHook(() => useVisibleSections());
+      const { result } = renderHook(() =>
+        useVisibleSections(ALL_SECTIONS, "sections"),
+      );
 
       act(() => {
         result.current.toggleSection("tagArtists");
@@ -63,7 +69,9 @@ describe("sections lib", () => {
     });
 
     it("should not remove a section if it is the only remaining visible section", () => {
-      const { result } = renderHook(() => useVisibleSections());
+      const { result } = renderHook(() =>
+        useVisibleSections(ALL_SECTIONS, "sections"),
+      );
 
       act(() => {
         result.current.toggleSection("tagArtists");
@@ -95,7 +103,9 @@ describe("sections lib", () => {
 
     describe("localStorage persistence", () => {
       it("should persist visible sections to localStorage on change", async () => {
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         act(() => {
           result.current.toggleSection("tagArtists");
@@ -119,7 +129,9 @@ describe("sections lib", () => {
           JSON.stringify(["recommendedAlbums"]),
         );
 
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         await waitFor(() => {
           expect(result.current.visibleSections.size).toBe(1);
@@ -142,7 +154,9 @@ describe("sections lib", () => {
           JSON.stringify(["topArtists", "recommendedAlbums"]),
         );
 
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         await waitFor(() => {
           expect(result.current.visibleSections.has("topArtists" as any)).toBe(
@@ -160,7 +174,9 @@ describe("sections lib", () => {
           "not-valid-json",
         );
 
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         await waitFor(() => {
           expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
@@ -173,7 +189,9 @@ describe("sections lib", () => {
           JSON.stringify(["topArtists", "nonExistentSection"]),
         );
 
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         await waitFor(() => {
           expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
@@ -181,7 +199,9 @@ describe("sections lib", () => {
       });
 
       it("should use the session did as the localStorage key", async () => {
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         act(() => {
           result.current.toggleSection("tagArtists");
@@ -203,7 +223,7 @@ describe("sections lib", () => {
         vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
         const getItemSpy = vi.spyOn(Storage.prototype, "getItem");
 
-        renderHook(() => useVisibleSections());
+        renderHook(() => useVisibleSections(ALL_SECTIONS, "sections"));
 
         expect(getItemSpy).not.toHaveBeenCalled();
       });
@@ -212,7 +232,9 @@ describe("sections lib", () => {
         vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
         const setItemSpy = vi.spyOn(Storage.prototype, "setItem");
 
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
         act(() => result.current.toggleSection("tagArtists"));
 
         await waitFor(() => {
@@ -222,7 +244,9 @@ describe("sections lib", () => {
 
       it("should still default to all sections visible", () => {
         vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
-        const { result } = renderHook(() => useVisibleSections());
+        const { result } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         expect(result.current.visibleSections.size).toBe(ALL_SECTIONS.length);
       });
@@ -239,7 +263,9 @@ describe("sections lib", () => {
         const mockUseAuth = vi.mocked(useAuth);
         mockUseAuth.mockReturnValue({ session: null } as any);
 
-        const { result, rerender } = renderHook(() => useVisibleSections());
+        const { result, rerender } = renderHook(() =>
+          useVisibleSections(ALL_SECTIONS, "sections"),
+        );
 
         mockUseAuth.mockReturnValue({ session: { did: did2 } } as any);
         rerender();

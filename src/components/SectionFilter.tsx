@@ -12,6 +12,7 @@ interface Props<T extends string> {
   onToggle: (id: T) => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function SectionFilter<T extends string>({
   sections,
   visibleSections,

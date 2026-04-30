@@ -24,6 +24,7 @@ export const EXPLORE_SECTIONS = [
 
 export type ExploreSectionId = (typeof EXPLORE_SECTIONS)[number]["id"];
 
+// eslint-disable-next-line max-lines-per-function
 export function useVisibleSections<T extends string>(
   sections: readonly { id: T; label: string }[],
   storageKeyPrefix: string,
