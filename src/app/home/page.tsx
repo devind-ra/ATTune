@@ -18,7 +18,10 @@ import { MusicPublications } from "@/components/MusicPublications";
 export default function HomePage() {
   const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
     useHomeData();
-  const { visibleSections, toggleSection } = useVisibleSections(ALL_SECTIONS, "sections");
+  const { visibleSections, toggleSection } = useVisibleSections(
+    ALL_SECTIONS,
+    "sections",
+  );
 
   if (!isReady) {
     return (

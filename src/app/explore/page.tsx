@@ -14,12 +14,19 @@ import { TrendingTracks } from "@/components/explore/TrendingTracks";
 import { GeoTopArtists } from "@/components/explore/GeoTopArtists";
 import { TrendingArtists } from "@/components/explore/TrendingArtists";
 import { SectionFilter } from "@/components/SectionFilter";
-import { useVisibleSections, EXPLORE_SECTIONS, ExploreSectionId } from "@/lib/sections";
+import {
+  useVisibleSections,
+  EXPLORE_SECTIONS,
+  ExploreSectionId,
+} from "@/lib/sections";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ExplorePage() {
   const { discoveryData, topTracks, topArtists, isReady } = useExploreData();
-  const { visibleSections, toggleSection } = useVisibleSections(EXPLORE_SECTIONS, "explore_sections");
+  const { visibleSections, toggleSection } = useVisibleSections(
+    EXPLORE_SECTIONS,
+    "explore_sections",
+  );
 
   if (!isReady) {
     return (
@@ -57,9 +64,7 @@ export default function ExplorePage() {
         {topTracks.length > 0 ? (
           <TrendingTracks tracks={topTracks} />
         ) : (
-          <p className="text-zinc-500 text-sm">
-            Loading trending tracks...
-          </p>
+          <p className="text-zinc-500 text-sm">Loading trending tracks...</p>
         )}
       </>
     ),
@@ -92,14 +97,12 @@ export default function ExplorePage() {
           {EXPLORE_SECTIONS.filter((s) => visibleSections.has(s.id)).map(
             ({ id }, index, arr) => (
               <Fragment key={id}>
-                <section>
-                  {sectionContent[id]}
-                </section>
+                <section>{sectionContent[id]}</section>
                 {index < arr.length - 1 && (
                   <div className="border-t border-zinc-800" />
                 )}
               </Fragment>
-            )
+            ),
           )}
         </div>
       </main>

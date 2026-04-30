@@ -24,10 +24,9 @@ export const EXPLORE_SECTIONS = [
 
 export type ExploreSectionId = (typeof EXPLORE_SECTIONS)[number]["id"];
 
-// eslint-disable-next-line max-lines-per-function
 export function useVisibleSections<T extends string>(
   sections: readonly { id: T; label: string }[],
-  storageKeyPrefix: string
+  storageKeyPrefix: string,
 ) {
   const { session } = useAuth();
 
@@ -41,7 +40,9 @@ export function useVisibleSections<T extends string>(
     if (!session?.did) return;
 
     try {
-      const stored = localStorage.getItem(`attune_${storageKeyPrefix}_${session.did}`);
+      const stored = localStorage.getItem(
+        `attune_${storageKeyPrefix}_${session.did}`,
+      );
       if (stored) {
         const parsedIds = JSON.parse(stored) as string[];
         const validIds = parsedIds.filter((id) =>

@@ -12,7 +12,11 @@ interface Props<T extends string> {
   onToggle: (id: T) => void;
 }
 
-export function SectionFilter<T extends string>({ sections, visibleSections, onToggle }: Props<T>) {
+export function SectionFilter<T extends string>({
+  sections,
+  visibleSections,
+  onToggle,
+}: Props<T>) {
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useClickOutside<HTMLDivElement>(() => setFilterOpen(false));
 
