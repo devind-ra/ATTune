@@ -18,7 +18,7 @@ import { MusicPublications } from "@/components/MusicPublications";
 export default function HomePage() {
   const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
     useHomeData();
-  const { visibleSections, toggleSection } = useVisibleSections();
+  const { visibleSections, toggleSection } = useVisibleSections(ALL_SECTIONS, "sections");
 
   if (!isReady) {
     return (
@@ -40,6 +40,7 @@ export default function HomePage() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
         <SectionFilter
+          sections={ALL_SECTIONS}
           visibleSections={visibleSections}
           onToggle={toggleSection}
         />
