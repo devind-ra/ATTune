@@ -34,7 +34,7 @@ function UserAvatar({ user }: { user: AppBskyActorDefs.ProfileViewBasic }) {
 
 export function UserList({ users }: UserListProps) {
   if (users.length === 0) {
-    return <p className="text-zinc-500 text-sm">No users found.</p>;
+    return <p className="text-zinc-200 text-sm">No users found.</p>;
   }
 
   return (

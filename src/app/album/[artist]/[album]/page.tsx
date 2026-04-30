@@ -38,7 +38,7 @@ export default function AlbumPage() {
       <div className="min-h-screen font-sans">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Navbar />
-          <div className="mt-8 text-center text-zinc-500">Album not found.</div>
+          <div className="mt-8 text-center text-zinc-200">Album not found.</div>
         </main>
       </div>
     );

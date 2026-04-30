@@ -44,7 +44,7 @@ export function SuggestionList({
   }
 
   if (searchQuery.trim().length > 2) {
-    return <li className="p-2 text-zinc-500 text-sm">No results found</li>;
+    return <li className="p-2 text-zinc-200 text-sm">No results found</li>;
   }
 
   return null;

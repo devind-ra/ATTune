@@ -13,7 +13,7 @@ interface TrendingArtistsProps {
 
 export function TrendingArtists({ artists }: TrendingArtistsProps) {
   if (!artists.length) {
-    return <p className="text-zinc-500 text-sm">No trending artists found.</p>;
+    return <p className="text-zinc-200 text-sm">No trending artists found.</p>;
   }
 
   return (

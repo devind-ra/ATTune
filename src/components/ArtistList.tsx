@@ -18,7 +18,7 @@ function getArtistTextSize(name: string): string {
 
 export function ArtistList({ artists }: ArtistListProps) {
   if (artists.length === 0) {
-    return <p className="text-zinc-500 text-sm">No artists found.</p>;
+    return <p className="text-zinc-200 text-sm">No artists found.</p>;
   }
 
   return (

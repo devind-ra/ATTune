@@ -66,7 +66,7 @@ function CountryResults({
 
   if (artists.length === 0) {
     return (
-      <p className="text-zinc-500 text-sm text-center py-12">
+      <p className="text-zinc-200 text-sm text-center py-12">
         No artists found for this region.
       </p>
     );

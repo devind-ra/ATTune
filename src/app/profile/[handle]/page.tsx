@@ -55,7 +55,7 @@ export default function OtherProfilePage({
             <h1 className="text-2xl font-bold text-zinc-100">
               Profile Not Found
             </h1>
-            <p className="text-zinc-400 mt-2">
+            <p className="text-zinc-200 mt-2">
               The user @{handle} could not be found.
             </p>
           </div>
@@ -81,16 +81,16 @@ export default function OtherProfilePage({
           isReadonly={true}
           tastes={tastes}
           isEditingTastes={false}
-          setIsEditingTastes={() => {}}
+          setIsEditingTastes={() => { }}
           editArtists={[]}
           editGenres={[]}
-          onArtistChange={() => {}}
-          onGenreChange={() => {}}
+          onArtistChange={() => { }}
+          onGenreChange={() => { }}
           artistExcludeValues={[]}
           genreExcludeValues={[]}
           isSaving={false}
-          onSave={() => {}}
-          onCancel={() => {}}
+          onSave={() => { }}
+          onCancel={() => { }}
         />
         <ReviewActivity allReviews={allReviews} />
         <RecentReviews

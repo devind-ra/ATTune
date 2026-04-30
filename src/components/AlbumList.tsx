@@ -43,9 +43,8 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
         </div>
         <div className="p-3 pb-1">
           <span
-            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${
-              artistHovered ? "" : "group-hover:text-sky-400"
-            }`}
+            className={`font-medium text-zinc-100 text-sm leading-tight line-clamp-2 transition-colors ${artistHovered ? "" : "group-hover:text-sky-400"
+              }`}
           >
             {album.name}
           </span>
@@ -80,7 +79,7 @@ export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
   }
 
   if (albums.length === 0) {
-    return <p className="text-zinc-500 text-sm">No albums found.</p>;
+    return <p className="text-zinc-200 text-sm">No albums found.</p>;
   }
 
   const handleShuffle = () => {

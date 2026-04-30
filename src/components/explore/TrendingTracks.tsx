@@ -13,7 +13,7 @@ interface TrendingTracksProps {
 
 export function TrendingTracks({ tracks }: TrendingTracksProps) {
   if (!tracks.length) {
-    return <p className="text-zinc-500 text-sm">No trending tracks found.</p>;
+    return <p className="text-zinc-200 text-sm">No trending tracks found.</p>;
   }
 
   return (

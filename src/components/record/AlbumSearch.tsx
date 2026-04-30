@@ -81,14 +81,14 @@ function SearchResults({
 
   if (searchQuery.trim().length > 2) {
     return (
-      <div className="text-center py-8 text-zinc-500 text-sm">
+      <div className="text-center py-8 text-zinc-200 text-sm">
         No albums found for &quot;{searchQuery}&quot;
       </div>
     );
   }
 
   return (
-    <div className="text-center py-8 text-zinc-500 text-sm">
+    <div className="text-center py-8 text-zinc-300 text-sm">
       Start typing to search for an album to review
     </div>
   );
