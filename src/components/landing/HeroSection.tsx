@@ -13,9 +13,9 @@ export function HeroSection({ onScrollToLogin }: Props) {
         <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-in-expand mb-6 pb-2">
           ATtune
         </h1>
-        <p className="text-2xl md:text-3xl font-medium text-zinc-100 mb-6">
+        <h2 className="text-2xl md:text-3xl font-medium text-zinc-100 mb-6">
           Decentralised Music. Own Your Data.
-        </p>
+        </h2>
         <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10">
           Join the revolution of music discovery. Have data ownership, share
           your opinions and discover more!
