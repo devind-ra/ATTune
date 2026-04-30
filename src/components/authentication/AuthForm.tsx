@@ -41,7 +41,10 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
         )}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="handle-input" className="block text-sm font-medium mb-1 text-zinc-300">
+            <label
+              htmlFor="handle-input"
+              className="block text-sm font-medium mb-1 text-zinc-300"
+            >
               Handle or Email
             </label>
             <input
@@ -55,7 +58,10 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
             />
           </div>
           <div>
-            <label htmlFor="password-input" className="block text-sm font-medium mb-1 text-zinc-300">
+            <label
+              htmlFor="password-input"
+              className="block text-sm font-medium mb-1 text-zinc-300"
+            >
               App Password
             </label>
             <input

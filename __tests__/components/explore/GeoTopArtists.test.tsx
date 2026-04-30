@@ -37,7 +37,7 @@ describe("GeoTopArtists", () => {
 
   it("should display an error message if the fetch fails", async () => {
     (getGeoTopArtists as any).mockRejectedValue(new Error("API Failure"));
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
     render(<GeoTopArtists />);
 
     await waitFor(() => {
@@ -64,7 +64,7 @@ describe("GeoTopArtists", () => {
     (getGeoTopArtists as any).mockResolvedValue([]);
     render(<GeoTopArtists />);
 
-    expect(screen.getByText("Global Sounds")).toBeDefined();
+    expect(screen.getByText("Top Artists By Country")).toBeDefined();
     expect(
       screen.getByText(/Discover the top artists in different countries/i),
     ).toBeDefined();

@@ -19,7 +19,5 @@ test.beforeEach(async ({ page }) => {
 
 test("checking all explore page elements", async ({ page }) => {
   const explorePage = new ExplorePage(page);
-  await explorePage.checkExploreGenresSection();
-  await explorePage.checkTrendingGloballySection();
-  await explorePage.checkGlobalSoundsSection();
+  await explorePage.checkPageElements();
 });

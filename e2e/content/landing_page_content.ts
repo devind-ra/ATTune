@@ -19,7 +19,7 @@ export const landingPageContent = {
   rateHeading: "Rate",
   rateDescription: "Share your opinion on albums and tracks.",
   reviewHeading: "Review",
-  reviewDescription: "Write in-depth reviews and gain a following.",
+  reviewDescription: "Write in-depth reviews, leave comments and more!",
   connectHeading: "Connect",
   connectDescription: "Find users with similar taste in music.",
 };
