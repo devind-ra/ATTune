@@ -17,13 +17,13 @@ export default function ReviewList(props: UseReviewsProps) {
 
   if (loading) {
     return (
-      <div className="text-center py-10 text-zinc-500">Loading reviews...</div>
+      <div className="text-center py-10 text-zinc-200">Loading reviews...</div>
     );
   }
 
   if (reviews.length === 0) {
     return (
-      <div className="text-center py-10 text-white">
+      <div className="text-center py-10 text-zinc-200">
         No reviews yet. Be the first!
       </div>
     );

@@ -27,14 +27,18 @@ export default function OtherReviewsList(props: OtherReviewsListProps) {
 
   if (loading) {
     return (
-      <div className="text-center py-6 text-zinc-500">
+      <div className="text-center py-6 text-zinc-200">
         Loading other reviews...
       </div>
     );
   }
 
   if (reviews.length === 0) {
-    return null;
+    return (
+      <div className="text-center py-6 text-zinc-200">
+        No other reviews found.
+      </div>
+    );
   }
 
   return (
@@ -44,8 +48,8 @@ export default function OtherReviewsList(props: OtherReviewsListProps) {
           <ReviewItem
             key={item.uri}
             item={item}
-            onDelete={() => {}}
-            onEdit={async () => {}}
+            onDelete={() => { }}
+            onEdit={async () => { }}
             onClick={() => setSelectedReview(item)}
             isReadOnly={true}
           />
@@ -56,8 +60,8 @@ export default function OtherReviewsList(props: OtherReviewsListProps) {
         <CommentModal
           item={selectedReview}
           onClose={() => setSelectedReview(null)}
-          onDelete={() => {}}
-          onEdit={async () => {}}
+          onDelete={() => { }}
+          onEdit={async () => { }}
           isReadOnly={true}
         />
       )}
