@@ -64,7 +64,7 @@ describe("GeoTopArtists", () => {
     (getGeoTopArtists as any).mockResolvedValue([]);
     render(<GeoTopArtists />);
 
-    expect(screen.getByText("Global Sounds")).toBeDefined();
+    expect(screen.getByText("Top Artists By Country")).toBeDefined();
     expect(
       screen.getByText(/Discover the top artists in different countries/i),
     ).toBeDefined();

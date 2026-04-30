@@ -15,11 +15,24 @@ export const ALL_SECTIONS = [
 
 export type SectionId = (typeof ALL_SECTIONS)[number]["id"];
 
-export function useVisibleSections() {
+export const EXPLORE_SECTIONS = [
+  { id: "discoverAlbums", label: "Discover Albums" },
+  { id: "topArtists", label: "Top Artists Globally" },
+  { id: "trendingTracks", label: "Trending Tracks Globally" },
+  { id: "geoTopArtists", label: "Top Artists By Country" },
+] as const;
+
+export type ExploreSectionId = (typeof EXPLORE_SECTIONS)[number]["id"];
+
+// eslint-disable-next-line max-lines-per-function
+export function useVisibleSections<T extends string>(
+  sections: readonly { id: T; label: string }[],
+  storageKeyPrefix: string,
+) {
   const { session } = useAuth();
 
-  const [visibleSections, setVisibleSections] = useState<Set<SectionId>>(
-    () => new Set(ALL_SECTIONS.map((s) => s.id)),
+  const [visibleSections, setVisibleSections] = useState<Set<T>>(
+    () => new Set(sections.map((s) => s.id)),
   );
 
   const [isInitialised, setIsInitialised] = useState(false);
@@ -28,15 +41,16 @@ export function useVisibleSections() {
     if (!session?.did) return;
 
     try {
-      const stored = localStorage.getItem(`attune_sections_${session.did}`);
+      const stored = localStorage.getItem(
+        `attune_${storageKeyPrefix}_${session.did}`,
+      );
       if (stored) {
         const parsedIds = JSON.parse(stored) as string[];
         const validIds = parsedIds.filter((id) =>
-          ALL_SECTIONS.some((s) => s.id === id),
-        ) as SectionId[];
+          sections.some((s) => s.id === id),
+        ) as T[];
 
         if (validIds.length > 0) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setVisibleSections(new Set(validIds));
         }
       }
@@ -45,18 +59,19 @@ export function useVisibleSections() {
     }
 
     setIsInitialised(true);
-  }, [session?.did]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.did, storageKeyPrefix]);
 
   useEffect(() => {
     if (!session?.did || !isInitialised) return;
 
     localStorage.setItem(
-      `attune_sections_${session.did}`,
+      `attune_${storageKeyPrefix}_${session.did}`,
       JSON.stringify(Array.from(visibleSections)),
     );
-  }, [visibleSections, session?.did, isInitialised]);
+  }, [visibleSections, session?.did, isInitialised, storageKeyPrefix]);
 
-  const toggleSection = (id: SectionId) => {
+  const toggleSection = (id: T) => {
     setVisibleSections((prev) => {
       if (prev.has(id) && prev.size === 1) return prev;
 

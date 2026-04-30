@@ -31,9 +31,9 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
   return (
     <>
       <div className="max-w-md mx-auto mt-10 p-6 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800">
-        <h2 className="text-2xl font-bold mb-6 text-center bg-white bg-clip-text text-transparent">
+        <h3 className="text-2xl font-bold mb-6 text-center text-white bg-clip-text">
           Sign in with Bluesky
-        </h2>
+        </h3>
         {error && (
           <div className="mb-4 p-3 text-sm text-red-500 bg-red-900/20 rounded-md border border-red-800">
             {error}
@@ -41,10 +41,14 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
         )}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-300">
+            <label
+              htmlFor="handle-input"
+              className="block text-sm font-medium mb-1 text-zinc-300"
+            >
               Handle or Email
             </label>
             <input
+              id="handle-input"
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
@@ -54,10 +58,14 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-zinc-300">
+            <label
+              htmlFor="password-input"
+              className="block text-sm font-medium mb-1 text-zinc-300"
+            >
               App Password
             </label>
             <input
+              id="password-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

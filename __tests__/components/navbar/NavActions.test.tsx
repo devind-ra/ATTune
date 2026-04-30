@@ -96,4 +96,15 @@ describe("NavActions", () => {
 
     expect(screen.queryByRole("link", { name: /settings/i })).toBeNull();
   });
+
+  it("should close the dropdown when the Help link is clicked", () => {
+    render(<NavActions onLogout={mockOnLogout} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /open account menu/i }));
+
+    const helpLink = screen.getByRole("link", { name: /help/i });
+    fireEvent.click(helpLink);
+
+    expect(screen.queryByRole("link", { name: /help/i })).toBeNull();
+  });
 });

@@ -65,7 +65,9 @@ beforeEach(() => {
   } as any);
 
   mockGetProfile.mockResolvedValue({ data: mockProfile } as any);
-  mockFollowUser.mockResolvedValue(undefined as any);
+  mockFollowUser.mockResolvedValue({
+    uri: "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+  } as any);
   mockUnfollowUser.mockResolvedValue(undefined as any);
 
   mockUseProfileReviews.mockReturnValue(mockReviewsReturn as any);
@@ -83,6 +85,7 @@ describe("useOtherProfilePage", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   describe("initial state", () => {
@@ -353,20 +356,147 @@ describe("useOtherProfilePage", () => {
       unmount();
     });
 
-    it("should re-fetch the profile after toggling follow", async () => {
+    it("should update profile state optimistically after toggling follow", async () => {
       const { result, unmount } = renderHook(() =>
         useOtherProfilePage("alice.bsky.social"),
       );
       await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
+      expect(result.current.profile?.viewer?.following).toBeUndefined();
+      expect(result.current.profile?.followersCount).toBe(100);
+
+      await act(async () => {
+        await result.current.toggleFollow();
+      });
+
+      expect(result.current.profile?.viewer?.following).toBe(
+        "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+      );
+      expect(result.current.profile?.followersCount).toBe(101);
+
+      unmount();
+    });
+
+    it("should re-fetch the profile after toggling follow after delay", async () => {
+      const { result, unmount } = renderHook(() =>
+        useOtherProfilePage("alice.bsky.social"),
+      );
+      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+      vi.useFakeTimers();
       const callsBefore = mockGetProfile.mock.calls.length;
 
       await act(async () => {
         await result.current.toggleFollow();
       });
 
-      expect(mockGetProfile.mock.calls.length).toBeGreaterThan(callsBefore);
+      expect(mockGetProfile.mock.calls.length).toBe(callsBefore);
 
+      act(() => {
+        vi.advanceTimersByTime(3000);
+      });
+
+      vi.useRealTimers();
+      await waitFor(() =>
+        expect(mockGetProfile.mock.calls.length).toBeGreaterThan(callsBefore),
+      );
+
+      unmount();
+    });
+
+    it("should preserve optimistic state if background fetch is stale", async () => {
+      const { result, unmount } = renderHook(() =>
+        useOtherProfilePage("alice.bsky.social"),
+      );
+      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+      vi.useFakeTimers();
+      await act(async () => {
+        await result.current.toggleFollow();
+      });
+
+      expect(result.current.profile?.viewer?.following).toBeDefined();
+
+      mockGetProfile.mockResolvedValueOnce({ data: mockProfile } as any);
+
+      act(() => {
+        vi.advanceTimersByTime(3000);
+      });
+
+      vi.useRealTimers();
+      await waitFor(() =>
+        expect(mockGetProfile.mock.calls.length).toBeGreaterThan(1),
+      );
+
+      expect(result.current.profile?.viewer?.following).toBeDefined();
+      expect(result.current.profile?.followersCount).toBe(101);
+
+      unmount();
+    });
+
+    it("should update profile state normally if background fetch is consistent", async () => {
+      const { result, unmount } = renderHook(() =>
+        useOtherProfilePage("alice.bsky.social"),
+      );
+      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+      vi.useFakeTimers();
+      await act(async () => {
+        await result.current.toggleFollow();
+      });
+
+      const updatedProfile = {
+        ...mockProfile,
+        viewer: {
+          following: "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+        },
+        followersCount: 101,
+        description: "New Bio",
+      };
+      mockGetProfile.mockResolvedValueOnce({ data: updatedProfile } as any);
+
+      act(() => {
+        vi.advanceTimersByTime(3000);
+      });
+
+      vi.useRealTimers();
+      await waitFor(() =>
+        expect(result.current.profile?.description).toBe("New Bio"),
+      );
+
+      expect(result.current.profile?.viewer?.following).toBe(
+        "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+      );
+      unmount();
+    });
+
+    it("should log a sync error if background fetch fails", async () => {
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+      const { result, unmount } = renderHook(() =>
+        useOtherProfilePage("alice.bsky.social"),
+      );
+      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+      vi.useFakeTimers();
+      await act(async () => {
+        await result.current.toggleFollow();
+      });
+
+      const error = new Error("Sync failed");
+      mockGetProfile.mockRejectedValueOnce(error);
+
+      act(() => {
+        vi.advanceTimersByTime(3000);
+      });
+
+      vi.useRealTimers();
+      await waitFor(() =>
+        expect(consoleSpy).toHaveBeenCalledWith("Sync Error:", error),
+      );
+
+      consoleSpy.mockRestore();
       unmount();
     });
 

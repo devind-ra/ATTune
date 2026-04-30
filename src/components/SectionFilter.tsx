@@ -4,15 +4,20 @@
 // - Dropdown menu with toggles for each section
 
 import { useState } from "react";
-import { ALL_SECTIONS, SectionId } from "@/lib/sections";
 import { useClickOutside } from "@/app/hooks/useClickOutside";
 
-interface Props {
-  visibleSections: Set<SectionId>;
-  onToggle: (id: SectionId) => void;
+interface Props<T extends string> {
+  sections: readonly { id: T; label: string }[];
+  visibleSections: Set<T>;
+  onToggle: (id: T) => void;
 }
 
-export function SectionFilter({ visibleSections, onToggle }: Props) {
+// eslint-disable-next-line max-lines-per-function
+export function SectionFilter<T extends string>({
+  sections,
+  visibleSections,
+  onToggle,
+}: Props<T>) {
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useClickOutside<HTMLDivElement>(() => setFilterOpen(false));
 
@@ -43,7 +48,7 @@ export function SectionFilter({ visibleSections, onToggle }: Props) {
 
       {filterOpen && (
         <div className="absolute z-20 mt-2 w-56 bg-zinc-900 border border-zinc-700 rounded-xl shadow-lg overflow-hidden">
-          {ALL_SECTIONS.map(({ id, label }) => {
+          {sections.map(({ id, label }) => {
             const active = visibleSections.has(id);
             const isLast = visibleSections.size === 1 && active;
             return (

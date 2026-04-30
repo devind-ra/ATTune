@@ -20,6 +20,7 @@ describe("SectionFilter component", () => {
   it("should render properly with closed dropdown initially", () => {
     render(
       <SectionFilter
+        sections={ALL_SECTIONS}
         visibleSections={defaultVisibleSections}
         onToggle={mockOnToggle}
       />,
@@ -34,6 +35,7 @@ describe("SectionFilter component", () => {
   it("should toggle the dropdown when the button is clicked", () => {
     render(
       <SectionFilter
+        sections={ALL_SECTIONS}
         visibleSections={defaultVisibleSections}
         onToggle={mockOnToggle}
       />,
@@ -52,6 +54,7 @@ describe("SectionFilter component", () => {
   it("should call onToggle when a section is clicked", () => {
     render(
       <SectionFilter
+        sections={ALL_SECTIONS}
         visibleSections={defaultVisibleSections}
         onToggle={mockOnToggle}
       />,
@@ -70,7 +73,11 @@ describe("SectionFilter component", () => {
   it("should disable the toggle if it's the only visible section", () => {
     const singleVisible = new Set<SectionId>(["recommendedAlbums"]);
     render(
-      <SectionFilter visibleSections={singleVisible} onToggle={mockOnToggle} />,
+      <SectionFilter
+        sections={ALL_SECTIONS}
+        visibleSections={singleVisible}
+        onToggle={mockOnToggle}
+      />,
     );
 
     fireEvent.click(screen.getByRole(BUTTON, { name: /Filter Sections/i }));
@@ -89,6 +96,7 @@ describe("SectionFilter component", () => {
   it("should close the dropdown when clicking outside", () => {
     render(
       <SectionFilter
+        sections={ALL_SECTIONS}
         visibleSections={defaultVisibleSections}
         onToggle={mockOnToggle}
       />,

@@ -6,14 +6,15 @@ export class ExplorePage {
   private readonly title: string;
   private readonly heading: string;
   private readonly description: string;
-  private readonly discoverSubHeading: string;
-  private readonly moreOnLastFM: string;
+  private readonly filterSectionsText: string;
+  private readonly discoverAlbumsHeading: string;
+  private readonly moreOnLastFMText: string;
   private readonly topArtistsHeading: string;
   private readonly topArtistsDescription: string;
-  private readonly trendingGloballyHeading: string;
-  private readonly trendingGloballyDescription: string;
-  private readonly globalSoundsHeading: string;
-  private readonly globalSoundsDescription: string;
+  private readonly trendingTracksHeading: string;
+  private readonly trendingTracksDescription: string;
+  private readonly geoTopArtistsHeading: string;
+  private readonly geoTopArtistsDescription: string;
   private readonly countryDropdownPlaceholder: string;
   private readonly shuffleButtonText: string;
 
@@ -21,18 +22,27 @@ export class ExplorePage {
     this.title = explorePageContent.title;
     this.heading = explorePageContent.heading;
     this.description = explorePageContent.description;
-    this.discoverSubHeading = explorePageContent.discoverSubHeading;
-    this.moreOnLastFM = explorePageContent.moreOnLastFM;
+    this.filterSectionsText = explorePageContent.filterSectionsText;
+    this.discoverAlbumsHeading = explorePageContent.discoverAlbumsHeading;
+    this.moreOnLastFMText = explorePageContent.moreOnLastFMText;
     this.topArtistsHeading = explorePageContent.topArtistsHeading;
     this.topArtistsDescription = explorePageContent.topArtistsDescription;
-    this.trendingGloballyHeading = explorePageContent.trendingGloballyHeading;
-    this.trendingGloballyDescription =
-      explorePageContent.trendingGloballyDescription;
-    this.globalSoundsHeading = explorePageContent.globalSoundsHeading;
-    this.globalSoundsDescription = explorePageContent.globalSoundsDescription;
+    this.trendingTracksHeading = explorePageContent.trendingTracksHeading;
+    this.trendingTracksDescription =
+      explorePageContent.trendingTracksDescription;
+    this.geoTopArtistsHeading = explorePageContent.geoTopArtistsHeading;
+    this.geoTopArtistsDescription = explorePageContent.geoTopArtistsDescription;
     this.countryDropdownPlaceholder =
       explorePageContent.countryDropdownPlaceholder;
     this.shuffleButtonText = explorePageContent.shuffleButtonText;
+  }
+
+  async checkPageElements() {
+    await this.checkExploreGenresSection();
+    await this.checkFilters();
+    await this.checkTopArtistsSection();
+    await this.checkTrendingGloballySection();
+    await this.checkGeoTopArtistsSection();
   }
 
   async checkExploreGenresSection() {
@@ -43,9 +53,31 @@ export class ExplorePage {
     await expect(this.page.getByText(this.shuffleButtonText)).toHaveCount(3);
     await expect(this.page.getByText(this.description)).toBeVisible();
     await expect(
-      this.page.getByRole("heading", { name: this.discoverSubHeading }),
+      this.page.getByRole("heading", { name: this.discoverAlbumsHeading }),
     ).toHaveCount(3);
-    await expect(this.page.getByText(this.moreOnLastFM)).toHaveCount(3);
+    await expect(this.page.getByText(this.moreOnLastFMText)).toHaveCount(3);
+  }
+
+  async checkFilters() {
+    await this.page
+      .getByRole("button", { name: this.filterSectionsText })
+      .click();
+    await expect(
+      this.page.getByRole("button", {
+        name: this.discoverAlbumsHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", {
+        name: this.topArtistsHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.trendingTracksHeading }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.geoTopArtistsHeading }),
+    ).toBeVisible();
   }
 
   async checkTopArtistsSection() {
@@ -63,23 +95,23 @@ export class ExplorePage {
   async checkTrendingGloballySection() {
     const trendingTracks = this.page
       .locator("section")
-      .filter({ hasText: this.trendingGloballyHeading })
+      .filter({ hasText: this.trendingTracksHeading })
       .locator("li");
     await expect(
-      this.page.getByRole("heading", { name: this.trendingGloballyHeading }),
+      this.page.getByRole("heading", { name: this.trendingTracksHeading }),
     ).toBeVisible();
     await expect(
-      this.page.getByText(this.trendingGloballyDescription),
+      this.page.getByText(this.trendingTracksDescription),
     ).toBeVisible();
     await expect(trendingTracks).toHaveCount(10);
   }
 
-  async checkGlobalSoundsSection() {
+  async checkGeoTopArtistsSection() {
     await expect(
-      this.page.getByRole("heading", { name: this.globalSoundsHeading }),
+      this.page.getByRole("heading", { name: this.geoTopArtistsHeading }),
     ).toBeVisible();
     await expect(
-      this.page.getByText(this.globalSoundsDescription),
+      this.page.getByText(this.geoTopArtistsDescription),
     ).toBeVisible();
   }
 

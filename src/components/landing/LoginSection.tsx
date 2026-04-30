@@ -12,7 +12,7 @@ const FEATURES = [
   { label: "Rate", description: "Share your opinion on albums and tracks." },
   {
     label: "Review",
-    description: "Write in-depth reviews and gain a following.",
+    description: "Write in-depth reviews, leave comments and more!",
   },
   { label: "Connect", description: "Find users with similar taste in music." },
 ] as const;
