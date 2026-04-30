@@ -109,7 +109,7 @@ export function GeoTopArtists() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
           <h2 className="text-2xl font-bold text-zinc-100 flex items-center gap-2">
-            Global Sounds
+            Top Artists By Country
           </h2>
           <p className="text-zinc-400 text-sm mt-1">
             Discover the top artists in different countries around the world.

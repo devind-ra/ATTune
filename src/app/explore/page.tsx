@@ -54,7 +54,7 @@ export default function ExplorePage() {
         <div className="flex items-center gap-2 mb-6">
           <div>
             <h2 className="text-2xl font-bold text-zinc-100">
-              Trending Globally
+              Trending Tracks Globally
             </h2>
             <p className="text-zinc-400 text-sm">
               The most scrobbled tracks in the world right now.

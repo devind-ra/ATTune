@@ -18,7 +18,7 @@ export type SectionId = (typeof ALL_SECTIONS)[number]["id"];
 export const EXPLORE_SECTIONS = [
   { id: "discoverAlbums", label: "Discover Albums" },
   { id: "topArtists", label: "Top Artists Globally" },
-  { id: "trendingTracks", label: "Trending Globally" },
+  { id: "trendingTracks", label: "Trending Tracks Globally" },
   { id: "geoTopArtists", label: "Top Artists By Country" },
 ] as const;
 
