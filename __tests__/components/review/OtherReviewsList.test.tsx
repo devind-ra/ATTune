@@ -56,15 +56,15 @@ describe("OtherReviewsList", () => {
     expect(screen.getByText(/Loading other reviews/i)).toBeDefined();
   });
 
-  it("should return null when there are no reviews", () => {
+  it("should show an empty message when there are no reviews", () => {
     vi.mocked(useOtherReviews).mockReturnValue({
       reviews: [],
       loading: false,
       refresh: vi.fn(),
     });
 
-    const { container } = render(<OtherReviewsList {...defaultProps} />);
-    expect(container.firstChild).toBeNull();
+    render(<OtherReviewsList {...defaultProps} />);
+    expect(screen.getByText(/No other reviews found./i)).toBeDefined();
   });
 
   it("should render a list of ReviewItems when reviews are loaded", () => {
