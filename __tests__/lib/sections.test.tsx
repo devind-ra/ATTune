@@ -218,7 +218,7 @@ describe("sections lib", () => {
       });
     });
 
-    describe("when session does not exist", () => {
+    describe("session not logged in", () => {
       it("should not read from localStorage when session.did is missing", () => {
         vi.mocked(useAuth).mockReturnValueOnce({ session: null } as any);
         const getItemSpy = vi.spyOn(Storage.prototype, "getItem");
@@ -252,7 +252,7 @@ describe("sections lib", () => {
       });
     });
 
-    describe("when session.did changes", () => {
+    describe("session changed", () => {
       it("should load preferences for the new session did", async () => {
         const did2 = "did:test:456";
         localStorage.setItem(
