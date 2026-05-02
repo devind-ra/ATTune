@@ -30,7 +30,7 @@ const mockReviews = [
   },
 ];
 
-describe("useOtherReviews hook", () => {
+describe("useOtherReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});

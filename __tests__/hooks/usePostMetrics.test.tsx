@@ -16,7 +16,7 @@ vi.mock("@/lib/atproto", () => ({
   },
 }));
 
-describe("usePostMetrics hook", () => {
+describe("usePostMetrics", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "warn").mockImplementation(() => {});

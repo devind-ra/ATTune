@@ -18,7 +18,7 @@ vi.mock("@/contexts/AuthContext", () => ({
   }),
 }));
 
-describe("useAuthForm hook", () => {
+describe("useAuthForm", () => {
   const loginMock = vi.fn();
 
   beforeEach(() => {

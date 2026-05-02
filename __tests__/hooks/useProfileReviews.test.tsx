@@ -9,7 +9,7 @@ vi.mock("@/lib/atproto", () => ({
   },
 }));
 
-describe("useProfileReviews hook", () => {
+describe("useProfileReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -20,7 +20,7 @@ describe("useProfileReviews hook", () => {
     expect(atApiService.getReviews).not.toHaveBeenCalled();
   });
 
-  it("should fetch reviews, count the current year reviews and get 2 most recent", async () => {
+  it("should fetch reviews, count the current year reviews and get 2 most recent reviews", async () => {
     const currentYear = new Date().getFullYear();
     const lastYear = currentYear - 1;
 

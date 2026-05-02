@@ -16,7 +16,7 @@ const mockTastes = {
   updatedAt: "2024-01-01T00:00:00Z",
 };
 
-describe("useProfileTastes hook", () => {
+describe("useProfileTastes", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -70,7 +70,7 @@ describe("useProfileTastes hook", () => {
     });
   });
 
-  it("should handle artist and genre changes and calculate excludes", async () => {
+  it("should handle artist, genre changes and calculate excludes", async () => {
     vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes as any);
 
     const { result } = renderHook(() => useProfileTastes("did:plc:123"));

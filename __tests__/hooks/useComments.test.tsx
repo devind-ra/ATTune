@@ -49,7 +49,7 @@ const mockThreadResponse = {
   headers: {},
 } as unknown as GetPostThreadResponse;
 
-describe("useComments hook", () => {
+describe("useComments", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

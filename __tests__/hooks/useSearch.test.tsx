@@ -59,7 +59,7 @@ const mockAlbums: MockAlbum[] = [
 describe("useSearch hook: Authentication & Initialisation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = {
       did: "did:plc:123",
       handle: "testuser.bsky.social",
@@ -67,7 +67,7 @@ describe("useSearch hook: Authentication & Initialisation", () => {
     contextMock.isLoading = false;
   });
 
-  it("should redirect to / when not loading and no session", async () => {
+  it("should redirect to root when not loading and no session", async () => {
     contextMock.session = null;
     renderHook(() => useSearch(null));
     await waitFor(() => expect(routerPushMock).toHaveBeenCalledWith("/"));
@@ -78,108 +78,104 @@ describe("useSearch hook: Authentication & Initialisation", () => {
     expect(result.current.artists).toEqual([]);
     expect(result.current.isSearching).toBe(false);
   });
-});
 
-describe("useSearch hook: Fetching", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("should populate artists and albums on success", async () => {
-    vi.mocked(searchArtist).mockResolvedValueOnce(mockArtists);
-    vi.mocked(searchAlbum).mockResolvedValueOnce(mockAlbums);
-
-    const { result } = renderHook(() => useSearch(TEST_QUERY));
-
-    await waitFor(() => {
-      expect(result.current.artists).toEqual(mockArtists);
-      expect(result.current.albums).toEqual(mockAlbums);
-    });
-  });
-
-  it("should set isSearching to true during fetch", async () => {
-    let resolveArtist!: (v: MockArtist[]) => void;
-    const artistPromise = new Promise<MockArtist[]>((res) => {
-      resolveArtist = res;
+  describe("useSearch: Fetching and parsePrimaryType logic", () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
     });
 
-    vi.mocked(searchArtist).mockReturnValueOnce(artistPromise);
-    vi.mocked(searchAlbum).mockResolvedValueOnce(mockAlbums);
+    it("should populate artists and albums on success", async () => {
+      vi.mocked(searchArtist).mockResolvedValueOnce(mockArtists);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(mockAlbums);
 
-    const { result } = renderHook(() => useSearch(TEST_QUERY));
-    await waitFor(() => expect(result.current.isSearching).toBe(true));
+      const { result } = renderHook(() => useSearch(TEST_QUERY));
 
-    resolveArtist(mockArtists);
-    await waitFor(() => expect(result.current.isSearching).toBe(false));
-  });
-
-  it("should wrap a single non-array result in an array", async () => {
-    vi.mocked(searchArtist).mockResolvedValueOnce(
-      mockArtists[0] as unknown as MockArtist[],
-    );
-    vi.mocked(searchAlbum).mockResolvedValueOnce(
-      mockAlbums[0] as unknown as MockAlbum[],
-    );
-
-    const { result } = renderHook(() => useSearch(TEST_QUERY));
-
-    await waitFor(() => {
-      expect(result.current.artists).toEqual([mockArtists[0]]);
+      await waitFor(() => {
+        expect(result.current.artists).toEqual(mockArtists);
+        expect(result.current.albums).toEqual(mockAlbums);
+      });
     });
-  });
 
-  it("should return 'album' when query matches album name but not artist name", async () => {
-    const artists = [{ name: "Daft Punk", listeners: "2000000" }];
-    const albums = [
-      { name: "Discovery", artist: { name: "Daft Punk" }, image: [] },
-    ];
+    it("should set isSearching to true during fetch", async () => {
+      let resolveArtist!: (v: MockArtist[]) => void;
+      const artistPromise = new Promise<MockArtist[]>((res) => {
+        resolveArtist = res;
+      });
 
-    vi.mocked(searchArtist).mockResolvedValueOnce(artists);
-    vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
+      vi.mocked(searchArtist).mockReturnValueOnce(artistPromise);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(mockAlbums);
 
-    const { result } = renderHook(() => useSearch("Discovery"));
+      const { result } = renderHook(() => useSearch(TEST_QUERY));
+      await waitFor(() => expect(result.current.isSearching).toBe(true));
 
-    await waitFor(() => {
-      expect(result.current.primaryResultType).toBe("album");
+      resolveArtist(mockArtists);
+      await waitFor(() => expect(result.current.isSearching).toBe(false));
     });
-  });
-});
 
-describe("useSearch hook: parsePrimaryType logic", () => {
-  beforeEach(() => vi.clearAllMocks());
+    it("should wrap a single non-array result in an array", async () => {
+      vi.mocked(searchArtist).mockResolvedValueOnce(
+        mockArtists[0] as unknown as MockArtist[],
+      );
+      vi.mocked(searchAlbum).mockResolvedValueOnce(
+        mockAlbums[0] as unknown as MockAlbum[],
+      );
 
-  it("should return 'artist' when listeners exceed popularity threshold", async () => {
-    const artists = [{ name: SOME_ARTIST, listeners: "200000" }];
-    const albums = [{ name: SOME_ALBUM, artist: {}, image: [] }];
+      const { result } = renderHook(() => useSearch(TEST_QUERY));
 
-    vi.mocked(searchArtist).mockResolvedValueOnce(artists);
-    vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
-
-    const { result } = renderHook(() => useSearch("something"));
-
-    await waitFor(() => {
-      expect(result.current.primaryResultType).toBe("artist");
+      await waitFor(() => {
+        expect(result.current.artists).toEqual([mockArtists[0]]);
+      });
     });
-  });
 
-  it("should return 'album' when listeners field is missing", async () => {
-    const artists = [{ name: SOME_ARTIST }];
-    const albums = [{ name: SOME_ALBUM, artist: {}, image: [] }];
+    it("should return 'album' when query matches album name but not artist name", async () => {
+      const artists = [{ name: "Daft Punk", listeners: "2000000" }];
+      const albums = [
+        { name: "Discovery", artist: { name: "Daft Punk" }, image: [] },
+      ];
 
-    vi.mocked(searchArtist).mockResolvedValueOnce(artists);
-    vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
+      vi.mocked(searchArtist).mockResolvedValueOnce(artists);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
 
-    const { result } = renderHook(() => useSearch("something"));
+      const { result } = renderHook(() => useSearch("Discovery"));
 
-    await waitFor(() => {
-      expect(result.current.primaryResultType).toBe("album");
+      await waitFor(() => {
+        expect(result.current.primaryResultType).toBe("album");
+      });
+    });
+
+    it("should return 'artist' when listeners exceed popularity threshold", async () => {
+      const artists = [{ name: SOME_ARTIST, listeners: "200000" }];
+      const albums = [{ name: SOME_ALBUM, artist: {}, image: [] }];
+
+      vi.mocked(searchArtist).mockResolvedValueOnce(artists);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
+
+      const { result } = renderHook(() => useSearch("something"));
+
+      await waitFor(() => {
+        expect(result.current.primaryResultType).toBe("artist");
+      });
+    });
+
+    it("should return 'album' when listeners field is missing", async () => {
+      const artists = [{ name: SOME_ARTIST }];
+      const albums = [{ name: SOME_ALBUM, artist: {}, image: [] }];
+
+      vi.mocked(searchArtist).mockResolvedValueOnce(artists);
+      vi.mocked(searchAlbum).mockResolvedValueOnce(albums);
+
+      const { result } = renderHook(() => useSearch("something"));
+
+      await waitFor(() => {
+        expect(result.current.primaryResultType).toBe("album");
+      });
     });
   });
 
   describe("useSearch hook: Error Handling", () => {
     beforeEach(() => {
       vi.clearAllMocks();
-      vi.spyOn(console, "error").mockImplementation(() => {});
+      vi.spyOn(console, "error").mockImplementation(() => { });
     });
 
     it("should call console.error when a search service fails", async () => {

@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
 import { useClickOutside } from "@/app/hooks/useClickOutside";
 
-describe("useClickOutside hook", () => {
+describe("useClickOutside", () => {
   it("should return a reference", () => {
     const { result } = renderHook(() => useClickOutside(vi.fn()));
     expect(result.current).toBeDefined();

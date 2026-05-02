@@ -81,7 +81,7 @@ type ProfileResponse = Awaited<
   ReturnType<typeof atApiService.agent.getProfile>
 >;
 
-describe("useProfilePage hook", () => {
+describe("useProfilePage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -93,111 +93,105 @@ describe("useProfilePage hook", () => {
     } as ProfileResponse);
   });
 
-  describe("auth redirect", () => {
-    it("should redirect to / when not loading and no session", async () => {
-      contextMock.session = null;
-      contextMock.isLoading = false;
+  it("should redirect to root when not loading and no session", async () => {
+    contextMock.session = null;
+    contextMock.isLoading = false;
 
-      renderHook(() => useProfilePage());
+    renderHook(() => useProfilePage());
 
-      await waitFor(() => {
-        expect(routerPushMock).toHaveBeenCalledWith("/");
-      });
-    });
-
-    it("should not redirect when session exists", async () => {
-      vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
-        data: profileMock,
-      } as ProfileResponse);
-
-      renderHook(() => useProfilePage());
-
-      await waitFor(() => {
-        expect(atApiService.agent.getProfile).toHaveBeenCalled();
-      });
-
-      expect(routerPushMock).not.toHaveBeenCalled();
-    });
-
-    it("should not redirect while still loading", () => {
-      contextMock.session = null;
-      contextMock.isLoading = true;
-
-      renderHook(() => useProfilePage());
-
-      expect(routerPushMock).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(routerPushMock).toHaveBeenCalledWith("/");
     });
   });
 
-  describe("profile fetching", () => {
-    it("should fetch and return profile when session exists", async () => {
-      vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
-        data: profileMock,
-      } as ProfileResponse);
+  it("should not redirect when session exists", async () => {
+    vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
+      data: profileMock,
+    } as ProfileResponse);
 
-      const { result } = renderHook(() => useProfilePage());
+    renderHook(() => useProfilePage());
 
-      await waitFor(() => {
-        expect(result.current.profile).toEqual(profileMock);
-      });
-
-      expect(atApiService.agent.getProfile).toHaveBeenCalledWith({
-        actor: sessionMock.did,
-      });
+    await waitFor(() => {
+      expect(atApiService.agent.getProfile).toHaveBeenCalled();
     });
 
-    it("should not fetch profile when session is null", () => {
-      contextMock.session = null;
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
 
-      renderHook(() => useProfilePage());
+  it("should not redirect while still loading", () => {
+    contextMock.session = null;
+    contextMock.isLoading = true;
 
-      expect(atApiService.agent.getProfile).not.toHaveBeenCalled();
+    renderHook(() => useProfilePage());
+
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
+
+  it("should fetch and return profile when session exists", async () => {
+    vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
+      data: profileMock,
+    } as ProfileResponse);
+
+    const { result } = renderHook(() => useProfilePage());
+
+    await waitFor(() => {
+      expect(result.current.profile).toEqual(profileMock);
     });
 
-    it("should log an error when getProfile rejects", async () => {
-      vi.mocked(atApiService.agent.getProfile).mockReset();
-      vi.mocked(atApiService.agent.getProfile).mockRejectedValueOnce(
-        new Error("Network error"),
+    expect(atApiService.agent.getProfile).toHaveBeenCalledWith({
+      actor: sessionMock.did,
+    });
+  });
+
+  it("should not fetch profile when session is null", () => {
+    contextMock.session = null;
+
+    renderHook(() => useProfilePage());
+
+    expect(atApiService.agent.getProfile).not.toHaveBeenCalled();
+  });
+
+  it("should log an error when getProfile rejects", async () => {
+    vi.mocked(atApiService.agent.getProfile).mockReset();
+    vi.mocked(atApiService.agent.getProfile).mockRejectedValueOnce(
+      new Error("Network error"),
+    );
+
+    renderHook(() => useProfilePage());
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith(
+        "Error fetching profile:",
+        expect.any(Error),
       );
-
-      renderHook(() => useProfilePage());
-
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(
-          "Error fetching profile:",
-          expect.any(Error),
-        );
-      });
     });
   });
 
-  describe("returned shape", () => {
-    it("should spread tastesData into the return value", async () => {
-      vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
-        data: profileMock,
-      } as ProfileResponse);
+  it("should spread tastesData into the return value", async () => {
+    vi.mocked(atApiService.agent.getProfile).mockResolvedValueOnce({
+      data: profileMock,
+    } as ProfileResponse);
 
-      const { result } = renderHook(() => useProfilePage());
+    const { result } = renderHook(() => useProfilePage());
 
-      expect(result.current.isEditingTastes).toBe(false);
-      expect(result.current.editArtists).toEqual(Array(5).fill(""));
-      expect(result.current.editGenres).toEqual(Array(3).fill(""));
-      expect(result.current.handleSaveTastes).toBe(tastesMock.handleSaveTastes);
-      expect(result.current.cancelEditTastes).toBe(tastesMock.cancelEditTastes);
-    });
+    expect(result.current.isEditingTastes).toBe(false);
+    expect(result.current.editArtists).toEqual(Array(5).fill(""));
+    expect(result.current.editGenres).toEqual(Array(3).fill(""));
+    expect(result.current.handleSaveTastes).toBe(tastesMock.handleSaveTastes);
+    expect(result.current.cancelEditTastes).toBe(tastesMock.cancelEditTastes);
+  });
 
-    it("should return session and isLoading from auth context", () => {
-      const { result } = renderHook(() => useProfilePage());
+  it("should return session and isLoading from auth context", () => {
+    const { result } = renderHook(() => useProfilePage());
 
-      expect(result.current.session).toEqual(sessionMock);
-      expect(result.current.isLoading).toBe(false);
-    });
+    expect(result.current.session).toEqual(sessionMock);
+    expect(result.current.isLoading).toBe(false);
+  });
 
-    it("should return review data from useProfileReviews", () => {
-      const { result } = renderHook(() => useProfilePage());
+  it("should return review data from useProfileReviews", () => {
+    const { result } = renderHook(() => useProfilePage());
 
-      expect(result.current.thisYearReviewCount).toBe(12);
-      expect(result.current.recentReviews).toEqual(reviewsMock.recentReviews);
-    });
+    expect(result.current.thisYearReviewCount).toBe(12);
+    expect(result.current.recentReviews).toEqual(reviewsMock.recentReviews);
   });
 });

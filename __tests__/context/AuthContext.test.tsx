@@ -77,39 +77,33 @@ describe("AuthContext", () => {
     localStorage.clear();
   });
 
-  describe("useAuth outside provider", () => {
-    it("should throw when used outside AuthProvider", () => {
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-      expect(() => render(<TestConsumer />)).toThrow(
-        "useAuth must be used within an AuthProvider",
-      );
-      consoleSpy.mockRestore();
-    });
+  it("should throw when used outside AuthProvider", () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => render(<TestConsumer />)).toThrow(
+      "useAuth must be used within an AuthProvider",
+    );
+    consoleSpy.mockRestore();
   });
 
-  describe("session restore with no stored session", () => {
-    it("should redirect to root when localStorage is empty", async () => {
-      renderWithProvider();
+  it("should redirect to root when localStorage is empty", async () => {
+    renderWithProvider();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("loading")).toHaveTextContent("ready");
-      });
-
-      expect(mockPush).toHaveBeenCalledWith("/");
-      expect(atApiService.resumeSession).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(screen.getByTestId("loading")).toHaveTextContent("ready");
     });
 
-    it("should have session as null when no stored session exists", async () => {
-      renderWithProvider();
+    expect(mockPush).toHaveBeenCalledWith("/");
+    expect(atApiService.resumeSession).not.toHaveBeenCalled();
+  });
 
-      await waitFor(() =>
-        expect(screen.getByTestId("loading")).toHaveTextContent("ready"),
-      );
+  it("should have session as null when no stored session exists", async () => {
+    renderWithProvider();
 
-      expect(screen.getByTestId("session")).toHaveTextContent("none");
-    });
+    await waitFor(() =>
+      expect(screen.getByTestId("loading")).toHaveTextContent("ready"),
+    );
+
+    expect(screen.getByTestId("session")).toHaveTextContent("none");
   });
 
   describe("session restore with stored session and agent provides refreshed session", () => {
