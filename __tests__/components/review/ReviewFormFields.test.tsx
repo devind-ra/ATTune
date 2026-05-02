@@ -14,7 +14,7 @@ vi.mock("@/components/review/StarRating", () => ({
   )),
 }));
 
-vi.mock("../record/ReviewFormActions", () => ({
+vi.mock("@/components/record/ReviewFormActions", () => ({
   ReviewFormActions: vi.fn(({ loading, showCancel }) => (
     <div data-testid="mock-form-actions">
       {loading && <span>Loading...</span>}

@@ -1,5 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useOtherReviews } from "@/app/hooks/useOtherReviews";
+import OtherReviewsList from "@/components/review/OtherReviewsList";
+import ReviewItem from "@/components/review/ReviewItem";
 
 vi.mock("@/app/hooks/useOtherReviews", () => ({
   useOtherReviews: vi.fn(),
@@ -24,10 +27,6 @@ vi.mock("@/components/review/CommentModal", () => ({
     </div>
   )),
 }));
-
-import { useOtherReviews } from "@/app/hooks/useOtherReviews";
-import OtherReviewsList from "@/components/review/OtherReviewsList";
-import ReviewItem from "@/components/review/ReviewItem";
 
 describe("OtherReviewsList", () => {
   const defaultProps = {
@@ -80,7 +79,7 @@ describe("OtherReviewsList", () => {
     expect(items).toHaveLength(2);
   });
 
-  it("should pass isReadOnly={true} to child components", () => {
+  it("should pass isReadOnly true to child components", () => {
     vi.mocked(useOtherReviews).mockReturnValue({
       reviews: mockReviews as any,
       loading: false,

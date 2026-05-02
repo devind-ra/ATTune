@@ -38,7 +38,7 @@ describe("ReviewFormActions", () => {
     expect(cancelBtn).toBeDefined();
   });
 
-  it("should NOT render the Cancel button when showCancel is false", () => {
+  it("should not render the Cancel button when showCancel is false", () => {
     render(<ReviewFormActions {...defaultProps} showCancel={false} />);
 
     const cancelBtn = screen.queryByRole("button", { name: /cancel/i });
@@ -55,7 +55,7 @@ describe("ReviewFormActions", () => {
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
-  it("should have type='submit' on the post button and type='button' on cancel", () => {
+  it("should have type submit on the post button and type button on cancel", () => {
     render(<ReviewFormActions {...defaultProps} />);
 
     const postBtn = screen.getByRole("button", { name: /post review/i });

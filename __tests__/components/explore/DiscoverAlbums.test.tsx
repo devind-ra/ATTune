@@ -18,7 +18,7 @@ describe("DiscoverAlbums", () => {
       ],
     },
     {
-      tag: { name: "Jazz", url: "" }, // No URL case
+      tag: { name: "Jazz", url: "" },
       albums: [{ name: "Jazz Album", artist: "Jazz Artist" }],
     },
   ];

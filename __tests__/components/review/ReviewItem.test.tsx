@@ -116,7 +116,7 @@ describe("ReviewItem", () => {
     expect(defaultProps.onClick).toHaveBeenCalled();
   });
 
-  it("should NOT call onClick when a button inside the container is clicked", () => {
+  it("should not call onClick when a button inside the container is clicked", () => {
     render(<ReviewItem {...defaultProps} />);
 
     const editBtn = screen.getByLabelText(/edit review/i);

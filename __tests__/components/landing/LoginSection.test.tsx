@@ -39,7 +39,6 @@ describe("LoginSection", () => {
   it("should pass the onLogin prop to the AuthForm", () => {
     render(<LoginSection onLogin={mockOnLogin} />);
 
-    // This bypasses the actual AuthForm logic entirely
     const loginBtn = screen.getByText("Mock Login Trigger");
     loginBtn.click();
 

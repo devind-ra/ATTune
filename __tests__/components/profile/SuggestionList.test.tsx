@@ -55,7 +55,7 @@ describe("SuggestionList", () => {
     expect(mockOnSelect).toHaveBeenCalledWith("Nirvana");
   });
 
-  it("should prevent default on mouse down to keep input focus", () => {
+  it("should prevent default on mouse down event to keep input focus", () => {
     render(
       <SuggestionList
         isSearching={false}

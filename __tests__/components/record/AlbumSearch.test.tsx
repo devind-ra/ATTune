@@ -111,7 +111,7 @@ describe("AlbumSearch", () => {
     ).toBeDefined();
   });
 
-  it("should show start typing prompt for queries <= 2 characters with no results", () => {
+  it("should show start typing prompt for queries less than or equal to 2 characters with no results", () => {
     render(<AlbumSearch {...mockProps} searchQuery="Da" searchResults={[]} />);
 
     expect(

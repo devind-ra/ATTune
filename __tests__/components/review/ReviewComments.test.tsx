@@ -181,7 +181,6 @@ describe("ReviewComments", () => {
       configurable: true,
     });
 
-    const { rerender } = render(<ReviewComments postUri="at://1" />);
     const input = screen.getByTestId("comment-input");
     const postBtn = screen.getByText("Post");
 

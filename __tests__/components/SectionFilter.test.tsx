@@ -6,7 +6,7 @@ import { ALL_SECTIONS, SectionId } from "@/lib/sections";
 const BUTTON = "button";
 const RECOMMENDED_ALBUMS = "Recommended Albums";
 
-describe("SectionFilter component", () => {
+describe("SectionFilter", () => {
   const mockOnToggle = vi.fn();
   const defaultVisibleSections = new Set<SectionId>([
     "recommendedAlbums",

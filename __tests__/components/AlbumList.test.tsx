@@ -44,7 +44,23 @@ vi.mock("next/link", () => ({
   },
 }));
 
-describe("AlbumList component", () => {
+describe("AlbumList", () => {
+  const mockAlbum: LastFMAlbum = {
+    name: "In Rainbows",
+    artist: { name: "Radiohead" },
+    image: [],
+    url: "",
+  };
+
+  const mockAlbums: LastFMAlbum[] = Array(10)
+    .fill(null)
+    .map((_, i) => ({
+      name: `Album ${i}`,
+      artist: { name: "Artist" },
+      image: [],
+      url: "",
+    }));
+
   it("should render empty state when no albums are provided", () => {
     render(<AlbumList albums={[]} />);
     expect(screen.getByText("No albums found.")).toBeInTheDocument();
@@ -85,75 +101,55 @@ describe("AlbumList component", () => {
     expect(screen.getByText("N/A")).toBeInTheDocument();
   });
 
-  describe("Hover Logic", () => {
-    const mockAlbum: LastFMAlbum = {
-      name: "In Rainbows",
-      artist: { name: "Radiohead" },
-      image: [],
-      url: "",
-    };
+  it("should toggle the artistHovered class logic on mouse enter and leave", () => {
+    render(<AlbumList albums={[mockAlbum]} />);
 
-    it("should toggle the artistHovered class logic on mouse enter and leave", () => {
-      render(<AlbumList albums={[mockAlbum]} />);
+    const albumTitle = screen.getByText("In Rainbows");
+    const artistLink = screen.getByText("Radiohead");
 
-      const albumTitle = screen.getByText("In Rainbows");
-      const artistLink = screen.getByText("Radiohead");
+    expect(albumTitle).toHaveClass("group-hover:text-sky-400");
 
-      expect(albumTitle).toHaveClass("group-hover:text-sky-400");
+    fireEvent.mouseEnter(artistLink);
+    expect(albumTitle).not.toHaveClass("group-hover:text-sky-400");
 
-      fireEvent.mouseEnter(artistLink);
-      expect(albumTitle).not.toHaveClass("group-hover:text-sky-400");
-
-      fireEvent.mouseLeave(artistLink);
-      expect(albumTitle).toHaveClass("group-hover:text-sky-400");
-    });
+    fireEvent.mouseLeave(artistLink);
+    expect(albumTitle).toHaveClass("group-hover:text-sky-400");
   });
 
-  describe("Shuffle Logic", () => {
-    const mockAlbums: LastFMAlbum[] = Array(10)
-      .fill(null)
-      .map((_, i) => ({
-        name: `Album ${i}`,
-        artist: { name: "Artist" },
+  it("should reset shuffledAlbums when the albums prop changes (state sync)", () => {
+    const { rerender } = render(
+      <AlbumList albums={mockAlbums} enableShuffle={true} />,
+    );
+
+    const shuffleBtn = screen.getByRole("button", { name: /shuffle/i });
+    fireEvent.click(shuffleBtn);
+
+    const newAlbums = [
+      {
+        name: "New Album",
+        artist: { name: "New Artist" },
         image: [],
         url: "",
-      }));
+      },
+    ];
+    rerender(<AlbumList albums={newAlbums} enableShuffle={true} />);
 
-    it("should reset shuffledAlbums when the albums prop changes (state sync)", () => {
-      const { rerender } = render(
-        <AlbumList albums={mockAlbums} enableShuffle={true} />,
-      );
+    expect(screen.getByText("New Album")).toBeInTheDocument();
+    expect(screen.queryByText("Album 0")).not.toBeInTheDocument();
+  });
 
-      const shuffleBtn = screen.getByRole("button", { name: /shuffle/i });
-      fireEvent.click(shuffleBtn);
+  it("should call shuffle and slice results when shuffle button is clicked", () => {
+    const shuffleSpy = vi.spyOn(utils, "shuffle");
 
-      const newAlbums = [
-        {
-          name: "New Album",
-          artist: { name: "New Artist" },
-          image: [],
-          url: "",
-        },
-      ];
-      rerender(<AlbumList albums={newAlbums} enableShuffle={true} />);
+    render(<AlbumList albums={mockAlbums} enableShuffle={true} />);
 
-      expect(screen.getByText("New Album")).toBeInTheDocument();
-      expect(screen.queryByText("Album 0")).not.toBeInTheDocument();
-    });
+    const shuffleBtn = screen.getByRole("button", { name: /shuffle/i });
+    fireEvent.click(shuffleBtn);
 
-    it("should call shuffle and slice results when shuffle button is clicked", () => {
-      const shuffleSpy = vi.spyOn(utils, "shuffle");
+    expect(shuffleSpy).toHaveBeenCalled();
+    const displayedItems = screen.getAllByRole("listitem");
+    expect(displayedItems).toHaveLength(5);
 
-      render(<AlbumList albums={mockAlbums} enableShuffle={true} />);
-
-      const shuffleBtn = screen.getByRole("button", { name: /shuffle/i });
-      fireEvent.click(shuffleBtn);
-
-      expect(shuffleSpy).toHaveBeenCalled();
-      const displayedItems = screen.getAllByRole("listitem");
-      expect(displayedItems).toHaveLength(5);
-
-      shuffleSpy.mockRestore();
-    });
+    shuffleSpy.mockRestore();
   });
 });

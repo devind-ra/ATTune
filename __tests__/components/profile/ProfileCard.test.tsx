@@ -21,7 +21,7 @@ describe("ProfileCard", () => {
     onFollowToggle: vi.fn(),
   };
 
-  it("should render display name, handle, and description", () => {
+  it("should render display name, handle and description", () => {
     render(<ProfileCard {...defaultProps} />);
 
     expect(screen.getByText("John Doe")).toBeDefined();
@@ -44,7 +44,7 @@ describe("ProfileCard", () => {
     expect(screen.queryByRole("img")).toBeNull();
   });
 
-  it("should correctly pluralize review labels", () => {
+  it("should correctly pluralise review labels", () => {
     const { rerender } = render(
       <ProfileCard {...defaultProps} thisYearReviewCount={1} />,
     );

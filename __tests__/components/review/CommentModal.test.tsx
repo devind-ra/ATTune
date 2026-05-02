@@ -64,7 +64,7 @@ describe("CommentModal", () => {
     expect(defaultProps.onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("should NOT call onClose when clicking the modal content (propagation check)", () => {
+  it("should not call onClose when clicking the modal content", () => {
     render(<CommentModal {...defaultProps} />);
 
     const modalContent = screen.getByTestId("mock-review-item").parentElement!;

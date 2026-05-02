@@ -60,7 +60,7 @@ describe("AlbumPreview", () => {
   });
 
   it("should apply truncate classes to title and artist for long text", () => {
-    const { container } = render(<AlbumPreview {...defaultProps} />);
+    render(<AlbumPreview {...defaultProps} />);
 
     const title = screen.getByText("Nevermind");
     const artist = screen.getByText("Nirvana");

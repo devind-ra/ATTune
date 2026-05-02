@@ -20,7 +20,7 @@ describe("TopTracksList", () => {
     );
   });
 
-  it("renders the list of tracks with correct rank numbers", () => {
+  it("should render the list of tracks with correct rank numbers", () => {
     render(<TopTracksList tracks={mockTracks as any} />);
 
     expect(screen.getByText("Top Tracks")).toBeDefined();
@@ -32,19 +32,19 @@ describe("TopTracksList", () => {
     expect(screen.getByText("Come As You Are")).toBeDefined();
   });
 
-  it("calls getArtistName for each track to display the artist", () => {
+  it("should call getArtistName for each track to display the artist", () => {
     render(<TopTracksList tracks={mockTracks as any} />);
 
     expect(getArtistName).toHaveBeenCalledTimes(2);
     expect(screen.getAllByText("Nirvana")).toHaveLength(2);
   });
 
-  it("returns null and renders nothing if the tracks array is empty", () => {
+  it("should return null and render nothing if the tracks array is empty", () => {
     const { container } = render(<TopTracksList tracks={[]} />);
     expect(container.firstChild).toBeNull();
   });
 
-  it("applies truncate classes for long text handling", () => {
+  it("should apply truncate classes for long text handling", () => {
     const longTrack = [
       {
         name: "A very long track name that should definitely be truncated in the UI",
@@ -59,7 +59,7 @@ describe("TopTracksList", () => {
     expect(trackName?.className).toContain("truncate");
   });
 
-  it("uses a list and list items for accessibility", () => {
+  it("should use a list and list items for accessibility", () => {
     render(<TopTracksList tracks={mockTracks as any} />);
 
     expect(screen.getByRole("list")).toBeDefined();

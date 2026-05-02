@@ -43,7 +43,7 @@ describe("AuthModals", () => {
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it("should call onClose when the backdrop (overlay) is clicked", () => {
+  it("should call onClose when the backdrop is clicked", () => {
     const { container } = render(
       <AuthModals activeModal="help" onClose={mockOnClose} />,
     );
@@ -54,7 +54,7 @@ describe("AuthModals", () => {
     expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it("should not call onClose when the modal content itself is clicked (stopPropagation)", () => {
+  it("should not call onClose when the modal content itself is clicked", () => {
     render(<AuthModals activeModal="help" onClose={mockOnClose} />);
 
     const modalHeading = screen.getByText("How to get an App Password");
@@ -72,7 +72,7 @@ describe("AuthModals", () => {
     expect(link.getAttribute("href")).toBe("https://bsky.app/settings");
   });
 
-  it("does not call onClose when the modal content itself is clicked (stopPropagation)", () => {
+  it("should not call onClose when the modal content itself is clicked", () => {
     render(<AuthModals activeModal="help" onClose={mockOnClose} />);
 
     const modalHeading = screen.getByText("How to get an App Password");
