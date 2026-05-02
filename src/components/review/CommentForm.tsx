@@ -21,10 +21,14 @@ export function CommentForm({
     <>
       {error && <div className="text-red-500 text-sm mb-3">{error}</div>}
       <form onSubmit={onSubmit} className="flex flex-col gap-2">
+        <label htmlFor="comment-input" className="sr-only">
+          Add a comment
+        </label>
         <textarea
+          id="comment-input"
+          name="comment-form"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Add a comment..."
           className="w-full p-3 bg-zinc-900 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
           disabled={submitting}
         />

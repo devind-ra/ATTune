@@ -21,6 +21,12 @@ export class RecordPage {
   private readonly publishToBlueskyDescription: string;
   private readonly postReviewButton: string;
   private readonly cancelButton: string;
+  private readonly commentsText: string;
+  private readonly addCommentLabel: string;
+  private readonly firstReviewLocator: string;
+  private readonly commentFormLocator: string;
+  private readonly postCommentButton: string;
+  private readonly closeCommentModal: string;
 
   constructor(private page: Page) {
     this.title = recordPageContent.title;
@@ -43,6 +49,12 @@ export class RecordPage {
       recordPageContent.publishToBlueskyDescription;
     this.postReviewButton = recordPageContent.postReviewButton;
     this.cancelButton = recordPageContent.cancelButton;
+    this.commentsText = recordPageContent.commentsText;
+    this.addCommentLabel = recordPageContent.addCommentLabel;
+    this.firstReviewLocator = recordPageContent.firstReviewLocator;
+    this.commentFormLocator = recordPageContent.commentFormLocator;
+    this.postCommentButton = recordPageContent.postCommentButton;
+    this.closeCommentModal = recordPageContent.closeCommentModal;
   }
 
   async checkPageElements() {
@@ -78,6 +90,7 @@ export class RecordPage {
       .fill(this.albumName);
     await this.page.waitForTimeout(1000);
     await this.page.getByText(this.artistName).first().click();
+    await this.page.waitForTimeout(1000);
   }
 
   async checkReviewForm() {
@@ -103,18 +116,35 @@ export class RecordPage {
     ).toBeVisible();
   }
 
-  async fillReviewForm(
-    rating: string,
-    reviewText: string,
-    dateListened: string,
-  ) {
-    await this.page.getByRole("button", { name: rating }).click();
+  async fillReviewForm(rating: string, reviewText: string) {
+    await this.page
+      .getByRole("button", { name: `Rate ${rating} stars`, exact: true })
+      .click();
     await this.page
       .getByPlaceholder(this.reviewTextPlaceholder)
       .fill(reviewText);
+  }
+
+  async clickAndCheckComments() {
+    await this.page.locator(this.firstReviewLocator).click();
+    await expect(this.page.getByText(this.commentsText)).toBeVisible();
+    await expect(this.page.getByLabel(this.addCommentLabel)).toBeVisible();
+  }
+
+  async fillCommentForm(comment: string) {
+    await this.page.locator(this.commentFormLocator).fill(comment);
+  }
+
+  async clickPostComment() {
     await this.page
-      .getByPlaceholder(this.dateListenedHeading)
-      .fill(dateListened);
+      .getByRole("button", { name: this.postCommentButton })
+      .click();
+  }
+
+  async clickCloseCommentModal() {
+    await this.page
+      .getByRole("button", { name: this.closeCommentModal })
+      .click();
   }
 
   async postReview() {
