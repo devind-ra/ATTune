@@ -116,6 +116,16 @@ export class RecordPage {
       .getByPlaceholder(this.dateListenedHeading)
       .fill(dateListened);
   }
+
+  async postReview() {
+    await this.page
+      .getByRole("button", { name: this.postReviewButton })
+      .click();
+  }
+
+  async cancelReview() {
+    await this.page.getByRole("button", { name: this.cancelButton }).click();
+  }
 }
 
 export default RecordPage;
