@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { useClickOutside } from "@/app/hooks/useClickOutside";
 
+// props passed to section filter
 interface Props<T extends string> {
   sections: readonly { id: T; label: string }[];
   visibleSections: Set<T>;
@@ -18,9 +19,12 @@ export function SectionFilter<T extends string>({
   visibleSections,
   onToggle,
 }: Props<T>) {
+  // constants for filters dropdown menu
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useClickOutside<HTMLDivElement>(() => setFilterOpen(false));
 
+  // content called to display filter button for dropdown
+  // has toggles for each section which can be turned on or off with interaction
   return (
     <div className="mt-8 relative" ref={filterRef}>
       <button

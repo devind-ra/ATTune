@@ -12,6 +12,8 @@ interface TrendingArtistsProps {
 }
 
 export function TrendingArtists({ artists }: TrendingArtistsProps) {
+  // content to display trending artists based on last.fm method in ranked order
+  // allows for link to artist page through the content found for trending artists in Explore Page
   if (!artists.length) {
     return <p className="text-zinc-200 text-sm">No trending artists found.</p>;
   }

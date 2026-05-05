@@ -6,6 +6,8 @@ import { LastFMTrack } from "@/lib/lastfm";
 import { getArtistName } from "@/lib/utils";
 
 export function TopTracksList({ tracks }: { tracks: LastFMTrack[] }) {
+  // content called for top tracks list component for Explore Page
+  // Displays list of top tracks in a numbered list format with their rank
   if (!tracks.length) return null;
   return (
     <section className="mt-12">

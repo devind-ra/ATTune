@@ -12,6 +12,7 @@ interface ReviewActivityProps {
   allReviews: { uri: string; value: MusicReview }[];
 }
 
+// Date formatting options used to display review activity on the calendar
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "long",
@@ -20,10 +21,13 @@ const options: Intl.DateTimeFormatOptions = {
 
 // eslint-disable-next-line max-lines-per-function
 export function ReviewActivity({ allReviews }: ReviewActivityProps) {
+  // data constant used to calculate the number of reviews for each day in the last 365 days
+  // each review has the associated date stored to help calculate reviews per day
   const data = useMemo(() => {
     const days: Record<string, number> = {};
     const today = new Date();
 
+    // initialises each day with 0 reviews
     for (let i = 364; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
@@ -34,6 +38,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
       days[dateStr] = 0;
     }
 
+    // iterates through all reviews to find out how many reviews are within each day
     allReviews.forEach((review) => {
       const rDate = new Date(review.value.listenedAt || review.value.createdAt);
       const year = rDate.getFullYear();
@@ -46,6 +51,7 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
       }
     });
 
+    // separates each of the review counts based on the number of reviews for colour coding
     return Object.entries(days).map(([date, count]) => {
       let level = 0;
       if (count === 1) level = 1;
@@ -56,6 +62,8 @@ export function ReviewActivity({ allReviews }: ReviewActivityProps) {
     });
   }, [allReviews]);
 
+  // content called to display user review activity using React Activity Calendar component
+  // further components are used to display the content in a readable format
   return (
     <div className="mt-12 mb-8 bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 overflow-hidden shadow-sm">
       <h2 className="text-2xl font-bold text-zinc-100 mb-6">Review Activity</h2>

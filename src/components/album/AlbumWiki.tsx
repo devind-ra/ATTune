@@ -3,6 +3,8 @@
 // - Displays album wiki as part of Album Page and link to last.fm
 
 export function AlbumWiki({ html, url }: { html: string; url?: string }) {
+  // content for album wiki as part of Album page
+  // displays album wiki and last.fm link to more content
   if (!html) return null;
   return (
     <>

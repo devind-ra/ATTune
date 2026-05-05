@@ -10,6 +10,7 @@ import ReviewItem from "../review/ReviewItem";
 import { CommentModal } from "../review/CommentModal";
 import { useReviewInteractions } from "@/app/hooks/useReviewInteractions";
 
+// props used to ensure content is associated with correct user
 interface RecentReviewsProps {
   reviews: { uri: string; value: MusicReview }[];
   refresh: () => void;
@@ -24,11 +25,17 @@ export function RecentReviews({
   isReadOnly,
   handle,
 }: RecentReviewsProps) {
+  // constants used to call useReviewInteractions hook for review handling
   const { selectedReview, setSelectedReview, handleDelete, handleEdit } =
     useReviewInteractions(reviews, refresh);
 
   if (reviews.length === 0) return null;
 
+  // content called to display recent reviews
+  // if readOnly is true, content does not include edit/delete options
+  // CommentModal used to display comments on a review
+  // ReviewItem used to display each review found
+  // Access to Reviews Page through a link
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-bold text-zinc-100 mb-6">Recent Reviews</h2>

@@ -11,8 +11,9 @@ import {
   getTopTags,
   searchArtist,
 } from "@/lib/lastfm";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { AutocompleteInput } from "@/components/profile/AutocompleteInput";
 
+// props used for editing user tastes
 interface TastesEditorProps {
   editArtists: string[];
   editGenres: string[];
@@ -25,11 +26,13 @@ interface TastesEditorProps {
   onCancel: () => void;
 }
 
+// fetches 5 artist suggestions using last.fm API method searchArtist
 const fetchArtistSuggestions = async (q: string): Promise<string[]> => {
   const res = await searchArtist(q);
   return res.slice(0, 5).map((a: LastFMArtist) => a.name);
 };
 
+// fetches 5 genre suggestions using last.fm API method getTopTags
 const fetchGenreSuggestions = async (q: string): Promise<string[]> => {
   const res = await getTopTags("200");
   return res
@@ -50,6 +53,8 @@ export function TastesEditor({
   onSave,
   onCancel,
 }: TastesEditorProps) {
+  // content called to allow users to edit their tastes using AutocompleteInput component
+  // used to edit both artists and genres as part of profile page which can be saved or cancelled
   return (
     <div className="space-y-6">
       <div>

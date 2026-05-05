@@ -8,6 +8,7 @@ import { TastesEditor } from "./TastesEditor";
 import { TastesViewer } from "./TastesViewer";
 import { UserTastes } from "@/lib/atproto";
 
+// props used to handle tastes panel
 interface Props {
   isReadonly?: boolean;
   tastes: UserTastes | null;
@@ -31,6 +32,9 @@ export function TastesPanel({
   tastes,
   ...editorProps
 }: Props) {
+  // content called to display user tastes using either TastesEditor or TastesViewer
+  // if content is ReadOnly edit tastes button is not displayed
+  // if content is on a users own profile, edit tastes button is displayed
   return (
     <div className="mt-8 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm">
       <div className="flex justify-between items-center mb-6">

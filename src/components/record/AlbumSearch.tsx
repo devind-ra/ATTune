@@ -7,6 +7,7 @@ import Image from "next/image";
 import { LastFMAlbum } from "@/lib/lastfm";
 import { getArtistName, getImageUrl } from "@/lib/utils";
 
+// props for album search
 interface AlbumSearchProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
@@ -30,6 +31,7 @@ function SearchResults({
     );
   }
 
+  // display results of albums if search results are found
   if (searchResults.length > 0) {
     return (
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { LastFMArtist, getGeoTopArtists } from "@/lib/lastfm";
 import { ArtistList } from "@/components/ArtistList";
 
+// constants for the available countries with last.fm API
 const COUNTRIES = [
   "United States",
   "United Kingdom",
@@ -19,6 +20,7 @@ const COUNTRIES = [
   "Australia",
 ];
 
+// helper function to allow for dropdown to select country to discover artists
 function CountryDropdown({
   country,
   setCountry,
@@ -26,6 +28,7 @@ function CountryDropdown({
   country: string;
   setCountry: (v: string) => void;
 }) {
+  // content called with select dropdown and options
   return (
     <div className="shrink-0 relative">
       <select
@@ -49,6 +52,7 @@ function CountryDropdown({
   );
 }
 
+// helper function to display the results for geoTopArtists
 function CountryResults({
   isLoading,
   artists,
@@ -64,6 +68,7 @@ function CountryResults({
     );
   }
 
+  // error handling for no artists found in specific country
   if (artists.length === 0) {
     return (
       <p className="text-zinc-200 text-sm text-center py-12">
@@ -72,10 +77,13 @@ function CountryResults({
     );
   }
 
+  // calls ArtistList component with artists retrieved
   return <ArtistList artists={artists} />;
 }
 
 export function GeoTopArtists() {
+  // constants to help store country (set with United Kingdom initially)
+  // stores the artists and loading state of the request
   const [country, setCountry] = useState<string>("United Kingdom");
   const [artists, setArtists] = useState<LastFMArtist[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -83,6 +91,7 @@ export function GeoTopArtists() {
   useEffect(() => {
     let active = true;
 
+    // retrieves 10 top artists by the country name
     async function loadArtists() {
       setIsLoading(true);
       try {
@@ -104,6 +113,7 @@ export function GeoTopArtists() {
     };
   }, [country]);
 
+  // content called to display top artists by country with dropdown for user selection
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-800 pb-4">

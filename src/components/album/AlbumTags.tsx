@@ -5,6 +5,8 @@
 import { LastFMTag } from "@/lib/lastfm";
 
 export function AlbumTags({ tags }: { tags: LastFMTag[] }) {
+  // content for album tags as part of Album page
+  // maps the first 8 tags for display
   if (!tags.length) return null;
   return (
     <div className="flex flex-wrap justify-center gap-2 mb-6">

@@ -12,6 +12,7 @@ interface Props {
   onClose: () => void;
 }
 
+// helper function to help display help for app password
 function HelpModalContent() {
   return (
     <>
@@ -54,6 +55,7 @@ function HelpModalContent() {
   );
 }
 
+// helper function to help with signing up with Bluesky
 function SignupModalContent() {
   return (
     <>
@@ -81,6 +83,7 @@ function SignupModalContent() {
 }
 
 export function AuthModals({ activeModal, onClose }: Props) {
+  // content called to display modals for help with signup or getting app password
   if (!activeModal) return null;
   return (
     <div

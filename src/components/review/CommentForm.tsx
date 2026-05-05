@@ -2,6 +2,7 @@
 // Contains the following:
 // - Form for comment submission
 
+// props for comment form
 interface CommentFormProps {
   value: string;
   onChange: (val: string) => void;
@@ -17,6 +18,8 @@ export function CommentForm({
   submitting,
   error,
 }: CommentFormProps) {
+  // content called to produce comment form for adding a comment
+  // allows for user to enter in textarea and submut comment
   return (
     <>
       {error && <div className="text-red-500 text-sm mb-3">{error}</div>}

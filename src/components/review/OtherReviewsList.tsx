@@ -11,6 +11,7 @@ import { CommentModal } from "./CommentModal";
 import { useState } from "react";
 import { MusicReview } from "@/lib/atproto";
 
+// props for other reviews list component
 interface OtherReviewsListProps {
   title: string;
   artist: string;
@@ -19,6 +20,7 @@ interface OtherReviewsListProps {
 }
 
 export default function OtherReviewsList(props: OtherReviewsListProps) {
+  // constants to retrieve other user reviews
   const { reviews, loading } = useOtherReviews(props);
   const [selectedReview, setSelectedReview] = useState<{
     uri: string;
@@ -33,6 +35,7 @@ export default function OtherReviewsList(props: OtherReviewsListProps) {
     );
   }
 
+  // error handling if user hasn't used ATtune
   if (reviews.length === 0) {
     return (
       <div className="text-center py-6 text-zinc-200">
@@ -41,6 +44,8 @@ export default function OtherReviewsList(props: OtherReviewsListProps) {
     );
   }
 
+  // content called to allow user to view review in read only mode
+  // clicking reviews allows user to open comment modal for review
   return (
     <>
       <div className="space-y-4">

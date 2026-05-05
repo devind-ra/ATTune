@@ -11,6 +11,7 @@ import { useReviewForm } from "@/app/hooks/useReviewForm";
 import { AlbumSearch } from "../record/AlbumSearch";
 import { ReviewFormFields } from "./ReviewFormFields";
 
+// props passed to review form component
 interface ReviewFormProps {
   onReviewCreated: () => void;
   onCancel?: () => void;
@@ -26,6 +27,7 @@ export default function ReviewForm({
   initialArtist,
   initialImage,
 }: ReviewFormProps) {
+  // uses useReviewForm hook to handle review creation
   const form = useReviewForm({
     initialTitle,
     initialArtist,
@@ -33,6 +35,10 @@ export default function ReviewForm({
     onReviewCreated,
   });
 
+  // content called to display review form to allow searching for album
+  // AlbumSearch component called if album is not selected
+  // ReviewFormFields component called if album is selected
+  // error handling if review form creation fails
   return (
     <div className="bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 p-6 mb-8">
       <h2 className="text-2xl font-bold mb-4 text-zinc-100">Add a Review</h2>

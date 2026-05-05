@@ -19,6 +19,7 @@ interface NavbarProps {
 
 // eslint-disable-next-line max-lines-per-function
 export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
+  // constants used to present the navbar with its search bae and navigation
   const router = useRouter();
   const { logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
@@ -28,12 +29,16 @@ export default function Navbar({ initialSearchQuery = "" }: NavbarProps) {
     setSearchQuery(initialSearchQuery);
   }, [initialSearchQuery]);
 
+  // handleSearch used for submitting search query using search bar
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim())
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
   };
 
+  // content called to allow for logo to be come back to home page
+  // NavSearchForm used to allow for search bar to seareh for album, artists and users
+  // Uses mobile menu changes to ensure navbar icon changes to open navbar actions
   return (
     <header className="flex flex-col md:flex-row md:items-center gap-4 mb-12 border-b border-zinc-800 pb-6 relative">
       <div className="flex items-center justify-between w-full md:w-auto flex-1 gap-6">

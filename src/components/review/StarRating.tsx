@@ -7,12 +7,14 @@
 
 import { useState } from "react";
 
+// props passed to star rating component
 interface StarRatingProps {
   rating: number;
   onChange?: (rating: number) => void;
   interactive?: boolean;
 }
 
+// props passed to star component
 interface StarProps {
   index: number;
   activeScore: number;
@@ -29,11 +31,13 @@ export default function StarRating({
   onChange,
   interactive = true,
 }: StarRatingProps) {
+  // constants for handle star rating
   const [hoveredRating, setHoveredRating] = useState(0);
 
   const activeRating =
     hoveredRating > 0 && interactive ? hoveredRating / 2 : rating / 2;
 
+  // content called to allow for user interaction to move cursor over stars
   return (
     <div
       role="group"
@@ -55,6 +59,7 @@ export default function StarRating({
   );
 }
 
+// helper function to handle star ratings
 function Star({
   index,
   activeScore,
@@ -65,6 +70,7 @@ function Star({
   const isFull = index <= activeScore;
   const isHalf = index - 0.5 === activeScore;
 
+  // content called to handle the styling of full or half stars
   return (
     <div
       className={`relative w-8 h-8 ${interactive ? "cursor-pointer group" : ""}`}
@@ -103,6 +109,7 @@ function Star({
   );
 }
 
+// helper function to handle the SVG for the stars
 function StarSvg({ className }: { className: string }) {
   return (
     <svg

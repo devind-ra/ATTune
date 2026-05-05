@@ -10,12 +10,15 @@ import Image from "next/image";
 import { AppBskyActorDefs } from "@atproto/api";
 import { atApiService } from "@/lib/atproto";
 
+// extensible list of publications from Bluesky
 const PUBLICATIONS = [
   "pitchfork.com",
   "stereogum.com",
   "thelineofbestfit.com",
   "mojomagazine.bsky.social",
 ];
+
+// helper function used to order the list of publications
 const getOrderedProfiles = (
   profiles: AppBskyActorDefs.ProfileViewDetailed[],
   handles: string[],
@@ -25,6 +28,8 @@ const getOrderedProfiles = (
     .filter((p): p is AppBskyActorDefs.ProfileViewDetailed => p !== undefined);
 };
 
+// helper function used to present information on each publication card
+// contains link to bluesky profile of publication when clicked
 function PublicationCard({
   profile,
 }: {
@@ -68,11 +73,13 @@ function PublicationCard({
 }
 
 export function MusicPublications() {
+  // constants used to manage state of fetched profiles
   const [profiles, setProfiles] = useState<
     AppBskyActorDefs.ProfileViewDetailed[]
   >([]);
   const [loading, setLoading] = useState(true);
 
+  // fetching profiles using PUBLICATIONS list
   useEffect(() => {
     async function fetchProfiles() {
       try {
@@ -101,6 +108,7 @@ export function MusicPublications() {
     return null;
   }
 
+  // content called using PublicationCard to present list
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       {profiles.map((profile) => (

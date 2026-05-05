@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LastFMImage } from "@/lib/lastfm";
 
+// props used to help popular album header
 interface Props {
   name: string;
   artist: string;
@@ -14,6 +15,9 @@ interface Props {
 }
 
 export function AlbumHeader({ name, artist, img, releaseDate }: Props) {
+  // content for album page header
+  // used album name, artist name, album cover and release date
+  // error handling for missing props
   return (
     <>
       <div className="relative w-48 md:w-64 aspect-square rounded-2xl overflow-hidden shadow-md mb-8">
