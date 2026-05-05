@@ -23,7 +23,7 @@ const mockTastes = {
 describe("useProfileTastes", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     vi.stubGlobal("alert", vi.fn());
   });
 

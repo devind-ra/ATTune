@@ -28,7 +28,7 @@ const mockTags = [
 describe("useAlbumPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   afterEach(() => {

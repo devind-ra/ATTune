@@ -56,7 +56,7 @@ describe("useArtistData", () => {
   });
 
   it("should handle API errors gracefully", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.mocked(getArtistInfo).mockRejectedValue(new Error("API Error"));
 
     const { result } = renderHook(() => useArtistData(mockArtistName));

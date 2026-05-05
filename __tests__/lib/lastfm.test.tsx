@@ -25,7 +25,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => { });
+        .mockImplementation(() => {});
 
       const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
 
@@ -51,7 +51,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => { });
+        .mockImplementation(() => {});
 
       vi.mocked(global.fetch).mockResolvedValueOnce({
         ok: false,
@@ -71,7 +71,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => { });
+        .mockImplementation(() => {});
 
       vi.mocked(global.fetch).mockRejectedValueOnce(
         new Error("Network failure"),

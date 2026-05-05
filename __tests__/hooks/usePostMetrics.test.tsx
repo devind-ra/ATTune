@@ -23,7 +23,7 @@ vi.mock("@/lib/atproto", () => ({
 describe("usePostMetrics", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "warn").mockImplementation(() => { });
+    vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
   it("should have correct initial state when no postUri is provided", () => {

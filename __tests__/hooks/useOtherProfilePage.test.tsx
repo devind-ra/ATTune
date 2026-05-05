@@ -188,7 +188,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should log an error and sets isLoadingProfile to false when fetch fails", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const error = new Error("Network error");
     mockGetProfile.mockRejectedValue(error);
 
@@ -207,7 +207,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should leave profile as null when fetch fails", async () => {
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     mockGetProfile.mockRejectedValue(new Error("Network error"));
 
     const { result, unmount } = renderHook(() =>
@@ -464,7 +464,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should log a sync error if background fetch fails", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const { result, unmount } = renderHook(() =>
       useOtherProfilePage("alice.bsky.social"),
     );
@@ -507,7 +507,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should set isFollowingLoading to false when toggle throws", async () => {
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     mockFollowUser.mockRejectedValue(new Error("Follow failed"));
 
     const { result, unmount } = renderHook(() =>
@@ -525,7 +525,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should log an error when toggle throws", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const error = new Error("Follow failed");
     mockFollowUser.mockRejectedValue(error);
 
@@ -545,7 +545,7 @@ describe("useOtherProfilePage", () => {
   });
 
   it("should do nothing when profile is null", async () => {
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     mockGetProfile.mockRejectedValue(new Error("Not found"));
 
     const { result, unmount } = renderHook(() =>

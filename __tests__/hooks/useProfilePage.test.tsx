@@ -88,7 +88,7 @@ type ProfileResponse = Awaited<
 describe("useProfilePage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     contextMock.session = sessionMock;
     contextMock.isLoading = false;
 

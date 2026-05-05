@@ -264,7 +264,7 @@ describe("useAutocomplete", () => {
   });
 
   it("should log an error and clear isSearching when fetch rejects", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const error = new Error("API error");
     const fetchSuggestions = vi.fn().mockRejectedValue(error);
     const { result, unmount } = renderHook((props) => useAutocomplete(props), {

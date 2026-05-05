@@ -63,7 +63,7 @@ const mockAlbums: MockAlbum[] = [
 describe("useSearch hook: Authentication & Initialisation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     contextMock.session = {
       did: "did:plc:123",
       handle: "testuser.bsky.social",
@@ -179,7 +179,7 @@ describe("useSearch hook: Authentication & Initialisation", () => {
   describe("useSearch hook: Error Handling", () => {
     beforeEach(() => {
       vi.clearAllMocks();
-      vi.spyOn(console, "error").mockImplementation(() => { });
+      vi.spyOn(console, "error").mockImplementation(() => {});
     });
 
     it("should call console.error when a search service fails", async () => {

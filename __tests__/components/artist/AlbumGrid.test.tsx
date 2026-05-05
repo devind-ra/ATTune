@@ -1,4 +1,4 @@
-// AlbumGrid test file 
+// AlbumGrid test file
 // Focuses on testing the AlbumGrid component using mocked files and API values
 // Tests for scenario such as rendering content and images
 

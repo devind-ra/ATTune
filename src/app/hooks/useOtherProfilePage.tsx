@@ -86,10 +86,10 @@ export function useOtherProfilePage(handle: string) {
         setProfile((prev) =>
           prev
             ? {
-              ...prev,
-              viewer: { ...prev.viewer, following: undefined },
-              followersCount: Math.max(0, (prev.followersCount ?? 1) - 1),
-            }
+                ...prev,
+                viewer: { ...prev.viewer, following: undefined },
+                followersCount: Math.max(0, (prev.followersCount ?? 1) - 1),
+              }
             : null,
         );
         await atApiService.unfollowUser(followingUri);
@@ -98,10 +98,10 @@ export function useOtherProfilePage(handle: string) {
         setProfile((prev) =>
           prev
             ? {
-              ...prev,
-              viewer: { ...prev.viewer, following: res.uri },
-              followersCount: (prev.followersCount ?? 0) + 1,
-            }
+                ...prev,
+                viewer: { ...prev.viewer, following: res.uri },
+                followersCount: (prev.followersCount ?? 0) + 1,
+              }
             : null,
         );
       }

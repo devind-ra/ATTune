@@ -57,7 +57,7 @@ interface FetchOptions {
   onDone: () => void;
 }
 
-// helper function to fetch results using Last.fm API methods 
+// helper function to fetch results using Last.fm API methods
 // converts results to arrays and then used them within page
 async function fetchResults(query: string, options: FetchOptions) {
   options.onStart();

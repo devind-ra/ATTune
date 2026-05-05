@@ -43,7 +43,7 @@ const mockReviews = [
 describe("useReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   const defaultProps = {

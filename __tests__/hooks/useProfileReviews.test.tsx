@@ -16,7 +16,7 @@ vi.mock("@/lib/atproto", () => ({
 describe("useProfileReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("should do nothing if DID is not provided", () => {

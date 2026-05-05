@@ -78,7 +78,7 @@ const mockTagArtists = [
 describe("useHomeData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);

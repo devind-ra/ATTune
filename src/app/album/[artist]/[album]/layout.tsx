@@ -1,4 +1,4 @@
-// Album Page Title 
+// Album Page Title
 
 import { Metadata } from "next";
 

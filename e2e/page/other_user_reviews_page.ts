@@ -1,7 +1,7 @@
 // Other User Reviews Page POM
 // Contains the following:
 // - Constructor for elements on other user reviews page
-// - Methods for checking elements  
+// - Methods for checking elements
 // - Methods for interacting with elements on other user reviews page
 
 import { Page } from "playwright";
