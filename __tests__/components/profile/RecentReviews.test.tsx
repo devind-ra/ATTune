@@ -1,3 +1,7 @@
+// RecentReviews test file
+// Focuses on testing RecentReviews component using mocked useReviewInteractions hook, ReviewItem and CommentModal components
+// Tests scenarios such as rendering content, handle comment modal functionality, delete functionality and links
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { RecentReviews } from "@/components/profile/RecentReviews";

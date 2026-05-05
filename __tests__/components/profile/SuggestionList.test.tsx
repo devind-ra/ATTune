@@ -1,3 +1,7 @@
+// SuggestionList test file
+// Focuses on testing SuggestionList component
+// Tests scenarios such as rendering content, handle search results and query lengths
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { SuggestionList } from "@/components/profile/SuggestionList";

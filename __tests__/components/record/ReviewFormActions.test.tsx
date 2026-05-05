@@ -1,3 +1,7 @@
+// ReviewFormActions test file
+// Focuses on testing ReviewFormActions component using default props
+// Testing scenarios such as rendering content and button submission states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ReviewFormActions } from "@/components/record/ReviewFormActions";

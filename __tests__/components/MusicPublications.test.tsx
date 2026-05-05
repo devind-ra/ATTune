@@ -79,7 +79,7 @@ describe("MusicPublications", () => {
   });
 
   it("should render a loading spinner initially", () => {
-    mockGetProfiles.mockReturnValue(new Promise(() => {}));
+    mockGetProfiles.mockReturnValue(new Promise(() => { }));
 
     render(<MusicPublications />);
 
@@ -88,7 +88,7 @@ describe("MusicPublications", () => {
   });
 
   it("should not render the publications grid while loading", () => {
-    mockGetProfiles.mockReturnValue(new Promise(() => {}));
+    mockGetProfiles.mockReturnValue(new Promise(() => { }));
 
     render(<MusicPublications />);
 
@@ -231,7 +231,7 @@ describe("MusicPublications", () => {
   });
 
   it("should render nothing when the API call throws", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
     mockGetProfiles.mockRejectedValue(new Error("Network error"));
 
     const { container } = render(<MusicPublications />);
@@ -244,7 +244,7 @@ describe("MusicPublications", () => {
   });
 
   it("should log an error when the API call fails", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
     const error = new Error("Network error");
     mockGetProfiles.mockRejectedValue(error);
 

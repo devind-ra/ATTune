@@ -1,3 +1,7 @@
+// ReviewList test file
+// Focuses on testing ReviewList using default props and mocked useReviews and useReviewInteractions hooks and ReviewItem and CommentModal components
+// Testing scenarios such as rendering content, handling states and user interactions
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ReviewList from "@/components/review/ReviewList";

@@ -1,3 +1,7 @@
+// CommentModal test file
+// Focuses on testing CommentModal component using default props, mocked ReviewItem and ReviewComments components
+// Testing scenarios such as rendering content, handling button clicks and submission states for comments
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { CommentModal } from "@/components/review/CommentModal";

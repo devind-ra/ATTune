@@ -1,3 +1,7 @@
+// CommentForm test file
+// Focuses on testing CommentForm using default props
+// Testing scenarios such as rendering content, handling button clicks and submission states for comments
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { CommentForm } from "@/components/review/CommentForm";

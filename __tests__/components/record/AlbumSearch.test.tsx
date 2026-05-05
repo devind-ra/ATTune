@@ -1,3 +1,7 @@
+// AlbumSearch test file
+// Focuses on testing AlbumSearch component using mocked props and API values
+// Testing scenarios such as rendering content, handling button clicks and typing in search input
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { AlbumSearch } from "@/components/record/AlbumSearch";

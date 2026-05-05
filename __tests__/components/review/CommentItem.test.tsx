@@ -1,3 +1,7 @@
+// CommentItem test file
+// Focuses on testing CommentItem component using mocked comment values
+// Testing scenarios such as rendering content, fallbacks and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { CommentItem } from "@/components/review/CommentItem";

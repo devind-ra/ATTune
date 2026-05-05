@@ -1,3 +1,7 @@
+// OtherReviewsList test file
+// Focuses on testing OtherReviewsList component using mocked useOtherReview hook, ReviewItem and CommentModal components
+// Testing scenarios such as rendering content and handling review states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useOtherReviews } from "@/app/hooks/useOtherReviews";
@@ -9,7 +13,7 @@ vi.mock("@/app/hooks/useOtherReviews", () => ({
 }));
 
 vi.mock("@/components/review/ReviewItem", () => ({
-  default: vi.fn(({ item, onClick, onDelete, onEdit }) => (
+  default: vi.fn(({ onClick, onDelete, onEdit }) => (
     <div data-testid="mock-review-item">
       <button onClick={onClick}>Open</button>
       <button onClick={() => onDelete()}>Delete</button>

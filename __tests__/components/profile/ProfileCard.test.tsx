@@ -1,3 +1,7 @@
+// ProfileCard test file
+// Focuses on testing ProfileCard component
+// Tests scenarios such as rendering profile information, fallbacks and follow functionality
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ProfileCard } from "@/components/profile/ProfileCard";

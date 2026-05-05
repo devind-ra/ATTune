@@ -1,3 +1,7 @@
+// TastesViewer test file
+// Focuses on testing TastesViewer component using mocked API values
+// Tests scenarios such as rendering content, empty states and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { TastesViewer } from "@/components/profile/TastesViewer";

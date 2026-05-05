@@ -1,3 +1,7 @@
+// AlbumPreview test file
+// Focuses on testing AlbumPreview using default props
+// Testing scenarios such as rendering content, handling button clicks and styling
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AlbumPreview } from "@/components/record/AlbumPreview";

@@ -1,3 +1,7 @@
+// ReviewActivity test file
+// Focuses on testing ReviewActivity component using ActivityCalendar
+// Tests scenarios such as rendering content, correct date calculation and review handling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ReviewActivity } from "@/components/profile/ReviewActivity";

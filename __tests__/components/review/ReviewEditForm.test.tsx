@@ -1,3 +1,7 @@
+// ReviewEditForm test file
+// Focuses on testing ReviewEditForm using default props and mocked StarRating component
+// Testing scenarios such as rendering content, handling states and form interactions
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewEditForm from "@/components/review/ReviewEditForm";

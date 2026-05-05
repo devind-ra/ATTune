@@ -1,3 +1,7 @@
+// ArtistList test file
+// Focuses on testing ArtistList component using mocked artist response and mocking next link component
+// Testing scenarios such as rendering content and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ArtistList } from "@/components/ArtistList";

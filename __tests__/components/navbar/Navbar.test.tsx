@@ -1,3 +1,7 @@
+// Navbar test file
+// Focuses on testing Navbar component with mocked AuthContext, navigation and NavActions/NavSearchForm components
+// Tests scenarios such as navigation, search and menu functionality
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Navbar from "@/components/navbar/Navbar";

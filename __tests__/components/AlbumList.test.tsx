@@ -1,3 +1,7 @@
+// AlbumList test file
+// Focuses on testing AlbumList component using default props and mocking next image and link components
+// Testing scenarios such as rendering content, displaying albums, handling user interactions and callbacks
+
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AlbumList } from "@/components/AlbumList";

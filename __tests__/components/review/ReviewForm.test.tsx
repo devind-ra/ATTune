@@ -1,3 +1,7 @@
+// ReviewForm test file
+// Focuses on testing ReviewForm using default props, mocked useReviewForm hook, AlbumSearch and ReviewFormFields components
+// Testing scenarios such as rendering content, passing initial values and handling states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewForm from "@/components/review/ReviewForm";

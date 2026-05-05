@@ -1,3 +1,7 @@
+// ReviewItem test file
+// Focuses on testing ReviewItem using default props, mocked usePostMetrics hook and ReviewEditForm component
+// Testing scenarios such as rendering content, editing modes, handling state changes and user interactions
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewItem from "@/components/review/ReviewItem";

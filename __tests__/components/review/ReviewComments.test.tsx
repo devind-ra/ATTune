@@ -1,3 +1,7 @@
+// ReviewComments test file
+// Focuses on testing ReviewComments using mocked useComments hook, atproto file, CommentItem and CommentForm components
+// Testing scenarios such as rendering content, handling states and error handling
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ReviewComments } from "@/components/review/ReviewComments";
