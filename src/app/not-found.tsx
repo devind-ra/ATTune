@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function NotFound() {
+  // content for error page if user uses wrong URL
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
       <div className="space-y-6 max-w-md">

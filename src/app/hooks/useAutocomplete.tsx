@@ -14,6 +14,7 @@ interface UseAutocompleteProps {
   onChange: (val: string) => void;
 }
 
+// helper function to handle autocomplete results
 async function resolveResults(
   query: string,
   fetchSuggestions: (q: string) => Promise<string[]>,
@@ -36,6 +37,7 @@ export function useAutocomplete({
   excludeValues = [],
   onChange,
 }: UseAutocompleteProps) {
+  // constants to hold data for search queries and suggestions
   const [searchQuery, setSearchQuery] = useState(value);
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -57,6 +59,7 @@ export function useAutocomplete({
     setIsSearching(true);
     setShowSuggestions(true);
 
+    // timer used to ensure data can be safely retrieved from API methods
     const timer = setTimeout(() => {
       resolveResults(searchQuery, fetchSuggestions, excludeValues)
         .then(setSearchResults)
@@ -67,6 +70,7 @@ export function useAutocomplete({
     return () => clearTimeout(timer);
   }, [searchQuery, fetchSuggestions, excludeValues, hasInteracted]);
 
+  // handling the selection of a specific string from the results
   const handleSelect = useCallback(
     (s: string) => {
       setSearchQuery(s);
@@ -78,6 +82,7 @@ export function useAutocomplete({
     [onChange],
   );
 
+  // handleFocus, handleBlur and handleQueryChange help deal with the search query and results
   const handleFocus = useCallback(() => {
     if (searchResults.length > 0) setShowSuggestions(true);
   }, [searchResults.length]);

@@ -22,10 +22,12 @@ interface HomeData {
   isReady: boolean;
 }
 
+// helper function to remove duplicate artists on the home page
 function removeDupeArtists(artists: LastFMArtist[]): LastFMArtist[] {
   return Array.from(new Map(artists.map((a) => [a.name, a])).values());
 }
 
+// helper function to remove duplicate albums on the home page
 function removeDupeAlbums(albums: LastFMAlbum[]): LastFMAlbum[] {
   return Array.from(
     new Map(albums.map((a) => [a.name + getArtistName(a.artist), a])).values(),
@@ -34,6 +36,7 @@ function removeDupeAlbums(albums: LastFMAlbum[]): LastFMAlbum[] {
 
 // eslint-disable-next-line max-lines-per-function
 export function useHomeData(): HomeData {
+  // constants used to store the artists, albums and tag-related artists for users
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
@@ -50,6 +53,8 @@ export function useHomeData(): HomeData {
     }
     if (!session) return;
 
+    // loading recommendations by retrieving data from .getTastes()
+    // removing duplicate artists and shuffling results conducted here
     async function loadRecommendations(did: string) {
       const tastes = await atApiService.getTastes(did);
       if (!tastes) return;
@@ -71,6 +76,7 @@ export function useHomeData(): HomeData {
       ).slice(0, 5);
       const recommendedNames = new Set(dedupedRecommended.map((a) => a.name));
 
+      // established randomness to algorithm to remove bias
       setRecommendedArtists(dedupedRecommended);
       setRecommendedAlbums(
         shuffle(removeDupeAlbums(albumResults)).slice(0, 20),

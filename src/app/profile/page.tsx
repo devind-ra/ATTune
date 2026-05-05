@@ -16,6 +16,7 @@ import { useProfilePage } from "@/app/hooks/useProfilePage";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ProfilePage() {
+  // useProfilePage hook used to ensure all data needed for Profile page is retrieved
   const {
     session,
     isLoading,
@@ -46,6 +47,7 @@ export default function ProfilePage() {
     );
   }
 
+  // content called to follow fixed structure of profile page content with modular components
   return (
     <div className="min-h-screen   font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

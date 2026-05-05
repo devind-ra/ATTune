@@ -6,11 +6,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 
+// helper function to retrieve review date
 function getReviewDate(r: { value: MusicReview }) {
   return new Date(r.value.listenedAt || r.value.createdAt);
 }
 
 export function useProfileReviews(did: string | undefined) {
+  // constants storing the information related to user reviews
   const [thisYearReviewCount, setThisYearReviewCount] = useState(0);
   const [recentReviews, setRecentReviews] = useState<
     { uri: string; value: MusicReview }[]
@@ -19,6 +21,8 @@ export function useProfileReviews(did: string | undefined) {
     { uri: string; value: MusicReview }[]
   >([]);
 
+  // uses .getReviews() and then filters data to ensure the scope is for the last 365 days
+  // error handling for review fetching issues
   const fetchReviews = useCallback(() => {
     if (!did) return;
     atApiService

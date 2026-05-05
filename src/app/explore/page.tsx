@@ -1,8 +1,9 @@
 // Explore Page
 // Contains the following:
-// - Calls DiscoveryCarousel for tag discovery via useExploreData hook
+// - Calls DiscoveryAlbums for tag discovery via useExploreData hook
 // - Calls TrendingTracks for global trending tracks
-// - Calls CountryTopArtists for top artists by country
+// - Calls TrendingArtists for global trending artists
+// - Calls GeoTopArtists for top artists by country
 
 "use client";
 
@@ -22,6 +23,9 @@ import {
 
 // eslint-disable-next-line max-lines-per-function
 export default function ExplorePage() {
+  // constants storing data from hooks and sections
+  // useExploreData hook used to retrieve data for Explore page
+  // useVisibleSections hook retrieves content structure for Explore page
   const { discoveryData, topTracks, topArtists, isReady } = useExploreData();
   const { visibleSections, toggleSection } = useVisibleSections(
     EXPLORE_SECTIONS,
@@ -36,6 +40,7 @@ export default function ExplorePage() {
     );
   }
 
+  // creates format for HTML content and styling for Explore Page
   const sectionContent: Record<ExploreSectionId, React.ReactNode> = {
     discoverAlbums: <DiscoverAlbums data={discoveryData} />,
     topArtists: (
@@ -71,6 +76,7 @@ export default function ExplorePage() {
     geoTopArtists: <GeoTopArtists />,
   };
 
+  // content calling using sectionContent created and other text on page
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30 pb-20">
       <main className="max-w-4xl mx-auto px-6 py-12">

@@ -21,6 +21,8 @@ export default function OtherProfilePage({
 }: {
   params: Promise<{ handle: string }>;
 }) {
+  // constants used to store other profile page data
+  // handles user handle
   const resolvedParams = use(params);
   const handle = decodeURIComponent(resolvedParams.handle);
 
@@ -46,6 +48,7 @@ export default function OtherProfilePage({
     );
   }
 
+  // Eror handling if profile is not found
   if (!profile) {
     return (
       <div className="min-h-screen font-sans selection:bg-sky-500/30">
@@ -64,8 +67,10 @@ export default function OtherProfilePage({
     );
   }
 
+  // checks to ensure handle is the actual user logged in or not
   const isSelf = profile.handle === session.handle;
 
+  // content called to include all fixed structure from normal user profile page
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
@@ -81,16 +86,16 @@ export default function OtherProfilePage({
           isReadonly={true}
           tastes={tastes}
           isEditingTastes={false}
-          setIsEditingTastes={() => {}}
+          setIsEditingTastes={() => { }}
           editArtists={[]}
           editGenres={[]}
-          onArtistChange={() => {}}
-          onGenreChange={() => {}}
+          onArtistChange={() => { }}
+          onGenreChange={() => { }}
           artistExcludeValues={[]}
           genreExcludeValues={[]}
           isSaving={false}
-          onSave={() => {}}
-          onCancel={() => {}}
+          onSave={() => { }}
+          onCancel={() => { }}
         />
         <ReviewActivity allReviews={allReviews} />
         <RecentReviews

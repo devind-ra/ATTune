@@ -14,6 +14,7 @@ import { SortOption } from "@/app/hooks/useReviews";
 
 // eslint-disable-next-line max-lines-per-function
 export default function ReviewsPage() {
+  // constants storing session data and filter functionality
   const { session, isLoading } = useAuth();
   const router = useRouter();
   const [refreshTrigger] = useState(0);
@@ -33,6 +34,8 @@ export default function ReviewsPage() {
     );
   }
 
+  // content called to display reviews page with sorting filter
+  // allows for user to go back to profile page
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

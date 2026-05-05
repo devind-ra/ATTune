@@ -11,10 +11,13 @@ import {
 } from "@/lib/lastfm";
 
 export function useAlbumPage(artistName: string, albumName: string) {
+  // constants storing album and tags from last.fm
   const [albumInfo, setAlbumInfo] = useState<LastFMAlbumInfo>();
   const [tags, setTags] = useState<LastFMTag[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // calling API methods for retrieving album info and top tags from last.fm file
+  // error handling if no data is found
   useEffect(() => {
     if (!artistName || !albumName) return;
 

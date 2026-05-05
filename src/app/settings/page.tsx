@@ -3,7 +3,7 @@
 // - Data privacy policies
 // - Third party services
 // - Account data handling
-// - Permanent data deletion of reviews/tastes
+// - Calls Settings Modal for permanent data deletion of reviews/tastes
 
 "use client";
 
@@ -28,6 +28,7 @@ export default function SettingsPage() {
     }
   }, [session, isLoading, router]);
 
+  // fetching and setting content from settings.md
   useEffect(() => {
     fetch("/settings.md")
       .then((res) => res.text())
@@ -43,6 +44,8 @@ export default function SettingsPage() {
     );
   }
 
+  // content is added to page using markdown file using markdown_components library file
+  // calls SettingsModal for deletion of permanent data
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

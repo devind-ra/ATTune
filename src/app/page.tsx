@@ -16,10 +16,12 @@ export default function LoginPage() {
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
+  // uses authentication form to go to /home page
   useEffect(() => {
     if (!isLoading && session) router.push("/home");
   }, [session, isLoading, router]);
 
+  // used to smoothly scroll to authentication form
   const scrollToLogin = () =>
     document
       .getElementById("login-section")
@@ -33,6 +35,7 @@ export default function LoginPage() {
     );
   }
 
+  // content called using smaller components
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <HeroSection onScrollToLogin={scrollToLogin} />

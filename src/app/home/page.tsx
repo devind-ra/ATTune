@@ -16,6 +16,9 @@ import { ALL_SECTIONS, SectionId } from "@/lib/sections";
 import { MusicPublications } from "@/components/MusicPublications";
 
 export default function HomePage() {
+  // constants used to store data from hooks
+  // useHomeData hook used to retrieve data from lastfm API methods
+  // useVisibleSections hook used to retrieve structure for sections on home page
   const { recommendedArtists, recommendedAlbums, tagArtists, isReady } =
     useHomeData();
   const { visibleSections, toggleSection } = useVisibleSections(
@@ -31,6 +34,7 @@ export default function HomePage() {
     );
   }
 
+  // creates format for HTML content and styling for Home Page using smaller components
   const sectionContent: Record<SectionId, React.ReactNode> = {
     recommendedAlbums: <AlbumList albums={recommendedAlbums} enableShuffle />,
     recommendedArtists: <ArtistList artists={recommendedArtists} />,
@@ -38,6 +42,7 @@ export default function HomePage() {
     musicPublications: <MusicPublications />,
   };
 
+  // content calling using sectionContent created and other text on page
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

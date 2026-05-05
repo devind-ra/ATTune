@@ -17,11 +17,13 @@ import { AppBskyActorDefs } from "@atproto/api";
 const MAX_RESULTS = 10;
 const POPULARITY_THRESHOLD = 100000;
 
+// helper function used to order data shown in search results for search page
 function parsePrimaryType(
   parsedArtists: LastFMArtist[],
   parsedAlbums: LastFMAlbum[],
   query: string,
 ): "artist" | "album" {
+  // takes results for both album and artist and then finds out which has is more popular
   const q = query.toLowerCase();
   const firstAlbum = parsedAlbums[0]?.name.toLowerCase();
   const firstArtist = parsedArtists[0]?.name.toLowerCase();
@@ -36,11 +38,14 @@ function parsePrimaryType(
   return listeners > POPULARITY_THRESHOLD ? "artist" : "album";
 }
 
+// helper function to cover results to array
 function toArray<T>(result: T | T[] | null | undefined): T[] {
   if (!result) return [];
   return Array.isArray(result) ? result.slice(0, MAX_RESULTS) : [result];
 }
 
+// interface used to handle states when searching is conducted
+// onSuccess is key to retrieve the data for artists, albums and users
 interface FetchOptions {
   onStart: () => void;
   onSuccess: (
@@ -52,6 +57,8 @@ interface FetchOptions {
   onDone: () => void;
 }
 
+// helper function to fetch results using Last.fm API methods 
+// converts results to arrays and then used them within page
 async function fetchResults(query: string, options: FetchOptions) {
   options.onStart();
   try {
@@ -73,6 +80,7 @@ async function fetchResults(query: string, options: FetchOptions) {
 }
 
 export function useSearch(query: string | null) {
+  // constants store data associated with album, artists and users to be showing in search page
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
   const [artists, setArtists] = useState<LastFMArtist[]>([]);
@@ -89,6 +97,8 @@ export function useSearch(query: string | null) {
     }
   }, [session, authLoading, router]);
 
+  // Sets the artist, album and user values retrieved from fetchResults()
+  // Handles error if issue occurs with data retrieval
   useEffect(() => {
     if (!query) return;
 
