@@ -3,6 +3,7 @@
 // - SpinnerIcon component
 // - ReviewFormActions component (Cancel/Post Review buttons)
 
+// SVG used to display spinner icon
 const SpinnerIcon = () => (
   <svg
     className="animate-spin -ml-1 mr-1 h-4 w-4 text-white"
@@ -26,6 +27,7 @@ const SpinnerIcon = () => (
   </svg>
 );
 
+// props used for review form actions
 interface Props {
   loading: boolean;
   showCancel: boolean;
@@ -33,6 +35,7 @@ interface Props {
 }
 
 export function ReviewFormActions({ loading, showCancel, onCancel }: Props) {
+  // content called to allow user to cancel or submit review
   return (
     <div className="flex justify-end gap-3 pt-2">
       {showCancel && (

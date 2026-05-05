@@ -1,3 +1,7 @@
+// atproto test file
+// Focuses on using the atproto api service to test atproto
+// Tests scenarios throughout atproto for handling interactions, API calls and error handling
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { BskyAgent } from "@atproto/api";
 
@@ -44,7 +48,7 @@ import {
   ERROR_NOT_LOGGED_IN,
 } from "@/lib/atproto";
 
-describe("AtProtoService", () => {
+describe("atproto service", () => {
   let service: AtProtoService;
 
   beforeEach(() => {
@@ -273,7 +277,7 @@ describe("AtProtoService", () => {
       console.warn = originalConsoleWarn;
     });
 
-    it("should skip bsky post and still create review record", async () => {
+    it("should skip bluesky post and still create review record", async () => {
       const mockCreateRecord = service.agent.com.atproto.repo.createRecord;
 
       await service.createReview(
@@ -292,7 +296,7 @@ describe("AtProtoService", () => {
       );
     });
 
-    it("should set postUri and postCid from bsky post response on review record", async () => {
+    it("should set postUri and postCid from bluesky post response on review record", async () => {
       const mockCreateRecord = service.agent.com.atproto.repo.createRecord;
 
       vi.mocked(mockCreateRecord).mockResolvedValueOnce({

@@ -7,6 +7,8 @@ interface Props {
 }
 
 export function HeroSection({ onScrollToLogin }: Props) {
+  // content called to present HeroSection of landing page
+  // displays main title, with description and way to scroll down to the login section
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-zinc-950">
       <div className="text-center z-10 max-w-4xl px-6">

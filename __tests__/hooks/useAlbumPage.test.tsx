@@ -1,3 +1,7 @@
+// useAlbumPage test file
+// Focuses on testing useAlbumPage hook using mocked lastfm album info and tags
+// Testing scenarios such as handling states, error handling and successful fetches
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { useAlbumPage } from "@/app/hooks/useAlbumPage";
@@ -21,7 +25,7 @@ const mockTags = [
   { name: "rock", url: "" },
 ];
 
-describe("useAlbumPage hook", () => {
+describe("useAlbumPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -31,71 +35,67 @@ describe("useAlbumPage hook", () => {
     vi.restoreAllMocks();
   });
 
-  describe("initialisation", () => {
-    it("should initialise with default state", () => {
-      const { result } = renderHook(() => useAlbumPage("", ""));
+  it("should initialise with default state", () => {
+    const { result } = renderHook(() => useAlbumPage("", ""));
 
-      expect(result.current.albumInfo).toBeUndefined();
-      expect(result.current.tags).toEqual([]);
-      expect(result.current.isLoading).toBe(true);
-    });
+    expect(result.current.albumInfo).toBeUndefined();
+    expect(result.current.tags).toEqual([]);
+    expect(result.current.isLoading).toBe(true);
   });
 
-  describe("fetching data", () => {
-    it("should not fetch if artistName or albumName is empty", async () => {
-      renderHook(() => useAlbumPage(mockAlbumInfo.artist, ""));
-      renderHook(() => useAlbumPage("", mockAlbumInfo.name));
+  it("should not fetch if artistName or albumName is empty", async () => {
+    renderHook(() => useAlbumPage(mockAlbumInfo.artist, ""));
+    renderHook(() => useAlbumPage("", mockAlbumInfo.name));
 
-      expect(getAlbumInfo).not.toHaveBeenCalled();
-      expect(getAlbumTopTags).not.toHaveBeenCalled();
+    expect(getAlbumInfo).not.toHaveBeenCalled();
+    expect(getAlbumTopTags).not.toHaveBeenCalled();
+  });
+
+  it("should fetch album info and tags successfully", async () => {
+    vi.mocked(getAlbumInfo).mockResolvedValueOnce(mockAlbumInfo);
+    vi.mocked(getAlbumTopTags).mockResolvedValueOnce(mockTags);
+
+    const { result } = renderHook(() =>
+      useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
+    );
+
+    expect(result.current.isLoading).toBe(true);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
     });
 
-    it("should fetch album info and tags successfully", async () => {
-      vi.mocked(getAlbumInfo).mockResolvedValueOnce(mockAlbumInfo);
-      vi.mocked(getAlbumTopTags).mockResolvedValueOnce(mockTags);
+    expect(getAlbumInfo).toHaveBeenCalledWith(
+      mockAlbumInfo.artist,
+      mockAlbumInfo.name,
+    );
+    expect(getAlbumTopTags).toHaveBeenCalledWith(
+      mockAlbumInfo.artist,
+      mockAlbumInfo.name,
+    );
 
-      const { result } = renderHook(() =>
-        useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
-      );
+    expect(result.current.albumInfo).toEqual(mockAlbumInfo);
+    expect(result.current.tags).toEqual(mockTags);
+  });
 
-      expect(result.current.isLoading).toBe(true);
+  it("should handle errors during fetch gracefully", async () => {
+    const error = new Error("API failure");
+    vi.mocked(getAlbumInfo).mockRejectedValueOnce(error);
+    vi.mocked(getAlbumTopTags).mockRejectedValueOnce(error);
 
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
+    const { result } = renderHook(() =>
+      useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
+    );
 
-      expect(getAlbumInfo).toHaveBeenCalledWith(
-        mockAlbumInfo.artist,
-        mockAlbumInfo.name,
-      );
-      expect(getAlbumTopTags).toHaveBeenCalledWith(
-        mockAlbumInfo.artist,
-        mockAlbumInfo.name,
-      );
-
-      expect(result.current.albumInfo).toEqual(mockAlbumInfo);
-      expect(result.current.tags).toEqual(mockTags);
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
     });
 
-    it("should handle errors during fetch gracefully", async () => {
-      const error = new Error("API failure");
-      vi.mocked(getAlbumInfo).mockRejectedValueOnce(error);
-      vi.mocked(getAlbumTopTags).mockRejectedValueOnce(error);
-
-      const { result } = renderHook(() =>
-        useAlbumPage(mockAlbumInfo.artist, mockAlbumInfo.name),
-      );
-
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-
-      expect(console.error).toHaveBeenCalledWith(
-        "Failed to load album data",
-        error,
-      );
-      expect(result.current.albumInfo).toBeUndefined();
-      expect(result.current.tags).toEqual([]);
-    });
+    expect(console.error).toHaveBeenCalledWith(
+      "Failed to load album data",
+      error,
+    );
+    expect(result.current.albumInfo).toBeUndefined();
+    expect(result.current.tags).toEqual([]);
   });
 });

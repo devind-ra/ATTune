@@ -7,6 +7,7 @@
 import { useAutocomplete } from "@/app/hooks/useAutocomplete";
 import { SuggestionList } from "./SuggestionList";
 
+// props used to ensure search suggestions are presented
 interface AutocompleteInputProps {
   value: string;
   onChange: (val: string) => void;
@@ -26,7 +27,7 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
     handleBlur,
     handleQueryChange,
   } = useAutocomplete(props);
-
+  // content used to allow for user input and then present suggestions with SuggestionList
   return (
     <div className="relative flex-1">
       <input

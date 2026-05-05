@@ -1,3 +1,7 @@
+// TastesPanel test file
+// Focuses on testing TastesPanel using mocked TastesViewer and TastesEditor components
+// Tests scenarios such as rendering content, readonly and editing modes and button click events
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { TastesPanel } from "@/components/profile/TastesPanel";

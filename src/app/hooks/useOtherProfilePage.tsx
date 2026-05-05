@@ -12,6 +12,7 @@ import { useProfileTastes } from "./useProfileTastes";
 
 // eslint-disable-next-line max-lines-per-function
 export function useOtherProfilePage(handle: string) {
+  // constants used to hold data about other user profiles and following/unfollowing
   const { session, isLoading: authLoading } = useAuth();
   const [profile, setProfile] =
     useState<AppBskyActorDefs.ProfileViewDetailed | null>(null);
@@ -20,6 +21,7 @@ export function useOtherProfilePage(handle: string) {
 
   const did = profile?.did;
 
+  // retrieving profile reviews and tastes using specific did of user
   const {
     thisYearReviewCount,
     recentReviews,
@@ -29,6 +31,7 @@ export function useOtherProfilePage(handle: string) {
 
   const tastesData = useProfileTastes(did);
 
+  // used to fetch data from other users based on their handle
   const fetchProfile = useCallback(() => {
     setIsLoadingProfile(true);
     const decodedHandle = decodeURIComponent(handle);
@@ -39,6 +42,8 @@ export function useOtherProfilePage(handle: string) {
       .finally(() => setIsLoadingProfile(false));
   }, [handle]);
 
+  // ensuring that the following/unfollowing is synced with UI
+  // syncing ensuring that the counts are accurate with UI elements
   const syncProfile = useCallback(() => {
     setTimeout(async () => {
       try {
@@ -67,6 +72,8 @@ export function useOtherProfilePage(handle: string) {
     fetchProfile();
   }, [fetchProfile]);
 
+  // ensures following/unfollowing can change the information on the profile page
+  // erorr handling ensures toggle cannot occur to cause inconsistencies
   const toggleFollow = useCallback(async () => {
     if (!profile || !session) return;
 

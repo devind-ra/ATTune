@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { atApiService } from "@/lib/atproto";
 
 export function usePostMetrics(postUri?: string, postCid?: string) {
+  // constants used to hold the like data for reviews
   const [likeCount, setLikeCount] = useState(0);
   const [viewerLikeUri, setViewerLikeUri] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ export function usePostMetrics(postUri?: string, postCid?: string) {
 
   useEffect(() => {
     let mounted = true;
-
+    // function used to retrieve post metrics using atproto file for like count
     async function fetchMetrics() {
       if (!postUri) return;
       try {
@@ -35,6 +36,7 @@ export function usePostMetrics(postUri?: string, postCid?: string) {
     };
   }, [postUri]);
 
+  // used to allow to like or unlike a post using the UI
   const toggleLike = async () => {
     if (!postUri || !postCid || !atApiService.agent.session) return;
 

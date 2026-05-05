@@ -10,8 +10,10 @@ export function CommentItem({
 }: {
   comment: AppBskyFeedDefs.ThreadViewPost;
 }) {
+  // constants used to hold record of post
   const { post } = comment;
   const record = post.record as AppBskyFeedPost.Record;
+  // content called to display the users profile picture, display name and comment
   return (
     <div className="bg-zinc-800/50 p-4 rounded-lg">
       <div className="flex items-center gap-2 mb-2">

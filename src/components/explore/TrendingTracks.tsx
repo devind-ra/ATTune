@@ -12,8 +12,10 @@ interface TrendingTracksProps {
 }
 
 export function TrendingTracks({ tracks }: TrendingTracksProps) {
+  // content called to display trending tracks using last.fm method in ranked order
+  // allows user to click on artist name to be redirected to the artist page
   if (!tracks.length) {
-    return <p className="text-zinc-500 text-sm">No trending tracks found.</p>;
+    return <p className="text-zinc-200 text-sm">No trending tracks found.</p>;
   }
 
   return (

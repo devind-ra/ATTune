@@ -1,3 +1,7 @@
+// SettingsModal test file
+// Focuses on testing SettingsModal using mocked useWipeData hook
+// Testing scenarios such as rendering content, handling states and user interactions
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import SettingsModal from "@/components/settings/SettingsModal";

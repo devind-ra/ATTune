@@ -12,6 +12,8 @@ import { AlbumGrid } from "@/components/artist/AlbumGrid";
 import { useArtistData } from "@/app/hooks/useArtistData";
 
 export default function ArtistPage() {
+  // constants used to hold values for artist page values
+  // useArtistData hook helps to retrieve and store artist data
   const params = useParams();
   const artistName = params.name
     ? decodeURIComponent(params.name as string)
@@ -27,12 +29,13 @@ export default function ArtistPage() {
     );
   }
 
+  // Error handling if artist is not found
   if (!artistInfo) {
     return (
       <div className="min-h-screen font-sans">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Navbar />
-          <div className="mt-8 text-center text-zinc-500">
+          <div className="mt-8 text-center text-zinc-200">
             Artist not found.
           </div>
         </main>
@@ -40,6 +43,7 @@ export default function ArtistPage() {
     );
   }
 
+  // content calling isolated components
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

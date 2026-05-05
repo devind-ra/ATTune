@@ -1,3 +1,9 @@
+// Landing Page POM
+// Contains the following:
+// - Constructor for elements on landing page
+// - Methods for checking elements
+// - Methods for interacting with elements on landing page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { landingPageContent } from "../content/landing_page_content";

@@ -8,6 +8,7 @@ interface Props {
   onLogin: () => void;
 }
 
+// extensible list of features added to the bottom of the login section
 const FEATURES = [
   { label: "Rate", description: "Share your opinion on albums and tracks." },
   {
@@ -18,6 +19,8 @@ const FEATURES = [
 ] as const;
 
 export function LoginSection({ onLogin }: Props) {
+  // content called to present the authentication form and text about the features of the app
+  // utilises AuthForm component
   return (
     <section
       id="login-section"

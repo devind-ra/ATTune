@@ -14,6 +14,7 @@ import { AppBskyActorDefs } from "@atproto/api";
 import ReviewEditForm from "./ReviewEditForm";
 import { usePostMetrics } from "@/app/hooks/usePostMetrics";
 
+// props passed to review item component
 interface ReviewItemProps {
   item: {
     uri: string;
@@ -26,6 +27,7 @@ interface ReviewItemProps {
   isReadOnly?: boolean;
 }
 
+// helper function to present like button for user to interacy with review
 function LikeButton({
   postUri,
   postCid,
@@ -40,6 +42,7 @@ function LikeButton({
 
   if (!postUri || !postCid) return null;
 
+  // content called to update count of likes
   return (
     <button
       onClick={(e) => {
@@ -82,9 +85,12 @@ export default function ReviewItem({
   onClick,
   isReadOnly,
 }: ReviewItemProps) {
+  // constants used to handle editing of review
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<MusicReview>>({});
 
+  // handling the click of the edit button
+  // using ReviewEditForm component to display review form for editing
   const handleEditClick = () => {
     setIsEditing(true);
     setEditForm({
@@ -96,6 +102,7 @@ export default function ReviewItem({
     });
   };
 
+  // handling submission of edit to review
   const submitEdit = async () => {
     if (
       !editForm.subjectTitle ||
@@ -109,6 +116,9 @@ export default function ReviewItem({
     setIsEditing(false);
   };
 
+  // content called to display review either editable or in read only mode
+  // review can be clicked to go to album or artist page
+  // ReviewEditForm is displayed when user wants to edit review
   return (
     <div
       className={`bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-sm transition-shadow ${onClick ? "cursor-pointer hover:shadow-md" : ""}`}

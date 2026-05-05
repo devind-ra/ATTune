@@ -11,6 +11,7 @@ import { ReviewComments } from "./ReviewComments";
 import { MusicReview } from "@/lib/atproto";
 import { AppBskyActorDefs } from "@atproto/api";
 
+// props for comment modal component
 interface CommentModalProps {
   item: {
     uri: string;
@@ -30,6 +31,7 @@ export function CommentModal({
   onEdit,
   isReadOnly,
 }: CommentModalProps) {
+  // closing comment modal using event listener for escape key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", handleEsc);
@@ -43,6 +45,9 @@ export function CommentModal({
     };
   }, []);
 
+  // content called to allow for comment modal to present review with comments
+  // review can be edited or deleted if it belongs to the user
+  // comment modal can be closed using 'X' or using the escape key
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-zinc-900/50 /70 backdrop-blur-sm p-4 sm:p-6"

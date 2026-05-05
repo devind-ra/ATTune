@@ -12,6 +12,7 @@ import { useComments } from "@/app/hooks/useComments";
 import { CommentItem } from "./CommentItem";
 import { CommentForm } from "./CommentForm";
 
+// props for review comments
 interface ReviewCommentsProps {
   postUri?: string;
   postCid?: string;
@@ -19,6 +20,7 @@ interface ReviewCommentsProps {
 
 // eslint-disable-next-line max-lines-per-function
 export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
+  // constants for comment retrieval and submitting for reviews
   const { comments, loading, resolvedCid, fetchComments } = useComments(
     postUri,
     postCid,
@@ -29,6 +31,8 @@ export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
 
   if (!postUri) return null;
 
+  // handling submission of comment on review
+  // error handling if submission of comment fails
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim() || !resolvedCid) return;
@@ -39,6 +43,7 @@ export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
 
     setSubmitting(true);
     setError("");
+    // handling creation of comment with atApiService using .createRecord() method
     try {
       await atApiService.agent.com.atproto.repo.createRecord({
         repo: atApiService.agent.session.did,
@@ -62,6 +67,8 @@ export function ReviewComments({ postUri, postCid }: ReviewCommentsProps) {
     }
   };
 
+  // content called to display comments and comment form
+  // allows for refreshing of comments using button
   return (
     <div className="mt-8 border-t border-zinc-800 pt-6">
       <div className="flex items-center justify-between mb-4">

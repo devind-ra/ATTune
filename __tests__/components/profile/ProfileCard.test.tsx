@@ -1,3 +1,7 @@
+// ProfileCard test file
+// Focuses on testing ProfileCard component
+// Tests scenarios such as rendering profile information, fallbacks and follow functionality
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ProfileCard } from "@/components/profile/ProfileCard";
@@ -21,7 +25,7 @@ describe("ProfileCard", () => {
     onFollowToggle: vi.fn(),
   };
 
-  it("should render display name, handle, and description", () => {
+  it("should render display name, handle and description", () => {
     render(<ProfileCard {...defaultProps} />);
 
     expect(screen.getByText("John Doe")).toBeDefined();
@@ -44,7 +48,7 @@ describe("ProfileCard", () => {
     expect(screen.queryByRole("img")).toBeNull();
   });
 
-  it("should correctly pluralize review labels", () => {
+  it("should correctly pluralise review labels", () => {
     const { rerender } = render(
       <ProfileCard {...defaultProps} thisYearReviewCount={1} />,
     );

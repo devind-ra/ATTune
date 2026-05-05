@@ -1,3 +1,7 @@
+// lastfm test file
+// Focuses on testing lastfm using last.fm API methods
+// Tests scenarios focusing on lastfm API calls and error handling
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const ARTIST_NAME = "Radiohead";

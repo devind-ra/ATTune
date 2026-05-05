@@ -7,11 +7,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { atApiService } from "@/lib/atproto";
 
 export function useWipeData() {
+  // constants holding data for handling wiping of data
   const { session } = useAuth();
   const [password, setPassword] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
 
+  // handles wiping of data by logging into atApiService and deleting all reviews and tastes
+  // error handling if password or data deletion is unsuccessful
   const handleWipeData = async (onSuccess: () => void) => {
     if (!session) return;
     setIsDeleting(true);

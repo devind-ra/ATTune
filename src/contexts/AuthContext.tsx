@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 const SESSION_KEY = "atp_session";
 
+// setting the session key to retrieve session data from local storage
 const storage = {
   get: (): AuthSession | null => {
     const data = localStorage.getItem(SESSION_KEY);
@@ -31,6 +32,7 @@ const storage = {
   },
 };
 
+// defining the auth context type
 interface AuthContextType {
   session: AuthSession | null;
   isLoading: boolean;
@@ -41,10 +43,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  // constants to help with session management
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  // restoring session if found in local storage
   const restoreSession = useCallback(async () => {
     try {
       const stored = storage.get();
@@ -69,11 +73,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     restoreSession();
   }, [restoreSession]);
 
+  // logging in results in new session being stored in local storage
   const login = (newSession: AuthSession) => {
     storage.set(newSession);
     setSession(newSession);
   };
 
+  // logging out clears the session in local storage and removes session key
   const logout = async () => {
     try {
       await atApiService.agent.logout();
@@ -85,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/");
   };
 
+  // returning the auth context to be used in the application to enforce session management
   return (
     <AuthContext.Provider value={{ session, isLoading, login, logout }}>
       {children}
@@ -93,6 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
+  // function used to help with session management throughout application
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");

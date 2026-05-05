@@ -8,6 +8,7 @@ import StarRating from "./StarRating";
 import { AlbumPreview } from "../record/AlbumPreview";
 import { ReviewFormActions } from "../record/ReviewFormActions";
 
+// props for review form fields component
 interface ReviewFormFieldsProps {
   title: string;
   artist: string;
@@ -44,6 +45,8 @@ export function ReviewFormFields({
   onCancel,
   onBackToSearch,
 }: ReviewFormFieldsProps) {
+  // content called using AlbumPreview, StarRating and ReviewFormActions components
+  // displays content which requires user input for review creation
   return (
     <>
       <AlbumPreview

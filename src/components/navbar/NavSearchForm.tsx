@@ -9,6 +9,7 @@ interface Props {
   className?: string;
 }
 
+// calls SVG Search Icon
 const SearchIcon = () => (
   <svg
     className="h-4 w-4 text-zinc-400 group-focus-within:text-sky-500 transition-colors"
@@ -32,6 +33,7 @@ export function NavSearchForm({
   onSubmit,
   className = "",
 }: Props) {
+  // content called to provide search icon with user input through the search bar
   return (
     <form onSubmit={onSubmit} className={`relative group ${className}`}>
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

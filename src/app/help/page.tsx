@@ -1,5 +1,7 @@
 // Help Page
 // Contains the following:
+// - Uses React markdown for content on help page
+// - Allows users to go back to previous page
 
 "use client";
 
@@ -22,6 +24,7 @@ export default function HelpPage() {
     }
   }, [session, isLoading, router]);
 
+  // markdown content provided from help.md file
   useEffect(() => {
     fetch("/help.md")
       .then((res) => res.text())
@@ -37,6 +40,7 @@ export default function HelpPage() {
     );
   }
 
+  // content is added to page using markdown file using markdown_components library file
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

@@ -1,3 +1,7 @@
+// HeroSection test file
+// Focuses on testing HeroSection component using mocked scroll
+// Tests scenarios such as rendering content, button clicks and styling
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { HeroSection } from "@/components/landing/HeroSection";

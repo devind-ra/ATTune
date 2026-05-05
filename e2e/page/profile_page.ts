@@ -1,3 +1,9 @@
+// Profile Page POM
+// Contains the following:
+// - Constructor for elements on profile page
+// - Methods for checking elements
+// - Methods for interacting with elements on profile page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { profilePageContent } from "../content/profile_page_content";
@@ -9,8 +15,12 @@ export class ProfilePage {
   private readonly followingText: string;
   private readonly tastesHeading: string;
   private readonly artistsSubHeading: string;
+  private readonly artistsFormSubheading: string;
   private readonly genresSubHeading: string;
+  private readonly genresFormSubheading: string;
   private readonly editTastesText: string;
+  private readonly saveTastesButton: string;
+  private readonly cancelTastesButton: string;
   private readonly reviewActivityHeading: string;
   private readonly reviewActivityText: string;
   private readonly reviewActivityLessText: string;
@@ -28,8 +38,12 @@ export class ProfilePage {
     this.followingText = profilePageContent.followingText;
     this.tastesHeading = profilePageContent.tastesHeading;
     this.artistsSubHeading = profilePageContent.artistsSubHeading;
+    this.artistsFormSubheading = profilePageContent.artistsFormSubheading;
     this.genresSubHeading = profilePageContent.genresSubHeading;
+    this.genresFormSubheading = profilePageContent.genresFormSubheading;
     this.editTastesText = profilePageContent.editTastesText;
+    this.saveTastesButton = profilePageContent.saveTastesButton;
+    this.cancelTastesButton = profilePageContent.cancelTastesButton;
     this.reviewActivityHeading = profilePageContent.reviewActivityHeading;
     this.reviewActivityText = profilePageContent.reviewActivityText;
     this.reviewActivityLessText = profilePageContent.reviewActivityLessText;
@@ -117,6 +131,38 @@ export class ProfilePage {
     await expect(
       this.page.getByRole("link", { name: this.showMoreReviewsText }),
     ).toBeVisible();
+  }
+
+  async checkEditTastes() {
+    await this.clickEditTastes();
+    await expect(
+      this.page.getByRole("heading", { name: this.artistsFormSubheading }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: this.genresFormSubheading }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.saveTastesButton }),
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("button", { name: this.cancelTastesButton }),
+    ).toBeVisible();
+  }
+
+  async clickEditTastes() {
+    await this.page.getByRole("button", { name: this.editTastesText }).click();
+  }
+
+  async clickSaveTastes() {
+    await this.page
+      .getByRole("button", { name: this.saveTastesButton })
+      .click();
+  }
+
+  async clickCancelTastes() {
+    await this.page
+      .getByRole("button", { name: this.cancelTastesButton })
+      .click();
   }
 
   async clickShowMoreReviews() {

@@ -13,13 +13,16 @@ import {
   AppBskyFeedDefs,
 } from "@atproto/api";
 
+// constants used for AT Protocol record collections
 export const REVIEW_COLLECTION = "app.attune.music.review";
 export const PROFILE_COLLECTION = "app.attune.music.profile";
 export const BSKY_POST_COLLECTION = "app.bsky.feed.post";
 export const ERROR_NOT_LOGGED_IN = "Not logged in";
+export const LIKE_COLLECTION = "app.bsky.feed.like";
 
 export type AuthSession = AtpSessionData;
 
+// interface for a music review
 export interface MusicReview {
   subjectTitle: string;
   subjectArtist: string;
@@ -32,12 +35,14 @@ export interface MusicReview {
   postCid?: string;
 }
 
+// interface for a user's tastes
 export interface UserTastes {
   topArtists: string[];
   topGenres: string[];
   updatedAt: string;
 }
 
+// interface for a review record
 export interface ReviewRecord {
   uri: string;
   cid: string;
@@ -45,11 +50,13 @@ export interface ReviewRecord {
   author?: string | AppBskyActorDefs.ProfileViewBasic;
 }
 
+// AT Protocol Service class used to interact with AT Protocol
 export class AtProtoService {
   public agent: BskyAgent;
   private publicAgent: BskyAgent;
 
   constructor() {
+    // agent used for authenticated requests and setting session data
     this.agent = new BskyAgent({
       service: "https://bsky.social",
       persistSession: (evt, sess) => {
@@ -65,12 +72,14 @@ export class AtProtoService {
     this.publicAgent = new BskyAgent({ service: "https://bsky.social" });
   }
 
+  // login function to authenticate with AT Protocol
   async login(identifier: string, password: string) {
     await this.agent.login({ identifier, password });
     if (!this.agent.session) throw new Error("Session not created");
     return this.agent.session;
   }
 
+  // helper function to truncate review text for Bluesky posts
   private truncateReviewText(
     text: string | undefined,
     maxLength = 200,
@@ -81,6 +90,7 @@ export class AtProtoService {
       : text;
   }
 
+  // helper function to create a Bluesky post using .createRecord() method
   private async createBlueskyPost(
     review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
     createdAt: string,
@@ -103,6 +113,7 @@ export class AtProtoService {
     }
   }
 
+  // function to create a review using .createRecord() method
   async createReview(
     review: Omit<MusicReview, "createdAt" | "postUri" | "postCid">,
     publishToBluesky: boolean = true,
@@ -131,6 +142,7 @@ export class AtProtoService {
     });
   }
 
+  // helper function to update a Bluesky post using .putRecord() method
   private async updateBlueskyPost(
     postUri: string,
     review: Omit<MusicReview, "createdAt" | "updatedAt">,
@@ -155,6 +167,7 @@ export class AtProtoService {
     }
   }
 
+  // function to update a review using .putRecord() method
   async updateReview(
     uri: string,
     review: Omit<MusicReview, "createdAt" | "updatedAt">,
@@ -185,6 +198,7 @@ export class AtProtoService {
     });
   }
 
+  // function to delete a review using .deleteRecord() method
   async deleteReview(uri: string) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
@@ -199,6 +213,7 @@ export class AtProtoService {
     });
   }
 
+  // function to get a user's reviews using .listRecords() method
   async getReviews(did: string): Promise<ReviewRecord[]> {
     let allRecords: { uri: string; cid: string; value: unknown }[] = [];
     let cursor: string | undefined = undefined;
@@ -230,6 +245,7 @@ export class AtProtoService {
     }));
   }
 
+  // helper function to parse a Bluesky post to a review record for companion posts
   private parsePostToReview(
     post: AppBskyFeedDefs.PostView,
     title: string,
@@ -272,6 +288,7 @@ export class AtProtoService {
     };
   }
 
+  // function to get other user reviews using .searchPosts() method
   async getOtherReviews(title: string, artist: string, currentUserDid: string) {
     if (!this.agent.session) return [];
 
@@ -296,6 +313,7 @@ export class AtProtoService {
     }
   }
 
+  // function to resume a session using .resumeSession() method
   async resumeSession(session: AuthSession) {
     await this.agent.resumeSession(session);
     const { data } = await this.agent.com.atproto.server.getSession();
@@ -304,6 +322,7 @@ export class AtProtoService {
     }
   }
 
+  // function to get a user's tastes using .getRecord() method from PROFILE_COLLECTION
   async getTastes(did: string) {
     const agentToUse =
       did === this.agent.session?.did ? this.agent : this.publicAgent;
@@ -319,6 +338,7 @@ export class AtProtoService {
     }
   }
 
+  // function to update a user's tastes using .putRecord() method on PROFILE_COLLECTION
   async updateTastes(tastes: Omit<UserTastes, "updatedAt">) {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
@@ -338,6 +358,7 @@ export class AtProtoService {
     });
   }
 
+  // function to delete a user's tastes using .deleteRecord() method on PROFILE_COLLECTION
   async deleteTastes() {
     if (!this.agent.session) {
       throw new Error(ERROR_NOT_LOGGED_IN);
@@ -354,6 +375,7 @@ export class AtProtoService {
     }
   }
 
+  // function to get post metrics such as like count and viewer like using .getPosts() method on post URIs
   async getPostMetrics(postUri: string) {
     if (!this.agent.session) return { likeCount: 0, viewerLike: undefined };
     try {
@@ -369,11 +391,12 @@ export class AtProtoService {
     }
   }
 
+  // function to like a post using .createRecord() method on LIKE_COLLECTION
   async likePost(postUri: string, postCid: string) {
     if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
     return await this.agent.com.atproto.repo.createRecord({
       repo: this.agent.session.did,
-      collection: "app.bsky.feed.like",
+      collection: LIKE_COLLECTION,
       record: {
         subject: { uri: postUri, cid: postCid },
         createdAt: new Date().toISOString(),
@@ -381,16 +404,18 @@ export class AtProtoService {
     });
   }
 
+  // function to unlike a post using .deleteRecord() method on LIKE_COLLECTION
   async unlikePost(likeUri: string) {
     if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
     const rkey = likeUri.split("/").pop() || likeUri;
     return await this.agent.com.atproto.repo.deleteRecord({
       repo: this.agent.session.did,
-      collection: "app.bsky.feed.like",
+      collection: LIKE_COLLECTION,
       rkey: rkey,
     });
   }
 
+  // function to search users using .searchActorsTypeahead() method
   async searchUsers(query: string) {
     try {
       const response = await this.agent.searchActorsTypeahead({
@@ -404,11 +429,13 @@ export class AtProtoService {
     }
   }
 
+  // function to follow a user using .follow() method on BskyAgent
   async followUser(did: string) {
     if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
     return await this.agent.follow(did);
   }
 
+  // function to unfollow a user using .deleteFollow() method on BskyAgent
   async unfollowUser(followUri: string) {
     if (!this.agent.session) throw new Error(ERROR_NOT_LOGGED_IN);
     return await this.agent.deleteFollow(followUri);

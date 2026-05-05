@@ -1,7 +1,7 @@
 export const reviewsPageContent = {
   title: "Reviews - ATtune",
   heading: "Your Reviews",
-  backtoProfile: "Back to Profile",
+  backToProfile: "Back to Profile",
   reviewFunctionsSubheading:
     "Edit, delete a review or click on a review to view comments",
   sortBy: "Sort by",

@@ -1,3 +1,8 @@
+// Album Page POM
+// Contains the following:
+// - Constructor for elements on album page
+// - Methods for checking elements
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { albumPageContent } from "../content/album_page_content";

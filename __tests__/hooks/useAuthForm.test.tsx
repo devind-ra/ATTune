@@ -1,3 +1,7 @@
+// useAuthForm test file
+// Focuses on testing useAuthForm hook using mocked atproto file and AuthContext
+// Testing scenarios such as handling login states and error handling
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useAuthForm } from "@/app/hooks/useAuthForm";
@@ -18,7 +22,7 @@ vi.mock("@/contexts/AuthContext", () => ({
   }),
 }));
 
-describe("useAuthForm hook", () => {
+describe("useAuthForm", () => {
   const loginMock = vi.fn();
 
   beforeEach(() => {

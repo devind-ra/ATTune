@@ -20,11 +20,13 @@ interface ArtistData {
 }
 
 export function useArtistData(artistName: string): ArtistData {
+  // constants used to data for artist template page
   const [artistInfo, setArtistInfo] = useState<LastFMArtistInfo | null>(null);
   const [topTracks, setTopTracks] = useState<LastFMTrack[]>([]);
   const [topAlbums, setTopAlbums] = useState<LastFMAlbum[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // uses last.fm API methods to store info, tracks and albums to be used for page
   useEffect(() => {
     if (!artistName) return;
     async function loadData() {

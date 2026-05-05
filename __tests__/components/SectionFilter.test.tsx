@@ -1,3 +1,7 @@
+// SectionFilter test file
+// Focuses on testing SectionFilter component
+// Testing scenarios such as rendering content, calls to dropdown sections and handling states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { SectionFilter } from "@/components/SectionFilter";
@@ -6,7 +10,7 @@ import { ALL_SECTIONS, SectionId } from "@/lib/sections";
 const BUTTON = "button";
 const RECOMMENDED_ALBUMS = "Recommended Albums";
 
-describe("SectionFilter component", () => {
+describe("SectionFilter", () => {
   const mockOnToggle = vi.fn();
   const defaultVisibleSections = new Set<SectionId>([
     "recommendedAlbums",

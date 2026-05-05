@@ -1,3 +1,7 @@
+// NavSearchForm test file
+// Focuses on testing the NavSearch form
+// Tests scenarios such as search bar text, onChange, onSubmit and styling
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { NavSearchForm } from "@/components/navbar/NavSearchForm";

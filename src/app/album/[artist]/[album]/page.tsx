@@ -1,6 +1,6 @@
 // Album template page
 // Contains the following:
-// - Calls Album header, tags, wiki and review components
+// - Calls AlbumHeader, AlbumTags, AlbumWiki and ReviewSection components
 // - Uses useAlbumPage hook to fetch album data
 // - Uses parseImage, parseReleaseDate, cleanWiki utils to parse album data
 
@@ -18,6 +18,8 @@ import { parseImage, parseReleaseDate, cleanWiki } from "@/lib/utils";
 
 // eslint-disable-next-line max-lines-per-function
 export default function AlbumPage() {
+  // creating constants to hold artist/album URL and data from Last.fm methods
+  // useAlbumPage hook used to collect content needed for page
   const params = useParams();
   const artistName = decodeURIComponent((params.artist as string) ?? "");
   const albumName = decodeURIComponent((params.album as string) ?? "");
@@ -33,21 +35,24 @@ export default function AlbumPage() {
     );
   }
 
+  // handling no data found for album
   if (!albumInfo) {
     return (
       <div className="min-h-screen font-sans">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <Navbar />
-          <div className="mt-8 text-center text-zinc-500">Album not found.</div>
+          <div className="mt-8 text-center text-zinc-200">Album not found.</div>
         </main>
       </div>
     );
   }
 
+  // using utils function to handle size of album image
   const img = parseImage(albumInfo.image);
 
+  // content for album template page
   return (
-    <div className="min-h-screen   font-sans selection:bg-sky-500/30">
+    <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Navbar />
 

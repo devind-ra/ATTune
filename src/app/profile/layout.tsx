@@ -1,3 +1,5 @@
+// Profile Page Title
+
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {

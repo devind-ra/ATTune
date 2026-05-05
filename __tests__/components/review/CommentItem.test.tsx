@@ -1,3 +1,7 @@
+// CommentItem test file
+// Focuses on testing CommentItem component using mocked comment values
+// Testing scenarios such as rendering content, fallbacks and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { CommentItem } from "@/components/review/CommentItem";
@@ -16,7 +20,7 @@ describe("CommentItem", () => {
     },
   };
 
-  it("should render the display name, handle, and comment text", () => {
+  it("should render the display name, handle and comment text", () => {
     render(<CommentItem comment={mockComment as any} />);
 
     expect(screen.getByText("Test User")).toBeDefined();

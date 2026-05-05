@@ -1,3 +1,9 @@
+// Explore Page POM
+// Contains the following:
+// - Constructor for elements on explore page
+// - Methods for checking elements
+// - Methods for interacting with elements on explore page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { explorePageContent } from "../content/explore_page_content";

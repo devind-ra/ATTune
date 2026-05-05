@@ -11,11 +11,14 @@ export function useReviewInteractions(
   reviews: { uri: string; value: MusicReview }[],
   refresh: () => void,
 ) {
+  // constants store data related to review
   const [selectedReview, setSelectedReview] = useState<{
     uri: string;
     value: MusicReview;
   } | null>(null);
 
+  // helper method to handle deletion of review and error handling
+  // uses .deleteReview() from atApiService
   const handleDelete = async (uri: string) => {
     if (window.confirm("Are you sure you want to delete this review?")) {
       try {
@@ -31,6 +34,8 @@ export function useReviewInteractions(
     }
   };
 
+  // helper method to handle editing of review and error handling
+  // uses .updateReview() from atApiService
   const handleEdit = async (uri: string, editData: Partial<MusicReview>) => {
     try {
       const originalItem = reviews.find((r) => r.uri === uri);

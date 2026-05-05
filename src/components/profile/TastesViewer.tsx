@@ -7,6 +7,8 @@ import Link from "next/link";
 import { UserTastes } from "@/lib/atproto";
 
 export function TastesViewer({ tastes }: { tastes: UserTastes | null }) {
+  // content called to display the Top Artists and Genres of a user
+  // error handling if no artists or genres have been added to the profile page
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>

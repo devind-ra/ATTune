@@ -9,6 +9,7 @@ import { ArtistList } from "./ArtistList";
 import { AlbumList } from "@/components/AlbumList";
 import { UserList } from "@/components/UserList";
 
+// props passed to search result sections
 interface SearchResultSectionsProps {
   artists: LastFMArtist[];
   albums: LastFMAlbum[];
@@ -16,6 +17,7 @@ interface SearchResultSectionsProps {
   primaryResultType: "artist" | "album";
 }
 
+// helper function used to display each section headings
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <h3 className="text-lg font-semibold mb-4 text-white border-b border-zinc-800 pb-2">
@@ -24,6 +26,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
+// helper function used to display artists with their relevant SectionHeading and artists
 function ArtistSection({ artists }: { artists: LastFMArtist[] }) {
   return (
     <section>
@@ -33,6 +36,7 @@ function ArtistSection({ artists }: { artists: LastFMArtist[] }) {
   );
 }
 
+// helper function used to display albums with their relevant SectionHeading and albums
 function AlbumSection({ albums }: { albums: LastFMAlbum[] }) {
   return (
     <section>
@@ -42,6 +46,7 @@ function AlbumSection({ albums }: { albums: LastFMAlbum[] }) {
   );
 }
 
+// helper function used to display users with their relevant SectionHeading and users
 function UserSection({
   users,
 }: {
@@ -62,6 +67,7 @@ export function SearchResultSections({
   users,
   primaryResultType,
 }: SearchResultSectionsProps) {
+  // constants used to display sections in order required based on primaryResultType
   const artistSection = <ArtistSection artists={artists} />;
   const albumSection = <AlbumSection albums={albums} />;
   const userSection = <UserSection users={users} />;
@@ -70,6 +76,7 @@ export function SearchResultSections({
       ? [artistSection, albumSection, userSection]
       : [albumSection, artistSection, userSection];
 
+  // content called with mapped sections
   return (
     <div className="space-y-12">
       {sections.map((section, idx) => (

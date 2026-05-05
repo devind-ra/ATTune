@@ -12,6 +12,7 @@ import { useProfileReviews } from "./useProfileReviews";
 import { useProfileTastes } from "./useProfileTastes";
 
 export function useProfilePage() {
+  // constants to hold all data used within profile page
   const { session, isLoading } = useAuth();
   const router = useRouter();
   const [profile, setProfile] =
@@ -29,6 +30,7 @@ export function useProfilePage() {
     if (!isLoading && !session) router.push("/");
   }, [session, isLoading, router]);
 
+  // uses agent from atApiService to retrieve user profile data
   useEffect(() => {
     if (!session) return;
     atApiService.agent

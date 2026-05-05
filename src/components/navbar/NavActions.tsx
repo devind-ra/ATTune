@@ -13,9 +13,11 @@ interface Props {
 
 // eslint-disable-next-line max-lines-per-function
 export function NavActions({ onLogout }: Props) {
+  // constants used to handle dropdown for NavActions component
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // handleClickOutside used to help handle if dropdown is needed or not based on event listener
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -29,6 +31,8 @@ export function NavActions({ onLogout }: Props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // content called in Navbar including Profile, Explore, Record and Account (which drops down to Settings and Help)
+  // uses navigation links and buttons to allow for user interaction
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
       <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm font-medium text-white w-full md:w-auto">

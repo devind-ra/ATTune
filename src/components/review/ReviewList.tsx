@@ -11,24 +11,30 @@ import { CommentModal } from "./CommentModal";
 import { useReviewInteractions } from "@/app/hooks/useReviewInteractions";
 
 export default function ReviewList(props: UseReviewsProps) {
+  // constants used to handle reviews state
+  // calls useReviewInteractions to handle review interactions
   const { reviews, loading, refresh } = useReviews(props);
   const { selectedReview, setSelectedReview, handleDelete, handleEdit } =
     useReviewInteractions(reviews, refresh);
 
   if (loading) {
     return (
-      <div className="text-center py-10 text-zinc-500">Loading reviews...</div>
+      <div className="text-center py-10 text-zinc-200">Loading reviews...</div>
     );
   }
 
+  // error handling if no reviews are found
   if (reviews.length === 0) {
     return (
-      <div className="text-center py-10 text-white">
+      <div className="text-center py-10 text-zinc-200">
         No reviews yet. Be the first!
       </div>
     );
   }
 
+  // content is called to allow for editing of reviews
+  // each review is displayed using ReviewItem component
+  // CommentModal is displayed when user clicks on a review to view comments
   return (
     <>
       <div className="space-y-4">

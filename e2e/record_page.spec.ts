@@ -1,3 +1,5 @@
+// Record Page Tests calling POM with content
+
 import { test } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 import { Navbar } from "./page/navbar";
@@ -22,4 +24,37 @@ test("checking record form elements", async ({ page }) => {
   const recordPage = new RecordPage(page);
   await recordPage.searchAndSelectAlbum();
   await recordPage.checkReviewForm();
+});
+
+test("creating a review", async ({ page }) => {
+  const recordPage = new RecordPage(page);
+  await recordPage.searchAndSelectAlbum();
+  await recordPage.fillReviewForm("5", "Great album!");
+  await recordPage.postReview();
+});
+
+test("cancelling a review", async ({ page }) => {
+  const recordPage = new RecordPage(page);
+  await recordPage.searchAndSelectAlbum();
+  await recordPage.fillReviewForm("5", "Great album!");
+  await recordPage.cancelReview();
+});
+
+test("checking comments", async ({ page }) => {
+  const recordPage = new RecordPage(page);
+  await recordPage.clickAndCheckComments();
+});
+
+test("creating a comment", async ({ page }) => {
+  const recordPage = new RecordPage(page);
+  await recordPage.clickAndCheckComments();
+  await recordPage.fillCommentForm("Great review!");
+  await recordPage.clickPostComment();
+});
+
+test("cancelling a comment", async ({ page }) => {
+  const recordPage = new RecordPage(page);
+  await recordPage.clickAndCheckComments();
+  await recordPage.fillCommentForm("Great review!");
+  await recordPage.clickCloseCommentModal();
 });

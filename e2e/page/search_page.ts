@@ -1,3 +1,9 @@
+// Search Page POM
+// Contains the following:
+// - Constructor for elements on search page
+// - Methods for checking elements
+// - Methods for interacting with elements on search page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { searchPageContent } from "../content/search_page_content";

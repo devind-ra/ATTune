@@ -9,12 +9,16 @@ const BIO_LINK_REGEX =
   /<a href="https:\/\/www\.last\.fm[^>]+>Read more on Last\.fm<\/a>/g;
 
 export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
+  // constants used to hold artist information such as stats, tags and biography
   const stats = artistInfo.stats || {};
   const tags: LastFMTag[] = artistInfo.tags?.tag || [];
   const bioContent =
     artistInfo.bio?.summary?.replace(BIO_LINK_REGEX, "") ||
     "No biography available.";
 
+  // content called to display artist information such as their name, stats, tags and bio with link to last.fm
+  // calls other components such as ArtistStats and ArtistTags
+  // error handling for missing props
   return (
     <div className="mt-8 relative bg-zinc-900 rounded-3xl overflow-hidden shadow-sm border border-zinc-800">
       <div className="p-8 flex flex-col justify-center">
@@ -43,6 +47,7 @@ export function ArtistHeader({ artistInfo }: { artistInfo: LastFMArtistInfo }) {
   );
 }
 
+// helper function to display artist stats
 function ArtistStats({ stats }: { stats: Record<string, string> }) {
   if (!stats.listeners && !stats.playcount) return null;
   return (
@@ -57,6 +62,7 @@ function ArtistStats({ stats }: { stats: Record<string, string> }) {
   );
 }
 
+// helper function to display artist tags
 function ArtistTags({ tags }: { tags: LastFMTag[] }) {
   if (!tags.length) return null;
   return (

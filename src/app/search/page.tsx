@@ -13,6 +13,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { useSearch } from "@/app/hooks/useSearch";
 import { SearchResultSections } from "@/components/SearchResultSections";
 
+// helper function used to make use of useSearch hook to retrieve results from search input
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
@@ -59,6 +60,8 @@ function SearchResults() {
 }
 
 export default function SearchPage() {
+  // Uses Suspense to ensure fallback is in place before search results are displayed
+  // SearchResults call to helper function above
   return (
     <Suspense
       fallback={

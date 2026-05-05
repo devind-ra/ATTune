@@ -1,3 +1,9 @@
+// Other User Profile Page POM
+// Contains the following:
+// - Constructor for elements on other user profile page
+// - Methods for checking elements
+// - Methods for interacting with elements on other user profile page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { otherUserProfilePageContent } from "../content/other_user_profile_page_content";

@@ -1,6 +1,6 @@
 // Record Page
 // Contains the following:
-// - Integrates ReviewForm and ReviewList components
+// - Calls ReviewForm and ReviewList components
 
 "use client";
 
@@ -12,6 +12,7 @@ import ReviewForm from "@/components/review/ReviewForm";
 import Navbar from "@/components/navbar/Navbar";
 
 export default function RecordPage() {
+  // constants storing session data
   const { session, isLoading } = useAuth();
   const router = useRouter();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -22,6 +23,7 @@ export default function RecordPage() {
     }
   }, [session, isLoading, router]);
 
+  // refresh mechanism used to act as a bridge between the form and the list of reviews
   const handleReviewCreated = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
@@ -34,6 +36,7 @@ export default function RecordPage() {
     );
   }
 
+  // content called ReviewForm and ReviewList used to display form for recording reviews and display reviews
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

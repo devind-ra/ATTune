@@ -1,3 +1,7 @@
+// useHomeData test file
+// Focuses on testing useHomeData hook using mocked atproto, lastfm, utils, AuthContext, next navigation and mock artist data (tastes, similiar artists, albums and tagged artists)
+// Testing scenarios such as handling states, redirections, API calls and data processing
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useHomeData } from "@/app/hooks/useHomeData";
@@ -71,7 +75,7 @@ const mockTagArtists = [
   { name: "Autechre", listeners: "300000" },
 ];
 
-describe("useHomeData hook", () => {
+describe("useHomeData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -83,290 +87,281 @@ describe("useHomeData hook", () => {
     );
   });
 
-  describe("auth redirect", () => {
-    it("should redirect to / when not loading and no session", async () => {
-      contextMock.session = null;
-      contextMock.isLoading = false;
+  it("should redirect to root when not loading and no session", async () => {
+    contextMock.session = null;
+    contextMock.isLoading = false;
 
-      renderHook(() => useHomeData());
+    renderHook(() => useHomeData());
 
-      await waitFor(() => {
-        expect(routerPushMock).toHaveBeenCalledWith("/");
-      });
-    });
-
-    it("should not redirect when session exists", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
-
-      renderHook(() => useHomeData());
-
-      await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
-
-      expect(routerPushMock).not.toHaveBeenCalled();
-    });
-
-    it("should not redirect while still loading", () => {
-      contextMock.session = null;
-      contextMock.isLoading = true;
-
-      renderHook(() => useHomeData());
-
-      expect(routerPushMock).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(routerPushMock).toHaveBeenCalledWith("/");
     });
   });
 
-  describe("isReady", () => {
-    it("should be false when isLoading is true", () => {
-      contextMock.isLoading = true;
+  it("should not redirect when session exists", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
 
-      const { result } = renderHook(() => useHomeData());
+    renderHook(() => useHomeData());
 
-      expect(result.current.isReady).toBe(false);
-    });
+    await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
 
-    it("should be false when session is null", () => {
-      contextMock.session = null;
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
 
-      const { result } = renderHook(() => useHomeData());
+  it("should not redirect while still loading", () => {
+    contextMock.session = null;
+    contextMock.isLoading = true;
 
-      expect(result.current.isReady).toBe(false);
-    });
+    renderHook(() => useHomeData());
 
-    it("should be true when session exists and not loading", () => {
-      const { result } = renderHook(() => useHomeData());
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
 
-      expect(result.current.isReady).toBe(true);
+  it("should be false when isLoading is true", () => {
+    contextMock.isLoading = true;
+
+    const { result } = renderHook(() => useHomeData());
+
+    expect(result.current.isReady).toBe(false);
+  });
+
+  it("should be false when session is null", () => {
+    contextMock.session = null;
+
+    const { result } = renderHook(() => useHomeData());
+
+    expect(result.current.isReady).toBe(false);
+  });
+
+  it("should be true when session exists and not loading", () => {
+    const { result } = renderHook(() => useHomeData());
+
+    expect(result.current.isReady).toBe(true);
+  });
+
+  it("should call getTastes with the session did", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+
+    renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(atApiService.getTastes).toHaveBeenCalledWith("did:plc:123");
     });
   });
 
-  describe("loading recommendations", () => {
-    it("should call getTastes with the session did", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+  it("should do nothing further when tastes is null", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
 
-      renderHook(() => useHomeData());
+    const { result } = renderHook(() => useHomeData());
 
-      await waitFor(() => {
-        expect(atApiService.getTastes).toHaveBeenCalledWith("did:plc:123");
-      });
-    });
+    await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
 
-    it("should do nothing further when tastes is null", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+    expect(result.current.recommendedArtists).toEqual([]);
+    expect(result.current.recommendedAlbums).toEqual([]);
+    expect(result.current.tagArtists).toEqual([]);
+  });
 
-      const { result } = renderHook(() => useHomeData());
+  it("should call getSimilarArtists for each top artist in tastes", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue(mockSimilarArtists);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
 
-      await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
+    renderHook(() => useHomeData());
 
-      expect(result.current.recommendedArtists).toEqual([]);
-      expect(result.current.recommendedAlbums).toEqual([]);
-      expect(result.current.tagArtists).toEqual([]);
-    });
-
-    it("should call getSimilarArtists for each top artist in tastes", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue(mockSimilarArtists);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(getSimilarArtists).toHaveBeenCalledWith("Radiohead", "5");
-        expect(getSimilarArtists).toHaveBeenCalledWith("Aphex Twin", "5");
-      });
-    });
-
-    it("should call getTopAlbumsByTag for each genre in tastes", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Electronic", "20");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Ambient", "20");
-      });
-    });
-
-    it("should call getTopArtistsByTag for each genre in tastes", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue(mockTagArtists);
-
-      renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(getTopArtistsByTag).toHaveBeenCalledWith("Electronic", "5");
-        expect(getTopArtistsByTag).toHaveBeenCalledWith("Ambient", "5");
-      });
-    });
-
-    it("should deduplicate and slice recommended artists to 5", async () => {
-      const manyArtists = Array.from({ length: 8 }, (_, i) => ({
-        name: `Artist ${i}`,
-        listeners: "100",
-      }));
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue(manyArtists);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(result.current.recommendedArtists).toHaveLength(5);
-      });
-    });
-
-    it("should deduplicate and slice recommended albums to 5", async () => {
-      const manyAlbums = Array.from({ length: 8 }, (_, i) => ({
-        name: `Album ${i}`,
-        artist: { name: "Artist" },
-        image: [],
-      }));
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue(manyAlbums);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(result.current.recommendedAlbums).toHaveLength(8);
-      });
-    });
-
-    it("should deduplicate and slice tagArtists to 5", async () => {
-      const manyTagArtists = Array.from({ length: 8 }, (_, i) => ({
-        name: `Tag Artist ${i}`,
-        listeners: "100",
-      }));
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue(manyTagArtists);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        expect(result.current.tagArtists).toHaveLength(5);
-      });
-    });
-
-    it("should remove duplicate artists by name", async () => {
-      const dupeArtists = [
-        { name: "Radiohead", listeners: "100" },
-        { name: "Radiohead", listeners: "100" },
-        { name: "Portishead", listeners: "200" },
-      ];
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
-        ...mockTastes,
-        topArtists: ["Radiohead"],
-      });
-      vi.mocked(getSimilarArtists).mockResolvedValueOnce(dupeArtists);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        const names = result.current.recommendedArtists.map((a) => a.name);
-        expect(names).toEqual(["Radiohead", "Portishead"]);
-      });
-    });
-
-    it("should remove duplicate albums by name + artist", async () => {
-      vi.mocked(getArtistName).mockReturnValue("Portishead");
-
-      const dupeAlbums = [
-        { name: "Dummy", artist: { name: "Portishead" }, image: [] },
-        { name: "Dummy", artist: { name: "Portishead" }, image: [] },
-        { name: "Blue Lines", artist: { name: "Massive Attack" }, image: [] },
-      ];
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
-        ...mockTastes,
-        topGenres: ["Electronic"],
-      });
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValueOnce(dupeAlbums);
-      vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        const names = result.current.recommendedAlbums.map((a) => a.name);
-        expect(names).toEqual(["Dummy", "Blue Lines"]);
-      });
-    });
-
-    it("should remove duplicate tagArtists by name", async () => {
-      const dupeTagArtists = [
-        { name: "Boards of Canada", listeners: "100" },
-        { name: "Boards of Canada", listeners: "100" },
-        { name: "Autechre", listeners: "200" },
-      ];
-
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
-        ...mockTastes,
-        topGenres: ["Electronic"],
-      });
-      vi.mocked(getSimilarArtists).mockResolvedValue([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      vi.mocked(getTopArtistsByTag).mockResolvedValueOnce(dupeTagArtists);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        const names = result.current.tagArtists.map((a) => a.name);
-        expect(names).toEqual(["Boards of Canada", "Autechre"]);
-      });
-    });
-
-    it("should exclude from tagArtists any artist already in recommendedArtists", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
-        ...mockTastes,
-        topArtists: ["Radiohead"],
-        topGenres: ["Electronic"],
-      });
-      vi.mocked(getSimilarArtists).mockResolvedValueOnce([
-        { name: "Portishead", listeners: "500000" },
-      ]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
-      // getTopArtistsByTag returns an artist that overlaps with recommendedArtists
-      vi.mocked(getTopArtistsByTag).mockResolvedValueOnce([
-        { name: "Portishead", listeners: "500000" },
-        { name: "Autechre", listeners: "300000" },
-      ]);
-
-      const { result } = renderHook(() => useHomeData());
-
-      await waitFor(() => {
-        const tagNames = result.current.tagArtists.map((a) => a.name);
-        expect(tagNames).not.toContain("Portishead");
-        expect(tagNames).toContain("Autechre");
-      });
+    await waitFor(() => {
+      expect(getSimilarArtists).toHaveBeenCalledWith("Radiohead", "5");
+      expect(getSimilarArtists).toHaveBeenCalledWith("Aphex Twin", "5");
     });
   });
 
-  describe("error handling", () => {
-    it("should log error when loadData throws", async () => {
-      vi.mocked(atApiService.getTastes).mockRejectedValueOnce(
-        new Error("API error"),
-      );
+  it("should call getTopAlbumsByTag for each genre in tastes", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
 
-      renderHook(() => useHomeData());
+    renderHook(() => useHomeData());
 
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(expect.any(Error));
-      });
+    await waitFor(() => {
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Electronic", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Ambient", "20");
+    });
+  });
+
+  it("should call getTopArtistsByTag for each genre in tastes", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue(mockTagArtists);
+
+    renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(getTopArtistsByTag).toHaveBeenCalledWith("Electronic", "5");
+      expect(getTopArtistsByTag).toHaveBeenCalledWith("Ambient", "5");
+    });
+  });
+
+  it("should deduplicate and slice recommended artists to 5", async () => {
+    const manyArtists = Array.from({ length: 8 }, (_, i) => ({
+      name: `Artist ${i}`,
+      listeners: "100",
+    }));
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue(manyArtists);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(result.current.recommendedArtists).toHaveLength(5);
+    });
+  });
+
+  it("should deduplicate and slice recommended albums to 5", async () => {
+    const manyAlbums = Array.from({ length: 8 }, (_, i) => ({
+      name: `Album ${i}`,
+      artist: { name: "Artist" },
+      image: [],
+    }));
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue(manyAlbums);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(result.current.recommendedAlbums).toHaveLength(8);
+    });
+  });
+
+  it("should deduplicate and slice tagArtists to 5", async () => {
+    const manyTagArtists = Array.from({ length: 8 }, (_, i) => ({
+      name: `Tag Artist ${i}`,
+      listeners: "100",
+    }));
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue(manyTagArtists);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(result.current.tagArtists).toHaveLength(5);
+    });
+  });
+
+  it("should remove duplicate artists by name", async () => {
+    const dupeArtists = [
+      { name: "Radiohead", listeners: "100" },
+      { name: "Radiohead", listeners: "100" },
+      { name: "Portishead", listeners: "200" },
+    ];
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
+      ...mockTastes,
+      topArtists: ["Radiohead"],
+    });
+    vi.mocked(getSimilarArtists).mockResolvedValueOnce(dupeArtists);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      const names = result.current.recommendedArtists.map((a) => a.name);
+      expect(names).toEqual(["Radiohead", "Portishead"]);
+    });
+  });
+
+  it("should remove duplicate albums by name and artist", async () => {
+    vi.mocked(getArtistName).mockReturnValue("Portishead");
+
+    const dupeAlbums = [
+      { name: "Dummy", artist: { name: "Portishead" }, image: [] },
+      { name: "Dummy", artist: { name: "Portishead" }, image: [] },
+      { name: "Blue Lines", artist: { name: "Massive Attack" }, image: [] },
+    ];
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
+      ...mockTastes,
+      topGenres: ["Electronic"],
+    });
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValueOnce(dupeAlbums);
+    vi.mocked(getTopArtistsByTag).mockResolvedValue([]);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      const names = result.current.recommendedAlbums.map((a) => a.name);
+      expect(names).toEqual(["Dummy", "Blue Lines"]);
+    });
+  });
+
+  it("should remove duplicate tagArtists by name", async () => {
+    const dupeTagArtists = [
+      { name: "Boards of Canada", listeners: "100" },
+      { name: "Boards of Canada", listeners: "100" },
+      { name: "Autechre", listeners: "200" },
+    ];
+
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
+      ...mockTastes,
+      topGenres: ["Electronic"],
+    });
+    vi.mocked(getSimilarArtists).mockResolvedValue([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValueOnce(dupeTagArtists);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      const names = result.current.tagArtists.map((a) => a.name);
+      expect(names).toEqual(["Boards of Canada", "Autechre"]);
+    });
+  });
+
+  it("should exclude from tagArtists any artist already in recommendedArtists", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce({
+      ...mockTastes,
+      topArtists: ["Radiohead"],
+      topGenres: ["Electronic"],
+    });
+    vi.mocked(getSimilarArtists).mockResolvedValueOnce([
+      { name: "Portishead", listeners: "500000" },
+    ]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue([]);
+    vi.mocked(getTopArtistsByTag).mockResolvedValueOnce([
+      { name: "Portishead", listeners: "500000" },
+      { name: "Autechre", listeners: "300000" },
+    ]);
+
+    const { result } = renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      const tagNames = result.current.tagArtists.map((a) => a.name);
+      expect(tagNames).not.toContain("Portishead");
+      expect(tagNames).toContain("Autechre");
+    });
+  });
+
+  it("should log error when loadData throws", async () => {
+    vi.mocked(atApiService.getTastes).mockRejectedValueOnce(
+      new Error("API error"),
+    );
+
+    renderHook(() => useHomeData());
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith(expect.any(Error));
     });
   });
 });

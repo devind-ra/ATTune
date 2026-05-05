@@ -7,6 +7,7 @@
 
 import { useWipeData } from "@/app/hooks/useWipeData";
 
+// props passed to settings modal
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -14,11 +15,14 @@ interface Props {
 
 // eslint-disable-next-line max-lines-per-function
 export default function SettingsModal({ isOpen, onClose }: Props) {
+  // constants for handling settings modal
   const { password, setPassword, isDeleting, deleteError, handleWipeData } =
     useWipeData();
 
   if (!isOpen) return null;
 
+  // content called to ensure modal is presented to user for password input
+  // handleWipeData used to wipe data after password confirmation
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-zinc-900 w-full max-w-md rounded-2xl shadow-xl border border-zinc-800 overflow-hidden transform transition-all p-6">

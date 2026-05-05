@@ -26,8 +26,11 @@ export default function AuthForm({ onLogin }: AuthFormProps) {
     loading,
     handleLogin,
   } = useAuthForm(onLogin);
+  // constants for auth form component
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
+  // content called to allow for user to sign in using their handle/email and app password
+  // uses AuthModals to help with displaying modals for help with signup or getting app password
   return (
     <>
       <div className="max-w-md mx-auto mt-10 p-6 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800">

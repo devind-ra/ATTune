@@ -1,3 +1,7 @@
+// GeoTopArtists test file
+// Focuses on testing GeoTopArtists component using mocked lastfm library file and API values
+// Tests for scenarios such as fetching data, rendering content and error handling
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GeoTopArtists } from "@/components/explore/GeoTopArtists";

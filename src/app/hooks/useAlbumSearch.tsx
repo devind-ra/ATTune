@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { searchAlbum, LastFMAlbum } from "@/lib/lastfm";
 
 export function useAlbumSearch() {
+  // constants used to hold results and queries for ReviewForm
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<LastFMAlbum[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  // results retrieved based on query and results are then reduced for ReviewForm
+  // 5 results presented for readability
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (searchQuery.trim().length <= 2) {

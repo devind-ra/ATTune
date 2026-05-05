@@ -8,6 +8,7 @@
 import { MusicReview } from "@/lib/atproto";
 import StarRating from "./StarRating";
 
+// props for review edit form component
 interface ReviewEditFormProps {
   editForm: Partial<MusicReview>;
   onChange: (form: Partial<MusicReview>) => void;
@@ -22,6 +23,9 @@ export default function ReviewEditForm({
   onSave,
   onCancel,
 }: ReviewEditFormProps) {
+  // content called to present album title and artist name both disabled
+  // content called to allow for editing of rating, review text and date listened
+  // review is edited using save or edits are discarded using cancel
   return (
     <div className="space-y-4">
       <div>

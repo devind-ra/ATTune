@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect } from "react";
 import { atApiService, MusicReview } from "@/lib/atproto";
 import { compareReviews } from "@/lib/utils";
 
+// providing filter values to sort reviews
 export type SortOption =
   | "date-desc"
   | "date-asc"
@@ -28,11 +29,14 @@ export function useReviews({
   filterArtist,
   sortBy = "date-desc",
 }: UseReviewsProps) {
+  // constants used to store data related to reviews
   const [reviews, setReviews] = useState<{ uri: string; value: MusicReview }[]>(
     [],
   );
   const [loading, setLoading] = useState(true);
 
+  // fetchReviews ensures that filter is used when specified
+  // error handling is conducted if reviews are not found
   const fetchReviews = useCallback(async () => {
     try {
       setLoading(true);

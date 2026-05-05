@@ -1,3 +1,8 @@
+// Help Page POM
+// Contains the following:
+// - Constructor for elements on help page
+// - Methods for checking elements
+
 import { Page, type Locator } from "playwright";
 import { expect } from "@playwright/test";
 import { helpPageContent } from "../content/help_page_content";

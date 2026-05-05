@@ -1,3 +1,7 @@
+// useProfileReviews test file
+// Focuses on testing useProfileReviews hook using mocked atproto and mocked reviews
+// Testing scenarios such as error handling and fetching data
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useProfileReviews } from "@/app/hooks/useProfileReviews";
@@ -9,7 +13,7 @@ vi.mock("@/lib/atproto", () => ({
   },
 }));
 
-describe("useProfileReviews hook", () => {
+describe("useProfileReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -20,7 +24,7 @@ describe("useProfileReviews hook", () => {
     expect(atApiService.getReviews).not.toHaveBeenCalled();
   });
 
-  it("should fetch reviews, count the current year reviews and get 2 most recent", async () => {
+  it("should fetch reviews, count the current year reviews and get 2 most recent reviews", async () => {
     const currentYear = new Date().getFullYear();
     const lastYear = currentYear - 1;
 

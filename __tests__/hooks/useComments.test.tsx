@@ -1,3 +1,7 @@
+// useComments test file
+// Focuses on testing useComments hook using mocked atproto file, thread responses and replies
+// Testing scenarios such as handling states, fetching data and error handling
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useComments } from "@/app/hooks/useComments";
@@ -49,7 +53,7 @@ const mockThreadResponse = {
   headers: {},
 } as unknown as GetPostThreadResponse;
 
-describe("useComments hook", () => {
+describe("useComments", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

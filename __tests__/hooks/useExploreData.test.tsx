@@ -1,3 +1,7 @@
+// useExploreData test file
+// Focuses on testing useExploreData hook using mocked atproto, lastfm, utils, AuthContext, next navigation and mock artist data (albums, tracks, tags)
+// Testing scenarios such as handling states and redirections
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useExploreData } from "@/app/hooks/useExploreData";
@@ -81,7 +85,7 @@ const mockAlbums = [
   { name: "Album 2", artist: { name: "Artist 2" }, image: [] },
 ];
 
-describe("useExploreData hook", () => {
+describe("useExploreData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -90,157 +94,149 @@ describe("useExploreData hook", () => {
     vi.mocked(shuffle).mockImplementation((arr) => arr);
   });
 
-  describe("auth redirect", () => {
-    it("should redirect to / when not loading and no session", async () => {
-      contextMock.session = null;
-      contextMock.isLoading = false;
+  it("should redirect to root when not loading and no session", async () => {
+    contextMock.session = null;
+    contextMock.isLoading = false;
 
-      renderHook(() => useExploreData());
+    renderHook(() => useExploreData());
 
-      await waitFor(() => {
-        expect(routerPushMock).toHaveBeenCalledWith("/");
-      });
-    });
-
-    it("should not redirect when session exists", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
-      vi.mocked(getTopTags).mockResolvedValueOnce([]);
-      vi.mocked(getTopTracks).mockResolvedValueOnce([]);
-      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
-
-      renderHook(() => useExploreData());
-
-      await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
-
-      expect(routerPushMock).not.toHaveBeenCalled();
-    });
-
-    it("should not redirect while still loading", () => {
-      contextMock.session = null;
-      contextMock.isLoading = true;
-
-      renderHook(() => useExploreData());
-
-      expect(routerPushMock).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(routerPushMock).toHaveBeenCalledWith("/");
     });
   });
 
-  describe("isReady", () => {
-    it("should be false when isLoading is true", () => {
-      contextMock.isLoading = true;
+  it("should not redirect when session exists", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+    vi.mocked(getTopTags).mockResolvedValueOnce([]);
+    vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+    vi.mocked(getTopArtists).mockResolvedValueOnce([]);
 
-      const { result } = renderHook(() => useExploreData());
+    renderHook(() => useExploreData());
 
-      expect(result.current.isReady).toBe(false);
-    });
+    await waitFor(() => expect(atApiService.getTastes).toHaveBeenCalled());
 
-    it("should be false when session is null", () => {
-      contextMock.session = null;
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
 
-      const { result } = renderHook(() => useExploreData());
+  it("should not redirect while still loading", () => {
+    contextMock.session = null;
+    contextMock.isLoading = true;
 
-      expect(result.current.isReady).toBe(false);
-    });
+    renderHook(() => useExploreData());
 
-    it("should be true when session exists and not loading", () => {
-      const { result } = renderHook(() => useExploreData());
+    expect(routerPushMock).not.toHaveBeenCalled();
+  });
 
-      expect(result.current.isReady).toBe(true);
+  it("should be false when isLoading is true", () => {
+    contextMock.isLoading = true;
+
+    const { result } = renderHook(() => useExploreData());
+
+    expect(result.current.isReady).toBe(false);
+  });
+
+  it("should be false when session is null", () => {
+    contextMock.session = null;
+
+    const { result } = renderHook(() => useExploreData());
+
+    expect(result.current.isReady).toBe(false);
+  });
+
+  it("should be true when session exists and not loading", () => {
+    const { result } = renderHook(() => useExploreData());
+
+    expect(result.current.isReady).toBe(true);
+  });
+
+  it("should fetch tastes, tags, tracks and artists concurrently", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+    vi.mocked(getTopTags).mockResolvedValueOnce([]);
+    vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+    vi.mocked(getTopArtists).mockResolvedValueOnce([]);
+
+    renderHook(() => useExploreData());
+
+    await waitFor(() => {
+      expect(atApiService.getTastes).toHaveBeenCalledWith("did:plc:123");
+      expect(getTopTags).toHaveBeenCalledWith("50");
+      expect(getTopTracks).toHaveBeenCalledWith("10");
+      expect(getTopArtists).toHaveBeenCalledWith("10");
     });
   });
 
-  describe("loading explore data", () => {
-    it("should fetch tastes, tags, tracks and artists concurrently", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
-      vi.mocked(getTopTags).mockResolvedValueOnce([]);
-      vi.mocked(getTopTracks).mockResolvedValueOnce([]);
-      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
+  it("should filter tags, fetch albums and set data completely", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
+    vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
+    vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
+    vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
 
-      renderHook(() => useExploreData());
+    const { result } = renderHook(() => useExploreData());
 
-      await waitFor(() => {
-        expect(atApiService.getTastes).toHaveBeenCalledWith("did:plc:123");
-        expect(getTopTags).toHaveBeenCalledWith("50");
-        expect(getTopTracks).toHaveBeenCalledWith("10");
-        expect(getTopArtists).toHaveBeenCalledWith("10");
-      });
+    await waitFor(() => {
+      expect(result.current.topTracks).toEqual(mockTracks);
     });
 
-    it("should filter tags, fetch albums and set data completely", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(mockTastes);
-      vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
-      vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
-      vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
+    expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
+    expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "20");
+    expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "20");
 
-      const { result } = renderHook(() => useExploreData());
+    expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "20");
+    expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "20");
 
-      await waitFor(() => {
-        expect(result.current.topTracks).toEqual(mockTracks);
-      });
+    expect(result.current.topArtists).toEqual(mockArtists);
+    expect(result.current.discoveryData).toHaveLength(3);
+    expect(result.current.discoveryData[0].tag.name).toBe("Jazz");
+  });
 
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Blues", "20");
-      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Classical", "20");
+  it("should set topArtists from getTopArtists result", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+    vi.mocked(getTopTags).mockResolvedValueOnce([]);
+    vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+    vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
 
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Rock", "20");
-      expect(getTopAlbumsByTag).not.toHaveBeenCalledWith("Pop", "20");
+    const { result } = renderHook(() => useExploreData());
 
+    await waitFor(() => {
       expect(result.current.topArtists).toEqual(mockArtists);
-      expect(result.current.discoveryData).toHaveLength(3);
-      expect(result.current.discoveryData[0].tag.name).toBe("Jazz");
-    });
-
-    it("should set topArtists from getTopArtists result", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
-      vi.mocked(getTopTags).mockResolvedValueOnce([]);
-      vi.mocked(getTopTracks).mockResolvedValueOnce([]);
-      vi.mocked(getTopArtists).mockResolvedValueOnce(mockArtists as any);
-
-      const { result } = renderHook(() => useExploreData());
-
-      await waitFor(() => {
-        expect(result.current.topArtists).toEqual(mockArtists);
-      });
-    });
-
-    it("should handle tastes gracefully when it's null", async () => {
-      vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
-      vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
-      vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
-      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
-      vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
-
-      renderHook(() => useExploreData());
-
-      await waitFor(() => {
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "20");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "20");
-        expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
-      });
-    });
-
-    it("should initialise topArtists as an empty array", () => {
-      const { result } = renderHook(() => useExploreData());
-
-      expect(result.current.topArtists).toEqual([]);
     });
   });
 
-  describe("error handling", () => {
-    it("should log error when loadData throws", async () => {
-      vi.mocked(atApiService.getTastes).mockRejectedValueOnce(
-        new Error("API explore error"),
-      );
-      vi.mocked(getTopTags).mockResolvedValueOnce([]);
-      vi.mocked(getTopTracks).mockResolvedValueOnce([]);
-      vi.mocked(getTopArtists).mockResolvedValueOnce([]);
+  it("should handle tastes gracefully when it's null", async () => {
+    vi.mocked(atApiService.getTastes).mockResolvedValueOnce(null);
+    vi.mocked(getTopTags).mockResolvedValueOnce(mockTags as any);
+    vi.mocked(getTopTracks).mockResolvedValueOnce(mockTracks as any);
+    vi.mocked(getTopArtists).mockResolvedValueOnce([]);
+    vi.mocked(getTopAlbumsByTag).mockResolvedValue(mockAlbums as any);
 
-      renderHook(() => useExploreData());
+    renderHook(() => useExploreData());
 
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(expect.any(Error));
-      });
+    await waitFor(() => {
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Rock", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Pop", "20");
+      expect(getTopAlbumsByTag).toHaveBeenCalledWith("Jazz", "20");
+    });
+  });
+
+  it("should initialise topArtists as an empty array", () => {
+    const { result } = renderHook(() => useExploreData());
+
+    expect(result.current.topArtists).toEqual([]);
+  });
+
+  it("should log error when loadData throws", async () => {
+    vi.mocked(atApiService.getTastes).mockRejectedValueOnce(
+      new Error("API explore error"),
+    );
+    vi.mocked(getTopTags).mockResolvedValueOnce([]);
+    vi.mocked(getTopTracks).mockResolvedValueOnce([]);
+    vi.mocked(getTopArtists).mockResolvedValueOnce([]);
+
+    renderHook(() => useExploreData());
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith(expect.any(Error));
     });
   });
 });

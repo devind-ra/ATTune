@@ -18,9 +18,12 @@ export function useOtherReviews({
   currentUserDid,
   refreshTrigger = 0,
 }: UseOtherReviewsProps) {
+  // constants storing user review data
   const [reviews, setReviews] = useState<ReviewRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // uses .getOtherReviews() from atApiService to fetch orther user reviews
+  // error handling to ensure user reviews can be found
   const fetchReviews = useCallback(async () => {
     if (!title || !artist || !currentUserDid) return;
 

@@ -1,6 +1,8 @@
 // useExploreData hook
 // Contains the following:
-// - Fetches global trending tracks and tag discovery
+// - Fetches global trending tracks
+// - Fetches top artists
+// - Fetches discovery data based on user data
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -32,6 +34,7 @@ interface ExploreData {
 
 // eslint-disable-next-line max-lines-per-function
 export function useExploreData(): ExploreData {
+  // constants used to store top tracks, artists and discovery data for explore page
   const router = useRouter();
   const { session, isLoading } = useAuth();
 
@@ -46,6 +49,8 @@ export function useExploreData(): ExploreData {
     }
     if (!session) return;
 
+    // utilises API methods to retrieve tastes, tags, tracks and artists from last.fm
+    // processes data to ensure it can be presented correctly on the explore page
     async function loadData(did: string) {
       try {
         const [tastes, tags, tracks, artists] = await Promise.all([

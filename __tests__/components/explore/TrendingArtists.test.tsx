@@ -1,3 +1,7 @@
+// TrendingArtists test file
+// Focuses on testing TrendingArtists component using mocking utils file and API responses
+// Tests scenarios such as rendering content, encoding URLs and handling truncation
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TrendingArtists } from "@/components/explore/TrendingArtists";

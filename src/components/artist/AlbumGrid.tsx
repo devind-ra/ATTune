@@ -9,6 +9,7 @@ import { LastFMAlbum } from "@/lib/lastfm";
 import { getArtistName } from "@/lib/utils";
 
 export function AlbumGrid({ albums }: { albums: LastFMAlbum[] }) {
+  // content called to display albums in grid with AlbumCard component
   if (!albums.length) return null;
   return (
     <section className="mt-12">
@@ -22,6 +23,7 @@ export function AlbumGrid({ albums }: { albums: LastFMAlbum[] }) {
   );
 }
 
+// helper function used to help resize image in AlbumGrid component
 function AlbumCard({ item }: { item: LastFMAlbum }) {
   const img =
     item.image?.find((i) => i.size === "extralarge") ??
@@ -29,6 +31,8 @@ function AlbumCard({ item }: { item: LastFMAlbum }) {
     item.image?.[0];
   const artist = getArtistName(item.artist);
 
+  // content called which has a link to the album page, album cover and album name
+  // error handling for missing image and props
   return (
     <li className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group block">
       <Link

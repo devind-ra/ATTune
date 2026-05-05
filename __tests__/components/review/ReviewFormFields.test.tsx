@@ -1,3 +1,7 @@
+// ReviewFormFields test file
+// Focuses on testing ReviewFormFields using default props, AlbumPreview, StarRating and ReviewFormActions components
+// Testing scenarios such as rendering content, handling states and user interactions
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ReviewFormFields } from "@/components/review/ReviewFormFields";
@@ -14,7 +18,7 @@ vi.mock("@/components/review/StarRating", () => ({
   )),
 }));
 
-vi.mock("../record/ReviewFormActions", () => ({
+vi.mock("@/components/record/ReviewFormActions", () => ({
   ReviewFormActions: vi.fn(({ loading, showCancel }) => (
     <div data-testid="mock-form-actions">
       {loading && <span>Loading...</span>}

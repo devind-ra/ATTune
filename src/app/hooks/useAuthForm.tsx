@@ -7,12 +7,14 @@ import { atApiService } from "@/lib/atproto";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function useAuthForm(onLogin: () => void) {
+  // constants used to ensure password and identifier can be stored to check with atApiService
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
+  // handling login with identifier and app password inputted
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

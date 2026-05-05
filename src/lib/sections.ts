@@ -6,6 +6,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
+// extensible list of sections for home page
 export const ALL_SECTIONS = [
   { id: "tagArtists", label: "Recommended Artists by Taste" },
   { id: "recommendedArtists", label: "Similar Artists by Taste" },
@@ -15,6 +16,7 @@ export const ALL_SECTIONS = [
 
 export type SectionId = (typeof ALL_SECTIONS)[number]["id"];
 
+// extensible list of sections for explore page
 export const EXPLORE_SECTIONS = [
   { id: "discoverAlbums", label: "Discover Albums" },
   { id: "topArtists", label: "Top Artists Globally" },
@@ -29,6 +31,7 @@ export function useVisibleSections<T extends string>(
   sections: readonly { id: T; label: string }[],
   storageKeyPrefix: string,
 ) {
+  // constants for sections for home and explore page
   const { session } = useAuth();
 
   const [visibleSections, setVisibleSections] = useState<Set<T>>(
@@ -37,6 +40,7 @@ export function useVisibleSections<T extends string>(
 
   const [isInitialised, setIsInitialised] = useState(false);
 
+  // retrieving user stored section preferences
   useEffect(() => {
     if (!session?.did) return;
 
@@ -71,6 +75,7 @@ export function useVisibleSections<T extends string>(
     );
   }, [visibleSections, session?.did, isInitialised, storageKeyPrefix]);
 
+  // function to toggle section visibility ensuring at least one section is visible
   const toggleSection = (id: T) => {
     setVisibleSections((prev) => {
       if (prev.has(id) && prev.size === 1) return prev;

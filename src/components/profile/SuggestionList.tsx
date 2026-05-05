@@ -3,6 +3,7 @@
 // - Displays search results for albums and artists in list form
 // - Allows for selection of results
 
+// props used to handle suggestion list and selection of results
 interface SuggestionListProps {
   isSearching: boolean;
   searchResults: string[];
@@ -24,6 +25,7 @@ export function SuggestionList({
     );
   }
 
+  // if search results are found display them to be selected
   if (searchResults.length > 0) {
     return (
       <>
@@ -43,8 +45,9 @@ export function SuggestionList({
     );
   }
 
+  // if query is longer than 2 characters and no albums are found, a message is displayed
   if (searchQuery.trim().length > 2) {
-    return <li className="p-2 text-zinc-500 text-sm">No results found</li>;
+    return <li className="p-2 text-zinc-200 text-sm">No results found</li>;
   }
 
   return null;

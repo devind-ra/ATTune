@@ -7,10 +7,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { AppBskyActorDefs } from "@atproto/api";
 
+// props passed to user list
 interface UserListProps {
   users: AppBskyActorDefs.ProfileViewBasic[];
 }
 
+// helper function used to retrieve image of user avatar for UserList in search results
 function UserAvatar({ user }: { user: AppBskyActorDefs.ProfileViewBasic }) {
   const initial = user.displayName?.charAt(0) ?? user.handle.charAt(0);
   if (user.avatar) {
@@ -25,6 +27,7 @@ function UserAvatar({ user }: { user: AppBskyActorDefs.ProfileViewBasic }) {
       />
     );
   }
+  // content called to show initial of profile if no profile picture is found
   return (
     <div className="w-12 h-12 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xl font-bold text-zinc-400">
       {initial}
@@ -33,10 +36,13 @@ function UserAvatar({ user }: { user: AppBskyActorDefs.ProfileViewBasic }) {
 }
 
 export function UserList({ users }: UserListProps) {
+  // error handling if no users found for search query
   if (users.length === 0) {
-    return <p className="text-zinc-500 text-sm">No users found.</p>;
+    return <p className="text-zinc-200 text-sm">No users found.</p>;
   }
 
+  // content called to present all users found related to search query
+  // each user card links to their profile page when clicked
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {users.map((user, idx) => (

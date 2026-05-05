@@ -1,3 +1,9 @@
+// Settings Page POM
+// Contains the following:
+// - Constructor for elements on settings page
+// - Methods for checking elements
+// - Methods for interacting with elements on settings page
+
 import { Page, type Locator } from "playwright";
 import { expect } from "@playwright/test";
 import { settingsPageContent } from "../content/settings_page_content";

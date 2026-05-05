@@ -26,6 +26,7 @@ export function useReviewForm({
   initialImage,
   onReviewCreated,
 }: UseReviewFormProps) {
+  // constants storing information provided throught review form
   const [title, setTitle] = useState(initialTitle ?? "");
   const [artist, setArtist] = useState(initialArtist ?? "");
   const [albumImage, setAlbumImage] = useState(initialImage ?? "");
@@ -44,6 +45,7 @@ export function useReviewForm({
     clearSearch,
   } = useAlbumSearch();
 
+  // resets review form data
   const resetReviewFields = () => {
     setRating(0);
     setText("");
@@ -52,6 +54,7 @@ export function useReviewForm({
     setError("");
   };
 
+  // handles selection from Last.fm albums provided from search
   const handleSelectAlbum = (album: LastFMAlbum) => {
     setTitle(album.name);
     setArtist(getArtistName(album.artist));
@@ -63,6 +66,7 @@ export function useReviewForm({
     clearSearch();
   };
 
+  // allows for user to change album reviewed through form
   const handleBackToSearch = () => {
     if (initialTitle) return;
     setIsSearchStep(true);
@@ -72,6 +76,7 @@ export function useReviewForm({
     resetReviewFields();
   };
 
+  // handles submission of review using .createReview() in user record
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

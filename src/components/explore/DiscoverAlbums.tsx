@@ -12,6 +12,9 @@ interface DiscoveryCarouselProps {
 }
 
 export function DiscoverAlbums({ data }: DiscoveryCarouselProps) {
+  // content called for discovery of albums based on User Tastes provided
+  // utilises AlbumList component to show albums with shuffling functionality
+  // allows users to go to Last.fm for more information
   if (!data?.length) {
     return null;
   }

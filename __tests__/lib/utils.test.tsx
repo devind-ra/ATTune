@@ -1,3 +1,7 @@
+// utils test file
+// Focuses on testing utils file
+// Tests for util functions from utils file, edge cases and error handling
+
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
   shuffle,

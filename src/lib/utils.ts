@@ -7,15 +7,19 @@ import { LastFMImage } from "./lastfm";
 export const ARTIST_COUNT = 5;
 export const GENRE_COUNT = 3;
 
+// function to pad array with empty strings to specified length
 export function padArray(arr: string[], length: number): string[] {
   const padded = [...arr];
   while (padded.length < length) padded.push("");
   return padded;
 }
 
+// function to check if array has duplicates
 export function hasDuplicates(arr: string[]): boolean {
   return new Set(arr).size !== arr.length;
 }
+
+// function to shuffle array
 export function shuffle<T>(arr: T[]): T[] {
   const array = [...arr];
   for (let i = array.length - 1; i > 0; i--) {
@@ -27,6 +31,7 @@ export function shuffle<T>(arr: T[]): T[] {
   return array;
 }
 
+// function to parse image from LastFMImage array
 export function parseImage(images: LastFMImage[] | undefined) {
   return (
     images?.find((i) => i.size === "extralarge") ??
@@ -35,11 +40,13 @@ export function parseImage(images: LastFMImage[] | undefined) {
   );
 }
 
+// function to parse release date from LastFMImage array
 export function parseReleaseDate(published?: string) {
   if (!published) return "Release date unknown";
   return published.includes(",") ? published.split(",")[0] : published;
 }
 
+// function to clean wiki summary from LastFMImage array
 export function cleanWiki(summary?: string) {
   return (
     summary?.replace(
@@ -49,9 +56,11 @@ export function cleanWiki(summary?: string) {
   );
 }
 
+// function to get artist name
 export const getArtistName = (artist: string | { name: string }) =>
   typeof artist === "string" ? artist : artist.name;
 
+// function to get image URL from LastFMImage array
 export const getImageUrl = (
   imageArray: LastFMImage[] | undefined,
   preferredSize = "medium",
@@ -61,6 +70,7 @@ export const getImageUrl = (
   return img?.["#text"] ?? "";
 };
 
+// function to compare by rating for filters
 function compareByRating(
   a: { value: { rating: number } },
   b: { value: { rating: number } },
@@ -72,6 +82,7 @@ function compareByRating(
   return sortBy === "rating-desc" ? ratingB - ratingA : ratingA - ratingB;
 }
 
+// function to compare by date for filters
 function compareByDate(
   a: { value: { listenedAt?: string; createdAt: string } },
   b: { value: { listenedAt?: string; createdAt: string } },
@@ -85,6 +96,7 @@ function compareByDate(
   return sortBy === "date-asc" ? timeA - timeB : timeB - timeA;
 }
 
+// function to compare reviews
 export function compareReviews(
   a: { value: { rating: number; listenedAt?: string; createdAt: string } },
   b: { value: { rating: number; listenedAt?: string; createdAt: string } },

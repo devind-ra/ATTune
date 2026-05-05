@@ -1,12 +1,19 @@
+// OtherReviewsList test file
+// Focuses on testing OtherReviewsList component using mocked useOtherReview hook, ReviewItem and CommentModal components
+// Testing scenarios such as rendering content and handling review states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useOtherReviews } from "@/app/hooks/useOtherReviews";
+import OtherReviewsList from "@/components/review/OtherReviewsList";
+import ReviewItem from "@/components/review/ReviewItem";
 
 vi.mock("@/app/hooks/useOtherReviews", () => ({
   useOtherReviews: vi.fn(),
 }));
 
 vi.mock("@/components/review/ReviewItem", () => ({
-  default: vi.fn(({ item, onClick, onDelete, onEdit }) => (
+  default: vi.fn(({ onClick, onDelete, onEdit }) => (
     <div data-testid="mock-review-item">
       <button onClick={onClick}>Open</button>
       <button onClick={() => onDelete()}>Delete</button>
@@ -24,10 +31,6 @@ vi.mock("@/components/review/CommentModal", () => ({
     </div>
   )),
 }));
-
-import { useOtherReviews } from "@/app/hooks/useOtherReviews";
-import OtherReviewsList from "@/components/review/OtherReviewsList";
-import ReviewItem from "@/components/review/ReviewItem";
 
 describe("OtherReviewsList", () => {
   const defaultProps = {
@@ -56,15 +59,15 @@ describe("OtherReviewsList", () => {
     expect(screen.getByText(/Loading other reviews/i)).toBeDefined();
   });
 
-  it("should return null when there are no reviews", () => {
+  it("should show an empty message when there are no reviews", () => {
     vi.mocked(useOtherReviews).mockReturnValue({
       reviews: [],
       loading: false,
       refresh: vi.fn(),
     });
 
-    const { container } = render(<OtherReviewsList {...defaultProps} />);
-    expect(container.firstChild).toBeNull();
+    render(<OtherReviewsList {...defaultProps} />);
+    expect(screen.getByText(/No other reviews found./i)).toBeDefined();
   });
 
   it("should render a list of ReviewItems when reviews are loaded", () => {
@@ -80,7 +83,7 @@ describe("OtherReviewsList", () => {
     expect(items).toHaveLength(2);
   });
 
-  it("should pass isReadOnly={true} to child components", () => {
+  it("should pass isReadOnly true to child components", () => {
     vi.mocked(useOtherReviews).mockReturnValue({
       reviews: mockReviews as any,
       loading: false,

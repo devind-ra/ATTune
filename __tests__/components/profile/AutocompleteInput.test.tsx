@@ -1,3 +1,7 @@
+// AutocompleteInput test file
+// Focuses on testing AutocompleteInput component with mocked useAutocomplete hook and SuggestionList component
+// Tests scenarios such as rendering content, typing and selection functionality
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { AutocompleteInput } from "@/components/profile/AutocompleteInput";

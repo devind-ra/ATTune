@@ -1,4 +1,10 @@
-import { Page, type Locator } from "playwright";
+// Other User Reviews Page POM
+// Contains the following:
+// - Constructor for elements on other user reviews page
+// - Methods for checking elements
+// - Methods for interacting with elements on other user reviews page
+
+import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { otherUserReviewsPageContent } from "../content/other_user_reviews_page_content";
 
@@ -12,6 +18,7 @@ export class OtherUserReviewsPage {
   private readonly earliestListened: string;
   private readonly highestRated: string;
   private readonly lowestRated: string;
+  private readonly sortSelect: string;
 
   constructor(private page: Page) {
     this.title = otherUserReviewsPageContent.title(
@@ -28,6 +35,7 @@ export class OtherUserReviewsPage {
     this.earliestListened = otherUserReviewsPageContent.earliestListened;
     this.highestRated = otherUserReviewsPageContent.highestRated;
     this.lowestRated = otherUserReviewsPageContent.lowestRated;
+    this.sortSelect = "#sort-select";
   }
 
   async checkPageElements() {
@@ -42,6 +50,27 @@ export class OtherUserReviewsPage {
       this.page.getByText(this.reviewFunctionsSubheading),
     ).toBeVisible();
     await expect(this.page.getByText(this.sortBy)).toBeVisible();
+  }
+
+  async sortByLatestListened() {
+    await this.selectSortOption(this.latestListened);
+  }
+
+  async sortByEarliestListened() {
+    await this.selectSortOption(this.earliestListened);
+  }
+
+  async sortByHighestRated() {
+    await this.selectSortOption(this.highestRated);
+  }
+
+  async sortByLowestRated() {
+    await this.selectSortOption(this.lowestRated);
+  }
+
+  async selectSortOption(option: string) {
+    await this.page.locator(this.sortSelect).click();
+    await this.page.locator(this.sortSelect).selectOption({ label: option });
   }
 }
 

@@ -19,4 +19,11 @@ export const recordPageContent = {
     "If unchecked, this review will only be saved to your ATtune profile. Comments will be disabled.",
   postReviewButton: "Post Review",
   cancelButton: "Cancel",
+  commentsText: "Comments (",
+  firstReviewLocator:
+    "body > div.min-h-screen.font-sans.selection\\:bg-sky-500\\/30 > main > div:nth-child(3) > div > div:nth-child(2)",
+  commentFormLocator: "#comment-input",
+  addCommentLabel: "Add a comment",
+  postCommentButton: "Post Comment",
+  closeCommentModal: "Close modal",
 };

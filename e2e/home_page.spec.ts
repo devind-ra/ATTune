@@ -1,3 +1,5 @@
+// Home Page Tests calling POM with content
+
 import { test } from "@playwright/test";
 import { HomePage } from "./page/home_page";
 import { LandingPage } from "./page/landing_page";

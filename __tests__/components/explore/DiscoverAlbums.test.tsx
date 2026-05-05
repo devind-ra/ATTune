@@ -1,3 +1,7 @@
+// DiscoverAlbums test file
+// Focuses on testing DiscoverAlbums component with mocked API values
+// Tests for scenarios such as empty data, rendering content, links and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { DiscoverAlbums } from "@/components/explore/DiscoverAlbums";
@@ -18,7 +22,7 @@ describe("DiscoverAlbums", () => {
       ],
     },
     {
-      tag: { name: "Jazz", url: "" }, // No URL case
+      tag: { name: "Jazz", url: "" },
       albums: [{ name: "Jazz Album", artist: "Jazz Artist" }],
     },
   ];

@@ -15,6 +15,7 @@ import {
 
 // eslint-disable-next-line max-lines-per-function
 export function useProfileTastes(did: string | undefined) {
+  // constants stored to hold user tastes
   const [tastes, setTastes] = useState<UserTastes | null>(null);
   const [isEditingTastes, setIsEditingTastes] = useState(false);
   const [editArtists, setEditArtists] = useState<string[]>(
@@ -25,6 +26,7 @@ export function useProfileTastes(did: string | undefined) {
   );
   const [isSavingTastes, setIsSavingTastes] = useState(false);
 
+  // ensures to handle tastes retrieval in profile page
   useEffect(() => {
     if (!did) return;
     atApiService
@@ -38,22 +40,27 @@ export function useProfileTastes(did: string | undefined) {
       .catch((err) => console.error("Error fetching tastes:", err));
   }, [did]);
 
+  // provides a 2D array of artists to exclude
   const artistExcludeValues = useMemo(
     () => editArtists.map((_, i) => editArtists.filter((__, j) => j !== i)),
     [editArtists],
   );
 
+  // provides a 2D array of genres to exclude
   const genreExcludeValues = useMemo(
     () => editGenres.map((_, i) => editGenres.filter((__, j) => j !== i)),
     [editGenres],
   );
 
+  // handling editing of artists through profile page
   const handleArtistChange = (idx: number, val: string) =>
     setEditArtists((prev) => prev.map((a, i) => (i === idx ? val : a)));
 
+  // handling editing of tags through profile page
   const handleGenreChange = (idx: number, val: string) =>
     setEditGenres((prev) => prev.map((g, i) => (i === idx ? val : g)));
 
+  // cancelling edit of tastes
   const cancelEditTastes = () => {
     setIsEditingTastes(false);
     if (tastes) {
@@ -62,6 +69,8 @@ export function useProfileTastes(did: string | undefined) {
     }
   };
 
+  // handling saving tastes to be stored and displayed to user
+  // error handling ensures duplicate artist names can't be inputted or if error occurs with saving record
   const handleSaveTastes = async () => {
     if (!did) return;
     const cleanArtists = editArtists

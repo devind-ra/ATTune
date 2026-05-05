@@ -8,11 +8,13 @@
 // eslint-disable-next-line sonarjs/no-clear-text-protocols
 const BASE_URL = "http://ws.audioscrobbler.com/2.0/";
 
+// interface for LastFM images
 export interface LastFMImage {
   "#text": string;
   size: "small" | "medium" | "large" | "extralarge" | "";
 }
 
+// interface for LastFM artist info
 export interface LastFMArtistInfo {
   name: string;
   url: string;
@@ -29,6 +31,7 @@ export interface LastFMArtistInfo {
   };
 }
 
+// interface for LastFM album info
 export interface LastFMAlbumInfo {
   name: string;
   artist: string;
@@ -44,6 +47,7 @@ export interface LastFMAlbumInfo {
   };
 }
 
+// interface for LastFM artist
 export interface LastFMArtist {
   name: string;
   listeners?: string;
@@ -54,12 +58,14 @@ export interface LastFMArtist {
   playcount?: string;
 }
 
+// interface for LastFM tag
 export interface LastFMTag {
   name: string;
   count?: number;
   url?: string;
 }
 
+// interface for LastFM album
 export interface LastFMAlbum {
   name: string;
   artist: string | { name: string; mbid?: string; url?: string };
@@ -69,6 +75,7 @@ export interface LastFMAlbum {
   mbid?: string;
 }
 
+// interface for LastFM track
 export interface LastFMTrack {
   name: string;
   artist: string;
@@ -78,6 +85,10 @@ export interface LastFMTrack {
   mbid?: string;
 }
 
+// function to fetch data from Last.fm using .get() method
+// method is the API method to call Last.fm with
+// format is kept in JSON
+// response is fetched every hour
 async function fetchLastFM(
   method: string,
   params: Record<string, string> = {},
@@ -108,11 +119,13 @@ async function fetchLastFM(
   }
 }
 
+// function to search for an album using 'album.search' with the album name
 export async function searchAlbum(albumName: string) {
   const data = await fetchLastFM("album.search", { album: albumName });
   return data?.results?.albummatches?.album || [];
 }
 
+// function to get the info of an album using 'album.getinfo' with the artist name and album name
 export async function getAlbumInfo(artistName: string, albumName: string) {
   const data = await fetchLastFM("album.getInfo", {
     artist: artistName,
@@ -121,6 +134,8 @@ export async function getAlbumInfo(artistName: string, albumName: string) {
   return data?.album || null;
 }
 
+// function to search for an artist using 'artist.search' with the artist name
+// artists are then filtered to remove any featured artists
 export async function searchArtist(artistName: string) {
   const data = await fetchLastFM("artist.search", { artist: artistName });
   const allArtists = data?.results?.artistmatches?.artist || [];
@@ -148,26 +163,31 @@ export async function searchArtist(artistName: string) {
   return filteredArtists;
 }
 
+// function used to retrieve the top tracks (limit of 5) using 'chart.gettoptracks'
 export async function getTopTracks(limit: string = "5") {
   const data = await fetchLastFM("chart.gettoptracks", { limit });
   return data?.tracks?.track || [];
 }
 
+// function used to retrieve the top artists (limit of 5) using 'chart.gettopartists'
 export async function getTopArtists(limit: string = "5") {
   const data = await fetchLastFM("chart.gettopartists", { limit });
   return data?.artists?.artist || [];
 }
 
+// function to search for a tag using 'tag.search' with the tag name
 export async function searchTag(tagName: string) {
   const data = await fetchLastFM("tag.search", { tag: tagName });
   return data?.results?.tagmatches?.tag || [];
 }
 
+// function used to retrieve the top tags (limit of 50) using 'chart.gettoptags'
 export async function getTopTags(limit: string = "50") {
   const data = await fetchLastFM("chart.gettoptags", { limit });
   return data?.tags?.tag || [];
 }
 
+// function to get the similar artists of an artist (limit of 10) using 'artist.getsimilar' with the artist name
 export async function getSimilarArtists(artist: string, limit: string = "10") {
   const data = await fetchLastFM("artist.getsimilar", {
     artist,
@@ -176,6 +196,7 @@ export async function getSimilarArtists(artist: string, limit: string = "10") {
   return data?.similarartists?.artist || [];
 }
 
+// function to get the top artists of a tag (limit of 5) using 'tag.gettopartists' with the tag name
 export async function getTopArtistsByTag(tag: string, limit: string = "5") {
   const data = await fetchLastFM("tag.gettopartists", {
     tag,
@@ -184,6 +205,7 @@ export async function getTopArtistsByTag(tag: string, limit: string = "5") {
   return data?.topartists?.artist || [];
 }
 
+// function to get the top albums of a tag (limit of 10) using 'tag.gettopalbums' with the tag name
 export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   const data = await fetchLastFM("tag.gettopalbums", {
     tag,
@@ -192,6 +214,7 @@ export async function getTopAlbumsByTag(tag: string, limit: string = "10") {
   return data?.albums?.album || [];
 }
 
+// function to get the info of an artist (limit of 1) using 'artist.getinfo' with the artist name
 export async function getArtistInfo(artistName: string) {
   const data = await fetchLastFM("artist.getinfo", {
     artist: artistName,
@@ -200,6 +223,7 @@ export async function getArtistInfo(artistName: string) {
   return data?.artist || null;
 }
 
+// function to get the top tracks of an artist (limit of 5) using 'artist.gettoptracks' with the artist name
 export async function getArtistTopTracks(
   artistName: string,
   limit: string = "5",
@@ -212,6 +236,7 @@ export async function getArtistTopTracks(
   return data?.toptracks?.track || [];
 }
 
+// function to get the top albums of an artist (limit of 10) using 'artist.gettopalbums' with the artist name
 export async function getArtistTopAlbums(
   artistName: string,
   limit: string = "10",
@@ -224,6 +249,7 @@ export async function getArtistTopAlbums(
   return data?.topalbums?.album || [];
 }
 
+// function to get the top tags of an album using 'album.gettoptags' with the artist name and album name
 export async function getAlbumTopTags(artistName: string, albumName: string) {
   const data = await fetchLastFM("album.gettoptags", {
     artist: artistName,
@@ -233,6 +259,7 @@ export async function getAlbumTopTags(artistName: string, albumName: string) {
   return data?.toptags?.tag || [];
 }
 
+// function to get the top artists of a country (limit of 10) using 'geo.gettopartists' with the country name
 export async function getGeoTopArtists(country: string, limit: string = "10") {
   const data = await fetchLastFM("geo.gettopartists", {
     country,

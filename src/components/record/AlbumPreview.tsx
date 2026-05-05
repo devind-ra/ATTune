@@ -5,6 +5,7 @@
 
 import Image from "next/image";
 
+// props used for album preview
 interface Props {
   title: string;
   artist: string;
@@ -13,6 +14,7 @@ interface Props {
   onBackToSearch: () => void;
 }
 
+// placeholder component if there is no album cover found
 const MusicPlaceholder = () => (
   <div className="w-20 h-20 rounded-md bg-zinc-700 flex items-center justify-center shadow-sm">
     <svg
@@ -32,6 +34,8 @@ export function AlbumPreview({
   showChangeAlbum,
   onBackToSearch,
 }: Props) {
+  // content called to display the album cover, title of album and artist name
+  // allows for user to change album if they don't want to review this album
   return (
     <div className="flex items-start gap-4 p-4 bg-zinc-800/50 rounded-xl border border-zinc-800">
       <div className="shrink-0">

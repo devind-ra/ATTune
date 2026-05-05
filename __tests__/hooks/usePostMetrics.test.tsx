@@ -1,3 +1,7 @@
+// usePostMetrics test file
+// Focuses on testing usePostMetrics hook using mocked atproto
+// Testing scenarios such as error handling and handling post functionality
+
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { usePostMetrics } from "@/app/hooks/usePostMetrics";
@@ -16,7 +20,7 @@ vi.mock("@/lib/atproto", () => ({
   },
 }));
 
-describe("usePostMetrics hook", () => {
+describe("usePostMetrics", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "warn").mockImplementation(() => {});

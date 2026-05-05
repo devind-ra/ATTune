@@ -1,3 +1,7 @@
+// TastesEditor test file
+// Focuses on testing TastestEditor using mocked last.fm file and AutocompleteInput component
+// Tests scenarios such as rendering content, handling saving results, genre/artist fetching and filtering
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TastesEditor } from "@/components/profile/TastesEditor";

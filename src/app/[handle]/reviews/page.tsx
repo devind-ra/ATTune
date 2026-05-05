@@ -17,6 +17,7 @@ import { CommentModal } from "@/components/review/CommentModal";
 import { useReviewInteractions } from "@/app/hooks/useReviewInteractions";
 import { compareReviews } from "@/lib/utils";
 
+// Sorting options for review filter
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "date-desc", label: "Latest Listened" },
   { value: "date-asc", label: "Earliest Listened" },
@@ -26,6 +27,9 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 // eslint-disable-next-line max-lines-per-function
 export default function HandleReviewsPage() {
+  // creating constants to hold other user related data and reviews
+  // useOtherProfilePage hook provides other user data
+  // useReviewInteractions hook provides review data
   const { handle } = useParams<{ handle: string }>();
   const { allReviews, isLoadingProfile, refreshReviews, session } =
     useOtherProfilePage(handle);
@@ -44,12 +48,14 @@ export default function HandleReviewsPage() {
       </div>
     );
 
+  // Props used to make reviews read only
   const interactionProps = {
     onDelete: handleDelete,
     onEdit: handleEdit,
     isReadOnly,
   };
 
+  // content for other user's reviews with filter sorting and comment modals
   return (
     <div className="min-h-screen font-sans selection:bg-sky-500/30">
       <main className="max-w-4xl mx-auto px-6 py-12">

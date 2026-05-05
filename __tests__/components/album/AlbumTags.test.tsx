@@ -1,3 +1,7 @@
+// AlbumTags test file
+// Focuses on testing the AlbumTags component using mocked API responses
+// Tests for scenario such as rendering content and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { AlbumTags } from "@/components/album/AlbumTags";

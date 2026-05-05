@@ -1,3 +1,7 @@
+// SuggestionList test file
+// Focuses on testing SuggestionList component
+// Tests scenarios such as rendering content, handle search results and query lengths
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { SuggestionList } from "@/components/profile/SuggestionList";
@@ -55,7 +59,7 @@ describe("SuggestionList", () => {
     expect(mockOnSelect).toHaveBeenCalledWith("Nirvana");
   });
 
-  it("should prevent default on mouse down to keep input focus", () => {
+  it("should prevent default on mouse down event to keep input focus", () => {
     render(
       <SuggestionList
         isSearching={false}

@@ -1,3 +1,7 @@
+// AuthForm test file
+// Focuses on testing AuthForm component using mocked useAuthForm hook
+// Tests for scenarios such as loading state, content rendering and error handling
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import AuthForm from "@/components/authentication/AuthForm";

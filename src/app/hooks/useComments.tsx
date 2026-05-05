@@ -8,12 +8,15 @@ import { atApiService } from "@/lib/atproto";
 import { AppBskyFeedDefs } from "@atproto/api";
 
 export function useComments(postUri?: string, postCid?: string) {
+  // constants used to hold comments for review
   const [comments, setComments] = useState<AppBskyFeedDefs.ThreadViewPost[]>(
     [],
   );
   const [loading, setLoading] = useState(true);
   const [resolvedCid, setResolvedCid] = useState(postCid);
 
+  // utilises .getPostThread() to ensure all data from post is added to CommentModal
+  // ensures each post with companion post is synced
   const fetchComments = useCallback(async () => {
     if (!postUri) {
       setLoading(false);

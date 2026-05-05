@@ -6,10 +6,12 @@
 import Link from "next/link";
 import { LastFMArtist } from "@/lib/lastfm";
 
+// props passed to artist list
 interface ArtistListProps {
   artists: LastFMArtist[];
 }
 
+// helper function used to adjust font size of artist name
 function getArtistTextSize(name: string): string {
   if (name.length > 20) return "text-xs";
   if (name.length > 12) return "text-sm";
@@ -17,10 +19,13 @@ function getArtistTextSize(name: string): string {
 }
 
 export function ArtistList({ artists }: ArtistListProps) {
+  // error handling for artists being found
   if (artists.length === 0) {
-    return <p className="text-zinc-500 text-sm">No artists found.</p>;
+    return <p className="text-zinc-200 text-sm">No artists found.</p>;
   }
 
+  // content called to present list of artists
+  // list of artists redirect to their artist page when clicked
   return (
     <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
       {artists.map((artist, idx) => (

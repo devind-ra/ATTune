@@ -1,3 +1,7 @@
+// useOtherProfilePage test file
+// Focuses on testing useOtherProfilePage hook using mocked atproto, AuthContext, useProfileReviews and useProfile tastes files
+// Testing scenarios such as handling states and data processing
+
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useOtherProfilePage } from "@/app/hooks/useOtherProfilePage";
@@ -88,508 +92,492 @@ describe("useOtherProfilePage", () => {
     vi.useRealTimers();
   });
 
-  describe("initial state", () => {
-    it("should return isLoadingProfile=true before fetch resolves", async () => {
-      const { promise, resolve } = createControllablePromise();
-      mockGetProfile.mockReturnValue(promise as any);
+  it("should return isLoadingProfile=true before fetch resolves", async () => {
+    const { promise, resolve } = createControllablePromise();
+    mockGetProfile.mockReturnValue(promise as any);
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      expect(result.current.isLoadingProfile).toBe(true);
+    expect(result.current.isLoadingProfile).toBe(true);
 
-      resolve();
-      await act(() => promise);
-      unmount();
-    });
-
-    it("should return profile=null before fetch resolves", async () => {
-      const { promise, resolve } = createControllablePromise();
-      mockGetProfile.mockReturnValue(promise as any);
-
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      expect(result.current.profile).toBeNull();
-
-      resolve();
-      await act(() => promise);
-      unmount();
-    });
-
-    it("should return isFollowingLoading=false initially", async () => {
-      const { promise, resolve } = createControllablePromise();
-      mockGetProfile.mockReturnValue(promise as any);
-
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      expect(result.current.isFollowingLoading).toBe(false);
-
-      resolve();
-      await act(() => promise);
-      unmount();
-    });
+    resolve();
+    await act(() => promise);
+    unmount();
   });
 
-  describe("profile fetching", () => {
-    it("should set profile after successful fetch", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
+  it("should return profile=null before fetch resolves", async () => {
+    const { promise, resolve } = createControllablePromise();
+    mockGetProfile.mockReturnValue(promise as any);
 
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      expect(result.current.profile).toEqual(mockProfile);
+    expect(result.current.profile).toBeNull();
 
-      unmount();
-    });
-
-    it("should set isLoadingProfile=false after fetch resolves", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-
-      unmount();
-    });
-
-    it("should call getProfile with the decoded handle", async () => {
-      const { unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() =>
-        expect(mockGetProfile).toHaveBeenCalledWith({
-          actor: "alice.bsky.social",
-        }),
-      );
-
-      unmount();
-    });
-
-    it("should decode URI-encoded handles before fetching", async () => {
-      const { unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social%2Ftest"),
-      );
-
-      await waitFor(() =>
-        expect(mockGetProfile).toHaveBeenCalledWith({
-          actor: "alice.bsky.social/test",
-        }),
-      );
-
-      unmount();
-    });
-
-    it("should log an error and sets isLoadingProfile=false when fetch fails", async () => {
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-      const error = new Error("Network error");
-      mockGetProfile.mockRejectedValue(error);
-
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Error fetching other profile:",
-        error,
-      );
-
-      consoleSpy.mockRestore();
-      unmount();
-    });
-
-    it("should leave profile as null when fetch fails", async () => {
-      vi.spyOn(console, "error").mockImplementation(() => {});
-      mockGetProfile.mockRejectedValue(new Error("Network error"));
-
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-      expect(result.current.profile).toBeNull();
-
-      unmount();
-    });
-
-    it("should re-fetch when handle changes", async () => {
-      const { rerender, unmount } = renderHook(
-        ({ handle }) => useOtherProfilePage(handle),
-        { initialProps: { handle: "alice.bsky.social" } },
-      );
-
-      await waitFor(() => expect(mockGetProfile).toHaveBeenCalledTimes(1));
-
-      rerender({ handle: "bob.bsky.social" });
-
-      await waitFor(() => expect(mockGetProfile).toHaveBeenCalledTimes(2));
-      expect(mockGetProfile).toHaveBeenLastCalledWith({
-        actor: "bob.bsky.social",
-      });
-
-      unmount();
-    });
+    resolve();
+    await act(() => promise);
+    unmount();
   });
 
-  describe("auth passthrough", () => {
-    it("should returns session from useAuth", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
+  it("should return isFollowingLoading=false initially", async () => {
+    const { promise, resolve } = createControllablePromise();
+    mockGetProfile.mockReturnValue(promise as any);
 
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      expect(result.current.session).toBe(mockSession);
+    expect(result.current.isFollowingLoading).toBe(false);
 
-      unmount();
-    });
-
-    it("should return authLoading from useAuth", async () => {
-      mockUseAuth.mockReturnValue({ session: null, isLoading: true } as any);
-
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      expect(result.current.authLoading).toBe(true);
-
-      unmount();
-    });
+    resolve();
+    await act(() => promise);
+    unmount();
   });
 
-  describe("reviews and tastes passthrough", () => {
-    it("should return review data from useProfileReviews", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
+  it("should set profile after successful fetch", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      expect(result.current.thisYearReviewCount).toBe(5);
-      expect(result.current.recentReviews).toEqual(
-        mockReviewsReturn.recentReviews,
-      );
-      expect(result.current.allReviews).toEqual(mockReviewsReturn.allReviews);
-      expect(result.current.refreshReviews).toBe(mockReviewsReturn.refresh);
+    expect(result.current.profile).toEqual(mockProfile);
 
-      unmount();
-    });
-
-    it("should call useProfileReviews with undefined did before profile loads", async () => {
-      const { unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      expect(mockUseProfileReviews).toHaveBeenCalledWith(undefined);
-
-      unmount();
-    });
-
-    it("should calls useProfileReviews with profile did after profile loads", async () => {
-      const { unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() =>
-        expect(mockUseProfileReviews).toHaveBeenCalledWith("did:plc:alice"),
-      );
-
-      unmount();
-    });
-
-    it("should return tastes from useProfileTastes", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-
-      expect(result.current.tastes).toEqual(mockTastesReturn.tastes);
-
-      unmount();
-    });
+    unmount();
   });
 
-  describe("toggleFollow", () => {
-    it("should call followUser when not currently following", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+  it("should set isLoadingProfile to false after fetch resolves", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      expect(mockFollowUser).toHaveBeenCalledWith("did:plc:alice");
-      expect(mockUnfollowUser).not.toHaveBeenCalled();
+    unmount();
+  });
 
-      unmount();
+  it("should call getProfile with the decoded handle", async () => {
+    const { unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() =>
+      expect(mockGetProfile).toHaveBeenCalledWith({
+        actor: "alice.bsky.social",
+      }),
+    );
+
+    unmount();
+  });
+
+  it("should decode URI-encoded handles before fetching", async () => {
+    const { unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social%2Ftest"),
+    );
+
+    await waitFor(() =>
+      expect(mockGetProfile).toHaveBeenCalledWith({
+        actor: "alice.bsky.social/test",
+      }),
+    );
+
+    unmount();
+  });
+
+  it("should log an error and sets isLoadingProfile to false when fetch fails", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const error = new Error("Network error");
+    mockGetProfile.mockRejectedValue(error);
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "Error fetching other profile:",
+      error,
+    );
+
+    consoleSpy.mockRestore();
+    unmount();
+  });
+
+  it("should leave profile as null when fetch fails", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    mockGetProfile.mockRejectedValue(new Error("Network error"));
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(result.current.profile).toBeNull();
+
+    unmount();
+  });
+
+  it("should re-fetch when handle changes", async () => {
+    const { rerender, unmount } = renderHook(
+      ({ handle }) => useOtherProfilePage(handle),
+      { initialProps: { handle: "alice.bsky.social" } },
+    );
+
+    await waitFor(() => expect(mockGetProfile).toHaveBeenCalledTimes(1));
+
+    rerender({ handle: "bob.bsky.social" });
+
+    await waitFor(() => expect(mockGetProfile).toHaveBeenCalledTimes(2));
+    expect(mockGetProfile).toHaveBeenLastCalledWith({
+      actor: "bob.bsky.social",
     });
 
-    it("should call unfollowUser with the follow URI when already following", async () => {
-      mockGetProfile.mockResolvedValue({ data: mockProfileFollowing } as any);
+    unmount();
+  });
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+  it("should returns session from useAuth", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      expect(mockUnfollowUser).toHaveBeenCalledWith(
-        "at://did:plc:viewer/app.bsky.graph.follow/abc123",
-      );
-      expect(mockFollowUser).not.toHaveBeenCalled();
+    expect(result.current.session).toBe(mockSession);
 
-      unmount();
+    unmount();
+  });
+
+  it("should return authLoading from useAuth", async () => {
+    mockUseAuth.mockReturnValue({ session: null, isLoading: true } as any);
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    expect(result.current.authLoading).toBe(true);
+
+    unmount();
+  });
+
+  it("should return review data from useProfileReviews", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    expect(result.current.thisYearReviewCount).toBe(5);
+    expect(result.current.recentReviews).toEqual(
+      mockReviewsReturn.recentReviews,
+    );
+    expect(result.current.allReviews).toEqual(mockReviewsReturn.allReviews);
+    expect(result.current.refreshReviews).toBe(mockReviewsReturn.refresh);
+
+    unmount();
+  });
+
+  it("should call useProfileReviews with undefined did before profile loads", async () => {
+    const { unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    expect(mockUseProfileReviews).toHaveBeenCalledWith(undefined);
+
+    unmount();
+  });
+
+  it("should calls useProfileReviews with profile did after profile loads", async () => {
+    const { unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() =>
+      expect(mockUseProfileReviews).toHaveBeenCalledWith("did:plc:alice"),
+    );
+
+    unmount();
+  });
+
+  it("should return tastes from useProfileTastes", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    expect(result.current.tastes).toEqual(mockTastesReturn.tastes);
+
+    unmount();
+  });
+
+  it("should call followUser when not currently following", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should update profile state optimistically after toggling follow", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(mockFollowUser).toHaveBeenCalledWith("did:plc:alice");
+    expect(mockUnfollowUser).not.toHaveBeenCalled();
 
-      expect(result.current.profile?.viewer?.following).toBeUndefined();
-      expect(result.current.profile?.followersCount).toBe(100);
+    unmount();
+  });
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+  it("should call unfollowUser with the follow URI when already following", async () => {
+    mockGetProfile.mockResolvedValue({ data: mockProfileFollowing } as any);
 
-      expect(result.current.profile?.viewer?.following).toBe(
-        "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
-      );
-      expect(result.current.profile?.followersCount).toBe(101);
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      unmount();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should re-fetch the profile after toggling follow after delay", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(mockUnfollowUser).toHaveBeenCalledWith(
+      "at://did:plc:viewer/app.bsky.graph.follow/abc123",
+    );
+    expect(mockFollowUser).not.toHaveBeenCalled();
 
-      vi.useFakeTimers();
-      const callsBefore = mockGetProfile.mock.calls.length;
+    unmount();
+  });
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+  it("should update profile state optimistically after toggling follow", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      expect(mockGetProfile.mock.calls.length).toBe(callsBefore);
+    expect(result.current.profile?.viewer?.following).toBeUndefined();
+    expect(result.current.profile?.followersCount).toBe(100);
 
-      act(() => {
-        vi.advanceTimersByTime(3000);
-      });
-
-      vi.useRealTimers();
-      await waitFor(() =>
-        expect(mockGetProfile.mock.calls.length).toBeGreaterThan(callsBefore),
-      );
-
-      unmount();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should preserve optimistic state if background fetch is stale", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(result.current.profile?.viewer?.following).toBe(
+      "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+    );
+    expect(result.current.profile?.followersCount).toBe(101);
 
-      vi.useFakeTimers();
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    unmount();
+  });
 
-      expect(result.current.profile?.viewer?.following).toBeDefined();
+  it("should re-fetch the profile after toggling follow after delay", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      mockGetProfile.mockResolvedValueOnce({ data: mockProfile } as any);
+    vi.useFakeTimers();
+    const callsBefore = mockGetProfile.mock.calls.length;
 
-      act(() => {
-        vi.advanceTimersByTime(3000);
-      });
-
-      vi.useRealTimers();
-      await waitFor(() =>
-        expect(mockGetProfile.mock.calls.length).toBeGreaterThan(1),
-      );
-
-      expect(result.current.profile?.viewer?.following).toBeDefined();
-      expect(result.current.profile?.followersCount).toBe(101);
-
-      unmount();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should update profile state normally if background fetch is consistent", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(mockGetProfile.mock.calls.length).toBe(callsBefore);
 
-      vi.useFakeTimers();
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
-
-      const updatedProfile = {
-        ...mockProfile,
-        viewer: {
-          following: "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
-        },
-        followersCount: 101,
-        description: "New Bio",
-      };
-      mockGetProfile.mockResolvedValueOnce({ data: updatedProfile } as any);
-
-      act(() => {
-        vi.advanceTimersByTime(3000);
-      });
-
-      vi.useRealTimers();
-      await waitFor(() =>
-        expect(result.current.profile?.description).toBe("New Bio"),
-      );
-
-      expect(result.current.profile?.viewer?.following).toBe(
-        "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
-      );
-      unmount();
+    act(() => {
+      vi.advanceTimersByTime(3000);
     });
 
-    it("should log a sync error if background fetch fails", async () => {
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    vi.useRealTimers();
+    await waitFor(() =>
+      expect(mockGetProfile.mock.calls.length).toBeGreaterThan(callsBefore),
+    );
 
-      vi.useFakeTimers();
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    unmount();
+  });
 
-      const error = new Error("Sync failed");
-      mockGetProfile.mockRejectedValueOnce(error);
+  it("should preserve optimistic state if background fetch is stale", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      act(() => {
-        vi.advanceTimersByTime(3000);
-      });
-
-      vi.useRealTimers();
-      await waitFor(() =>
-        expect(consoleSpy).toHaveBeenCalledWith("Sync Error:", error),
-      );
-
-      consoleSpy.mockRestore();
-      unmount();
+    vi.useFakeTimers();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should set isFollowingLoading=false after toggle resolves", async () => {
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(result.current.profile?.viewer?.following).toBeDefined();
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    mockGetProfile.mockResolvedValueOnce({ data: mockProfile } as any);
 
-      expect(result.current.isFollowingLoading).toBe(false);
-
-      unmount();
+    act(() => {
+      vi.advanceTimersByTime(3000);
     });
 
-    it("should set isFollowingLoading=false when toggle throws", async () => {
-      vi.spyOn(console, "error").mockImplementation(() => {});
-      mockFollowUser.mockRejectedValue(new Error("Follow failed"));
+    vi.useRealTimers();
+    await waitFor(() =>
+      expect(mockGetProfile.mock.calls.length).toBeGreaterThan(1),
+    );
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(result.current.profile?.viewer?.following).toBeDefined();
+    expect(result.current.profile?.followersCount).toBe(101);
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+    unmount();
+  });
 
-      expect(result.current.isFollowingLoading).toBe(false);
+  it("should update profile state normally if background fetch is consistent", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      unmount();
+    vi.useFakeTimers();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should log an error when toggle throws", async () => {
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-      const error = new Error("Follow failed");
-      mockFollowUser.mockRejectedValue(error);
+    const updatedProfile = {
+      ...mockProfile,
+      viewer: {
+        following: "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+      },
+      followersCount: 101,
+      description: "New Bio",
+    };
+    mockGetProfile.mockResolvedValueOnce({ data: updatedProfile } as any);
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
-
-      expect(consoleSpy).toHaveBeenCalledWith("Error toggling follow:", error);
-
-      consoleSpy.mockRestore();
-      unmount();
+    act(() => {
+      vi.advanceTimersByTime(3000);
     });
 
-    it("should do nothing when profile is null", async () => {
-      vi.spyOn(console, "error").mockImplementation(() => {});
-      mockGetProfile.mockRejectedValue(new Error("Not found"));
+    vi.useRealTimers();
+    await waitFor(() =>
+      expect(result.current.profile?.description).toBe("New Bio"),
+    );
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+    expect(result.current.profile?.viewer?.following).toBe(
+      "at://did:plc:viewer/app.bsky.graph.follow/newfollow123",
+    );
+    unmount();
+  });
 
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
+  it("should log a sync error if background fetch fails", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
 
-      expect(mockFollowUser).not.toHaveBeenCalled();
-      expect(mockUnfollowUser).not.toHaveBeenCalled();
-
-      unmount();
+    vi.useFakeTimers();
+    await act(async () => {
+      await result.current.toggleFollow();
     });
 
-    it("should do nothing when session is null", async () => {
-      mockUseAuth.mockReturnValue({ session: null, isLoading: false } as any);
+    const error = new Error("Sync failed");
+    mockGetProfile.mockRejectedValueOnce(error);
 
-      const { result, unmount } = renderHook(() =>
-        useOtherProfilePage("alice.bsky.social"),
-      );
-      await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
-
-      await act(async () => {
-        await result.current.toggleFollow();
-      });
-
-      expect(mockFollowUser).not.toHaveBeenCalled();
-      expect(mockUnfollowUser).not.toHaveBeenCalled();
-
-      unmount();
+    act(() => {
+      vi.advanceTimersByTime(3000);
     });
+
+    vi.useRealTimers();
+    await waitFor(() =>
+      expect(consoleSpy).toHaveBeenCalledWith("Sync Error:", error),
+    );
+
+    consoleSpy.mockRestore();
+    unmount();
+  });
+
+  it("should set isFollowingLoading to false after toggle resolves", async () => {
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
+    });
+
+    expect(result.current.isFollowingLoading).toBe(false);
+
+    unmount();
+  });
+
+  it("should set isFollowingLoading to false when toggle throws", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    mockFollowUser.mockRejectedValue(new Error("Follow failed"));
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
+    });
+
+    expect(result.current.isFollowingLoading).toBe(false);
+
+    unmount();
+  });
+
+  it("should log an error when toggle throws", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const error = new Error("Follow failed");
+    mockFollowUser.mockRejectedValue(error);
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith("Error toggling follow:", error);
+
+    consoleSpy.mockRestore();
+    unmount();
+  });
+
+  it("should do nothing when profile is null", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    mockGetProfile.mockRejectedValue(new Error("Not found"));
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
+    });
+
+    expect(mockFollowUser).not.toHaveBeenCalled();
+    expect(mockUnfollowUser).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it("should do nothing when session is null", async () => {
+    mockUseAuth.mockReturnValue({ session: null, isLoading: false } as any);
+
+    const { result, unmount } = renderHook(() =>
+      useOtherProfilePage("alice.bsky.social"),
+    );
+    await waitFor(() => expect(result.current.isLoadingProfile).toBe(false));
+
+    await act(async () => {
+      await result.current.toggleFollow();
+    });
+
+    expect(mockFollowUser).not.toHaveBeenCalled();
+    expect(mockUnfollowUser).not.toHaveBeenCalled();
+
+    unmount();
   });
 });

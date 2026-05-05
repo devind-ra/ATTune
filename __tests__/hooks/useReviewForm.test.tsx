@@ -1,3 +1,7 @@
+// useReviewForm test file
+// Focuses on testing useReviewForm hook using mocked atproto, utils, useAlbumSearch hook and album data
+// Testing scenarios such as error handling, form submission and states
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useReviewForm } from "@/app/hooks/useReviewForm";
@@ -52,8 +56,8 @@ const mockAlbumData: MockAlbum = {
   image: [{ "#text": MOCK_IMAGE_URL, size: "extralarge" }],
 };
 
-// 3. Split describe blocks to fix max-lines-per-function
-describe("useReviewForm: Initialisation", () => {
+describe("useReviewForm", () => {
+  const eventMock = { preventDefault: vi.fn() } as unknown as React.FormEvent;
   beforeEach(() => vi.clearAllMocks());
 
   it("should initialise with empty fields and search step when no initial props", () => {
@@ -67,10 +71,6 @@ describe("useReviewForm: Initialisation", () => {
     expect(result.current.artist).toBe(ARTIST_RADIOHEAD);
     expect(result.current.isSearchStep).toBe(false);
   });
-});
-
-describe("useReviewForm: Navigation and Selection", () => {
-  beforeEach(() => vi.clearAllMocks());
 
   it("should populate album fields and leave search step", () => {
     vi.mocked(getArtistName).mockReturnValue(ARTIST_RADIOHEAD);
@@ -140,12 +140,6 @@ describe("useReviewForm: Navigation and Selection", () => {
     expect(result.current.isSearchStep).toBe(false);
     expect(clearSearchMock).toHaveBeenCalled();
   });
-});
-
-describe("useReviewForm: Submission", () => {
-  const eventMock = { preventDefault: vi.fn() } as unknown as React.FormEvent;
-
-  beforeEach(() => vi.clearAllMocks());
 
   it("should call createReview with correct arguments", async () => {
     vi.mocked(atApiService.createReview).mockResolvedValue(

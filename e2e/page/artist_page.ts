@@ -1,3 +1,8 @@
+// Artist Page POM
+// Contains the following:
+// - Constructor for elements on artist page
+// - Methods for checking elements
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { artistPageContents } from "../content/artist_page_content";

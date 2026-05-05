@@ -11,6 +11,7 @@ import OtherReviewsList from "../review/OtherReviewsList";
 import { useAuth } from "@/contexts/AuthContext";
 import { LastFMImage } from "@/lib/lastfm";
 
+// props used for review section
 interface Props {
   albumName: string;
   artistName: string;
@@ -27,17 +28,21 @@ export function ReviewSection({
   albumDisplayName,
   artistDisplayName,
 }: Props) {
+  // constants for review section component
   const { session } = useAuth();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   if (!session) return null;
 
+  // handles review and triggers refresh of review list
   const handleReviewCreated = () => {
     setRefreshTrigger((prev) => prev + 1);
     setIsFormOpen(false);
   };
 
+  // content called to allow for review to be added to album page from album page
+  // displays user reviews and other user reviews all on the same page
   return (
     <>
       <div className="mt-8">

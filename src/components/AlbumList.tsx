@@ -9,17 +9,21 @@ import Link from "next/link";
 import { LastFMAlbum } from "@/lib/lastfm";
 import { getArtistName, shuffle } from "@/lib/utils";
 
+// props passed to album list
 interface AlbumListProps {
   albums: LastFMAlbum[];
   enableShuffle?: boolean;
 }
 
+// helper function used to handle display of album covers
 function AlbumCover({ album }: { album: LastFMAlbum }) {
   const image =
     album.image?.find((img) => img.size === "large") ?? album.image?.[0];
   const href = `/album/${encodeURIComponent(getArtistName(album.artist))}/${encodeURIComponent(album.name)}`;
   const [artistHovered, setArtistHovered] = useState(false);
 
+  // content called to present album coverage image with album name
+  // link allows redirection to artist page
   return (
     <li className="bg-zinc-900 border-1 border-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
       <Link href={href} className="flex flex-col flex-1 overflow-hidden">
@@ -69,6 +73,7 @@ function AlbumCover({ album }: { album: LastFMAlbum }) {
 }
 
 export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
+  // constants for handling shuffling of albums
   const [shuffledAlbums, setShuffledAlbums] = useState<LastFMAlbum[] | null>(
     null,
   );
@@ -79,18 +84,23 @@ export function AlbumList({ albums, enableShuffle = false }: AlbumListProps) {
     setShuffledAlbums(null);
   }
 
+  // error handling of no albums being found
   if (albums.length === 0) {
-    return <p className="text-zinc-500 text-sm">No albums found.</p>;
+    return <p className="text-zinc-200 text-sm">No albums found.</p>;
   }
 
+  // shuffling of albums
   const handleShuffle = () => {
     setShuffledAlbums(shuffle([...albums]).slice(0, 5));
   };
 
+  // displaying 5 albums at a time
   const displayedAlbums = enableShuffle
     ? shuffledAlbums || albums.slice(0, 5)
     : albums;
 
+  // content called to display 5 albums for user
+  // includes shuffle functionality to make use of other 15 albums
   return (
     <div>
       {enableShuffle && albums.length > 5 && (

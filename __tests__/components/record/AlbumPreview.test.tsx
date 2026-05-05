@@ -1,3 +1,7 @@
+// AlbumPreview test file
+// Focuses on testing AlbumPreview using default props
+// Testing scenarios such as rendering content, handling button clicks and styling
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AlbumPreview } from "@/components/record/AlbumPreview";
@@ -60,7 +64,7 @@ describe("AlbumPreview", () => {
   });
 
   it("should apply truncate classes to title and artist for long text", () => {
-    const { container } = render(<AlbumPreview {...defaultProps} />);
+    render(<AlbumPreview {...defaultProps} />);
 
     const title = screen.getByText("Nevermind");
     const artist = screen.getByText("Nirvana");

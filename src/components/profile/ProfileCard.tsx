@@ -7,6 +7,7 @@
 import Image from "next/image";
 import { AppBskyActorDefs } from "@atproto/api";
 
+// props for ProfileCard component
 interface Props {
   profile: AppBskyActorDefs.ProfileViewDetailed;
   thisYearReviewCount: number;
@@ -15,6 +16,8 @@ interface Props {
   onFollowToggle?: () => void;
 }
 
+// helper function for the ProfileAvatar to be added to the ProfileCard
+// utilises the avatar of the user or uses an initial if no avatar is found
 function ProfileAvatar({
   profile,
 }: {
@@ -40,6 +43,8 @@ function ProfileAvatar({
   );
 }
 
+// helper function used to allow for follow and unfollowing
+// used when a user visits other users profiles
 function FollowButton({
   isFollowingLoading,
   isFollowing,
@@ -80,7 +85,10 @@ export function ProfileCard({
   isFollowingLoading,
   onFollowToggle,
 }: Props) {
+  // changes label based on if the number of reviews is singular or multiple
   const reviewLabel = thisYearReviewCount === 1 ? "Review" : "Reviews";
+  // content called to link the ProfileAvatar and FollowButton to the main ProfileCard
+  // content also includes the user's name, followers, following and description
   return (
     <div className="mt-8 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm relative">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">

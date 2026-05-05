@@ -1,3 +1,5 @@
+// Album Page Tests calling POM with content
+
 import { test } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 import { AlbumPage } from "./page/album_page";
