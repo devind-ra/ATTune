@@ -1,4 +1,10 @@
-import { Page, type Locator } from "playwright";
+// Record Page POM
+// Contains the following:
+// - Constructor for elements on record page
+// - Methods for checking elements
+// - Methods for interacting with elements on record page
+
+import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { recordPageContent } from "../content/record_page_content";
 

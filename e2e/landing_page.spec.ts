@@ -1,3 +1,5 @@
+// Landing Page Tests calling POM with content
+
 import { test, expect } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 

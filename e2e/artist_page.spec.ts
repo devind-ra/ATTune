@@ -1,3 +1,5 @@
+// Artist Page Tests calling POM with content
+
 import { test } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 import { ArtistPage } from "./page/artist_page";

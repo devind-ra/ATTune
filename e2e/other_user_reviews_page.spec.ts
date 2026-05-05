@@ -1,3 +1,5 @@
+// Other User Reviews Page Tests calling POM with content
+
 import { test } from "@playwright/test";
 import { LandingPage } from "./page/landing_page";
 import { Navbar } from "./page/navbar";

@@ -1,3 +1,9 @@
+// Profile Page POM
+// Contains the following:
+// - Constructor for elements on profile page
+// - Methods for checking elements
+// - Methods for interacting with elements on profile page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { profilePageContent } from "../content/profile_page_content";

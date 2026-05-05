@@ -1,3 +1,9 @@
+// Reviews Page POM
+// Contains the following:
+// - Constructor for elements on reviews page
+// - Methods for checking elements
+// - Methods for interacting with elements on reviews page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { reviewsPageContent } from "../content/reviews_page_content";

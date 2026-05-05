@@ -1,3 +1,9 @@
+// Home Page POM
+// Contains the following:
+// - Constructor for elements on home page
+// - Methods for checking elements
+// - Methods for interacting with elements on home page
+
 import { Page } from "playwright";
 import { expect } from "@playwright/test";
 import { homePageContent } from "../content/home_page_content";
