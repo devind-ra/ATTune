@@ -1,3 +1,7 @@
+// TrendingTracks test file
+// Focuses on testing TrendingTracks component using mocking utils file and API responses
+// Tests scenarios such as rendering content, encoding URLs and styling
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TrendingTracks } from "@/components/explore/TrendingTracks";

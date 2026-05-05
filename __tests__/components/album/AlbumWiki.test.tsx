@@ -1,3 +1,7 @@
+// AlbumWiki test file
+// Focuses on testing the AlbumWiki component using mocked values
+// Tests for scenario such as rendering content and styles
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { AlbumWiki } from "@/components/album/AlbumWiki";

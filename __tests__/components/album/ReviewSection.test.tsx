@@ -1,3 +1,7 @@
+// ReviewSection test file
+// Focuses on testing the ReviewSection component using vitest mocks
+// Tests for scenario such as rendering content and forms
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ReviewSection } from "@/components/album/ReviewSection";

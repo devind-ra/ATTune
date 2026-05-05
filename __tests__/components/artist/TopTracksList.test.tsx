@@ -1,3 +1,7 @@
+// TopTracksList test file
+// Focuses on mocking utils file and API values
+// Tests for scenarios such as rendering top tracks list, empty tracks and truncate functionality
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { TopTracksList } from "@/components/artist/TopTracksList";

@@ -1,3 +1,7 @@
+// AuthModals test file
+// Focuses on testing AuthModals component
+// Tests for scenarios such as rendering content and calling callback functions
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AuthModals } from "@/components/authentication/AuthModals";

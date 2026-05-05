@@ -1,3 +1,7 @@
+// LoginSection test file
+// Focuses on testing LoginSection component using mocked AuthForm
+// Tests scenarios such as rendering content
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { LoginSection } from "@/components/landing/LoginSection";

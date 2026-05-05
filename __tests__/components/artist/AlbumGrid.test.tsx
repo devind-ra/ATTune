@@ -1,3 +1,7 @@
+// AlbumGrid test file 
+// Focuses on testing the AlbumGrid component using mocked files and API values
+// Tests for scenario such as rendering content and images
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AlbumGrid } from "@/components/artist/AlbumGrid";

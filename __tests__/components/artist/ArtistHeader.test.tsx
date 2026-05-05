@@ -1,3 +1,7 @@
+// ArtistHeader test file
+// Focuses on testing ArtistHeader component using mocked API values
+// Tests for scenario such as rendering artist info, name, stats, tags and biography
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { ArtistHeader } from "@/components/artist/ArtistHeader";

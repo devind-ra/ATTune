@@ -1,3 +1,7 @@
+// NavActions test file
+// Focuses on testing NavActions component
+// Tests scenarios such as rendering links, toggles and menu functionality
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { NavActions } from "@/components/navbar/NavActions";
@@ -86,7 +90,7 @@ describe("NavActions", () => {
     expect(screen.queryByRole("link", { name: /settings/i })).toBeNull();
   });
 
-  it("should close the dropdown when a menu link (Settings) is clicked", () => {
+  it("should close the dropdown when settings link is clicked", () => {
     render(<NavActions onLogout={mockOnLogout} />);
 
     fireEvent.click(screen.getByRole("button", { name: /open account menu/i }));
@@ -97,7 +101,7 @@ describe("NavActions", () => {
     expect(screen.queryByRole("link", { name: /settings/i })).toBeNull();
   });
 
-  it("should close the dropdown when the Help link is clicked", () => {
+  it("should close the dropdown when the help link is clicked", () => {
     render(<NavActions onLogout={mockOnLogout} />);
 
     fireEvent.click(screen.getByRole("button", { name: /open account menu/i }));

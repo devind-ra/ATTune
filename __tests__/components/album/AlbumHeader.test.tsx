@@ -1,3 +1,7 @@
+// AlbumHeader test file
+// Focuses on testing the AlbumHeader component using mocked API responses
+// Tests for scenario such as rendering content, images and links
+
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { AlbumHeader } from "@/components/album/AlbumHeader";
