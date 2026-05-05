@@ -1,3 +1,7 @@
+// useSearch test file
+// Focuses on testing useSearch hook using mocked next navigation and API values
+// Testing scenarios such as error handling, API results handling and states
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useSearch } from "@/app/hooks/useSearch";
@@ -59,7 +63,7 @@ const mockAlbums: MockAlbum[] = [
 describe("useSearch hook: Authentication & Initialisation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = {
       did: "did:plc:123",
       handle: "testuser.bsky.social",
@@ -175,7 +179,7 @@ describe("useSearch hook: Authentication & Initialisation", () => {
   describe("useSearch hook: Error Handling", () => {
     beforeEach(() => {
       vi.clearAllMocks();
-      vi.spyOn(console, "error").mockImplementation(() => {});
+      vi.spyOn(console, "error").mockImplementation(() => { });
     });
 
     it("should call console.error when a search service fails", async () => {

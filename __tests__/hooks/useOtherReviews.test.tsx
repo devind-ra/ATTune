@@ -1,3 +1,7 @@
+// useOtherReviews test file
+// Focuses on testing useOtherReviews hook using mocked atproto, reviews and default props
+// Testing scenarios such as fetching reviews and error handling
+
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useOtherReviews } from "@/app/hooks/useOtherReviews";
@@ -33,7 +37,7 @@ const mockReviews = [
 describe("useOtherReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
   });
 
   const defaultProps = {

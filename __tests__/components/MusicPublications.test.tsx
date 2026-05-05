@@ -1,3 +1,7 @@
+// MusicPublications test file
+// Focuses on testing MusicPublications component using mocked profile data, next image and atproto files
+// Testing scenarios such as rendering content, displaying data and error handling
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MusicPublications } from "@/components/MusicPublications";

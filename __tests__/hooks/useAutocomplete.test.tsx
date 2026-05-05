@@ -1,3 +1,7 @@
+// useAutocompleteInput test file
+// Focuses on testing useAutocompleteInput hook using mocked props
+// Testing scenarios such as handling states, autocompletes and delays
+
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useAutocomplete } from "@/app/hooks/useAutocomplete";
@@ -260,7 +264,7 @@ describe("useAutocomplete", () => {
   });
 
   it("should log an error and clear isSearching when fetch rejects", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
     const error = new Error("API error");
     const fetchSuggestions = vi.fn().mockRejectedValue(error);
     const { result, unmount } = renderHook((props) => useAutocomplete(props), {

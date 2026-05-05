@@ -1,3 +1,7 @@
+// useAlbumSearch test file
+// Focuses on testing useAlbumSearch hook using mocked lastfm and albums
+// Testing scenarios such as query handling, handling responses and displaying search results
+
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useAlbumSearch } from "@/app/hooks/useAlbumSearch";
@@ -17,7 +21,7 @@ describe("useAlbumSearch", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers({ shouldAdvanceTime: true });
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
   });
 
   afterEach(() => {

@@ -1,3 +1,7 @@
+// useProfilePage test file
+// Focuses on testing useProfilePage hook using mocked atproto, AuthContext and next navigation
+// Testing scenarios such as handling states, redirects and fetching data
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useProfilePage } from "@/app/hooks/useProfilePage";
@@ -84,7 +88,7 @@ type ProfileResponse = Awaited<
 describe("useProfilePage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = sessionMock;
     contextMock.isLoading = false;
 

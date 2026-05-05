@@ -1,3 +1,7 @@
+// useClickOutside test file
+// Focuses on testing useClickOutside hook
+// Testing scenarios such as handling component clicks and managing event listeners
+
 import { renderHook } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
 import { useClickOutside } from "@/app/hooks/useClickOutside";

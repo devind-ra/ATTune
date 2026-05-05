@@ -1,3 +1,7 @@
+// SectionFilter test file
+// Focuses on testing SectionFilter component
+// Testing scenarios such as rendering content, calls to dropdown sections and handling states
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { SectionFilter } from "@/components/SectionFilter";

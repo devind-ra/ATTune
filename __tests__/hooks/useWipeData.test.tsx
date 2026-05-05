@@ -1,3 +1,7 @@
+// useWipeData test file
+// Focuses on testing useWipeData hook using mocked next navigation and API values
+// Testing scenarios such as error handling and handling states
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useWipeData } from "@/app/hooks/useWipeData";

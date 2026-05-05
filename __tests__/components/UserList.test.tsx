@@ -1,3 +1,7 @@
+// UserList test file
+// Focuses on testing UserList component using mocked user content, next link and image files
+// Testing scenarios such as rendering content for user data
+
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { UserList } from "@/components/UserList";

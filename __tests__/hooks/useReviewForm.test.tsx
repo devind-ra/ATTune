@@ -1,3 +1,7 @@
+// useReviewForm test file
+// Focuses on testing useReviewForm hook using mocked atproto, utils, useAlbumSearch hook and album data
+// Testing scenarios such as error handling, form submission and states
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useReviewForm } from "@/app/hooks/useReviewForm";

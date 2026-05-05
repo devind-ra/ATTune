@@ -1,3 +1,7 @@
+// atproto test file
+// Focuses on using the atproto api service to test atproto
+// Tests scenarios throughout atproto for handling interactions, API calls and error handling
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { BskyAgent } from "@atproto/api";
 

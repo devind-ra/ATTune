@@ -1,3 +1,7 @@
+// useReviewInteractions test file
+// Focuses on testing useReviewInteractions hook using mocked atproto and reviews
+// Testing scenarios such as error handling, updating user interactions and states
+
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { useReviewInteractions } from "@/app/hooks/useReviewInteractions";

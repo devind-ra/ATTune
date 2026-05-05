@@ -1,3 +1,7 @@
+// useExploreData test file
+// Focuses on testing useExploreData hook using mocked atproto, lastfm, utils, AuthContext, next navigation and mock artist data (albums, tracks, tags)
+// Testing scenarios such as handling states and redirections
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useExploreData } from "@/app/hooks/useExploreData";
@@ -84,7 +88,7 @@ const mockAlbums = [
 describe("useExploreData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);

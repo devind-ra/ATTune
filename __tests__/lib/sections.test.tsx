@@ -1,3 +1,7 @@
+// sections test file
+// Focuses on testing the sections library file
+// Tests scenarios such as handling sections and error handling
+
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ALL_SECTIONS, useVisibleSections } from "@/lib/sections";

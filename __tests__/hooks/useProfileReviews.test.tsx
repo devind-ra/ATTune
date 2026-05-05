@@ -1,3 +1,7 @@
+// useProfileReviews test file
+// Focuses on testing useProfileReviews hook using mocked atproto and mocked reviews
+// Testing scenarios such as error handling and fetching data
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useProfileReviews } from "@/app/hooks/useProfileReviews";
@@ -12,7 +16,7 @@ vi.mock("@/lib/atproto", () => ({
 describe("useProfileReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
   });
 
   it("should do nothing if DID is not provided", () => {

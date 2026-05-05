@@ -1,3 +1,7 @@
+// lastfm test file
+// Focuses on testing lastfm using last.fm API methods
+// Tests scenarios focusing on lastfm API calls and error handling
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const ARTIST_NAME = "Radiohead";
@@ -21,7 +25,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       const result = await getAlbumInfo(ARTIST_NAME, ALBUM_NAME);
 
@@ -47,7 +51,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       vi.mocked(global.fetch).mockResolvedValueOnce({
         ok: false,
@@ -67,7 +71,7 @@ describe("lastfm service", () => {
       const { getAlbumInfo } = await import("@/lib/lastfm");
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       vi.mocked(global.fetch).mockRejectedValueOnce(
         new Error("Network failure"),

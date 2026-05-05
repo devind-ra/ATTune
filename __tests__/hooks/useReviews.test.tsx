@@ -1,3 +1,7 @@
+// useReviews test file
+// Focuses on testing useReviews hook using default props, mocked atproto and reviews
+// Testing scenarios such as error handling, handling review functionality and states
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useReviews } from "@/app/hooks/useReviews";
@@ -39,7 +43,7 @@ const mockReviews = [
 describe("useReviews", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
   });
 
   const defaultProps = {

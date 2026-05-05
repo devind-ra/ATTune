@@ -1,3 +1,7 @@
+// useArtistData test file
+// Focuses on testing useArtistData hook using mocked lastfm file
+// Testing scenarios such as handling fetches and error handling
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useArtistData } from "@/app/hooks/useArtistData";
@@ -52,7 +56,7 @@ describe("useArtistData", () => {
   });
 
   it("should handle API errors gracefully", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
     vi.mocked(getArtistInfo).mockRejectedValue(new Error("API Error"));
 
     const { result } = renderHook(() => useArtistData(mockArtistName));

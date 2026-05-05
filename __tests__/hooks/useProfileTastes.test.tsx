@@ -1,3 +1,7 @@
+// useProfileTastes test file
+// Focuses on testing useProfileTastes hook using mocked atproto file and tastes data
+// Testing scenarios such as error handling, saving tastes and handling states
+
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useProfileTastes } from "@/app/hooks/useProfileTastes";
@@ -19,7 +23,7 @@ const mockTastes = {
 describe("useProfileTastes", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     vi.stubGlobal("alert", vi.fn());
   });
 

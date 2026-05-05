@@ -1,3 +1,7 @@
+// SearchResultSections test file
+// Focuses on testing SearchResultSections component using mocked ArtistList, AlbumList and UserList components
+// Testing scenarios such as rendering content, section ordering and data passing to components
+
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { SearchResultSections } from "@/components/SearchResultSections";

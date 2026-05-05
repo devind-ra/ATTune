@@ -1,3 +1,7 @@
+// useHomeData test file
+// Focuses on testing useHomeData hook using mocked atproto, lastfm, utils, AuthContext, next navigation and mock artist data (tastes, similiar artists, albums and tagged artists)
+// Testing scenarios such as handling states, redirections, API calls and data processing
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useHomeData } from "@/app/hooks/useHomeData";
@@ -74,7 +78,7 @@ const mockTagArtists = [
 describe("useHomeData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
     contextMock.session = { did: "did:plc:123" };
     contextMock.isLoading = false;
     vi.mocked(shuffle).mockImplementation((arr) => arr);
