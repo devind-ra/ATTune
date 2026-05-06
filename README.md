@@ -23,6 +23,12 @@ To install all dependencies:
 npm install
 ```
 
+To install playwright to run functional tests:
+
+```
+npm playwright install
+```
+
 To locally run the application:
 
 ```
