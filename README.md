@@ -53,6 +53,18 @@ To run functional tests, UI mode:
 npx playwright test --ui
 ```
 
+Log in with the following credentials to try out the application:
+
+Handle/Email
+
+```
+devintest.bsky.social
+```
+App Password
+```
+2zo7-fjsk-y772-wn3r
+```
+
 ## Project Structure:
 
 ### Key Directories shown from top to bottom
