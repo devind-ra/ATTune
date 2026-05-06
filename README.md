@@ -20,7 +20,7 @@ To run ATtune, run the following commands in your terminal:
 To install all dependencies:
 
 ```
-npm run install
+npm install
 ```
 
 To locally run the application:
