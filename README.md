@@ -11,37 +11,50 @@ Developing a music-focused web application that allows users to explore and shar
 ## Installation & Setup
 
 ### Prerequisites:
+
 - Node.js (v20 or above)
 - npm
 
 To run ATtune, run the following commands in your terminal:
 
 To install all dependencies:
+
 ```
 npm run install
 ```
+
 To locally run the application:
+
 ```
 npm run dev
 ```
+
 To run unit tests:
+
 ```
 npm run test
 ```
+
 To run unit tests with coverage:
+
 ```
 npm run test:coverage
 ```
+
 To run functional tests:
+
 ```
 npx playwright test
 ```
+
 To run functional tests, UI mode:
+
 ```
 npx playwright test --ui
 ```
 
 ## Project Structure:
+
 ### Key Directories shown from top to bottom
 
 `/__tests__`: contains the unit tests using Vitest and React Testing Library (RTL) in `/__tests__/components`, `/__tests__/hooks`, `/__tests__/lib`
@@ -54,11 +67,10 @@ npx playwright test --ui
 
 `src/app` - contains the main pages for the application. Most pages have a `layout.tsx` which gives each page their title and the `page.tsx` contains the calls to components and hooks.
 
-`src/components` - contains the components used in the pages. Components are grouped by directories if they are used on one page. 
+`src/components` - contains the components used in the pages. Components are grouped by directories if they are used on one page.
 
 `src/contexts` - contains the AuthContext to allow for session management within the application.
 
 `src/lexicons` - defines the custom Lexicon schemas for the Profile and Review records.
 
 `src/lib` - contains the library files such as to communicate with AT protocol and Last.fm API and also utility functions.
-
