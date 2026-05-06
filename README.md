@@ -72,6 +72,11 @@ App Password
 ```
 2zo7-fjsk-y772-wn3r
 ```
+If you would like to log into Bluesky to see the companion post use the same handle with the following password:
+
+```
+KxsD6vbGDjMhFXC
+```
 
 ## Project Structure:
 
