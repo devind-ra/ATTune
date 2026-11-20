@@ -1,9 +1,5 @@
 # ATtune: A Decentralised Social Media platform for Music Interaction
 
-Student Name: Devin Rajesh Rathod
-
-Student ID: 220109084
-
 ## Description:
 
 Developing a music-focused web application that allows users to explore and share music-related content through a DSN, utilising the AT protocol to define a new approach to the practical implementation of social interaction.
@@ -57,25 +53,6 @@ To run functional tests, UI mode:
 
 ```
 npx playwright test --ui
-```
-
-Log in with the following credentials to try out the application:
-
-Handle/Email
-
-```
-devintest.bsky.social
-```
-
-App Password
-
-```
-2zo7-fjsk-y772-wn3r
-```
-If you would like to log into Bluesky to see the companion post use the same handle with the following password:
-
-```
-KxsD6vbGDjMhFXC
 ```
 
 ## Project Structure:
